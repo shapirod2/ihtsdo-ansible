@@ -1,0 +1,17 @@
+---
+galaxy_info:
+  author: Matt Willsher
+  company: International Health Terminology Standards Development Organisation
+  description: Install GnuPG and import GPG keys from a key server
+  license: Apache 2.0
+  min_ansible_version: 1.3
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - system
+dependencies: []

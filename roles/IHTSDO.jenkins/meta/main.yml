@@ -1,0 +1,28 @@
+---
+galaxy_info:
+  author: Matt Willsher
+  company: International Health Terminology Standards Development Organisation
+  description: Install Jenkins on Debian/Ubuntu
+  license: Apache 2.0
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - precise
+    - quantal
+    - raring
+    - saucy
+    - trusty
+  - name: Debian
+    versions:
+    - all
+    - etch
+    - lenny
+    - squeeze
+    - wheezy
+  categories:
+  - development
+  - web
+dependencies:
+  - { role: IHTSDO.openjdk, java_version: 7, java_default: 7 }
+  - { role: bennojoy.nginx, when: jenkins_nginx == True }
