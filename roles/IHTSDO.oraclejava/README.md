@@ -15,5 +15,5 @@ Examples
 ```yaml
 ---
   roles:
-    - { role: mattwillsher.oraclejava, oraclejava_version: 7 }
+    - { role: IHTSDO.oraclejava, oraclejava_version: 7 }
 ```

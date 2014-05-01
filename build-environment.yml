@@ -2,7 +2,7 @@
 - hosts: nexus:jenkins:sonarqube
   sudo: true
   roles:
-    - user-accounts
+    - IHTSDO.user-accounts
     - bennojoy.nginx
   tasks:
     - apt: pkg=git state=present update_cache=yes cache_valid_time=3600
@@ -10,12 +10,12 @@
 - hosts: nexus
   sudo: true
   roles:
-    - mattwillsher.sonatype-nexus
+    - IHTSDO.sonatype-nexus
 
 - hosts: jenkins
   sudo: true
   roles:
-    - mattwillsher.jenkins
+    - IHTSDO.jenkins
   tasks:
     - file: >
         dest=/var/lib/jenkins/.ssh state=directory
@@ -33,4 +33,4 @@
   sudo: true
   roles:
     - bennojoy.mysql
-    - mattwillsher.sonarqube
+    - IHTSDO.sonarqube

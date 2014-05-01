@@ -37,7 +37,7 @@ jenkins_nginx_ssl_key_file: jenkins.key ( Ansible path to the SSL key to use wit
 Dependencies
 ------------
 
-mattwillsher.openjdk to install Java
+IHTSDO.openjdk to install Java
 bennojoy.nginx for the Nginx (if enabled)
 
 Example Playbook
@@ -46,7 +46,7 @@ Example Playbook
     - hosts: jenkins
       sudo: True
       roles:
-         - { role: mattwillsher.jenkins }
+         - { role: IHTSDO.jenkins }
 
 License
 -------
