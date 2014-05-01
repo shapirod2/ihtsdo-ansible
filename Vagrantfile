@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # end
 
   config.vm.provision "ansible" do |ansible|
-    ansible.playbook = "sonarqube.yml"
+    ansible.playbook = "basic_bootstrap.yml"
     #ansible.raw_arguments = [ '-vvvv' ]
     ansible.inventory_path = "inventory/vagrant.ini"
     ansible.limit = 'all'
