@@ -1,0 +1,36 @@
+---
+- hosts: nexus:jenkins:sonarqube
+  sudo: true
+  roles:
+    - user-accounts
+    - bennojoy.nginx
+  tasks:
+    - apt: pkg=git state=present update_cache=yes cache_valid_time=3600
+
+- hosts: nexus
+  sudo: true
+  roles:
+    - mattwillsher.sonatype-nexus
+
+- hosts: jenkins
+  sudo: true
+  roles:
+    - mattwillsher.jenkins
+  tasks:
+    - file: >
+        dest=/var/lib/jenkins/.ssh state=directory
+        owner=jenkins group=nogroup mode=0700
+    - copy: >
+        src=files/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
+        owner=jenkins group=nogroup mode=0600
+    - copy: >
+        src=files/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
+        owner=jenkins group=nogroup mode=0600
+    - apt: >
+        name=maven state=installed
+
+- hosts: sonarqube
+  sudo: true
+  roles:
+    - bennojoy.mysql
+    - mattwillsher.sonarqube

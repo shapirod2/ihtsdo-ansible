@@ -1,0 +1,28 @@
+---
+galaxy_info:
+  author: Matt Willsher
+  description: Install Jenkins on Debian/Ubuntu
+  company: Willsher Partners
+  license: MIT
+  min_ansible_version: 1.5
+  platforms:
+  - name: Ubuntu
+    versions:
+    - precise
+    - quantal
+    - raring
+    - saucy
+    - trusty
+  - name: Debian
+    versions:
+    - all
+    - etch
+    - lenny
+    - squeeze
+    - wheezy
+  categories:
+  - development
+  - web
+dependencies:
+  - { role: mattwillsher.openjdk, java_version: 7, java_default: 7 }
+  - { role: bennojoy.nginx, when: jenkins_nginx == True }

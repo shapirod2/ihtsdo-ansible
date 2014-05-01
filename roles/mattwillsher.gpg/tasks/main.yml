@@ -1,0 +1,10 @@
+---
+  - name: Set packaging name variable
+    include_vars: "{{ ansible_pkg_mgr }}.yml"
+
+  - name: Install gnupg
+    action: "{{ ansible_pkg_mgr }} {{ pkgname }}=gnupg"
+
+  - name: Import key
+    include: add_key.yml
+    when: gpg_key_id is defined

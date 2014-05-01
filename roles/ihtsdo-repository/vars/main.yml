@@ -1,0 +1,5 @@
+---
+ihtsdo_repository_key_url: 'https://maven.ihtsdotools.org/service/local/repositories/releases/content/apt-key.gpg.key'
+ihtsdo_repositories:
+  release: "deb https://maven.ihtsdotools.org/content/repositories/releases/ ./"
+  snapshot: "deb https://maven.ihtsdotools.org/content/repositories/snapshots/ ./"

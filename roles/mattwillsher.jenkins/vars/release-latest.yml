@@ -1,0 +1,5 @@
+---
+jenkins_apt_repository: "deb http://pkg.jenkins-ci.org/debian binary/"
+jenkins_apt_key: http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key
+jenkins_rpm_key: http://pkg.jenkins-ci.org/redhat/jenkins-ci.org.key
+jenkins_yum_repository: http://pkg.jenkins-ci.org/redhat/jenkins.repo

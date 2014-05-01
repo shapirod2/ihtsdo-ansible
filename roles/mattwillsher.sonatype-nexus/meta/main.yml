@@ -1,0 +1,27 @@
+---
+dependencies:
+  - { role: mattwillsher.gpg, gpg_key_id: '8DD1BDFD' }
+  - role: mattwillsher.openjdk
+    java_version: 7
+    java_default: 7
+    when: sonatype_nexus_openjdk == true
+  - role: mattwillsher.oraclejava
+    oraclejava_version: 7
+    oraclejava_default: yes
+    when: sonatype_nexus_openjdk == false
+galaxy_info:
+  author: Matt Willsher
+  description: Install Sonatype Nexus on Ubuntu/Debian
+  license: MIT
+  min_ansible_version: 1.3
+  platforms:
+  - name: Ubuntu
+    versions:
+    - all
+  - name: Debian
+    versions:
+    - all
+  categories:
+  - web
+  - development
+  - packaging

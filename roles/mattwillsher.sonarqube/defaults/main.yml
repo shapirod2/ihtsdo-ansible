@@ -1,0 +1,12 @@
+---
+sonarqube_version: installed
+sonarqube_host: 0.0.0.0
+sonarqube_port: 9000
+sonarqube_db_user: sonar
+sonarqube_db_password: sonar1234
+sonarqube_db_url: jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
+sonarqube_nginx_fqdn: sonarqube
+sonarqube_nginx_default_site: off
+sonarqube_nginx_ssl: no
+sonarqube_nginx_ssl_cert_file: sonarqube.crt
+sonarqube_nginx_ssl_key_file: sonarqube.key

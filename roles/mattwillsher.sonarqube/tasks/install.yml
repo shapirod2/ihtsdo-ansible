@@ -1,0 +1,24 @@
+---
+- name: Install python-software-properties
+  apt: name=python-software-properties state=installed update_cache=yes cache_valid_time=3600
+
+- name: Setup apt repository
+  apt_repository: repo="{{ sonarqube_apt_repository }}" state=present
+
+- name: Install sonar package
+  apt: name=sonar state=installed force=yes
+  notify:
+    - restart sonarqube
+  when: sonarqube_version == 'installed'
+
+- name: Install latest sonar package
+  apt: name=sonar state=latest force=yes
+  notify:
+    - restart sonarqube
+  when: sonarqube_version == 'latest'
+
+- name: Install sonar package
+  apt: name=sonar={{ sonarqube_version }} state=installed force=yes
+  notify:
+    - restart sonarqube
+  when: sonarqube_version != 'installed' and sonarqube_version != 'latest'

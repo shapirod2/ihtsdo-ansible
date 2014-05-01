@@ -1,0 +1,16 @@
+---
+  - name: Include architecture type vars
+    include_vars: "{{ ansible_architecture }}.yml"
+
+  - name: Include Java version vars
+    include_vars: "{{ java_version }}.yml"
+
+  - name: Install Java
+    apt: pkg=openjdk-{{ java_version }}-{{ java_type }}
+         state=installed
+         update_cache=yes
+         cache_valid_time=3600
+
+  - name: Set default alternative Java
+    command: update-java-alternatives --set java-{{ java_point_version }}-openjdk-{{ java_arch }}
+    when: java_default == java_version

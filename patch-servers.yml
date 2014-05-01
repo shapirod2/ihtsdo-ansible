@@ -1,0 +1,9 @@
+---
+- hosts: all
+  sudo: true
+  vars:
+    upgrade_type: safe
+  tasks:
+    - name: Upgrading servers
+      apt: upgrade={{ upgrade_type }} update_cache=yes
+

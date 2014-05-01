@@ -1,0 +1,40 @@
+---
+- name: Set JDBC user
+  lineinfile: dest={{ sonarqube_config }}
+              regexp='^sonar.jdbc.user='
+              insertafter="#sonar.jdbc.user="
+              line='sonar.jdbc.user={{ sonarqube_db_user }}'
+  notify:
+    - restart sonarqube
+
+- name: Set JDBC password
+  lineinfile: dest={{ sonarqube_config }}
+              regexp='^sonar.jdbc.password='
+              insertafter="#sonar.jdbc.password="
+              line='sonar.jdbc.password={{ sonarqube_db_password }}'
+  notify:
+    - restart sonarqube
+
+- name: Set JDBC URL
+  lineinfile: dest={{ sonarqube_config }}
+              regexp='^sonar.jdbc.url='
+              insertafter="#sonar.jdbc.url="
+              line='sonar.jdbc.url={{ sonarqube_db_url }}'
+  notify:
+    - restart sonarqube
+
+- name: Set web host
+  lineinfile: dest={{ sonarqube_config }}
+              regexp='^sonar.web.host='
+              insertafter="#sonar.web.host="
+              line="sonar.web.host={{ sonarqube_host }}"
+  notify:
+    - restart sonarqube
+
+- name: Set web port
+  lineinfile: dest={{ sonarqube_config }}
+              regexp='^sonar.web.port='
+              insertafter="#sonar.web.port="
+              line="sonar.web.port={{ sonarqube_port }}"
+  notify:
+    - restart sonarqube

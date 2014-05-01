@@ -1,0 +1,10 @@
+---
+- hosts: all
+  vars:
+    inventory_path: ../ansible-inventory
+    inventory_location: "{{ inventory_path }}/inventory"
+    files_location: "{{ inventory_path }}/files"
+  tasks:
+    - file: src={{ inventory_location }} dest=inventory state=link
+    - file: src={{ files_location }} dest=files state=link
+

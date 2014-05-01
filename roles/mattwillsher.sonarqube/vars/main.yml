@@ -1,0 +1,4 @@
+---
+sonarqube_apt_repository: 'deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/'
+sonarqube_root_dir: '/opt/sonar'
+sonarqube_config: '{{ sonarqube_root_dir }}/conf/sonar.properties'

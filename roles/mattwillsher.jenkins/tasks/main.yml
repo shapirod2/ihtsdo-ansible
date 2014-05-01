@@ -1,0 +1,68 @@
+---
+- name: Include release version variables
+  include_vars: release-{{ jenkins_release }}.yml
+
+- name: Include os family variables
+  include_vars: "{{ ansible_os_family }}.yml"
+
+- name: Setup apt key
+  apt_key: url={{ jenkins_apt_key }} state=present
+  when: ansible_os_family == 'Debian'
+
+- name: Setup apt repository
+  apt_repository: repo='{{ jenkins_apt_repository }}' state=present
+  when: ansible_os_family == 'Debian'
+
+- name: Install jenkins (Debian)
+  apt: pkg=jenkins state=installed update_cache=yes cache_valid_time=3600
+  with_items:
+    - jenkins
+    - "{{ jenkins_java_package }}"
+  when: ansible_os_family == 'Debian'
+  notify:
+    - restart jenkins
+
+- name: Setup rpm key
+  rpm_key: key='{{ jenkins_rpm_key }}' state=present
+  when: ansible_os_family == 'RedHat'
+
+- name: Setup yum repository
+  get_url: url='{{ jenkins_yum_repository }}' dest=/etc/yum.repos.d/jenkins.repo
+           owner=root group=root mode=0644
+  when: ansible_os_family == 'RedHat'
+
+- name: Install jenkins (RedHat)
+  yum: name=jenkins state=installed
+  when: ansible_os_family == 'RedHat'
+  with_items:
+    - jenkins
+    - "{{ jenkins_java_package }}"
+  notify:
+    - restart jenkins
+
+- name: Set Jenkins startup config
+  template: >
+    src=debian_jenkins.j2 dest=/etc/default/jenkins
+    owner=root group=root mode=0644
+  notify:
+    - restart jenkins
+
+- name: Install SSL cert
+  copy: src={{ jenkins_nginx_ssl_cert_file }} dest={{ jenkins_nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
+  when: jenkins_nginx_ssl == true
+  notify:
+    - restart nginx
+
+- name: Install SSL key
+  copy: src={{ jenkins_nginx_ssl_key_file }} dest={{ jenkins_nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  when: jenkins_nginx_ssl == true
+  notify:
+    - restart nginx
+
+- name: Install nginx configuration
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/jenkins.conf
+            owner=root group=root mode=0644
+  notify:
+    - restart nginx

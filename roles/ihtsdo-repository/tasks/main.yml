@@ -1,0 +1,9 @@
+---
+- name: Install python-software-properties
+  apt: name=python-software-properties state=installed update_cache=yes cache_valid_time=3600
+
+- name: Install IHTSDO package signing key
+  apt_key: url={{ ihtsdo_repository_key_url }} state=present
+
+- name: Setup apt repository
+  apt_repository: repo='{{ ihtsdo_repositories[ihtsdo_repository] }}' state=present

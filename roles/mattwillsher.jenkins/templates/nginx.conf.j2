@@ -1,0 +1,41 @@
+#{{ ansible_managed }}
+{% if jenkins_nginx_ssl == true %}
+server {
+  server_name {{ jenkins_nginx_fqdn }};
+  listen 80{% if jenkins_nginx_default_site == true %} default{% endif %};
+  rewrite ^ https://$host$request_uri permanent;
+}
+
+{% endif %}
+server {
+  server_name {{ jenkins_nginx_fqdn }};
+  listen {% if jenkins_nginx_ssl == true %}443{% else %}80{% endif %}
+  {%- if jenkins_nginx_default_site == true %} default{% endif %}
+  {%- if jenkins_nginx_ssl == true %} ssl
+  {%- if jenkins_nginx_spdy == true %} spdy{% endif %}{% endif %};
+
+{% if jenkins_nginx_ssl == true %}
+  ssl_certificate     {{ jenkins_nginx_ssl_cert_file_dest }};
+  ssl_certificate_key {{ jenkins_nginx_ssl_key_file_dest }};
+{% endif %}
+
+  location / {
+      proxy_pass http://localhost:{{ jenkins_listen_port }};
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_connect_timeout 150;
+      proxy_send_timeout 100;
+      proxy_read_timeout 100;
+      proxy_buffers 4 32k;
+      client_max_body_size 8m;
+      client_body_buffer_size 128k;
+      proxy_busy_buffers_size    64k;
+      proxy_temp_file_write_size 64k;
+{% if jenkins_nginx_ssl == true %}
+      proxy_set_header X-Forwarded-Proto "https";
+      proxy_set_header X-Url-Scheme $scheme;
+      proxy_redirect http:// https://;
+{% endif %}
+  }
+}

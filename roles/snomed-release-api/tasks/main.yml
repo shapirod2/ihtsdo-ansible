@@ -1,0 +1,22 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes
+
+- name: Install snomed-release-api package
+  apt: name=snomed-release-api state=installed
+  notify:
+    - restart snomed-release-api
+  when: snomed_release_api_version == 'installed'
+
+- name: Install latest snomed-release-api package
+  apt: name=snomed-release-api state=latest
+  notify:
+    - restart snomed-release-api
+  when: snomed_release_api_version == 'latest'
+
+- name: Install snomed-release-api package specific version
+  apt: name=snomed-release-api={{ snomed_release_api_version }} state=installed
+  notify:
+    - restart snomed-release-api
+  when: snomed_release_api_version != 'installed' and snomed_release_api_version != 'latest'
+

@@ -1,0 +1,7 @@
+---
+package_manager: apt
+package_name_param: pkg
+package_name: openssh-server
+package_installed_state: present
+sshd_service: ssh
+sshd_subsystem_sftp: /usr/lib/openssh/sftp-server

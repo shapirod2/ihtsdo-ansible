@@ -1,0 +1,6 @@
+---
+package_manager: yum
+package_name_param: name
+package_name: openssh-server
+package_installed_state: installed
+sshd_service: sshd

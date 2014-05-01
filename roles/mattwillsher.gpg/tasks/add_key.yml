@@ -1,0 +1,9 @@
+---
+  - name: Check for key
+    command: gpg -kv {{ gpg_key_id }}
+    register: gpg_key_test
+    ignore_errors: yes
+
+  - name: Import gpg key
+    command: gpg --keyserver {{ gpg_key_server }} --recv-key {{ gpg_key_id }}
+    when: gpg_key_test.rc != 0
