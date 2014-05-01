@@ -1,16 +1,10 @@
-# IHTSDO Ansible code repository
-
-The tree contains Ansible code to build and manage the various IHTSDO services.
+The tree contains Ansible code to build and manage the various IHTSDO services. It does not contain configuration data.
 
 # Getting started
 
-Before using the repository, you need to configure the files path, and, optionally the inventory path. There is an ansible playbook that will do this for you. By default it expects the inventory and files directories to b in ../ansible-inventory
+The default checkout of the repository assumes any local files and the inventory files are in ../ansible-inventory
 
-```sh
-$ ansible-playbook -i .local.ini configure_ansible_paths.yml
-```
-
-This will point inventory and files symlink to ../ansible-inventory/inventory and ../ansible-inventory/files. To use a different location:
+If not, there is an ansible playbook that will repoint these symlinks for you.
 
 ```sh
 $ ansible-playbook -i .local.ini configure_ansible_paths -e inventory_path=<your_inventory_location>
@@ -18,4 +12,24 @@ $ ansible-playbook -i .local.ini configure_ansible_paths -e inventory_path=<your
 
 Note that your_inventory_location must contain directories files and inventory containing files used by the various modules and the inventory files
 
+# Running playbooks
+
+Playbooks are run in typical ansible fashion by passing the inventory file to use and naming the playbook.
+
+```sh
+$ ansible-playbook -i inventory/live.ini build-environment.yml
+```
+
+You can also specific the user to login as with -u <username>.
+
+## SSH
+
+Ansible uses SSH as a transports. These means you can use ~/.ssh/config to set connection defaults. It's useful to add lines such as 
+
+```
+Host *.ihtsdotools.org
+  User myihtsdousername
+```
+
+to that file.
 
