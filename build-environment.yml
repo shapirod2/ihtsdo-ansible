@@ -1,5 +1,5 @@
 ---
-- hosts: nexus:jenkins:sonarqube
+- hosts: nexus:jenkins:sonarqube:jenkins_slave
   sudo: true
   roles:
     - IHTSDO.user-accounts
@@ -28,9 +28,18 @@
         owner=jenkins group=nogroup mode=0600
     - apt: >
         name=maven state=installed
+    - template: >
+        src=templates/jenkins/launch_jenkins_slave.j2 dest=/var/lib/jenkins/launch_slave
+        owner=jenkins group=nogroup mode=0755
+
 
 - hosts: sonarqube
   sudo: true
   roles:
     - bennojoy.mysql
     - IHTSDO.sonarqube
+
+- hosts: jenkins_slave
+  sudo: true
+  roles:
+    - IHTSDO.jenkins-slave

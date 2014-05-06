@@ -6,6 +6,12 @@ server {
   rewrite ^ https://$host$request_uri permanent;
 }
 
+upstream jenkins {
+  server localhost:{{ jenkins_listen_port }};
+
+  keepalive 30;
+}
+
 {% endif %}
 server {
   server_name {{ jenkins_nginx_fqdn }};
@@ -20,7 +26,9 @@ server {
 {% endif %}
 
   location / {
-      proxy_pass http://localhost:{{ jenkins_listen_port }};
+      proxy_pass http://jenkins;
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
       proxy_set_header Host $host;
       proxy_set_header X-Real-IP $remote_addr;
       proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
