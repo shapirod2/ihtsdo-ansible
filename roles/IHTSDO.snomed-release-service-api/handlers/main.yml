@@ -1,0 +1,3 @@
+---
+- name: restart snomed-release-service-api
+  service: name=snomed-release-service-api state=restarted

@@ -1,7 +1,16 @@
 ---
-  - hosts: all
+  - hosts: snomed_release_service_api:snomed_release_service_web
     sudo: true
     roles:
-      - user-accounts
-      - snomed-release-api
-      - snomed-release-web
+      - IHTSDO.user-accounts
+      - IHTSDO.snomed-release-service-api
+      - IHTSDO.snomed-release-service-web
+
+  - hosts: snomed_release_service_web
+    sudo: true
+    tasks:
+      - name: Remove default nginx web site
+        file: dest=/etc/nginx/sites-enabled/default state=absent
+    handlers:
+      - name: nginx reload
+        service: name=nginx state=reloaded

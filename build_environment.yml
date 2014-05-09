@@ -26,11 +26,20 @@
     - copy: >
         src=files/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
         owner=jenkins group=nogroup mode=0600
-    - apt: >
-        name=maven state=installed
+    - apt: name=maven state=installed
     - template: >
         src=templates/jenkins/launch_jenkins_slave.j2 dest=/var/lib/jenkins/launch_slave
         owner=jenkins group=nogroup mode=0755
+    - file: >
+        src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
+        owner=jenkins group=nogroup mode=0600
+    - apt: name={{ item }} state=installed
+      with_items:
+        - python-pip
+        - python-pkg-resources
+        - python-setuptools
+        - python-dev
+    - easy_install: name=ansible
 
 - hosts: sonarqube
   sudo: true
