@@ -33,13 +33,6 @@
     - file: >
         src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
         owner=jenkins group=nogroup mode=0600
-    - apt: name={{ item }} state=installed
-      with_items:
-        - python-pip
-        - python-pkg-resources
-        - python-setuptools
-        - python-dev
-    - easy_install: name=ansible
 
 - hosts: sonarqube
   sudo: true
@@ -51,3 +44,5 @@
   sudo: true
   roles:
     - IHTSDO.jenkins-slave
+    - IHTSDO.ansible
+

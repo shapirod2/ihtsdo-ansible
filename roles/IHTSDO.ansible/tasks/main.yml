@@ -1,0 +1,14 @@
+---
+- apt: name={{ item }} state=installed
+  with_items:
+    - python-pip
+    - python-pkg-resources
+    - python-setuptools
+    - python-dev
+
+
+- easy_install: name=ansible
+  when: ansible_distribution == 'Debian'
+
+- pip: name=ansible state=latest
+  when: ansible_distribution == 'Ubuntu'
