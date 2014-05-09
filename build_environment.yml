@@ -30,7 +30,7 @@
     - template: >
         src=templates/jenkins/launch_jenkins_slave.j2 dest=/var/lib/jenkins/launch_slave
         owner=jenkins group=nogroup mode=0755
-    - file: >
+    - copy: >
         src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
         owner=jenkins group=nogroup mode=0600
 
@@ -45,4 +45,10 @@
   roles:
     - IHTSDO.jenkins-slave
     - IHTSDO.ansible
-
+  tasks:
+    - file: >
+        dest=/home/.ssh state=directory
+        owner=jenkins group=nogroup mode=0700
+    - copy: >
+        src=files/jenkins/ssh_config dest=/home/jenkins/.ssh/config
+        owner=jenkins group=nogroup mode=0600
