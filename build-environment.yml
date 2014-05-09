@@ -32,7 +32,6 @@
         src=templates/jenkins/launch_jenkins_slave.j2 dest=/var/lib/jenkins/launch_slave
         owner=jenkins group=nogroup mode=0755
 
-
 - hosts: sonarqube
   sudo: true
   roles:

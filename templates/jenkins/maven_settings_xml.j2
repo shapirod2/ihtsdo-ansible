@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+{% if ihsdo_mirror_id is defined %}
+	<mirrors>
+		<mirror>
+			<id>{{ ihtsdo_maven_mirror_id }}</id>
+			<mirrorOf>*</mirrorOf>
+			<url>{{ ihtsdo_maven_mirror_url }}</url>
+		</mirror>
+	</mirrors>
+{% endif %}
+	<servers>
+		<id>ihtsdo-public-nexus</id>
+		<username>{{ jenkins_nexus_username }}</username>
+		<password>{{ jenkins_nexus_password }}</password>
+	</servers>
+</settings>

@@ -1,5 +1,4 @@
 #! /bin/bash -x
-
 ssh -R{{ sonarqube_port }}:localhost:{{ sonarqube_port }} \
     -R{{ mysql_port }}:localhost:{{ mysql_port }} \
     -R{{ jenkins_listen_port }}:localhost:{{ jenkins_listen_port }} \

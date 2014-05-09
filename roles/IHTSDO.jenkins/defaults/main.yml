@@ -5,6 +5,7 @@ jenkins_release: stable
 jenkins_listen_address: 0.0.0.0
 jenkins_listen_port: 8080
 jenkins_context: /jenkins
+jenkins_heap_size: 256
 
 # Configuration for nginx
 jenkins_nginx: off
@@ -13,3 +14,4 @@ jenkins_nginx_default_site: off
 jenkins_nginx_ssl: no
 jenkins_nginx_ssl_cert_file: jenkins.crt
 jenkins_nginx_ssl_key_file: jenkins.key
+jenkins_nginx_spdy: no
