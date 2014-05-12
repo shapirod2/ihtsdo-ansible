@@ -3,11 +3,16 @@
     sudo: true
     roles:
       - IHTSDO.user-accounts
+
+  - hosts: snomed_release_service_api
+    sudo: true
+    roles:
       - IHTSDO.snomed-release-service-api
-      - IHTSDO.snomed-release-service-web
 
   - hosts: snomed_release_service_web
     sudo: true
+    roles:
+      - IHTSDO.snomed-release-service-web
     tasks:
       - name: Remove default nginx web site
         file: dest=/etc/nginx/sites-enabled/default state=absent

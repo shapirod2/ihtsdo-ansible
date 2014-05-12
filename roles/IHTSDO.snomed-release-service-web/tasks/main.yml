@@ -1,21 +1,29 @@
 ---
 - name: Apt cache update
   apt: update_cache=yes
+  tags:
+    - ihtsdo-asset
 
 - name: Install snomed-release-service-web package
   apt: name=snomed-release-service-web state=installed
   notify:
     - reload nginx
   when: snomed_release_service_web_version == 'installed'
+  tags:
+    - ihtsdo-asset
 
 - name: Install latest snomed-release-service-web package
   apt: name=snomed-release-service-web state=latest
   notify:
     - reload nginx
   when: snomed_release_service_web_version == 'latest'
+  tags:
+    - ihtsdo-asset
 
 - name: Install snomed-release-service-web package
   apt: name=snomed-release-service-web={{ snomed_release_service_web_version }} state=installed
   notify:
     - reload nginx
   when: snomed_release_service_web_version != 'installed' and snomed_release_service_web_version != 'latest'
+  tags:
+    - ihtsdo-asset
