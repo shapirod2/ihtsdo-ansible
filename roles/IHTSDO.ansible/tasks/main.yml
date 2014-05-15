@@ -5,10 +5,15 @@
     - python-pkg-resources
     - python-setuptools
     - python-dev
-
+  tags:
+    - ansible
 
 - easy_install: name=ansible
   when: ansible_distribution == 'Debian'
+  tags:
+    - ansible
 
 - pip: name=ansible state=latest
   when: ansible_distribution == 'Ubuntu'
+  tags:
+    - ansible

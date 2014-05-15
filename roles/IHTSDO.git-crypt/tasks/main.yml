@@ -1,0 +1,22 @@
+---
+- name: Ensure compiler, make are installed
+  apt: pkg={{ item }} state=present
+  with_items:
+    - make
+    - g++
+    - libssl-dev
+  tags:
+    - git-crypt
+
+- git: repo=https://github.com/AGWA/git-crypt dest=/usr/local/src/git-crypt
+  tags:
+    - git-crypt
+
+- command: make chdir=/usr/local/src/git-crypt creates=/usr/local/src/git-crypt/git-crypt
+  tags:
+    - git-crypt
+
+- file: src=/usr/local/src/git-crypt/git-crypt dest=/usr/local/bin/git-crypt
+        state=hard mode=0755
+  tags:
+    - git-crypt
