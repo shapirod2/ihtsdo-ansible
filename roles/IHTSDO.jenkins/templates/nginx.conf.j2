@@ -23,7 +23,15 @@ server {
 {% if jenkins_nginx_ssl == true %}
   ssl_certificate     {{ jenkins_nginx_ssl_cert_file_dest }};
   ssl_certificate_key {{ jenkins_nginx_ssl_key_file_dest }};
+  ssl_dhparam /etc/nginx/dhparam.pem;
+  ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
+  ssl_prefer_server_ciphers on;
+  ssl_ciphers 'EECDH+ECDSA+AESGCM EECDH+aRSA+AESGCM EECDH+ECDSA+SHA384 EECDH+ECDSA+SHA256 EECDH+aRSA+SHA384 EECDH+aRSA+SHA256 EECDH+aRSA+RC4 EECDH EDH+aRSA RC4 !aNULL !eNULL !LOW !3DES !MD5 !EXP !PSK !SRP !DSS';
+  ssl_session_cache shared:SSL:50m;
+  ssl_session_timeout 5m;
 {% endif %}
+
+  ignore_invalid_headers off;
 
   location / {
       proxy_pass http://jenkins;

@@ -1,17 +1,26 @@
 ---
 - name: Include release version variables
   include_vars: release-{{ jenkins_release }}.yml
+  tags:
+    - jenkins
 
 - name: Include os family variables
   include_vars: "{{ ansible_os_family }}.yml"
+  tags:
+    - jenkins
+    - nginx
 
 - name: Setup apt key
-  apt_key: url={{ jenkins_apt_key }} state=present
+  apt_key: data="{{ lookup('file', 'jenkins-ci.org.key') }}" state=present
   when: ansible_os_family == 'Debian'
+  tags:
+    - jenkins
 
 - name: Setup apt repository
   apt_repository: repo='{{ jenkins_apt_repository }}' state=present
   when: ansible_os_family == 'Debian'
+  tags:
+    - jenkins
 
 - name: Install jenkins (Debian)
   apt: pkg=jenkins state=installed update_cache=yes cache_valid_time=3600
@@ -21,15 +30,21 @@
   when: ansible_os_family == 'Debian'
   notify:
     - restart jenkins
+  tags:
+    - jenkins
 
 - name: Setup rpm key
   rpm_key: key='{{ jenkins_rpm_key }}' state=present
   when: ansible_os_family == 'RedHat'
+  tags:
+    - jenkins
 
 - name: Setup yum repository
   get_url: url='{{ jenkins_yum_repository }}' dest=/etc/yum.repos.d/jenkins.repo
            owner=root group=root mode=0644
   when: ansible_os_family == 'RedHat'
+  tags:
+    - jenkins
 
 - name: Install jenkins (RedHat)
   yum: name=jenkins state=installed
@@ -39,6 +54,8 @@
     - "{{ jenkins_java_package }}"
   notify:
     - restart jenkins
+  tags:
+    - jenkins
 
 - name: Set Jenkins startup config
   template: >
@@ -46,6 +63,8 @@
     owner=root group=root mode=0644
   notify:
     - restart jenkins
+  tags:
+    - jenkins
 
 - name: Install SSL cert
   copy: src={{ jenkins_nginx_ssl_cert_file }} dest={{ jenkins_nginx_ssl_cert_file_dest }}
@@ -53,6 +72,9 @@
   when: jenkins_nginx_ssl == true
   notify:
     - restart nginx
+  tags:
+    - jenkins
+    - nginx
 
 - name: Install SSL key
   copy: src={{ jenkins_nginx_ssl_key_file }} dest={{ jenkins_nginx_ssl_key_file_dest }}
@@ -60,9 +82,15 @@
   when: jenkins_nginx_ssl == true
   notify:
     - restart nginx
+  tags:
+    - jenkins
+    - nginx
 
 - name: Install nginx configuration
   template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/jenkins.conf
             owner=root group=root mode=0644
   notify:
     - restart nginx
+  tags:
+    - jenkins
+    - nginx
