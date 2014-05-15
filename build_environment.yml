@@ -60,3 +60,4 @@
   sudo: true
   roles:
     - IHTSDO.jenkins-slave
+
