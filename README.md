@@ -2,12 +2,10 @@ The tree contains Ansible code to build and manage the various IHTSDO services. 
 
 # Getting started
 
-The default checkout of the repository assumes any local files and the inventory files are in ../ansible-inventory
-
-If not, there is an ansible playbook that will repoint these symlinks for you.
+There is an ansible playbook that will point the files and inventory symlinks.
 
 ```sh
-$ ansible-playbook -i .local.ini configure_ansible_paths -e inventory_path=<your_inventory_location>
+$ ansible-playbook -i .local.ini setup_ansible_inventory.yml -e inventory_path=<your_inventory_location>
 ```
 
 Note that your_inventory_location must contain directories files and inventory containing files used by the various modules and the inventory files
