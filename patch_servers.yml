@@ -3,7 +3,7 @@
   sudo: true
   tasks:
     - name: Force upgrade sonar due to unsigned package
-      apt: name=sonar state=latest update_cache=yes force=yes cache_timeout=600
+      apt: name=sonar state=latest update_cache=yes force=yes cache_valid_time=600
 
 - hosts: all
   sudo: true
@@ -11,5 +11,5 @@
     upgrade_type: safe
   tasks:
     - name: Upgrading servers
-      apt: upgrade={{ upgrade_type }} update_cache=yes cache_timeout=600
+      apt: upgrade={{ upgrade_type }} update_cache=yes cache_valid_time=600
 
