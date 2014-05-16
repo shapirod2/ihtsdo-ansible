@@ -1,5 +1,5 @@
 ---
-sonarqube_version: installed
+sonarqube_version: 4.3
 sonarqube_host: 0.0.0.0
 sonarqube_port: 9000
 sonarqube_db_user: sonar

@@ -1,0 +1,33 @@
+---
+- name: Download SonarQube
+  get_url: url={{ sonarqube_download_url }} dest={{ sonarqube_download_dest }}
+  register: sonarqube_download
+
+- name: Download SonarQube md5 checksum
+  get_url: url={{ sonarqube_download_url }}.md5 dest={{ sonarqube_download_dest }}.md5
+
+- name: Check md5sum
+  shell: md5sum {{ sonarqube_download_dest }} | awk '{print \$1}' | grep {{ sonarqube_download_dest }}.md5
+  when: sonarqube_download.changed
+
+- name: Extract archive
+  command: unzip {{ sonarqube_archive }} chdir=/opt creates={{ sonarqube_base }}
+
+- name: Install init script
+  copy: src=initscript.sh dest=/etc/init.d/sonarqube owner=root group=root mode=0755
+
+- name: configure runlevel links for init script
+  command: update-rc.d {{ sonarqube_service }} defaults
+
+- name: Chown tree
+  file: dest=/opt/{{ sonarqube_base }} owner=sonar group=sonar state=directory recurse=yes
+
+- name: Stop SonarQube
+  service: name={{ sonarqube_service }} state=stopped
+  when: sonarqube_download.changed
+  notify: restart sonarqube
+
+- name: Repoint symlink
+  file: src=/opt/{{ sonarqube_base }} dest={{ sonarqube_root_dir }} state=link
+
+
