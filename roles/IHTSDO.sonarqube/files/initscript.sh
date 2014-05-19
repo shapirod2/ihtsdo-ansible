@@ -1,11 +1,11 @@
 #!/bin/sh
 ### BEGIN INIT INFO
-# Provides:          sonar
-# Required-Start:    $local_fs $remote_fs $network $time $named
-# Required-Stop:     $local_fs $remote_fs $network $time $named
-# Default-Start:     3 5
-# Default-Stop:      0 1 2 6
-# Short-Description: Sonar
+# Provides:          sonarqube
+# Required-Start:    $local_fs $remote_fs $network $time $named mysql
+# Required-Stop:     $local_fs $remote_fs $network $time $named mysql
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: SonarQube
 # Description:       Open platform to manage code quality
 ### END INIT INFO
 

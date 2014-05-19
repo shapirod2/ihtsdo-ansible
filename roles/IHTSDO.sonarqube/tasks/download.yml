@@ -16,8 +16,11 @@
 - name: Install init script
   copy: src=initscript.sh dest=/etc/init.d/sonarqube owner=root group=root mode=0755
 
-- name: configure runlevel links for init script
-  command: update-rc.d {{ sonarqube_service }} defaults
+#- name: configure runlevel links for init script
+#  command: update-rc.d {{ sonarqube_service }} defaults
+
+- name: enable at boot time
+  service: name={{ sonarqube_service }} enabled=yes
 
 - name: Chown tree
   file: dest=/opt/{{ sonarqube_base }} owner=sonar group=sonar state=directory recurse=yes
