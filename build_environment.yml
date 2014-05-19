@@ -33,6 +33,9 @@
     - copy: >
         src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
         owner=jenkins group=nogroup mode=0600
+    - copy: >
+        src=files/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
+        owner=jenkins group=nogroup mode=0700
 
 - hosts: sonarqube
   sudo: true
