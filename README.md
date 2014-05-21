@@ -2,6 +2,8 @@ The tree contains Ansible code to build and manage the various IHTSDO services. 
 
 # Getting started
 
+Install ansible e.g. `brew install ansible` or `pip install ansible`. See the [Ansible docs](http://docs.ansible.com) for detailed information.
+
 There is an ansible playbook that will point the files and inventory symlinks.
 
 ```sh
