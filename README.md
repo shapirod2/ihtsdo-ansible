@@ -10,7 +10,9 @@ There is an ansible playbook that will point the files and inventory symlinks.
 $ ansible-playbook -i .local.ini setup_ansible_inventory.yml -e inventory_path=<your_inventory_location>
 ```
 
-Note that your_inventory_location must contain directories files and inventory containing files used by the various modules and the inventory files
+Note that your_inventory_location must contain directories files and inventory containing files used by the various modules and the inventory files. It should be an absolute path.
+
+ansible-playbook must alway be run in the ihtsdo-ansible directory
 
 # Running playbooks
 
