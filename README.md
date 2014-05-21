@@ -31,3 +31,7 @@ Host *.ihtsdotools.org
 
 to that file.
 
+# Further Reading
+
+For more information on using this repository, see the [IHTSDO Ops Docs](https://github.com/IHTSDO/ops-docs)
+
