@@ -28,3 +28,10 @@
   tags:
     - ihtsdo-asset
 
+- name: Configure
+  template: src=config.properties.j2 dest=/etc/opt/snomed-release-service-api/config.properties
+            owner=root group=snomed-release-service-api mode=0640
+  notify:
+    - restart snomed-release-service-api
+  tags:
+    - ihtsdo-asset

@@ -1,2 +1,7 @@
 ---
 snomed_release_service_api_version: latest
+snomed_release_service_api_offlineMode: true
+snomed_release_service_api_s3Offline_bucketsPath: /var/opt/snomed-release-service-api/offline_bucket
+snomed_release_service_api_aws_key: ''
+snomed_release_service_api_aws_privateKey: ''
+snomed_release_service_api_encryption_salt: 2276a0a6bdb76a1e
