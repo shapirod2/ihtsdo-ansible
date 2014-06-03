@@ -1,0 +1,14 @@
+#{{ ansible_managed }}
+server {
+    listen          80;
+    server_name {{ otf_user_module_security_web_nginx_servername }};
+
+    location / {
+        client_max_body_size 2048m;
+        proxy_set_header     Host    $http_host;
+        proxy_pass           {{ otf_user_module_security_web_url }};
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    }
+
+}

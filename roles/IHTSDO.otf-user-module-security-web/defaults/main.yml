@@ -1,3 +1,4 @@
 ---
 otf_user_module_security_web_version: latest
-
+otf_user_module_security_web_nginx_servername: otf-user-module-security-web
+otf_user_module_security_web_port: 8080

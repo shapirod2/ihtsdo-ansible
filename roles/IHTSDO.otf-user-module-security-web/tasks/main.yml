@@ -28,10 +28,18 @@
   tags:
     - ihtsdo-asset
 
-- name: Configure
+- name: Configure app
   template: src=config.properties.j2 dest=/etc/opt/otf-user-module-security-web/config.properties
             owner=root group=otf-user-module-security-web mode=0640
   notify:
     - restart otf-user-module-security-web
+  tags:
+    - ihtsdo-asset
+
+- name: Configure nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/otf-user-module-security-web.conf
+            owner=root group=root mode=0644
+  notify:
+    - restart nginx
   tags:
     - ihtsdo-asset
