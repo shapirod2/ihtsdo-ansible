@@ -1,0 +1,3 @@
+---
+- name: restart otf-user-module-service-web
+  supervisorctl: name=otf-user-module-service-web state=restarted

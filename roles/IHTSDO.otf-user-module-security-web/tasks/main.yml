@@ -1,0 +1,37 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+
+- name: Install otf-user-module-security-web package
+  apt: name=otf-user-module-security-web state=installed
+  notify:
+    - restart otf-user-module-security-web
+  when: otf_user_module_security_web_version == 'installed'
+  tags:
+    - ihtsdo-asset
+
+- name: Install latest otf-user-module-security-web package
+  apt: name=otf-user-module-security-web state=latest
+  notify:
+    - restart otf-user-module-security-web
+  when: otf_user_module_security_web_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install otf-user-module-security-web package specific version
+  apt: name=otf-user-module-security-web={{ otf_user_module_security_web_version }} state=installed
+  notify:
+    - restart otf-user-module-security-web
+  when: otf_user_module_security_web_version != 'installed' and otf_user_module_security_web_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure
+  template: src=config.properties.j2 dest=/etc/opt/otf-user-module-security-web/config.properties
+            owner=root group=otf-user-module-security-web mode=0640
+  notify:
+    - restart otf-user-module-security-web
+  tags:
+    - ihtsdo-asset
