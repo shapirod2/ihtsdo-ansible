@@ -7,7 +7,7 @@
 - hosts: nexus:jenkins_master:sonarqube
   sudo: true
   roles:
-    - bennojoy.nginx
+    - IHTSDO.nginx
   tasks:
     - apt: pkg=git state=present update_cache=yes cache_valid_time=3600
 

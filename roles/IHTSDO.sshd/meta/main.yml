@@ -15,4 +15,5 @@ galaxy_info:
   categories:
   - system
   - networking
-dependencies: []
+dependencies: 
+  - IHTSDO.ufw

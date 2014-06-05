@@ -1,5 +1,5 @@
 ---
 dependencies:
   - IHTSDO.repositories
-  - bennojoy.nginx
+  - IHTSDO.nginx
 

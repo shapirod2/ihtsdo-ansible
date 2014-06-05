@@ -2,7 +2,7 @@
 - hosts: all
   sudo: true
   vars:
-    user_accounts_skip_sshd: true
+    user_accounts_skip_sshd: false
   roles:
     - IHTSDO.user-accounts
     - laggyluke.hostname
