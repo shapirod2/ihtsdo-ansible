@@ -18,6 +18,8 @@ server {
   ssl_session_cache shared:SSL:50m;
   ssl_session_timeout 5m;
 
+  add_header Strict-Transport-Security max-age=15768000;
+
   location / {
       proxy_pass {{ otf_user_module_security_web_url }};
       proxy_http_version 1.1;
