@@ -1,5 +1,4 @@
 ---
-
 - name: Install the selinux python module
   yum: name=libselinux-python state=present
   when: ansible_os_family == "RedHat"
@@ -71,8 +70,20 @@
   tags:
     - nginx
 
+- name: Remove the default site
+  file: path=/etc/nginx/sites-enabled/default state=absent
+
 - name: start the nginx service
   service: name=nginx state=started enabled=yes
   tags:
     - nginx
+
+- name: allow HTTP traffic
+  ufw: name='Nginx HTTP' rule=allow
+  when: nginx_ufw_allow_http == true
+
+- name: allow HTTPS traffic
+  ufw: name='Nginx HTTPS' rule=allow
+  when: nginx_ufw_allow_https == true
+
 

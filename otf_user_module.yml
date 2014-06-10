@@ -8,9 +8,3 @@
     sudo: true
     roles:
       - IHTSDO.otf-user-module-security-web
-    tasks:
-      - name: Remove default nginx web site
-        file: dest=/etc/nginx/sites-enabled/default state=absent
-    handlers:
-      - name: nginx reload
-        service: name=nginx state=reloaded
