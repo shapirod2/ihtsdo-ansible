@@ -1,0 +1,14 @@
+# {{ ansible_managed }}
+# When true, write objects to the s3Offline.bucketsPath, defined below
+# When false, write objects to an S3 bucket using the AWS key pair defined below
+offlineMode = {{ snomed_release_service_api_offlineMode }}
+
+# When offlineMode is false, store objects in the given path
+s3Offline.bucketsPath = {{ snomed_release_service_api_s3Offline_bucketsPath }}
+
+# The AWS key pair for use with S3 when offlineMode is true
+aws.key = {{ snomed_release_service_api_aws_key }}
+aws.privateKey = {{ snomed_release_service_api_aws_privateKey }}
+
+# Salt to use for password hashs
+encryption.salt = {{ snomed_release_service_api_encryption_salt }}

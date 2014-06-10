@@ -1,0 +1,3 @@
+---
+- name: restart otf-mapping-service-rest
+  supervisorctl: name=otf-mapping-service-rest state=restarted

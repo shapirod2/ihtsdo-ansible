@@ -1,0 +1,22 @@
+---
+- name: Install maven, git and csh
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  with_items:
+    - csh
+    - maven
+    - git
+  tags:
+    - ihtsdo_asset
+
+- name: Clone admin git repository
+  git: accept_hostkey=yes dest=/opt/otf-mapping-service-admin/
+       repo=https://github.com/IHTSDO/OTF-Mapping-Service update=yes
+       version={{ otf_mapping_service_admin_version }}
+  tags:
+    - ihtsdo_asset
+
+- name: Add otf-mapping-service-admin user
+  user: name=otf-mapping-service-admin state=present
+        home=/opt/otf-mapping-service-admin
+  tags:
+    - ihtsdo_asset
