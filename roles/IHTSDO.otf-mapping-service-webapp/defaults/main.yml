@@ -2,3 +2,6 @@
 otf_mapping_service_webapp_version: latest
 otf_mapping_service_webapp_rest_url: http://localhost:10002/mapping-rest
 otf_mapping_service_webapp_nginx_servername: otf_mapping_service_webapp
+otf_mapping_service_webapp_nginx_default_site: true
+otf_mapping_service_webapp_nginx_ssl_cert_file_dest: /etc/ssl/certs/otf-mapping-service-webapp.crt
+otf_mapping_service_webapp_nginx_ssl_key_file_dest: /etc/ssl/private/otf-mapping-service-webapp.key

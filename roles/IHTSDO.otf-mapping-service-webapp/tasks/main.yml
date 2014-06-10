@@ -28,6 +28,24 @@
   tags:
     - ihtsdo-asset
 
+- name: Install SSL cert
+  copy: src={{ otf_mapping_service_webapp_nginx_ssl_cert_file }} dest={{ otf_mapping_service_webapp_nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install SSL key
+  copy: src={{ otf_mapping_service_webapp_nginx_ssl_key_file }} dest={{ otf_mapping_service_webapp_nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
 - name: Configure nginx service
   template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/otf-mapping-service-webapp.conf
             owner=root group=root mode=0644
