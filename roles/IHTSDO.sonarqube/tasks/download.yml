@@ -7,7 +7,7 @@
   get_url: url={{ sonarqube_download_url }}.md5 dest={{ sonarqube_download_dest }}.md5
 
 - name: Check md5sum
-  shell: md5sum {{ sonarqube_download_dest }} | awk '{print \$1}' | grep {{ sonarqube_download_dest }}.md5
+  shell: md5sum {{ sonarqube_download_dest }} |  cut -d\  -f1 | grep {{ sonarqube_download_dest }}.md5
   when: sonarqube_download.changed
 
 - name: Extract archive
