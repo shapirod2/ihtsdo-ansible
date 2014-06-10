@@ -2,6 +2,13 @@
 
 server {
   server_name {{ otf_mapping_service_webapp_nginx_servername }};
+  listen 80{% if otf_mapping_service_webapp_nginx_default_site == true %} default{% endif %};
+  rewrite ^ https://$host$request_uri permanent;
+}
+
+
+server {
+  server_name {{ otf_mapping_service_webapp_nginx_servername }};
 
   listen 443 ssl {% if otf_mapping_service_webapp_nginx_default_site == true %}default{% endif %};
 
