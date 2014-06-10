@@ -1,5 +1,5 @@
 ---
-  - hosts: otf_mapping_service_rest:otf_mapping_service_web
+  - hosts: otf_mapping_service_rest:otf_mapping_service_web:otf_mapping_service_admin
     sudo: true
     roles:
       - IHTSDO.user-accounts
@@ -10,16 +10,10 @@
       - bennojoy.mysql
       - IHTSDO.otf-mapping-service-rest
 
-  - hosts: snomed_release_service_web
+  - hosts: otf_mapping_service_webapp
     sudo: true
     roles:
-      - IHTSDO.otf-mapping-service-web
-    tasks:
-      - name: Remove default nginx web site
-        file: dest=/etc/nginx/sites-enabled/default state=absent
-    handlers:
-      - name: nginx reload
-        service: name=nginx state=reloaded
+      - IHTSDO.otf-mapping-service-webapp
 
   - hosts: otf_mapping_service_admin
     sudo: true

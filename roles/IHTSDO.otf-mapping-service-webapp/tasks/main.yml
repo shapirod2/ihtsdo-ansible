@@ -1,0 +1,37 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+
+- name: Install otf-mapping-service-webapp package
+  apt: name=otf-mapping-service-webapp state=installed
+  notify:
+    - reload nginx
+  when: otf_mapping_service_webapp_version == 'installed'
+  tags:
+    - ihtsdo-asset
+
+- name: Install latest otf-mapping-service-webapp package
+  apt: name=otf-mapping-service-webapp state=latest
+  notify:
+    - reload nginx
+  when: otf_mapping_service_webapp_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install otf-mapping-service-webapp package
+  apt: name=otf-mapping-service-webapp={{ otf_mapping_service_webapp_version }} state=installed
+  notify:
+    - reload nginx
+  when: otf_mapping_service_webapp_version != 'installed' and otf_mapping_service_webapp_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure nginx service
+  template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/otf-mapping-service-webapp.conf
+            owner=root group=root mode=0644
+  notify:
+    - reload nginx
+  tags:
+    - ihtsdo-asset

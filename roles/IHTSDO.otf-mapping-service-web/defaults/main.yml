@@ -1,4 +1,0 @@
----
-otf_mapping_service_web_version: latest
-otf_mapping_service_web_api_url: http://localhost:8080/api
-otf_mapping_service_web_nginx_servername: otf_mapping_service_web

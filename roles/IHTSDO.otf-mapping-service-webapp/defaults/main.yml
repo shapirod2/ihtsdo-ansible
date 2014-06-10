@@ -1,0 +1,4 @@
+---
+otf_mapping_service_webapp_version: latest
+otf_mapping_service_webapp_rest_url: http://localhost:10002/mapping-rest
+otf_mapping_service_webapp_nginx_servername: otf_mapping_service_webapp
