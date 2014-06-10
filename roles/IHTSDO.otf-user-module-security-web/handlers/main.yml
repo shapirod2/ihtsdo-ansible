@@ -1,5 +1,6 @@
 ---
-- name: restart otf-user-module-service-web
-  supervisorctl: name=otf-user-module-service-web state=restarted
+- name: restart otf-user-module-security-web
+  supervisorctl: name=otf-user-module-security-web state=restarted
+
 - name: restart nginx
   service: name=nginx state=restarted

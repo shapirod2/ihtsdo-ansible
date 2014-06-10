@@ -38,7 +38,7 @@ Dependencies
 ------------
 
 IHTSDO.openjdk to install Java
-bennojoy.nginx for the Nginx (if enabled)
+IHTSDO.nginx for the Nginx (if enabled)
 
 Example Playbook
 -------------------------

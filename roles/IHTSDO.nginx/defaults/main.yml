@@ -1,6 +1,8 @@
 ---
 
 nginx_max_clients: 512
+nginx_ufw_allow_https: false
+nginx_ufw_allow_http: false
 
 nginx_http_params:
   sendfile: "on"
@@ -25,3 +27,4 @@ nginx_sites:
     root: "/tmp/site2"
     location1: {name: /, try_files: "$uri $uri/ /index.html"}
     location2: {name: /images/, try_files: "$uri $uri/ /index.html"}
+

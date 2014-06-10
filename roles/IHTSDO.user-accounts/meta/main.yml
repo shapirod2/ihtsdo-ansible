@@ -1,5 +1,5 @@
 ---
 dependencies:
-  - Rackor3000.sudo
   - mattwillsher.users
+  - Rackor3000.sudo
   - { role: IHTSDO.sshd, when: user_accounts_skip_sshd == false }

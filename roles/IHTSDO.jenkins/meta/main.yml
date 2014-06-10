@@ -25,4 +25,4 @@ galaxy_info:
   - web
 dependencies:
   - { role: IHTSDO.openjdk, java_version: 7, java_default: 7 }
-  - { role: bennojoy.nginx, when: jenkins_nginx == True }
+  - { role: IHTSDO.nginx, when: jenkins_nginx == True }

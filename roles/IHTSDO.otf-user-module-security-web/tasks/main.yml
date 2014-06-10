@@ -28,7 +28,7 @@
   tags:
     - ihtsdo-asset
 
-- name: Configure app
+- name: Configure
   template: src=config.properties.j2 dest=/etc/opt/otf-user-module-security-web/config.properties
             owner=root group=otf-user-module-security-web mode=0640
   notify:
@@ -36,10 +36,30 @@
   tags:
     - ihtsdo-asset
 
-- name: Configure nginx
-  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/otf-user-module-security-web.conf
-            owner=root group=root mode=0644
+- name: Install SSL cert
+  copy: src={{ otf_user_module_security_web_nginx_ssl_cert_file }} dest={{ otf_user_module_security_web_nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
   notify:
     - restart nginx
   tags:
     - ihtsdo-asset
+    - nginx
+
+- name: Install SSL key
+  copy: src={{ otf_user_module_security_web_nginx_ssl_key_file }} dest={{ otf_user_module_security_web_nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Configure nginx
+  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/otf-user-module-security-web.conf
+            owner=root group=otf-user-module-security-web mode=0640
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
