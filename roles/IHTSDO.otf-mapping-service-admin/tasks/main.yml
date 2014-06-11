@@ -8,15 +8,42 @@
   tags:
     - ihtsdo_asset
 
+#- name: Add otf-mapping-service-admin user
+#  user: name=otf-mapping-service-admin state=present
+#        home=/home/otf-mapping-service-admin
+#        groups=otf-mapping-service-rest
+#        createhome=yes
+#  tags:
+#    - ihtsdo_asset
+
+- name: Create otf-mapping-service-admin directory
+  file: name=/opt/otf-mapping-service-admin owner=otf-mapping-service-rest
+        mode=0755 state=directory 
+  tags:
+    - ihtsdo_asset
+
 - name: Clone admin git repository
   git: accept_hostkey=yes dest=/opt/otf-mapping-service-admin/
        repo=https://github.com/IHTSDO/OTF-Mapping-Service update=yes
        version={{ otf_mapping_service_admin_version }}
+  sudo: yes
+  sudo_user: otf-mapping-service-rest
+  register: otf_mapping_admin_git
   tags:
     - ihtsdo_asset
 
-- name: Add otf-mapping-service-admin user
-  user: name=otf-mapping-service-admin state=present
-        home=/opt/otf-mapping-service-admin
+- name: Run maven
+  command:  mvn clean install chdir=/opt/otf-mapping-service-admin/
+  sudo: yes
+  sudo_user: otf-mapping-service-rest
+  when: otf_mapping_admin_git.changed
+  tags:
+    - ihtsdo_asset
+
+- name: Copy in loading helper script
+  copy: src=load.sh dest=/var/opt/otf-mapping-service-rest/load.sh mode=0755
+        mode=0755
+  sudo: yes
+  sudo_user: otf-mapping-service-rest
   tags:
     - ihtsdo_asset
