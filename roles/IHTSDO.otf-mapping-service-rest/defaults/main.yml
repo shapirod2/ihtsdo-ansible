@@ -1,6 +1,6 @@
 ---
 otf_mapping_service_rest_version: latest
-otf_mapping_service_rest_jdbc_url: mysql://127.0.0.1:3306/mappingservicedb?autoReconnect=true
+otf_mapping_service_rest_jdbc_url: jdbc:mysql://127.0.0.1:3306/otf_mapping_service?autoReconnect=true
 otf_mapping_service_rest_user: otf
 otf_mapping_service_rest_password: CHANGE_ME
 otf_mapping_service_rest_batch_size: 500
