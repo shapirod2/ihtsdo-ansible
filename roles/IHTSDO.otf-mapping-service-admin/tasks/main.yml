@@ -41,9 +41,24 @@
     - ihtsdo_asset
 
 - name: Copy in loading helper script
-  copy: src=load.sh dest=/var/opt/otf-mapping-service-rest/load.sh mode=0755
+  copy: src=load_data.sh dest=/var/opt/otf-mapping-service-rest/load_data.sh mode=0755
         mode=0755
   sudo: yes
   sudo_user: otf-mapping-service-rest
+  tags:
+    - ihtsdo_asset
+
+- name: Ensure data directory ownership
+  file: name=/var/opt/otf-mapping-service-rest/data owner=otf-mapping-service-rest
+        group=otf-mapping-service-rest mode=0755 state=directory
+  tags:
+    - ihtsdo_asset
+
+- name: Clone data
+  git: accept_hostkey=yes dest=/var/opt/otf-mapping-service-rest/data
+       repo={{ otf_mapping_service_data_repo }} version={{ otf_mapping_service_data_version }}
+  sudo: yes
+  sudo_user: otf-mapping-service-rest
+  register: otf_mapping_data_git
   tags:
     - ihtsdo_asset
