@@ -1,1 +1,3 @@
 ---
+dependencies:
+    - IHTSDO.otf-mapping-service-rest
