@@ -3,6 +3,7 @@
   apt: update_cache=yes cache_valid_time=120
   tags:
     - ihtsdo-asset
+    - nginx
 
 - name: Install snomed-release-service-web package
   apt: name=snomed-release-service-web state=installed
@@ -11,6 +12,7 @@
   when: snomed_release_service_web_version == 'installed'
   tags:
     - ihtsdo-asset
+    - nginx
 
 - name: Install latest snomed-release-service-web package
   apt: name=snomed-release-service-web state=latest
@@ -19,6 +21,7 @@
   when: snomed_release_service_web_version == 'latest'
   tags:
     - ihtsdo-asset
+    - nginx
 
 - name: Install snomed-release-service-web package
   apt: name=snomed-release-service-web={{ snomed_release_service_web_version }} state=installed
@@ -27,6 +30,25 @@
   when: snomed_release_service_web_version != 'installed' and snomed_release_service_web_version != 'latest'
   tags:
     - ihtsdo-asset
+    - nginx
+
+- name: Install SSL cert
+  copy: src={{ snomed_release_service_web_nginx_ssl_cert_file }} dest={{ snomed_release_service_web_nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install SSL key
+  copy: src={{ snomed_release_service_web_nginx_ssl_key_file }} dest={{ snomed_release_service_web_nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
 
 - name: Configure nginx service
   template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/snomed-release-service-web.conf
@@ -35,3 +57,4 @@
     - reload nginx
   tags:
     - ihtsdo-asset
+    - nginx
