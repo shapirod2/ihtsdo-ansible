@@ -5,6 +5,7 @@
     - csh
     - maven
     - git
+    - screen
   tags:
     - ihtsdo_asset
 
@@ -23,9 +24,10 @@
     - ihtsdo_asset
 
 - name: Clone admin git repository
-  git: accept_hostkey=yes dest=/opt/otf-mapping-service-admin/
+  git: dest=/opt/otf-mapping-service-admin/
        repo=https://github.com/IHTSDO/OTF-Mapping-Service update=yes
        version={{ otf_mapping_service_admin_version }}
+       accept_hostkey=yes
   sudo: yes
   sudo_user: otf-mapping-service-rest
   register: otf_mapping_admin_git
