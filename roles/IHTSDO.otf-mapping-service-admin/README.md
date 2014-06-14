@@ -1,0 +1,1 @@
+This role installs the admin tools required to load data into the Mapping Service. It creates a helper script in /var/opt/otf-mapping-service-rest/load_data.sh which can be run, under screen, and will load the data into the database.
