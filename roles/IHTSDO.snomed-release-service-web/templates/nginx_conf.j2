@@ -9,7 +9,7 @@ server {
 server {
   server_name {{ snomed_release_service_web_nginx_servername }};
 
-  listen 443 ssl {% if snomed_release_service_web__nginx_default_site == true %}default{% endif %};
+  listen 443 ssl {% if snomed_release_service_web_nginx_default_site == true %}default{% endif %};
 
   ssl_certificate     {{ snomed_release_service_web_nginx_ssl_cert_file_dest }};
   ssl_certificate_key {{ snomed_release_service_web_nginx_ssl_key_file_dest }};
