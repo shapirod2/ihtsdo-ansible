@@ -1,0 +1,11 @@
+---
+- name: Install network security settings
+  copy: src=10-network-security.conf dest=/etc/sysctl.d/10-network-security.conf
+        owner=root group=root mode=0644
+  notify:
+    - apply sysctl
+
+- name: Set fs.suid_dumpable
+  sysctl: name=fs.suid_dumpable value=0 reload=no
+  notify:
+    - apply sysctl
