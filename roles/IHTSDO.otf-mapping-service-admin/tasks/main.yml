@@ -19,7 +19,7 @@
 
 - name: Create otf-mapping-service-admin directory
   file: name=/opt/otf-mapping-service-admin owner=otf-mapping-service-rest
-        mode=0755 state=directory 
+        mode=0755 state=directory
   tags:
     - ihtsdo_asset
 
