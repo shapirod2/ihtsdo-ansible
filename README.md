@@ -19,7 +19,7 @@ ansible-playbook must alway be run in the ihtsdo-ansible directory
 Playbooks are run in typical ansible fashion by passing the inventory file to use and naming the playbook.
 
 ```sh
-$ ansible-playbook -i inventory/live.ini build-environment.yml
+$ ansible-playbook -i inventory/live.ini build_environment.yml
 ```
 
 You can also specific the user to login as with -u <username>.
