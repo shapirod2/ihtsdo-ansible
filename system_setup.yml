@@ -7,5 +7,5 @@
     - IHTSDO.user-accounts
     - laggyluke.hostname
     - knopki.timezone
-    - IHTSDO.sysctl
+    - IHTSDO.harden
     - Ansibles.fail2ban
