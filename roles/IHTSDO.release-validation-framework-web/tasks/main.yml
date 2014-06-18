@@ -5,8 +5,8 @@
     - ihtsdo-asset
     - nginx
 
-- name: Install release-validation-framework-web package
-  apt: name=release-validation-framework-web state=installed
+- name: Install rvf-web package
+  apt: name=rvf-web state=installed
   notify:
     - reload nginx
   when: release_validation_framework_web_version == 'installed'
@@ -14,8 +14,8 @@
     - ihtsdo-asset
     - nginx
 
-- name: Install latest release-validation-framework-web package
-  apt: name=release-validation-framework-web state=latest
+- name: Install latest rvf-web package
+  apt: name=rvf-web state=latest
   notify:
     - reload nginx
   when: release_validation_framework_web_version == 'latest'
@@ -23,8 +23,8 @@
     - ihtsdo-asset
     - nginx
 
-- name: Install release-validation-framework-web package
-  apt: name=release-validation-framework-web={{ release_validation_framework_web_version }} state=installed
+- name: Install rvf-web package
+  apt: name=rvf-web={{ release_validation_framework_web_version }} state=installed
   notify:
     - reload nginx
   when: release_validation_framework_web_version != 'installed' and release_validation_framework_web_version != 'latest'
@@ -51,7 +51,7 @@
     - nginx
 
 - name: Configure nginx service
-  template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/release-validation-framework-web.conf
+  template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/rvf-web.conf
             owner=root group=root mode=0644
   notify:
     - reload nginx

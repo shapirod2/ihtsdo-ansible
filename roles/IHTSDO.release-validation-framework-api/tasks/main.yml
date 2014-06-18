@@ -4,34 +4,34 @@
   tags:
     - ihtsdo-asset
 
-- name: Install release-validation-framework-api package
-  apt: name=release-validation-framework-api state=installed
+- name: Install rvf-api package
+  apt: name=rvf-api state=installed
   notify:
-    - restart release-validation-framework-api
+    - restart rvf-api
   when: release_validation_framework_api_version == 'installed'
   tags:
     - ihtsdo-asset
 
-- name: Install latest release-validation-framework-api package
-  apt: name=release-validation-framework-api state=latest
+- name: Install latest rvf-api package
+  apt: name=rvf-api state=latest
   notify:
-    - restart release-validation-framework-api
+    - restart rvf-api
   when: release_validation_framework_api_version == 'latest'
   tags:
     - ihtsdo-asset
 
-- name: Install release-validation-framework-api package specific version
-  apt: name=release-validation-framework-api={{ release_validation_framework_api_version }} state=installed
+- name: Install rvf-api package specific version
+  apt: name=rvf-api={{ release_validation_framework_api_version }} state=installed
   notify:
-    - restart release-validation-framework-api
+    - restart rvf-api
   when: release_validation_framework_api_version != 'installed' and release_validation_framework_api_version != 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Configure
-  template: src=config.properties.j2 dest=/etc/opt/release-validation-framework-api/config.properties
-            owner=root group=release-validation-framework-api mode=0640
+  template: src=config.properties.j2 dest=/etc/opt/rvf-api/config.properties
+            owner=root group=rvf-api mode=0640
   notify:
-    - restart release-validation-framework-api
+    - restart rvf-api
   tags:
     - ihtsdo-asset
