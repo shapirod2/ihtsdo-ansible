@@ -1,0 +1,37 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+
+- name: Install release-validation-framework-api package
+  apt: name=release-validation-framework-api state=installed
+  notify:
+    - restart release-validation-framework-api
+  when: release_validation_framework_api_version == 'installed'
+  tags:
+    - ihtsdo-asset
+
+- name: Install latest release-validation-framework-api package
+  apt: name=release-validation-framework-api state=latest
+  notify:
+    - restart release-validation-framework-api
+  when: release_validation_framework_api_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install release-validation-framework-api package specific version
+  apt: name=release-validation-framework-api={{ release_validation_framework_api_version }} state=installed
+  notify:
+    - restart release-validation-framework-api
+  when: release_validation_framework_api_version != 'installed' and release_validation_framework_api_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure
+  template: src=config.properties.j2 dest=/etc/opt/release-validation-framework-api/config.properties
+            owner=root group=release-validation-framework-api mode=0640
+  notify:
+    - restart release-validation-framework-api
+  tags:
+    - ihtsdo-asset

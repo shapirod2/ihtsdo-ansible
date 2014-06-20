@@ -1,0 +1,7 @@
+---
+release_validation_framework_web_version: latest
+release_validation_framework_web_api_url: http://localhost:10003/api
+release_validation_framework_web_nginx_servername: release_validation_framework_web
+release_validation_framework_web_nginx_ssl_cert_file_dest: /etc/ssl/certs/release-validation-framework-web.crt
+release_validation_framework_web_nginx_ssl_key_file_dest: /etc/ssl/private/release-validation-framework-web.key
+release_validation_framework_web_nginx_default_site: false
