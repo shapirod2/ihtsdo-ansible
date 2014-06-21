@@ -1,0 +1,17 @@
+# {{ ansible_managed }}
+{
+        "db": {
+                "port": {{ mongod_port }},
+                "host": "{{ mongod_server }}"
+        },
+        "server": {
+                "port": 3000,
+                "address": "0.0.0.0"
+        },
+        "accessControl": {
+                "allowOrigin": "*",
+                "allowMethods": "GET,POST,PUT,DELETE,HEAD,OPTIONS"
+        },
+        "flavor": "nounderscore",
+        "debug": true
+}
