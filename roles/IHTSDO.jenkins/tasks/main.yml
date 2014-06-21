@@ -27,6 +27,7 @@
   with_items:
     - jenkins
     - "{{ jenkins_java_package }}"
+    - nodejs
   when: ansible_os_family == 'Debian'
   notify:
     - restart jenkins
