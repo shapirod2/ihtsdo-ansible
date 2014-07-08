@@ -5,4 +5,4 @@ snomed_release_service_api_s3Offline_bucketsPath: /var/opt/snomed-release-servic
 snomed_release_service_api_aws_key: ''
 snomed_release_service_api_aws_privateKey: ''
 snomed_release_service_api_encryption_salt: 2276a0a6bdb76a1e
-idGenerator.url: http://mgr.servers.aceworkspace.net:50002/axis2/services/id_generator
+snomed_release_service_api_idGenerator_url: http://mgr.servers.aceworkspace.net:50002/axis2/services/id_generator
