@@ -29,7 +29,7 @@
     - ihtsdo-asset
 
 - name: Configure SSH Tunnel
-  template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d
+  template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d/srs-id-gen-tunnel.conf
             owner=root group=root mode=0644
   notify:
     - restart srs-id-gen-tunnel
