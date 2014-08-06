@@ -32,7 +32,7 @@
   template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d/srs-id-gen-tunnel.conf
             owner=root group=root mode=0644
   notify:
-    - restart srs-id-gen-tunnel
+    - restart snomed-release-service-api-id-gen-tunnel
   tags:
     - ihtsdo-asset
 

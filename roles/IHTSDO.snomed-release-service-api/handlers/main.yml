@@ -1,3 +1,6 @@
 ---
 - name: restart snomed-release-service-api
   supervisorctl: name=snomed-release-service-api state=restarted
+
+- name: restart snomed-release-service-api-id-gen-tunnel
+  supervisorctl: name=srs-id-gen-tunnel state=restarted
