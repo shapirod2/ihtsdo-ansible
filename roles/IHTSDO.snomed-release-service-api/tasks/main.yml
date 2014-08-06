@@ -28,6 +28,14 @@
   tags:
     - ihtsdo-asset
 
+- name: Configure SSH Tunnel
+  template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d
+            owner=root group=root mode=0644
+  notify:
+    - restart srs-id-gen-tunnel
+  tags:
+    - ihtsdo-asset
+
 - name: Configure
   template: src=config.properties.j2 dest=/etc/opt/snomed-release-service-api/config.properties
             owner=root group=snomed-release-service-api mode=0640

@@ -1,0 +1,9 @@
+[program:srs-id-gen-tunnel]
+; SSH Tunnel to the ID Generator SOAP interface
+command = ssh -L{{ snomed_release_service_id_gen_tunnel_local_port }}:{{ snomed_release_service_id_gen_tunnel_target_hostname }}:{{ snomed_release_service_id_gen_tunnel_target_port }} {{ snomed_release_service_id_gen_tunnel_proxy }} -l {{ snomed_release_service_id_gen_tunnel_username }}
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760
