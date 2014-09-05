@@ -1,0 +1,25 @@
+# This playbook will do some initial configuration of Vagrant
+# boxes to make them suitable for subsequent full configuration
+# runs of the (production) playbooks.
+# If pub key incorrect Get latest key from : 
+# https://github.com/mitchellh/vagrant/blob/master/keys/vagrant.pub
+---
+- hosts: all
+  user: vagrant
+  sudo: yes
+  tasks:
+  - name: Install vagrant public key for root
+    authorized_key: state=present
+                    user=root
+                    key="{{ lookup('file', 'roles/vagrant/files/vagrant.pub') }}"
+- hosts: all
+  user: root
+  sudo: true
+  vars:
+    user_accounts_skip_sshd: true
+  roles:
+    - IHTSDO.user-accounts
+    - laggyluke.hostname
+    - knopki.timezone
+    - IHTSDO.harden
+    - Ansibles.fail2ban                    
