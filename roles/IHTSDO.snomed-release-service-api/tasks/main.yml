@@ -28,6 +28,18 @@
   tags:
     - ihtsdo-asset
 
+- name: Install SSH Public Key
+  template: src=id_rsa.pub.j2 dest=/root/.ssh/id_rsa.pub
+            owner=root group=root mode=0600
+  tags:
+    - ihtsdo-asset
+
+- name: Install SSH Private Key
+  template: src=id_rsa.j2 dest=/root/.ssh/id_rsa
+            owner=root group=root mode=0600
+  tags:
+    - ihtsdo-asset
+
 - name: Configure SSH Tunnel
   template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d/srs-id-gen-tunnel.conf
             owner=root group=root mode=0644
