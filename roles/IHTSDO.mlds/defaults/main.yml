@@ -1,0 +1,9 @@
+---
+mlds_version: latest
+mlds_nginx_ssl_cert_file_dest: /etc/ssl/certs/mlds.crt
+mlds_nginx_ssl_key_file_dest: /etc/ssl/private/mlds.key
+
+otf_user_module_security_web_fqdn: otf-user-module-security-web
+otf_user_module_security_web_default_site: true
+otf_user_module_security_web_url: http://localhost:10001/
+
