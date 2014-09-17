@@ -1,7 +1,11 @@
 ---
 snomed_release_service_api_version: latest
-snomed_release_service_api_offlineMode: true
+snomed_release_service_api_offlineMode: false
 snomed_release_service_api_s3Offline_bucketsPath: /var/opt/snomed-release-service-api/offline_bucket
 snomed_release_service_api_aws_key: ''
 snomed_release_service_api_aws_privateKey: ''
 snomed_release_service_api_encryption_salt: 2276a0a6bdb76a1e
+snomed_release_service_api_idGenerator_url: http://mgr.servers.aceworkspace.net:50002/axis2/services/id_generator
+snomed_release_service_api_releaseValidationFramework_url: http://localhost/rvf/api/v1
+snomed_release_service_api_file_processing_failure_max_retries: 3
+

@@ -1,0 +1,60 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install snomed-interaction-components package
+  apt: name=snomed-interaction-components state=installed
+  notify:
+    - reload nginx
+  when: snomed_interaction_components_version == 'installed'
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install latest snomed-interaction-components package
+  apt: name=snomed-interaction-components state=latest
+  notify:
+    - reload nginx
+  when: snomed_interaction_components_version == 'latest'
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install snomed-interaction-components package
+  apt: name=snomed-interaction-components={{ snomed_interaction_components_version }} state=installed
+  notify:
+    - reload nginx
+  when: snomed_interaction_components_version != 'installed' and snomed_interaction_components_version != 'latest'
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install SSL cert
+  copy: src={{ snomed_interaction_components_nginx_ssl_cert_file }} dest={{ snomed_interaction_components_nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Install SSL key
+  copy: src={{ snomed_interaction_components_nginx_ssl_key_file }} dest={{ snomed_interaction_components_nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+
+- name: Configure nginx service
+  template: src=nginx_conf.j2 dest=/etc/nginx/conf.d/snomed-interaction-components.conf
+            owner=root group=root mode=0644
+  notify:
+    - reload nginx
+  tags:
+    - ihtsdo-asset
+    - nginx

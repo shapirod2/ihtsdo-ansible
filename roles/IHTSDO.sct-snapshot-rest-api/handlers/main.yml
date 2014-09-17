@@ -1,0 +1,3 @@
+---
+- name: restart sct-snapshot-rest-api
+  supervisorctl: name=sct-snapshot-rest-api state=restarted

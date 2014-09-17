@@ -1,0 +1,16 @@
+# This role is work in progress
+---
+  - hosts: sct_snapshot_rest_api:snomed_interaction_components
+    sudo: true
+    roles:
+      - IHTSDO.user-accounts
+
+  - hosts: sct_snapshot_rest_api
+    sudo: true
+    roles:
+      - IHTSDO.sct-snapshot-rest-api
+
+  - hosts: snomed_interaction_components
+    sudo: true
+    roles:
+      - IHTSDO.snomed-interaction-components

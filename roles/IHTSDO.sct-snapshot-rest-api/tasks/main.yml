@@ -1,0 +1,37 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+
+- name: Install sct-snapshot-rest-api package
+  apt: name=sct-snapshot-rest-api state=installed
+  notify:
+    - restart sct-snapshot-rest-api
+  when: sct_snapshot_rest_api_version == 'installed'
+  tags:
+    - ihtsdo-asset
+
+- name: Install latest sct-snapshot-rest-api package
+  apt: name=sct-snapshot-rest-api state=latest
+  notify:
+    - restart sct-snapshot-rest-api
+  when: sct_snapshot_rest_api_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install sct-snapshot-rest-api package specific version
+  apt: name=sct-snapshot-rest-api={{ sct_snapshot_rest_api_version }} state=installed
+  notify:
+    - restart sct-snapshot-rest-api
+  when: sct_snapshot_rest_api_version != 'installed' and sct_snapshot_rest_api_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure
+  template: src=config.json.j2 dest=/opt/sct-snapshot-rest-api/config.json
+            owner=root group=sct-snapshot-rest-api mode=0640
+  notify:
+    - restart sct-snapshot-rest-api
+  tags:
+    - ihtsdo-asset

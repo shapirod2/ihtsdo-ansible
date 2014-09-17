@@ -1,0 +1,4 @@
+---
+sct_snapshot_rest_api_version: latest
+mongod_port: 27017
+mongod_server: 127.0.0.1
