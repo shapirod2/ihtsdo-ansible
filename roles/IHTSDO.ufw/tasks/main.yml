@@ -4,6 +4,9 @@
 
  - name: Allow SSH
    ufw: name=OpenSSH rule=allow
+ 
+ - name: Allow SSL  
+   ufw: rule=allow port=443 proto=tcp
 
  - name: Enable firewall
    ufw: state=enabled policy=deny

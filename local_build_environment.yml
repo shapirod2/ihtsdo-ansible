@@ -1,0 +1,9 @@
+---
+
+- name: sets up the local ansible
+  hosts: 127.0.0.1
+  connection: local
+  sudo: true
+  roles:
+    - IHTSDO.ansible
+    - IHTSDO.git-crypt

@@ -1,16 +1,16 @@
 #{{ ansible_managed }}
 #server {
-#  server_name {{ otf_user_module_security_web_fqdn }};
-#  listen 80 {% if otf_user_module_security_web_default_site == true %}default{% endif %};
+#  server_name {{ mlds_fqdn }};
+#  listen 80 {% if mlds_default_site == true %}default{% endif %};
 #  rewrite ^ https://$host$request_uri permanent;
 #}
 
 server {
-  server_name {{ otf_user_module_security_web_fqdn }};
-  listen 443 ssl {% if otf_user_module_security_web_default_site == true %}default{% endif %};
+  server_name {{ mlds_fqdn }};
+  listen 443 ssl {% if mlds_default_site == true %}default{% endif %};
 
-  ssl_certificate     {{ otf_user_module_security_web_nginx_ssl_cert_file_dest }};
-  ssl_certificate_key {{ otf_user_module_security_web_nginx_ssl_key_file_dest }};
+  ssl_certificate     {{ mlds_nginx_ssl_cert_file_dest }};
+  ssl_certificate_key {{ mlds_nginx_ssl_key_file_dest }};
   ssl_dhparam /etc/nginx/dhparam.pem;
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
   ssl_prefer_server_ciphers on;
@@ -21,7 +21,7 @@ server {
   add_header Strict-Transport-Security max-age=15768000;
 
   location / {
-      proxy_pass {{ otf_user_module_security_web_url }};
+      proxy_pass {{ mlds_web_url }};
       proxy_http_version 1.1;
       proxy_set_header Connection "";
       proxy_set_header Host $host;

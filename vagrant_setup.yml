@@ -12,14 +12,4 @@
     authorized_key: state=present
                     user=root
                     key="{{ lookup('file', 'roles/vagrant/files/vagrant.pub') }}"
-- hosts: all
-  user: root
-  sudo: true
-  vars:
-    user_accounts_skip_sshd: true
-  roles:
-    - IHTSDO.user-accounts
-    - laggyluke.hostname
-    - knopki.timezone
-    - IHTSDO.harden
-    - Ansibles.fail2ban                    
+        

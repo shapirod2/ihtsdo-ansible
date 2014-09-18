@@ -2,29 +2,48 @@ Initial user will be vagrant
 
 Using VagrantfilePublicNetwork as the test Vagrantfile. Adjust to suit and copy 
 to the base of your vagrant installation as Vagrantfile.
-Initial user on machine is adamf adjust examples below to suit your user name.
 
-1) Get a copy of the vagrant insecure private key and add it to your ssh:
+Initial user on machine running ansible is adamf adjust examples below to suit 
+your user name.
+
+1) cd to here (i.e. where this file is)
+
+2) Set up the inventory path etc
+
+ansible-playbook -i .local.ini setup_ansible_inventory.yml -e inventory_path=/home/adamf/git/ansible-inventory
+
+3) Get a copy of the vagrant insecure private key and add it to your ssh:
 
 COMMAND: ssh-add $HOME/.vagrant.d/insecure_private_key
 
-2) Try to logon as user vagrant
+4) Try to logon as user vagrant
 e.g. ssh vagrant@192.168.0.17
 
 If (1) has worked then you should not be asked for a password. 
 If OK then exit the ssh session.
 
-3) Edit ansible-inventory/inventory/vagrantTest to suit how you have set up 
+5) Edit ansible-inventory/inventory/vagrantTest to suit how you have set up 
 vagrant
 
-4) cd to here. 
-
-5) Add key to vagrant root so you can install as root
+6) Add key to vagrant root so you can install as root
 
 COMMAND: 
-ansible-playbook -i /home/adamf/git/ansible-inventory/inventory/vagrantTest vagrant_setup.yml
+ansible-playbook -i ./inventory/vagrantTest vagrant_setup.yml -e inventory_path=/home/adamf/git/ansible-inventory
 
-6) If destroying & rebuilding vagrant you may have to remove the old known host.
+7) Su to root 
+COMMAND: 
+sudo su
+
+8) set up the vagrant key for root.
+COMMAND: eval `ssh-agent -s`
+COMMAND: ssh-add $HOME/.vagrant.d/insecure_private_key
+
+9) Setup the system
+
+COMMAND: 
+ansible-playbook -i ./inventory/vagrantTest system_setup.yml -e inventory_path=/home/adamf/git/ansible-inventory
+
+10) If destroying & rebuilding vagrant you may have to remove the old known host.
 
 COMMAND: ssh-keygen -f "/home/adamf/.ssh/known_hosts" -R 192.168.0.17
 

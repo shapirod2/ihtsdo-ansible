@@ -1,3 +1,5 @@
+# Added the install java and super visor roles as it is common and means it does not have to be 
+# included everytime.
 ---
 - hosts: all
   sudo: true
@@ -9,3 +11,5 @@
     - knopki.timezone
     - IHTSDO.harden
     - Ansibles.fail2ban
+    - IHTSDO.supervisor
+    - IHTSDO.oraclejava
