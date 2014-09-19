@@ -49,3 +49,7 @@ COMMAND: ssh-keygen -f "/home/adamf/.ssh/known_hosts" -R 192.168.0.17
 
 Then repeat step (2) to add the host back in to your known_hosts
 
+
+re Adding users after setup just all to the all file in inventory/group_vars and run: 
+
+ansible-playbook -i ./inventory/vagrantTest users_setup.yml -e inventory_path=/home/adamf/git/ansible-inventory

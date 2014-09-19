@@ -1,0 +1,9 @@
+# Added or re-add the users.
+---
+- hosts: all
+  sudo: true
+  vars:
+    user_accounts_skip_sshd: true
+  roles:
+    - IHTSDO.user-accounts
+
