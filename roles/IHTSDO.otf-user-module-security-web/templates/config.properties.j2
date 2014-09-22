@@ -1,8 +1,7 @@
 # {{ ansible_managed }}
-{% if otf_user_module_security_web_stormpath_id is defined %}
+{% if otf_user_module_security_web_stormpath_keypath is defined %}
 UserSecurityHandler=StormPathUserSecurity
-StormPathUserSecurity.apiKey.id={{ otf_user_module_security_web_stormpath_id }}
-StormPathUserSecurity.apiKey.secret={{ otf_user_module_security_web_stormpath_secret }}
+StormPathUserSecurity.keyPath={{ otf_user_module_security_web_sp_props }}
 {% else %}
 UserSecurityHandler=XmlUserSecurity
 XmlUserSecurity.configFile=/etc/opt/otf-user-module-security-web/usersecurity.xml

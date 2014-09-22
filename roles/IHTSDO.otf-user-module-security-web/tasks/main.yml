@@ -27,6 +27,25 @@
   when: otf_user_module_security_web_version != 'installed' and otf_user_module_security_web_version != 'latest'
   tags:
     - ihtsdo-asset
+    
+- name: Set dev Stormpath properties file   
+  set_fact:
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_dev}}"
+  when: otf_user_module_security_web_sp_props_state == 'dev'
+  
+- name: Set prod Stormpath properties file   
+  set_fact:
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_prod}}"
+  when: otf_user_module_security_web_sp_props_state == 'prod'
+    
+- name: Install Stormpath properties file
+  copy: src={{ otf_user_module_security_web_stormpath_keypath }} dest={{otf_user_module_security_web_sp_props}}
+          owner=root group=root mode=0644  
+  when: otf_user_module_security_web_stormpath_keypath is defined
+  notify:
+    - restart otf-user-module-security-web
+  tags:
+    - ihtsdo-asset 
 
 - name: Configure
   template: src=config.properties.j2 dest=/etc/opt/otf-user-module-security-web/config.properties

@@ -2,4 +2,4 @@
   - hosts: otf_user_module_security_web
     sudo: true
     roles:
-      - IHTSDO.otf-user-module-security-web
+      - IHTSDO.otf-user-module-security-web 

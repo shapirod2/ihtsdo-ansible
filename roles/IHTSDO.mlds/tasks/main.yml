@@ -92,4 +92,10 @@
       - restart nginx
     tags:
       - ihtsdo-asset
-      - nginx                     
+      - nginx    
+      
+  - name: Allow PostGreSQL through the firewall  
+    ufw: rule=allow port=5432 proto=any
+  
+  - name: Reload the firewall  
+    ufw: state=reloaded                         

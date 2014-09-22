@@ -85,10 +85,7 @@
 - name: allow HTTPS traffic
   ufw: name='Nginx HTTPS' rule=allow
   when: nginx_ufw_allow_https == true
-  
-- name: Allow PostGreSQL through the firewall  
-  ufw: rule=allow port=5432 proto=any
-  
+   
 - name: Reload the firewall  
   ufw: state=reloaded  
 
