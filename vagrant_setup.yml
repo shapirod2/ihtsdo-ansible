@@ -12,4 +12,7 @@
     authorized_key: state=present
                     user=root
                     key="{{ lookup('file', 'roles/vagrant/files/vagrant.pub') }}"
-        
+
+  - group: name=sysadmin state=present
+                
+  - user: name=vagrant groups=sysadmin                

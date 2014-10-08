@@ -4,8 +4,8 @@
 
 spring.profiles.active=dev
 
-webauth.url=https://usermanagement.ihtsdotools.org/security-web/query/
-webauth.applicationName=MLDS
+webauth.url=https://usermanagement2.ihtsdotools.org/security-web/query/
+webauth.applicationName=mlds
 
 server.port=8080
 
@@ -16,10 +16,15 @@ spring.datasource.serverName: localhost
 spring.datasource.username: mlds
 spring.datasource.password: password
 
-mail.from: mlds@mailinator.com
-mail.host: mail.intware.com
-mail.tls: false
-mail.auth: false
-#mail.user:
-#mail.password:
+spring.mail.from: mlds@ihtsdotools.org
+#spring.mail.host: mail.intware.com
+#spring.mail.tls: false
+#spring.mail.auth: false
+spring.mail.host: auth.smtp.1and1.co.uk
+spring.mail.port: 587
+spring.mail.tls: true
+spring.mail.protocol: smtp
+spring.mail.auth: true
+spring.mail.user: mlds@ihtsdotools.org
+spring.mail.password: Fy9LlDTFWD
 

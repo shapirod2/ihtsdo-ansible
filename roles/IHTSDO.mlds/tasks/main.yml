@@ -1,18 +1,22 @@
 ---
-  - name: Add PostgreSQL repository
-    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
-    sudo: yes
+#  - name: Add PostgreSQL repository
+#    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
+#    sudo: yes
  
-  - name: Add PostgreSQL repository key
-    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
-    sudo: yes
+#  - name: Add PostgreSQL repository key
+#    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
+#    sudo: yes
  
   - name: Update apt cache
     apt: update_cache=yes
     sudo: yes
 
   - name: ensure postgres is installed
-    apt: pkg=postgresql-9.1 state=latest
+    apt: pkg=postgresql state=latest
+#    apt: pkg=postgresql-9.1 state=latest
+
+  - name: ensure postgres contrib/Adminpack is installed
+    apt: pkg=postgresql-contrib state=latest
 
   - name: ansible postgres python deps
     apt: pkg=python-psycopg2
@@ -28,7 +32,11 @@
                      lc_collate=en_US.UTF-8
                      lc_ctype=en_US.UTF-8
                      template='template0'
-                     
+ 
+  - name: create admin pack extension
+    sudo_user: postgres
+    action: command psql -c 'CREATE EXTENSION adminpack;' 
+    ignore_errors: True                    
 
   - name: Apt cache update
     apt: update_cache=yes cache_valid_time=120

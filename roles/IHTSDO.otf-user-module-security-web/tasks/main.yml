@@ -30,13 +30,18 @@
     
 - name: Set dev Stormpath properties file   
   set_fact:
-       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_dev}}"
-  when: otf_user_module_security_web_sp_props_state == 'dev'
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_md1}}"
+  when: otf_user_module_security_web_sp_props_state == 'md1'
   
 - name: Set prod Stormpath properties file   
   set_fact:
-       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_prod}}"
-  when: otf_user_module_security_web_sp_props_state == 'prod'
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_vt}}"
+  when: otf_user_module_security_web_sp_props_state == 'vt'
+  
+- name: Set prod Stormpath properties file   
+  set_fact:
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_ym}}"
+  when: otf_user_module_security_web_sp_props_state == 'ym'
     
 - name: Install Stormpath properties file
   copy: src={{ otf_user_module_security_web_stormpath_keypath }} dest={{otf_user_module_security_web_sp_props}}
