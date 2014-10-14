@@ -1,9 +1,11 @@
 
 # Install the package "mysql-server"
-- apt: name=mysql-server,  state=present
+- name: Install mysql server
+  apt: name=mysql-server state=present
 
 # Install the package "python-mysqldb"
-- apt: name=python-mysqldb state=present
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
 
 # Create a new database with name 'rvf'
 - mysql_db: name=rvf state=present
