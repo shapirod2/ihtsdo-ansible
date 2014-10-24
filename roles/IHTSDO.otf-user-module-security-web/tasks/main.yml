@@ -28,20 +28,25 @@
   tags:
     - ihtsdo-asset
     
-- name: Set dev Stormpath properties file   
+- name: Set meticulous-dreadnaught1 Stormpath properties file   
   set_fact:
        otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_md1}}"
   when: otf_user_module_security_web_sp_props_state == 'md1'
   
-- name: Set prod Stormpath properties file   
+- name: Set vertical-thunder Stormpath properties file   
   set_fact:
        otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_vt}}"
   when: otf_user_module_security_web_sp_props_state == 'vt'
   
-- name: Set prod Stormpath properties file   
+- name: Set youthful-musket Stormpath properties file   
   set_fact:
        otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_ym}}"
   when: otf_user_module_security_web_sp_props_state == 'ym'
+  
+- name: Set wise-atom Stormpath properties file   
+  set_fact:
+       otf_user_module_security_web_stormpath_keypath: "{{otf_user_module_security_web_sp_props_file_wa}}"
+  when: otf_user_module_security_web_sp_props_state == 'wa'
     
 - name: Install Stormpath properties file
   copy: src={{ otf_user_module_security_web_stormpath_keypath }} dest={{otf_user_module_security_web_sp_props}}

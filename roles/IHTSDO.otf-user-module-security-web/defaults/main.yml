@@ -1,5 +1,5 @@
 ---
-otf_user_module_security_web_sp_props_state: ym 
+otf_user_module_security_web_sp_props_state: wa 
 
 otf_user_module_security_web_version: latest
 otf_user_module_security_web_fqdn: otf-user-module-security-web
@@ -14,3 +14,4 @@ otf_user_module_security_web_sp_props: /etc/opt/otf-user-module-security-web/sto
 otf_user_module_security_web_sp_props_file_md1: files/stormpath/apiKey-meticulous-dreadnaught1.key
 otf_user_module_security_web_sp_props_file_vt: files/stormpath/apiKey-vertical-thunder.key
 otf_user_module_security_web_sp_props_file_ym: files/stormpath/apiKey-youthful-musket.key
+otf_user_module_security_web_sp_props_file_wa: files/stormpath/wise-atom.key

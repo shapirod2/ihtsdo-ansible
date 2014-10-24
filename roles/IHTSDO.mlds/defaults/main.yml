@@ -7,3 +7,5 @@ mlds_fqdn: mlds
 mlds_default_site: true
 mlds_web_url: http://localhost:8080/
 
+mlds_drop_db: false
+

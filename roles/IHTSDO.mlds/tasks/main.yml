@@ -20,6 +20,14 @@
 
   - name: ansible postgres python deps
     apt: pkg=python-psycopg2
+    
+  - name: stop mlds
+    supervisorctl: name=mlds state=stopped  
+    
+  - name: drop mlds db if rebuilding for testing  
+    sudo_user: postgres
+    postgresql_db: name=mlds state=absent
+    when: mlds_drop_db == true  
 
   - name: create mlds user
     sudo_user: postgres
