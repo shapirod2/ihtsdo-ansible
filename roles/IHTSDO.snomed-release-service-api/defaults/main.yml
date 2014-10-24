@@ -8,4 +8,11 @@ snomed_release_service_api_encryption_salt: 2276a0a6bdb76a1e
 snomed_release_service_api_idGenerator_url: http://mgr.servers.aceworkspace.net:50002/axis2/services/id_generator
 snomed_release_service_api_releaseValidationFramework_url: http://localhost/rvf/api/v1
 snomed_release_service_api_file_processing_failure_max_retries: 3
+telemetry_email_address_to_default: pwi@ihtsdo.org
+telemetry_email_address_from: IHTSDO Telemetry <delivery@ihtsdo.org>
+telemetry_smtp_username: 
+telemetry_smtp_password: 
+telemetry_smtp_host: 
+telemetry_smtp_port: 443
+telemetry_smtp_ssl: true
 

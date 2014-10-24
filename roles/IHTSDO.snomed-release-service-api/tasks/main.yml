@@ -3,6 +3,9 @@
   apt: update_cache=yes cache_valid_time=120
   tags:
     - ihtsdo-asset
+    
+#Setup the database so it's available before the SRS starts up.
+- include: db.yml
 
 - name: Install snomed-release-service-api package
   apt: name=snomed-release-service-api state=installed

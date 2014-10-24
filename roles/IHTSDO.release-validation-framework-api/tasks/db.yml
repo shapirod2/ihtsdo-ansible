@@ -1,0 +1,14 @@
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server state=present
+
+# Install the package "python-mysqldb"
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
+
+# Create a new database with name 'rvf'
+- mysql_db: name=rvf state=present
+
+# Creates database user 'rvf_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name=rvf_user password={{ rvf_snomed_jdbc_password }} priv=*.*:ALL,GRANT state=present

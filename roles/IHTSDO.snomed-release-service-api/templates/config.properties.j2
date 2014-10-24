@@ -20,3 +20,20 @@ fileProcessing.failureMaxRetry = {{ snomed_release_service_api_file_processing_f
 
 executionBucketName = {{ snomed_release_service_api_aws_executionBucketName }}
 publishedBucketName = {{ snomed_release_service_api_aws_publishedBucketName }}
+
+#Default email address for Telemetry Server to contact when a service reports an exception 
+#TODO Allow for contacts to be specified on a per service basis
+telemetry.email.address.to.default = {{ telemetry_email_address_to_default }}
+telemetry.email.address.from = {{ telemetry_email_address_from }}
+telemetry.smtp.username = {{ telemetry_smtp_username }}
+telemetry.smtp.password = {{ telemetry_smtp_password }}
+telemetry.smtp.host = {{ telemetry_smtp_host }}
+telemetry.smtp.port = {{ telemetry_smtp_port }}
+telemetry.smtp.ssl = {{ telemetry_smtp_ssl }}
+
+srs.jdbc.driverClassName = {{ srs_jdbc_driverClassName }}
+srs.jdbc.url = {{ srs_jdbc_url }}
+srs.jdbc.username = {{ srs_jdbc_username }}
+srs.jdbc.password = {{ srs_jdbc_password }}
+srs.hibernate.dialect = {{ srs_hibernate_dialect }}
+
