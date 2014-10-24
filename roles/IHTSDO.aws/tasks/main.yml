@@ -1,0 +1,14 @@
+---
+- name: Install AWS CLI
+  user: ubuntu
+  sudo: True
+  hosts: all
+  tasks:
+    - name: Install Python PIP
+      apt: pkg=python-pip state=latest
+
+    - name: Install boto via PIP
+      pip: name=boto state=latest
+
+    - name: Install AWS CLI
+      pip: name=awscli state=latest
