@@ -1,0 +1,5 @@
+---
+  - hosts: mlds
+    sudo: true
+    roles:
+      - IHTSDO.aws

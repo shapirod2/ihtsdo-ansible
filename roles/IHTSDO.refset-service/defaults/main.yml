@@ -1,0 +1,11 @@
+---
+refset_service_version: latest
+refset_service_nginx_ssl_cert_file_dest: /etc/ssl/certs/refset_service.crt
+refset_service_nginx_ssl_key_file_dest: /etc/ssl/private/refset_service.key
+
+refset_service_fqdn: refset_service
+refset_service_default_site: true
+refset_service_web_url: http://localhost:8080/
+
+
+
