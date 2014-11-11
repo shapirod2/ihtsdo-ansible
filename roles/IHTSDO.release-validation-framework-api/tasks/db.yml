@@ -11,4 +11,4 @@
 - mysql_db: name=rvf state=present
 
 # Creates database user 'rvf_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name=rvf_user password={{ rvf_snomed_jdbc_password }} priv=*.*:ALL,GRANT state=present
+- mysql_user: name=rvf_user password={{ rvf_jdbc_password }} priv=*.*:ALL,GRANT state=present
