@@ -74,7 +74,7 @@
   file: path=/etc/nginx/sites-enabled/default state=absent
 
 - name: start the nginx service
-  service: name=nginx state=started enabled=yes
+  service: name=nginx state=started 
   tags:
     - nginx
 
