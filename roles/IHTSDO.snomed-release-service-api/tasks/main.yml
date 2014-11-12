@@ -58,3 +58,14 @@
     - restart snomed-release-service-api
   tags:
     - ihtsdo-asset
+
+ - name: Specify Environment
+   replace:
+      dest=/etc/supervisor/conf.d/snomed-release-service-api.conf
+      regexp='TBC'
+      replace='{{ environment_shortname }}'
+   notify:
+     - restart snomed-release-service-api
+   tags:
+     - ihtsdo-asset
+
