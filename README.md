@@ -24,6 +24,12 @@ $ ansible-playbook -i inventory/live.ini build_environment.yml
 
 You can also specific the user to login as with -u <username>.
 
+## Setting up a new machine
+```sh
+ansible-playbook -i inventory/<INVENTORY_FILE.ini> system_setup.yml -u <username> --limit <machine>
+```
+see https://github.com/IHTSDO/ops-docs/wiki
+
 ## SSH
 
 Ansible uses SSH as a transports. These means you can use ~/.ssh/config to set connection defaults. It's useful to add lines such as 
