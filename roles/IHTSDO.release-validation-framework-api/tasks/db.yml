@@ -7,8 +7,8 @@
 - name: Install mysql python helper
   apt: name=python-mysqldb state=present
 
-# Create a new database with name 'rvf'
-- mysql_db: name=rvf state=present
+# Create a new database with name specified per host
+- mysql_db: name={{ rvf_master_schema_name }} state=present
 
 # Creates database user 'rvf_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name=rvf_user password={{ rvf_jdbc_password }} priv=*.*:ALL,GRANT state=present
+- mysql_user: name={{ rvf_jdbc_username }} password={{ rvf_jdbc_password }} priv=*.*:ALL,GRANT state=present
