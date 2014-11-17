@@ -1,0 +1,13 @@
+---
+refsetFrontend_version: latest
+
+
+refsetFrontend_fqdn: refsetFrontend
+refsetFrontend_default_site: true
+refsetFrontend_web_url: http://localhost:8080/
+
+
+
+refsetFrontend_folder: /etc/opt/{{refsetFrontend_fqdn}}
+
+refsetFrontend_userman_url: https://usermanagement3.ihtsdotools.org/query

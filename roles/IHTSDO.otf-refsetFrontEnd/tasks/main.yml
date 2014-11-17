@@ -1,0 +1,26 @@
+---
+  - name: Update apt cache
+    apt: update_cache=yes
+    sudo: yes
+   
+  - name: Install refsetFrontend package
+    apt: name=refsetFrontend state=installed
+    when: refsetFrontend_version == 'installed'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install latest refsetFrontend package
+    apt: name=refsetFrontend state=latest
+    when: refsetFrontend_version == 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install refsetFrontend package specific version
+    apt: name=refsetFrontend={{ refsetFrontend_version }} state=installed
+    when: refsetFrontend_version != 'installed' and refsetFrontend_version != 'latest'
+    tags:
+      - ihtsdo-asset
+
+ 
+  - name: Reload the firewall  
+    ufw: state=reloaded                         
