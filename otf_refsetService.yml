@@ -2,4 +2,4 @@
   - hosts: refset-service
     sudo: true
     roles:
-      - IHTSDO.refset-service
+      - IHTSDO.refsetService

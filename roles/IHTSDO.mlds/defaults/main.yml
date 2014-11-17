@@ -7,5 +7,10 @@ mlds_fqdn: mlds
 mlds_default_site: true
 mlds_web_url: http://localhost:8080/
 
+mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
+mlds_webauth_url_dev: https://localhost/security-web/query/
+
 mlds_drop_db: false
+
+dev_instance: true
 
