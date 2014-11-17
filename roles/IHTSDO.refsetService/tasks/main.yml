@@ -23,11 +23,75 @@
     apt: name=cassandra=2.0.11 state=present
     #apt: name=cassandra state=latest
 
+  - name: start cassandra
+    service: name=cassandra state=started
+
   - name: ensure dsc20 is installed
     apt: name=dsc20 state=latest
     
   - name: ensure elasticsearch 1.2.1 is installed
     apt: name=elasticsearch=1.2.1 state=present
+    
+  - name: start elasticsearch
+    service: name=elasticsearch state=started
+    
+  - name: stop refsetService
+    supervisorctl: name=refsetService state=stopped  
+                     
+  - name: Apt cache update
+    apt: update_cache=yes cache_valid_time=120
+    tags:
+      - ihtsdo-asset
+      
+  - debug: msg="refsetService_version =  {{ refsetService_version }} "     
+
+  - name: Install refsetService package
+    apt: name=refsetService state=installed
+    notify:
+      - restart refsetService
+    when: refsetService_version == 'installed'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install latest refsetService package
+    apt: name=refsetService state=latest
+    notify:
+      - restart refsetService
+    when: refsetService_version == 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install refsetService package specific version
+    apt: name=refsetService={{ refsetService_version }} state=installed
+    notify:
+      - restart refsetService
+    when: refsetService_version != 'installed' and refsetService_version != 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Configure refset.properties 
+    template: src=refset-config.properties.j2 dest={{refsetService_folder}}/refset-config.properties
+              owner=root group=refsetService mode=0640                       
+    notify:
+      - restart refsetService
+    tags:
+      - ihtsdo-asset
+      
+  - name: Configure refset graph properties
+    template: src=refset-graph-es-dev.properties.j2 dest={{refsetService_folder}}/refset-graph-es.properties
+              owner=root group=refsetService mode=0640                     
+    notify:
+      - restart refsetService
+    tags:
+      - ihtsdo-asset
+      
+  - name: Configure snomed graph properties
+    template: src=snomed-graph-es-dev.properties.j2 dest={{refsetService_folder}}/snomed-graph-es.properties
+              owner=root group=refsetService mode=0640                        
+    notify:
+      - restart refsetService
+    tags:
+      - ihtsdo-asset
 
   - name: Install SSL cert
     copy: src={{ otf_refsetService_nginx_ssl_cert_file }} dest={{ refsetService_nginx_ssl_cert_file_dest }}
@@ -48,74 +112,13 @@
       - nginx
 
   - name: Configure nginx
-    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/refset-service.conf
-              owner=root group=refset-service mode=0640
+    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/refsetService.conf
+              owner=root group=refsetService mode=0640
     notify:
       - restart nginx
     tags:
       - ihtsdo-asset
       - nginx 
-
-    
-  - name: stop refset-service
-    supervisorctl: name=refset-service state=stopped  
-                     
-  - name: Apt cache update
-    apt: update_cache=yes cache_valid_time=120
-    tags:
-      - ihtsdo-asset
-      
-  - debug: msg="refsetService_version =  {{ refsetService_version }} "     
-
-  - name: Install refset-service package
-    apt: name=refset-service state=installed
-    notify:
-      - restart refset-service
-    when: refsetService_version == 'installed'
-    tags:
-      - ihtsdo-asset
-
-  - name: Install latest refsetService package
-    apt: name=refset-service state=latest
-    notify:
-      - restart refset-service
-    when: refsetService_version == 'latest'
-    tags:
-      - ihtsdo-asset
-
-  - name: Install refsetService package specific version
-    apt: name=refsetService={{ refsetService_version }} state=installed
-    notify:
-      - restart refset-service
-    when: refsetService_version != 'installed' and refsetService_version != 'latest'
-    tags:
-      - ihtsdo-asset
-
-  - name: Configure refset.properties 
-    template: src=refset-dev.properties.j2 dest=/etc/opt/refsetService/refset.properties
-              owner=root group=refsetService mode=0640                       
-    notify:
-      - restart refsetService
-    tags:
-      - ihtsdo-asset
-      
-  - name: Configure refset graph properties
-    template: src=refset-graph-es-dev.properties.j2 dest=/etc/opt/refsetService/refset-graph-es.properties
-              owner=root group=refsetService mode=0640                     
-    notify:
-      - restart refsetService
-    tags:
-      - ihtsdo-asset
-      
-  - name: Configure snomed graph properties
-    template: src=snomed-graph-es-dev.properties.j2 dest=/etc/opt/refsetService/snomed-graph-es.properties
-              owner=root group=refsetService mode=0640                        
-    notify:
-      - restart refsetService
-    tags:
-      - ihtsdo-asset
-
-   
  
   - name: Reload the firewall  
     ufw: state=reloaded                         

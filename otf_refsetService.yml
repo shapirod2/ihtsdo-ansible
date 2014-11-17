@@ -1,5 +1,5 @@
 ---
-  - hosts: refset-service
+  - hosts: otf_refsetService
     sudo: true
     roles:
       - IHTSDO.refsetService
