@@ -4,3 +4,4 @@
 /inventory
 .project
 local_data
+*.iml
