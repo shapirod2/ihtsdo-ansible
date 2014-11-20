@@ -23,6 +23,14 @@ server {
   root /opt/refsetFrontend/lib/dist;
   index index.html index.htm;
   
+  set $secure off;
+  if ($scheme = https) {
+        set $secure on;
+  }
+  
+  location / {
+     try_files $uri $uri/ /index.html?/$request_uri;
+   }
 
   location /refset-api {
       proxy_pass {{ refsetService_web_url }};
@@ -42,5 +50,9 @@ server {
       proxy_set_header X-Forwarded-Proto "https";
       proxy_set_header X-Url-Scheme $scheme;
       proxy_redirect http:// https://;
+      proxy_set_header X-Forwarded-Ssl $secure;
+      proxy_set_header X-Forwarded-Host $host;
+
+      
   }
 }
