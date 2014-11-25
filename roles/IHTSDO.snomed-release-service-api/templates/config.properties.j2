@@ -18,7 +18,9 @@ idGenerator.url = {{ snomed_release_service_api_idGenerator_url }}
 
 fileProcessing.failureMaxRetry = {{ snomed_release_service_api_file_processing_failure_max_retries }}
 
+#Remove execution Bucket name once buildBucketName has deployed to Prod PGW 25/11/14
 executionBucketName = {{ snomed_release_service_api_aws_executionBucketName }}
+buildBucketName = {{ snomed_release_service_api_aws_buildBucketName }}
 publishedBucketName = {{ snomed_release_service_api_aws_publishedBucketName }}
 
 #Default email address for Telemetry Server to contact when a service reports an exception 
