@@ -1,4 +1,7 @@
 ---
+
+- debug: msg="otf_user_module_security_standalone =  {{ otf_user_module_security_standalone }} " 
+
 - name: Apt cache update
   apt: update_cache=yes cache_valid_time=120
   tags:
@@ -91,4 +94,14 @@
   tags:
     - ihtsdo-asset
     - nginx
+ 
+- name: If not standalone make sure localhost set to localhost.ihtsdo.org    
+  lineinfile: dest=/etc/hosts line="127.0.0.1 localhost.ihtsdotools.org" 
+  when:  otf_user_module_security_standalone == 'false'
+  
+- name: restart useradmin
+  supervisorctl: name={{otf_user_module_security_web_fqdn}} state=restarted
+
+- name: restart nginx
+  service: name=nginx state=restarted
 

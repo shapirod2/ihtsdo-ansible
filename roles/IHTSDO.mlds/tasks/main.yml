@@ -6,6 +6,8 @@
 #  - name: Add PostgreSQL repository key
 #    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
 #    sudo: yes
+
+
  
   - name: Update apt cache
     apt: update_cache=yes
@@ -27,7 +29,7 @@
   - name: drop mlds db if rebuilding for testing  
     sudo_user: postgres
     postgresql_db: name=mlds state=absent
-    when: mlds_drop_db == true  
+    when: mlds_drop_db == 'true'  
 
   - name: create mlds user
     sudo_user: postgres
@@ -108,10 +110,16 @@
       - restart nginx
     tags:
       - ihtsdo-asset
-      - nginx    
+      - nginx   
       
   - name: Allow PostGreSQL through the firewall  
     ufw: rule=allow port=5432 proto=any
   
   - name: Reload the firewall  
-    ufw: state=reloaded                         
+    ufw: state=reloaded   
+    
+  - name: restart mlds
+    supervisorctl: name=mlds state=restarted
+
+  - name: restart nginx
+    service: name=nginx state=restarted                          

@@ -1,0 +1,5 @@
+---
+  - hosts: mlds
+    sudo: true
+    roles:
+      - { role: IHTSDO.mlds , mlds_drop_db: 'true' }
