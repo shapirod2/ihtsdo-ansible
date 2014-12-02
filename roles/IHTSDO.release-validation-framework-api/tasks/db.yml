@@ -8,10 +8,10 @@
   apt: name=python-mysqldb state=present
 
 # Create a new database with name specified per host
-- mysql_db: name={{ rvf_master_schema_name }} state=present
+- mysql_db: name={{ rvf_master_schema_name }} state=present login_user=root login_password={{ mysql_root_password }}
 
 # Creates database user 'rvf_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name={{ rvf_jdbc_username }} password={{ rvf_jdbc_password }} priv=*.*:ALL,GRANT state=present
+- mysql_user: name={{ rvf_jdbc_username }} password={{ rvf_jdbc_password }}  login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
 
 # Configure mysql server so that table names are stored in lower case, and access is case insensitive
 - lineinfile: dest=/etc/mysql/my.cnf line="lower_case_table_names=1"

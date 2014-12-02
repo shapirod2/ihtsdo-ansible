@@ -39,4 +39,5 @@
   tags:
     - ihtsdo-asset
     
-
+- name: Create RVF data directory
+  file: path={{ rvf_data_folder_location }} state=directory
