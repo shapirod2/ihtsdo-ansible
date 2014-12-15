@@ -1,0 +1,6 @@
+---
+  - hosts: otf_user_module_security_web
+    sudo: true
+    roles:
+      - { role: IHTSDO.otf-user-module-security-web , 
+          otf_user_module_security_web_sp_props_state: md1   } 

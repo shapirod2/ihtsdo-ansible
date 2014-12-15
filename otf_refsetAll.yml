@@ -1,0 +1,6 @@
+---
+  - hosts: otf_refsetService
+    sudo: true
+    roles:
+      - IHTSDO.refsetService
+      - IHTSDO.otf-refsetFrontEnd
