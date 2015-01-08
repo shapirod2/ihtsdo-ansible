@@ -16,15 +16,14 @@ spring.datasource.serverName: localhost
 spring.datasource.username: mlds
 spring.datasource.password: password
 
-spring.mail.from: mlds@ihtsdotools.org
-#spring.mail.host: mail.intware.com
-#spring.mail.tls: false
-#spring.mail.auth: false
-spring.mail.host: auth.smtp.1and1.co.uk
-spring.mail.port: 587
-spring.mail.tls: true
-spring.mail.protocol: smtp
-spring.mail.auth: true
-spring.mail.user: mlds@ihtsdotools.org
-spring.mail.password: Fy9LlDTFWD
+#These values common to all environments so see groupvars/mlds
+spring.mail.from: {{ mlds_mail_from }}
+spring.mail.host: {{ mlds_mail_host }}
+spring.mail.port: {{ mlds_mail_port }}
+spring.mail.tls: {{ mlds_mail_tls }}
+spring.mail.protocol: {{ mlds_mail_protocol }}
+spring.mail.auth: {{ mlds_mail_auth }}
+spring.mail.user: {{ mlds_mail_user }}
+spring.mail.password: {{ mlds_mail_password }}
+
 
