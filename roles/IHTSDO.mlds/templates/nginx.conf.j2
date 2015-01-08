@@ -1,9 +1,9 @@
 #{{ ansible_managed }}
-#server {
-#  server_name {{ mlds_fqdn }};
-#  listen 80 {% if mlds_default_site == true %}default{% endif %};
-#  rewrite ^ https://$host$request_uri permanent;
-#}
+server {
+  server_name {{ mlds_fqdn }};
+  listen 80 {% if mlds_default_site == true %}default{% endif %};
+  rewrite ^ https://$host$request_uri permanent;
+}
 
 server {
   server_name {{ mlds_fqdn }};

@@ -1,9 +1,9 @@
 #{{ ansible_managed }}
-#server {
-#  server_name {{ otf_user_module_security_web_fqdn }};
-#  listen 80 {% if otf_user_module_security_web_default_site == true %}default{% endif %};
-#  rewrite ^ https://$host$request_uri permanent;
-#}
+server {
+  server_name {{ otf_user_module_security_web_fqdn }};
+  listen 80 {% if otf_user_module_security_web_default_site == true %}default{% endif %};
+  rewrite ^ https://$host$request_uri permanent;
+}
 
 server {
   server_name {{ otf_user_module_security_web_fqdn }};
