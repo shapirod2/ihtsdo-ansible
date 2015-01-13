@@ -38,5 +38,18 @@ server {
       proxy_set_header X-Forwarded-Proto "https";
       proxy_set_header X-Url-Scheme $scheme;
       proxy_redirect http:// https://;
+      
+      if ( -f /etc/opt/mlds/maintain.html){
+        return 503;
+     }
   }
+  
+error_page 503 @maintenance;
+
+location @maintenance {
+                root /etc/opt/mlds;
+                rewrite ^(.*)$ /maintain.html break;
+   }
+  
+  
 }
