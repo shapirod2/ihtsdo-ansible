@@ -1,5 +1,30 @@
+#You will need to either have a secret/encrypted repository or 
+#supply on the command line the following values:
+
+#s3accessKey & s3secret
+
+#ansible-playbook -i ~git/ansible-inventory/inventory/vagrantTest 
+#otf_mlds_backup.yml --extra-vars 
+#"s3accessKey=SOME_KEY_VAL s3secret=SOME_SECRET_VAL"
+
+# The default region is us-east-1
+
+# The values will be written into a ~/.aws/confg file 
+
 ---
   - hosts: mlds
     sudo: true
     roles:
       - IHTSDO.aws
+      - { role: IHTSDO.db-backup , 
+          db_type: pgsql ,
+          db_port: 5432 ,
+          db_admin: postgres ,
+          db_password: none ,
+          include_dbs: mlds ,
+          s3_backup_dir: "s3://prod-mlds.backup.ihtsdo" ,
+          cron_backup_hour: 0 
+             } 
+      
+      
+
