@@ -3,7 +3,7 @@
 
 #s3accessKey & s3secret
 
-#ansible-playbook -i ~git/ansible-inventory/inventory/vagrantTest 
+#ansible-playbook -i ~/git/ansible-inventory/inventory/vagrantTest 
 #otf_mlds_backup.yml --extra-vars 
 #"s3accessKey=SOME_KEY_VAL s3secret=SOME_SECRET_VAL"
 
