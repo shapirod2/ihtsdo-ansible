@@ -1,10 +1,24 @@
 ---
 
-- name: Install Python PIP
-  apt: pkg=python-pip state=latest
+#- name: Install Python PIP
+#  apt: pkg=python-pip state=latest
 
-- name: Install boto via PIP
-  pip: name=boto state=latest
+#- name: Install boto via PIP
+#  pip: name=boto state=latest
 
-- name: Install AWS CLI
-  pip: name=awscli state=latest
+#- name: Install AWS CLI
+#  pip: name=awscli state=latest
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+- name: ensure AWS CLI is installed
+  apt: pkg=awscli state=latest
+  
+- name: Assures ~/.aws dir exists
+  file: path=~/.aws state=directory
+  
+- name: Create config file in .aws
+  template: src=s3config.j2 dest=~/.aws/config mode=0600
+  when: s3accessKey is defined   
