@@ -1,0 +1,54 @@
+---
+  - name: Update apt cache
+    apt: update_cache=yes
+    sudo: yes
+   
+  - name: Install static-web-content package
+    apt: name=static-web-content state=installed
+    when: static-web-content_version == 'installed'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install latest static-web-content package
+    apt: name=static-web-content state=latest
+    when: static-web-content_version == 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install static-web-content package specific version
+    apt: name=static-web-content={{ static-web-content_version }} state=installed
+    when: static-web-content_version != 'installed' and static-web-content_version != 'latest'
+    tags:
+      - ihtsdo-asset
+      
+      
+      - name: Install SSL cert
+    copy: src={{ devops_nginx_ssl_cert_file }} dest={{ devops_nginx_ssl_cert_file_dest }}
+          owner=root group=root mode=0644
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx
+
+  - name: Install SSL key
+    copy: src={{ devops_nginx_ssl_key_file }} dest={{ devops_nginx_ssl_key_file_dest }}
+          owner=root group=root mode=0600
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx
+
+  - name: Configure nginx
+    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/devops.conf
+              owner=root group=devops mode=0640
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx   
+
+ 
+  - name: Reload the firewall  
+    ufw: state=reloaded                         

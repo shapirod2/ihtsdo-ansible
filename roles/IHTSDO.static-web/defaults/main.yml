@@ -1,0 +1,12 @@
+---
+static-web-content_version: latest
+devops_nginx_ssl_cert_file_dest: /etc/ssl/certs/devops.crt
+devops_nginx_ssl_key_file_dest: /etc/ssl/private/devops.key
+
+devops_fqdn: devops
+devops_default_site: true
+
+static-web-content_name: static-web-content
+
+
+devops_folder: /etc/opt/{{devops_fqdn}}
