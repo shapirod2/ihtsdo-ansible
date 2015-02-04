@@ -1,0 +1,5 @@
+---
+  - hosts: static_web
+    sudo: true
+    roles:
+      - IHTSDO.static-web   
