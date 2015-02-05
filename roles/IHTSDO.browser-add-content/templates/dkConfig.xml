@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <defaultTermLangCode>da</defaultTermLangCode>
+    <defaultTermDescriptionType>900000000000013009</defaultTermDescriptionType>
+    <defaultTermLanguageRefset>554461000005103</defaultTermLanguageRefset>
+    <normalizeTextIndex>true</normalizeTextIndex>
+    <editionName>Danish Edition</editionName>
+    <databaseName>dk-edition</databaseName>
+    <effectiveTime>20141001</effectiveTime>
+    <expirationTime>20150201</expirationTime>
+    <outputFolder>da-edition</outputFolder>
+    <foldersBaselineLoad>
+	<folder>/Users/termmed/Downloads/Releases/SnomedCT_Release_INT_20140131/RF2Release/Snapshot</folder>
+        <folder>/Users/termmed/Downloads/content-processing-3.2.0-prod-1.0-SNAPSHOT-release-files/SnomedCT_Release_DK1000005_20141001/RF2Release/Snapshot</folder>
+    </foldersBaselineLoad>
+    <modulesToIgnoreBaselineLoad>
+    </modulesToIgnoreBaselineLoad>
+    <foldersExtensionLoad>
+       
+    </foldersExtensionLoad>
+    <modulesToIgnoreExtensionLoad>
+    </modulesToIgnoreExtensionLoad>
+	<processInMemory>true</processInMemory>
+	<createCompleteConceptsFile>false</createCompleteConceptsFile>
+</config>

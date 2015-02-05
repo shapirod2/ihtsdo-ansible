@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <defaultTermLangCode>es</defaultTermLangCode>
+    <defaultTermDescriptionType>900000000000003001</defaultTermDescriptionType>
+    <defaultTermLanguageRefset>450828004</defaultTermLanguageRefset>
+    <normalizeTextIndex>true</normalizeTextIndex>
+    <editionName>Spanish Edition</editionName>
+    <databaseName>es-edition</databaseName>
+    <effectiveTime>20140430</effectiveTime>
+    <expirationTime>20150201</expirationTime>
+    <outputFolder>es-edition/</outputFolder>
+    <foldersBaselineLoad>
+	<folder>SnomedCT_Release_INT_20140131/RF2Release/Snapshot</folder>
+        <folder>SnomedCT_Release-es_INT_20140430/RF2Release/Snapshot</folder>
+    </foldersBaselineLoad>
+    <modulesToIgnoreBaselineLoad>
+    </modulesToIgnoreBaselineLoad>
+    <foldersExtensionLoad>
+       
+    </foldersExtensionLoad>
+    <modulesToIgnoreExtensionLoad>
+    </modulesToIgnoreExtensionLoad>
+	<processInMemory>true</processInMemory>
+	<createCompleteConceptsFile>false</createCompleteConceptsFile>
+</config>

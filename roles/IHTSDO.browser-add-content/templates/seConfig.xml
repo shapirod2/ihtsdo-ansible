@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <defaultTermLangCode>sv</defaultTermLangCode>
+    <defaultTermDescriptionType>900000000000013009</defaultTermDescriptionType>
+    <defaultTermLanguageRefset>46011000052107</defaultTermLanguageRefset>
+    <normalizeTextIndex>false</normalizeTextIndex>
+    <editionName>Swedish Edition</editionName>
+    <databaseName>se-edition</databaseName>
+    <effectiveTime>20140531</effectiveTime>
+    <expirationTime>20150201</expirationTime>
+    <outputFolder>se-edition</outputFolder>
+    <foldersBaselineLoad>
+	<folder>SnomedCT_Release_INT_20140131/RF2Release/Snapshot</folder>
+        <folder>SnomedCT_Release_SE1000052_20140531/RF2Release/Snapshot</folder>
+    </foldersBaselineLoad>
+    <modulesToIgnoreBaselineLoad>
+    </modulesToIgnoreBaselineLoad>
+    <foldersExtensionLoad>
+       
+    </foldersExtensionLoad>
+    <modulesToIgnoreExtensionLoad>
+    </modulesToIgnoreExtensionLoad>
+	<processInMemory>true</processInMemory>
+	<createCompleteConceptsFile>false</createCompleteConceptsFile>
+</config>

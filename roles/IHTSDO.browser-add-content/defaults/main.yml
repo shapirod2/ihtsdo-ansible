@@ -1,0 +1,15 @@
+---
+
+normalizeTextIndex: true
+effectiveTime:
+expirationTime:
+
+outputFolder: /opt/output
+foldersBaselineLoad_1:
+foldersBaselineLoad_2:
+
+processInMemory: true
+createCompleteConceptsFile: false
+
+browserImport_version: latest
+
