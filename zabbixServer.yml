@@ -1,0 +1,5 @@
+---
+  - hosts: devops
+    sudo: true
+    roles:
+      - ansible-zabbix_server-master   
