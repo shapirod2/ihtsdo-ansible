@@ -21,34 +21,5 @@
     tags:
       - ihtsdo-asset
       
-      
-  - name: Install SSL cert
-    copy: src={{ static_web_nginx_ssl_cert_file }} dest={{ static_web_nginx_ssl_cert_file_dest }}
-          owner=root group=root mode=0644
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
-
-  - name: Install SSL key
-    copy: src={{ static_web_nginx_ssl_key_file }} dest={{ static_web_nginx_ssl_key_file_dest }}
-          owner=root group=root mode=0600
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
-
-  - name: Configure nginx
-    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/static_web.conf
-              owner=root group=root mode=0640
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx   
-
- 
   - name: Reload the firewall  
     ufw: state=reloaded                         

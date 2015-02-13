@@ -2,4 +2,5 @@
   - hosts: static_web
     sudo: true
     roles:
-      - IHTSDO.static-web   
+      - IHTSDO.static-web 
+      - IHTSDO.nginx-std  

@@ -55,7 +55,7 @@ server {
 
   }
   
-  error_page 503 @maintenance;
+error_page 503 @maintenance;
 
 location @maintenance {
                 root {{MAINTDIR}};

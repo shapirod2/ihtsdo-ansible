@@ -1,12 +1,7 @@
 ---
 static_web_version: latest
-static_web_nginx_ssl_cert_file_dest: /etc/ssl/certs/static_web.crt
-static_web_nginx_ssl_key_file_dest: /etc/ssl/private/static_web.key
-
-static_web_fqdn: devops
-static_web_default_site: true
-
-static_web_name: static-web-content
 
 
-static_web_folder: /etc/opt/{{static_web_fqdn}}
+
+
+#static_web_folder: /etc/opt/{{static_web_fqdn}}
