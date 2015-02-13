@@ -1,0 +1,42 @@
+---
+
+  - name: ensure wget is installed
+    apt: pkg=wget state=latest
+    
+  - name: Creates directory
+    file: path={{MAINTDIR}} state=directory
+
+  - name: Copy Maint Script
+    template: src=getMaintHtml.sh.j2 dest={{MAINTDIR}}/getMaintHtml.sh
+              owner=root group=root mode=0770
+
+  - name: Install SSL cert
+    copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_cert_file_dest }}
+          owner=root group=root mode=0644
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx
+
+  - name: Install SSL key
+    copy: src={{ nginx_ssl_key_file }} dest={{ nginx_ssl_key_file_dest }}
+          owner=root group=root mode=0600
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx
+
+  - name: Configure nginx
+    template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+              owner=root group=root mode=0640
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx   
+      
+
+  - name: restart nginx
+    service: name=nginx state=restarted                          
