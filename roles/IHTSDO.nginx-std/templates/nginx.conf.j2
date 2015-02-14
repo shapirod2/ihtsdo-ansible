@@ -3,6 +3,7 @@ server {
   server_name {{ nginx_fqdn }};
   listen 80 {% if nginx_default_site == true %}default{% endif %};
   rewrite ^ https://$host$request_uri permanent;
+  #endofhttpServer
 }
 
 server {
@@ -45,7 +46,7 @@ server {
    root {{nginx_root}};
    {% endif %}    
       
-   if ( -f {{MAINTDIR}}/maintain.html){
+   if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
         return 503;
    }   
       
@@ -59,9 +60,9 @@ error_page 503 @maintenance;
 
 location @maintenance {
                 root {{MAINTDIR}};
-                rewrite ^(.*)$ /maintain.html break;
+                rewrite ^(.*)$ /{{MAINTFILE}} break;
    } 
    
-#endofServer  
+#endofhttpsServer  
 
 }
