@@ -3,19 +3,19 @@
   service:
     name=apache2
     state=reloaded
-  notify: restart zabbix_server_or_proxy
-  when: "zabbix_server_front_install == True"
+  notify: restart zabbixserver_or_proxy
+  when: "zabbixserver_front_install == True"
 
-- name: restart zabbix_server_or_proxy
+- name: restart zabbixserver_or_proxy
   service:
-    name=zabbix-{{zabbix_server_install_type}}
+    name=zabbix-{{zabbixserver_install_type}}
     state=restarted
     enabled=yes
-  when: "zabbix_server_install == True"
+  when: "zabbixserver_install == True"
 
 - name: restart assh
   service:
     name=assh
     state=restarted
     enabled=yes
-  when: "zabbix_server_tunnel == True"
+  when: "zabbixserver_tunnel == True"

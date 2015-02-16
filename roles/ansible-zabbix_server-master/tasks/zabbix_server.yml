@@ -1,113 +1,113 @@
 ---
 
-- name : zabbix_server | Update apt cache
+- name : zabbixserver | Update apt cache
   apt :
      update_cache="yes"
 
-- name: zabbix_server | Install pre dependency
+- name: zabbixserver | Install pre dependency
   apt:
      pkg="{{item}}"
      state=present
   with_items:
      - python-pip
      - libcurl3-gnutls
-  tags: zabbix_server
+  tags: zabbixserver
 
-- name: zabbix_server | Add zabbix.com repository key
+- name: zabbixserver | Add zabbix.com repository key
   apt_key: 
      url=http://repo.zabbix.com/zabbix-official-repo.key
      state=present
-  tags: zabbix_server
+  tags: zabbixserver
 
-- name: zabbix_server | Add zabbix.com repository
+- name: zabbixserver | Add zabbix.com repository
   apt_repository: 
-     repo='deb http://repo.zabbix.com/zabbix/{{zabbix_server_major}}.{{zabbix_server_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
      state=present
-  tags: zabbix_server
+  tags: zabbixserver
 
-- name : zabbix_server | Update apt after adding repository
+- name : zabbixserver | Update apt after adding repository
   apt :
      update_cache="yes"
 
-- name: zabbix_server | Install Zabbix Server or proxy
+- name: zabbixserver | Install Zabbix Server or proxy
   apt: 
-     pkg=zabbix-{{zabbix_server_install_type}}-{{zabbix_server_db_type}}
+     pkg=zabbix-{{zabbixserver_install_type}}-{{zabbixserver_db_type}}
      state=latest
      force=yes
-  tags: zabbix_server
-  when: "zabbix_server_install == True" 
+  tags: zabbixserver
+  when: "zabbixserver_install == True" 
 
-- name: zabbix_server | Install frontend 
+- name: zabbixserver | Install frontend 
   apt: 
      pkg=zabbix-frontend-php
      state=latest
      force=yes
-  tags: zabbix_server
-  when: "zabbix_server_front_install == True" 
+  tags: zabbixserver
+  when: "zabbixserver_front_install == True" 
 
-- name: zabbix_server | Install Zabbix agent
+- name: zabbixserver | Install Zabbix agent
   apt: 
      pkg=zabbix-agent
      state=latest
      force=yes
-  tags: zabbix_server
+  tags: zabbixserver
 
-- name: zabbix_server | Install pre dependency for PHP
+- name: zabbixserver | Install pre dependency for PHP
   apt:
      pkg="{{item}}"
      state=present
   with_items:
-     - php5-{{zabbix_server_db_type}}
-  tags: zabbix_server
-  when: "zabbix_server_front_install == True" 
+     - php5-{{zabbixserver_db_type}}
+  tags: zabbixserver
+  when: "zabbixserver_front_install == True" 
 
-- name: zabbix_server | Zabbix server conf file
+- name: zabbixserver | Zabbix server conf file
   template: 
-     src=zabbix_server/zabbix_server.conf
+     src=zabbixserver/zabbixserver.conf
      dest=/etc/zabbix/
      owner=zabbix
      group=zabbix
      mode=600
-  tags: zabbix_server
-  when: "zabbix_server_install == True and zabbix_server_install_type == 'server'" 
+  tags: zabbixserver
+  when: "zabbixserver_install == True and zabbixserver_install_type == 'server'" 
 
-- name: zabbix_server | Zabbix server php conf 
+- name: zabbixserver | Zabbix server php conf 
   template:
-     src=zabbix_server/zabbix.conf.php
+     src=zabbixserver/zabbix.conf.php
      dest=/etc/zabbix/web
      owner=www-data
      group=www-data
      mode=600
-  tags: zabbix_server  
-  when: "zabbix_server_front_install == True" 
+  tags: zabbixserver  
+  when: "zabbixserver_front_install == True" 
   notify: restart apache2
 
-- name: zabbix_server | apache config 
+- name: zabbixserver | apache config 
   template: 
      src=apache2/apache.conf.j2
-     dest="{{zabbix_server_front_apache_conf}}"
+     dest="{{zabbixserver_front_apache_conf}}"
      owner=root
      group=root
      mode=0644
   notify: restart apache2
-  when: "zabbix_server_front_install == True" 
-  tags: zabbix_server
+  when: "zabbixserver_front_install == True" 
+  tags: zabbixserver
 
-- name: zabbix_server | Deploy html redirect
+- name: zabbixserver | Deploy html redirect
   template: 
-     src=zabbix_server/index.html.j2
-     dest={{zabbix_server_front_root}}/index.html
+     src=zabbixserver/index.html.j2
+     dest={{zabbixserver_front_root}}/index.html
      owner=www-data
      group=www-data
      mode=644
-  when: "zabbix_server_front_install == True and zabbix_server_front_redirect == True" 
+  when: "zabbixserver_front_install == True and zabbixserver_front_redirect == True" 
 
 
-- name: zabbix_server | populate postgres database is populated
+- name: zabbixserver | populate postgres database is populated
   shell: 
-      psql {{ zabbix_server_db_name }} -h localhost  < {{item}} && sleep 3
-  with_items: zabbix_server_sql_files
-  when: postgres_db.changed and zabbix_server_db_type == 'pgsql'
+      psql {{ zabbixserver_db_name }}  < {{item}} && sleep 3
+  with_items: zabbixserver_sql_files
+  when: postgres_db.changed and zabbixserver_db_type == 'pgsql'
   sudo_user: postgres
   
 

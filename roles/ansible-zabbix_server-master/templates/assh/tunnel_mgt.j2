@@ -1,6 +1,6 @@
 {% if item.0 is number %}
 {{ item.0|pprint }} 
-{% set tunnelPort = item.0 + zabbix_server_tunnel_basePort %}
+{% set tunnelPort = item.0 + zabbixserver_tunnel_basePort %}
 {% set tunnelHost = item.1 %}
 {% set tunnelMethod = "Dynamic Ports" %}
 {% elif item is string and hostvars[item]["ZabbixSSH"] is defined  %}
@@ -19,12 +19,12 @@ ServerAliveInterval="30"
 ServerAliveCountMax="3"
 StrictHostKeyChecking="no"
 
-LocalUser="{{zabbix_server_tunnel_user}}"
-IdentityFile="{{zabbix_server_tunnel_identity}}"
+LocalUser="{{zabbixserver_tunnel_user}}"
+IdentityFile="{{zabbixserver_tunnel_identity}}"
 
 tunName="{{useHost}}"
 
-RemoteUser="{{zabbix_server_tunnel_remote}}"
+RemoteUser="{{zabbixserver_tunnel_remote}}"
 RemoteHost="{{useHost}}"
 RemotePort="{{usePort}}"
 ForwardPort=(

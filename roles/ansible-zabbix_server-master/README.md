@@ -12,7 +12,7 @@ This ansible role deploys zabbix for Ubuntu 12.04 (tested on vagrant)
 
 ##How to install
 * Use github to clone/fork in your role directory
-* ansible galaxy ```ansible-galaxy install adham.helal.zabbix_server```
+* ansible galaxy ```ansible-galaxy install adham.helal.zabbixserver```
 * *Note:* if you intend to install database I would recommend to use one of the following
   * ```ansible-galaxy install Ansibles.postgresql```
   * ```ansible-galaxy install Ansibles.mysql```
@@ -41,13 +41,13 @@ Deploy components on different hosts. A common design is to deploy Zabbix server
 
 By changing the following varaibles you can manage what to deploy on your host.
 
-```zabbix_server_install : True``` Deploy  zabbix 'server' or ‘proxy‘
+```zabbixserver_install : True``` Deploy  zabbix 'server' or ‘proxy‘
 
-```zabbix_server_install_type : server``` Deploy  zabbix  either 'server' or ‘proxy‘
+```zabbixserver_install_type : server``` Deploy  zabbix  either 'server' or ‘proxy‘
 
-```zabbix_server_front_install : True``` Deploy frontend php and apache
+```zabbixserver_front_install : True``` Deploy frontend php and apache
 
-```zabbix_server_db_install : True``` Deploy database
+```zabbixserver_db_install : True``` Deploy database
 
 
 
@@ -60,23 +60,23 @@ This can't be covered as it needs very custom configuration for databases, load 
 ##Variables 
 All default variables are located **defaults/main.yml**.
 
-  - *zabbix_server_host:*  Your zabbix server  ```zabbix_server_host: "zabbix.example.com"```
+  - *zabbixserver_host:*  Your zabbix server  ```zabbixserver_host: "zabbix.example.com"```
 
-  - *zabbix_server_name:* Zabbix server name  ```zabbix_server_name : "Zabbix Server"```
+  - *zabbixserver_name:* Zabbix server name  ```zabbixserver_name : "Zabbix Server"```
   
-  - *zabbix_server_timezone:* Time zone  ```zabbix_server_timezone : ""America/Los_Angeles"``
+  - *zabbixserver_timezone:* Time zone  ```zabbixserver_timezone : ""America/Los_Angeles"``
 
-  - *zabbix_server_db_type:* DB type either pgsql or mysql   ```zabbix_server_db_type : "pgsql"```
+  - *zabbixserver_db_type:* DB type either pgsql or mysql   ```zabbixserver_db_type : "pgsql"```
   
-  - *zabbix_server_db_host:* DB hostname   ```zabbix_server_db_host : "localhost"```    
+  - *zabbixserver_db_host:* DB hostname   ```zabbixserver_db_host : "localhost"```    
   
-  - *zabbix_server_db_user:* DB username   ```zabbix_server_db_user : "zabbix"```
+  - *zabbixserver_db_user:* DB username   ```zabbixserver_db_user : "zabbix"```
 
-  - *zabbix_server_db_pass:* DB password  ```zabbix_server_db_pass : "password"```
+  - *zabbixserver_db_pass:* DB password  ```zabbixserver_db_pass : "password"```
 
-  - *zabbix_server_db_name:* DB name ```zabbix_server_db_name : "zabbix"```
+  - *zabbixserver_db_name:* DB name ```zabbixserver_db_name : "zabbix"```
   
-  - *zabbix_server_db_port:* DB port ```zabbix_server_db_port : "5432"```
+  - *zabbixserver_db_port:* DB port ```zabbixserver_db_port : "5432"```
 
 ##Zabbix over SSH (Optional)
 By default Zabbix communication between agent and server is in plain text and no authentication. If monitoring over the internet you might want to use ssh tunneling.
@@ -95,7 +95,7 @@ For more details and other options look at
 1. defaults/main.yml tunnel section
 2. templates/tunnel_mgt.j2
 
-First you need to enable *zabbix_server_tunnel:*  ```zabbix_server_tunnel : True``` and assigned port for each host must be unique   this can be managed.
+First you need to enable *zabbixserver_tunnel:*  ```zabbixserver_tunnel : True``` and assigned port for each host must be unique   this can be managed.
 
 ####1 **Statically**
 In your hostvars for each host ```ZabbixSSH: 11212``` and make sure every port is unique
@@ -106,11 +106,11 @@ here is an example of tunnel creation task
 - name : tunnel_mgt | Loop over inventory and create assh connection 
   template   :
     src=templates/assh/tunnel_mgt.j2
-    dest={{zabbix_server_tunnel_etc}}/{{hostvars[item]["inventory_hostname"]}}
-    owner="{{zabbix_server_tunnel_user}}"
+    dest={{zabbixserver_tunnel_etc}}/{{hostvars[item]["inventory_hostname"]}}
+    owner="{{zabbixserver_tunnel_user}}"
     mode=0644 
   with_items : groups['all']
-  when       : "zabbix_server_tunnel == True"
+  when       : "zabbixserver_tunnel == True"
   notify     : restart assh
   tags       : tunnel_mgt
 ```
@@ -123,11 +123,11 @@ You can let the ```with_indexed_items``` loop and use that and add to base numbe
 - name : tunnel_mgt | Loop over inventory and create assh connection
   template   :
     src=templates/assh/tunnel_mgt.j2
-    dest={{zabbix_server_tunnel_etc}}/{{hostvars[item.1]["inventory_hostname"]}}
-    owner="{{zabbix_server_tunnel_user}}"
+    dest={{zabbixserver_tunnel_etc}}/{{hostvars[item.1]["inventory_hostname"]}}
+    owner="{{zabbixserver_tunnel_user}}"
     mode=0644 
   with_indexed_items: groups['all']
-  when       : "zabbix_server_tunnel == True"
+  when       : "zabbixserver_tunnel == True"
   notify     : restart assh
   tags       : tunnel_mgt
 ```
@@ -147,4 +147,8 @@ You can configure your variables in ansible with one of the following
 
 ##Run
     
-  ```ansible-playbook -l hostname zabbix_server_postgresql.yml```
+  ```ansible-playbook -l hostname zabbixserver_postgresql.yml```
+  
+  
+  
+  

@@ -1,6 +1,6 @@
-zabbix_server_sql_path    : /usr/share/zabbix-server-pgsql
-zabbix_server_sql_files   :
-         - "{{ zabbix_server_sql_path }}/schema.sql"
-         - "{{ zabbix_server_sql_path }}/images.sql"
-         - "{{ zabbix_server_sql_path }}/data.sql"
+zabbixserver_sql_path    : /usr/share/zabbix-server-pgsql
+zabbixserver_sql_files   :
+         - "{{ zabbixserver_sql_path }}/schema.sql"
+         - "{{ zabbixserver_sql_path }}/images.sql"
+         - "{{ zabbixserver_sql_path }}/data.sql"
     

@@ -15,7 +15,7 @@
       with_items:
         - python-psycopg2
         - python-pycurl
-      when: "zabbix_server_db_install == True and zabbix_server_db_type == 'pgsql'"
+      when: "zabbixserver_db_install == True and zabbixserver_db_type == 'pgsql'"
 
 ##
 ## Deploy Database postgresql if set
@@ -23,6 +23,6 @@
 - hosts: all
   sudo: True
   roles:
-    - { role: postgresql, when: "zabbix_server_db_install == True and zabbix_server_db_type == 'pgsql'" }
-    - { role: ansible-zabbix_server}
+    - { role: postgresql, when: "zabbixserver_db_install == True and zabbixserver_db_type == 'pgsql'" }
+    - { role: ansible-zabbixserver}
 
