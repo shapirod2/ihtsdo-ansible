@@ -1,0 +1,57 @@
+---
+- name : Update apt cache
+  apt : update_cache="yes"
+
+- name: ensure ssh is installed
+  apt: pkg=ssh state=latest
+
+- name: ensure autossh is installed
+  apt: pkg=autossh state=latest
+  
+- name: zabbixclient | Install pre dependency
+  apt:
+     pkg="{{item}}"
+     state=present
+  with_items:
+     - python-pip
+     - libcurl3-gnutls
+  tags: zabbixclient
+
+- name: zabbixclient| Add zabbix.com repository key
+  apt_key: 
+     url=http://repo.zabbix.com/zabbix-official-repo.key
+     state=present
+  tags: zabbixclient
+
+- name: zabbixclient | Add zabbix.com repository
+  apt_repository: 
+     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     state=present
+  tags: zabbixserver
+
+- name : zabbixclient | Update apt after adding repository
+  apt :
+     update_cache="yes"
+     
+  
+- name: ensure zabbix agent is installed
+  apt: 
+     pkg=zabbix-agent
+     state=latest
+     force=yes
+  tags: zabbixclient
+
+- name: tunnel_mgt | Create tunnel user - forward only no shell
+  user: 
+    name="{{zabbixserver_tunnel_user}}"
+    shell="/bin/false" 
+  
+- debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
+- set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
+- debug: msg="zabbix server =  {{zabbixserver1}}"
+
+- name: Copy .ssh folder
+  action: copy src=/tmp/{{zabbixserver1}}/home/{{zabbixserver_tunnel_user}}/.ssh dest=/home/{{zabbixserver_tunnel_user}} owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
+  
+# Add the autossh line  
+

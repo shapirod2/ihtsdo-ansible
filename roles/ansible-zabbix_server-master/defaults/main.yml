@@ -50,16 +50,16 @@ zabbixserver_db_intial_dir  : "/usr/share/zabbix-server-{{zabbixserver_db_type}}
 ##
 ##   Zabbix by default does not have authentication and encryption 
 ##   if your using zabbix to monitor hosts in a non private network you can use ssh tunnel
-zabbixserver_tunnel          : False
-zabbixserver_tunnel_user     : "zabbix_tun"
+zabbixserver_tunnel          : True
+zabbixserver_tunnel_user     : "zabbixagent"
 ##zabbixserver_tunnel_group    : "mon"
 zabbixserver_tunnel_remote   : "{{zabbixserver_tunnel_user}}" ## Remote user
-zabbixserver_tunnel_home     : "/home/{{zabbixserver_tunnel_user}}"
+#zabbixserver_tunnel_home     : "/home/{{zabbixserver_tunnel_user}}"
 zabbixserver_tunnel_name     : "tunnelMgt"
-zabbixserver_tunnel_basedir  : "{{zabbixserver_tunnel_home}}/{{zabbixserver_tunnel_name}}"
-zabbixserver_tunnel_bin      : "{{zabbixserver_tunnel_basedir}}/assh"
-zabbixserver_tunnel_etc      : "{{zabbixserver_tunnel_basedir}}/etc/autossh"
-zabbixserver_tunnel_identity : "~/.ssh/id_rsa"
+#zabbixserver_tunnel_basedir  : "{{zabbixserver_tunnel_home}}/{{zabbixserver_tunnel_name}}"
+#zabbixserver_tunnel_bin      : "{{zabbixserver_tunnel_basedir}}/assh"
+#zabbixserver_tunnel_etc      : "{{zabbixserver_tunnel_basedir}}/etc/autossh"
+#zabbixserver_tunnel_identity : "~/.ssh/id_rsa"
 zabbixserver_tunnel_basePort : 11000 ## if you will use auto port assigning
 
 

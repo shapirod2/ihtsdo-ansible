@@ -1,64 +1,38 @@
 ---
 
-- name: tunnel_mgt | apt install autossh 
-  apt: pkg="{{item}}" 
-  with_items:
-     - autossh
-  tags: tunnel_mgt
+- name: ensure autossh is installed
+  apt: pkg=autossh state=latest
 
 - name: tunnel_mgt | Create tunnel user - forward only no shell
   user: 
     name="{{zabbixserver_tunnel_user}}"
-    home="{{zabbixserver_tunnel_home}}"
     shell="/bin/false" 
-    append="True"
-    comment="tunnel user" 
-    force="yes"  
-  tags: tunnel_mgt
-  notify: restart assh
+    generate_ssh_key="yes"
 
-- name: tunnel_mgt | Create assh directory
-  file: 
-     dest="{{item}}/"
-     owner="{{zabbixserver_tunnel_user}}"
-     mode=0755
-     state=directory
-  with_items:
-     - "{{zabbixserver_tunnel_basedir}}"
-     - "{{zabbixserver_tunnel_etc}}"
-     - "{{zabbixserver_tunnel_basedir}}/keys"
-     - "{{zabbixserver_tunnel_basedir}}/logs"
-     - "{{zabbixserver_tunnel_basedir}}/var"
-     - "{{zabbixserver_tunnel_basedir}}/var/lock"
-     - "{{zabbixserver_tunnel_basedir}}/var/lock/subsys"
-     - "{{zabbixserver_tunnel_basedir}}/var/run"
-     - "{{zabbixserver_tunnel_basedir}}/var/run/autossh"
-  tags: tunnel_mgt
+  
+- debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
 
-- name: tunnel_mgt | Deploy assh binary
-  template: 
-     src=assh/assh.j2
-     dest="{{zabbixserver_tunnel_bin}}"
-     owner="{{zabbixserver_tunnel_user}}"     
-     mode=0755
-  tags: tunnel_mgt
-  notify: restart assh
+- set_fact: auth_key="/home/{{zabbixserver_tunnel_user}}/.ssh/authorized_keys"
+- set_fact: pubkey="/home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa.pub"
+- name: copy
+  command: /bin/cp  {{pubkey}} {{auth_key}}
+  
+- file: path={{auth_key}} mode=0600 owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}}
 
-- name: tunnel_mgt | Deploy support functions file
-  template: 
-     src=assh/functions.j2
-     dest="{{zabbixserver_tunnel_basedir}}/functions"
-     owner="{{zabbixserver_tunnel_user}}"     
-     mode=0755
-  tags: tunnel_mgt
-  notify: restart assh
+  
+  ## Fetch the id_rsa & id_rsa.pub files from server
+  
+    ## Fetch the id_rsa & id_rsa.pub files from server
 
-- name: tunnel_mgt | Create service autossh link
-  file: 
-     src="{{zabbixserver_tunnel_bin}}"
-     dest="/etc/init.d/assh"
-     owner=root
-     group=root
-     state=link
-  tags: tunnel_mgt
+- fetch: src=/home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa dest=/tmp
+- fetch: src={{pubkey}} dest=/tmp
+- fetch: src={{auth_key}}  dest=/tmp
+
+- debug: msg="zabbix server =  {{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}"
+
+  ##
+  
+  
+
+
 

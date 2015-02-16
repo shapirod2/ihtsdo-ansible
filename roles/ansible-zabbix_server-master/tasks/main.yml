@@ -27,7 +27,7 @@
    when: "zabbixserver_db_type == 'mysql'"
 
  - name: Zabbix zabbixserver
-   include: zabbixserver.yml
+   include: zabbix_server.yml
 
  - name: setup mysql database schema
    include: mysql_init.yml

@@ -1,0 +1,29 @@
+---
+
+- name: ensure autossh is installed
+  apt: pkg=autossh state=latest
+
+- name: tunnel_mgt | Create tunnel user - forward only no shell
+  user: 
+    name="{{zabbixserver_tunnel_user}}"
+    shell="/bin/false" 
+    generate_ssh_key="yes"
+
+  tags: tunnel_mgt
+  
+- debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
+  
+  ## Fetch the id_rsa & id_rsa.pub files from server
+
+- fetch: src=/home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa dest=/tmp
+- fetch: src=/home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa.pub dest=/tmp
+
+- set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
+
+
+- debug: msg="zabbix server =  {{ zabbixserver1 }}"
+  
+  ##
+
+
+
