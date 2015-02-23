@@ -17,6 +17,10 @@
   when: ansible_os_family == "RedHat"
   tags:
     - nginx
+    
+- name : Update apt cache
+  apt : update_cache="yes"  
+  when: ansible_os_family == "Debian"  
 
 - name: Install the nginx packages
   apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600

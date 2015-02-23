@@ -36,6 +36,54 @@
      force=yes
   tags: zabbixserver
   when: "zabbixserver_install == True" 
+  
+- name: ensure apache2 is installed
+  apt: pkg=apache2 state=latest
+  when: "zabbixserver_front_install == True"
+  
+- name: zabbixserver | apache config 
+  template: 
+     src=apache2/apache.conf.j2
+     dest={{zabbixserver_front_apache_conf}}
+     owner=root
+     group=root
+     mode=0644
+  notify: restart apache2
+  when: "zabbixserver_front_install == True" 
+  tags: zabbixserver
+  
+- name: zabbixserver | Deploy html redirect
+  template: 
+     src=zabbix_server/index.html.j2
+     dest={{zabbixserver_front_root}}/index.html
+     owner=www-data
+     group=www-data
+     mode=644
+  when: "zabbixserver_front_install == True and zabbixserver_front_redirect == True" 
+
+
+- name: zabbixserver | apache ports config 
+  template: 
+     src=apache2/ports.conf.j2
+     dest=/etc/apache2/ports.conf
+     owner=root
+     group=root
+     mode=0644
+  notify: restart apache2
+  when: "zabbixserver_front_install == True" 
+  tags: zabbixserver
+  
+- name: zabbixserver | apache default config 
+  template: 
+     src=apache2/000-default.conf.j2
+     dest=/etc/apache2/sites-enabled/000-default.conf
+     owner=root
+     group=root
+     mode=0644
+  notify: restart apache2
+  when: "zabbixserver_front_install == True" 
+  tags: zabbixserver
+  
 
 - name: zabbixserver | Install frontend 
   apt: 
@@ -81,49 +129,6 @@
   tags: zabbixserver  
   when: "zabbixserver_front_install == True" 
   notify: restart apache2
-
-- name: zabbixserver | apache config 
-  template: 
-     src=apache2/apache.conf.j2
-     dest={{zabbixserver_front_apache_conf}}
-     owner=root
-     group=root
-     mode=0644
-  notify: restart apache2
-  when: "zabbixserver_front_install == True" 
-  tags: zabbixserver
-  
-- name: zabbixserver | Deploy html redirect
-  template: 
-     src=zabbix_server/index.html.j2
-     dest={{zabbixserver_front_root}}/index.html
-     owner=www-data
-     group=www-data
-     mode=644
-  when: "zabbixserver_front_install == True and zabbixserver_front_redirect == True" 
-
-
-- name: zabbixserver | apache ports config 
-  template: 
-     src=apache2/ports.conf.j2
-     dest=/etc/apache2/ports.conf
-     owner=root
-     group=root
-     mode=0644
-  notify: restart apache2
-  when: "zabbixserver_front_install == True" 
-  tags: zabbixserver
-  
-- name: zabbixserver | apache default config 
-  template: 
-     src=apache2/000-default.conf.j2
-     dest=/etc/apache2/sites-enabled/000-default.conf
-     owner=root
-     group=root
-     mode=0644
-  notify: restart apache2
-  when: "zabbixserver_front_install == True" 
-  tags: zabbixserver
 
 
 - name: zabbixserver | populate postgres database is populated

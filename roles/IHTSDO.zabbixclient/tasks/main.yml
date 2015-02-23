@@ -44,14 +44,17 @@
 - name: tunnel_mgt | Create tunnel user - forward only no shell
   user: 
     name="{{zabbixserver_tunnel_user}}"
-    shell="/bin/false" 
+    shell="/bin/bash"
+    uid="65111" 
+  
+  #shell="/bin/false"
   
 - debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
 - set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
 - debug: msg="zabbix server =  {{zabbixserver1}}"
 
 - name: Copy .ssh folder
-  action: copy src=/tmp/{{zabbixserver1}}/home/{{zabbixserver_tunnel_user}}/.ssh dest=/home/{{zabbixserver_tunnel_user}} owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
+  action: copy src=/{{zabbix_user_dir}}/{{zabbixserver1}}/home/{{zabbixserver_tunnel_user}}/.ssh dest=/home/{{zabbixserver_tunnel_user}} owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
   
 # Add the autossh line  
 

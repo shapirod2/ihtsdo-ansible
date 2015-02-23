@@ -1,4 +1,11 @@
 
+#- name: Set MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- name: Confirm MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
+
+
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
@@ -8,7 +15,9 @@
   apt: name=python-mysqldb state=present
 
 # Create a new database with name 'srs' if required
-- mysql_db: name=srs state=present login_user=root login_password={{ mysql_root_password }}
+#- mysql_db: name=srs state=present login_user=root login_password={{ mysql_root_password }}
+
+
 
 # Creates database user 'srs_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name=srs_user password={{ srs_jdbc_password }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
+- mysql_user: name={{ts_user}} password={{ts_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present

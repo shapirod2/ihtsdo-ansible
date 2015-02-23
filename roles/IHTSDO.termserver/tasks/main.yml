@@ -1,22 +1,23 @@
 ---
 - name: Apt cache update
-  apt: update_cache=yes cache_valid_time=120
+  apt: update_cache=yes 
   tags:
     - ihtsdo-asset
     
-#Setup the database so it's available before the SRS starts up.
+#Setup the database
 - include: db.yml
 
-#download terminologyserver if file doesn't exist
-- name: download terminologyserver 
-  get_url: force=no url={{b2i_installation_url}} dest=/var/opt/termserv/install/{{b2i_local_filename}} url_username={{b2i_username}} url_password={{b2i_password}} mode=0440
-  
-# Install "unzip"if required
-- name: Install unzip
-  apt: name=unzip state=present
-  
-# Unarchive termserv archive on the remote machine
-- unarchive: src=/var/opt/termserv/install/{{b2i_local_filename}} dest=/var/opt/termserv/install/ copy=no
 
-#- name: Run the SQL files
-#  shell: cat  /var/opt/termserv/install/ | mysql-u {{ snowowl_db_user }} -p{{ snowowl_db_password }} 
+- name: Install term server
+  apt: name=termserver state=present
+  
+- name: Make sure all .sh files in bin are executable
+  shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'  
+
+
+#If setting up the content
+- include: setdbcontent.yml
+  when: "set_db_content == True"
+
+
+

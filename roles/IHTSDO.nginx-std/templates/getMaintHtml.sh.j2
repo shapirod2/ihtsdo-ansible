@@ -6,12 +6,13 @@
 
 maintFile={{MAINTFILE}} 
 maintURL={{MAINTURL}}
+maintDir={{MAINTDIR}}
 
 echo "Action = $1 " 
 if [ $1 = "start" ];
-then wget -O $maintFile $maintURL
+then wget -O $maintDir/$maintFile $maintURL
 fi
 
 if [ $1 = "stop" ];
-then rm -f $maintFile
+then rm -f $maintDir/$maintFile
 fi
