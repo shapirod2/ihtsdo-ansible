@@ -2,5 +2,5 @@
 - name: restart mlds
   supervisorctl: name=mlds state=restarted
 
-- name: restart nginx
-  service: name=nginx state=restarted
+#- name: restart nginx
+#  service: name=nginx state=restarted

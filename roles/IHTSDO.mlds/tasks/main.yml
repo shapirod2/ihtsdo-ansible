@@ -7,7 +7,6 @@
 #    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
 #    sudo: yes
 
-
  
   - name: Update apt cache
     apt: update_cache=yes
@@ -85,32 +84,32 @@
     tags:
       - ihtsdo-asset
 
-  - name: Install SSL cert
-    copy: src={{ mlds_nginx_ssl_cert_file }} dest={{ mlds_nginx_ssl_cert_file_dest }}
-          owner=root group=root mode=0644
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
+ # - name: Install SSL cert
+ #   copy: src={{ mlds_nginx_ssl_cert_file }} dest={{ mlds_nginx_ssl_cert_file_dest }}
+ #         owner=root group=root mode=0644
+ #   notify:
+ #     - restart nginx
+ #   tags:
+ #     - ihtsdo-asset
+ #     - nginx
 
-  - name: Install SSL key
-    copy: src={{ mlds_nginx_ssl_key_file }} dest={{ mlds_nginx_ssl_key_file_dest }}
-          owner=root group=root mode=0600
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
+#  - name: Install SSL key
+#    copy: src={{ mlds_nginx_ssl_key_file }} dest={{ mlds_nginx_ssl_key_file_dest }}
+#          owner=root group=root mode=0600
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx
 
-  - name: Configure nginx
-    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/mlds.conf
-              owner=root group=mlds mode=0640
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx   
+#  - name: Configure nginx
+#    template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+#              owner=root group=mlds mode=0640
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx   
       
   - name: Allow PostGreSQL through the firewall  
     ufw: rule=allow port=5432 proto=any
@@ -121,5 +120,5 @@
   - name: restart mlds
     supervisorctl: name=mlds state=restarted
 
-  - name: restart nginx
-    service: name=nginx state=restarted                          
+#  - name: restart nginx
+#    service: name=nginx state=restarted                          

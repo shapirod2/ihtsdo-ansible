@@ -8,3 +8,4 @@
     sudo: true
     roles:
       - IHTSDO.mlds   
+      - IHTSDO.nginx-std
