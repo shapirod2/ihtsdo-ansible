@@ -13,7 +13,7 @@ telemetry_email_address_from: IHTSDO Telemetry <delivery@ihtsdo.org>
 telemetry_smtp_username: 
 telemetry_smtp_password: 
 telemetry_smtp_host: 
-telemetry_smtp_port: 443
+telemetry_smtp_port: 456
 telemetry_smtp_ssl: true
 environment_shortname: UNKNOWN
 
