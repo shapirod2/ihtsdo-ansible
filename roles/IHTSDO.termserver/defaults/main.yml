@@ -5,7 +5,7 @@ set_db_content:  True
 
 #Import
 
-term_serv_dataDir: /opt/termservdata
+term_serv_dataDir: /opt/data/termserver
 term_serv_dir: /opt/termserver
 
 

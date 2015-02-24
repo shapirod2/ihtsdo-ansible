@@ -1,0 +1,64 @@
+
+- name: Install unzip
+  apt: name=unzip state=present
+
+- name: make sure dataDir exists
+  file: path={{term_serv_dataDir}}  state=directory
+
+- name: make sure sql file exists
+  stat: path={{term_serv_sql}}
+  register: sqlimportfile
+
+- debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
+
+- debug: msg="zip url = {{zip_url}}"
+
+- name: download sql and indexes zip file if url is set
+  get_url: force=no url={{zip_url}} dest={{term_serv_dataDir}}/{{term_serv_import_file}} mode=0440
+  when: sqlimportfile.stat.exists == False
+
+- name: Unarchive termserv archive on the remote machine
+  unarchive: src={{term_serv_dataDir}}/{{term_serv_import_file}} dest={{term_serv_dataDir}}/ copy=no
+  when: sqlimportfile.stat.exists == False
+
+- name: make sure sql file exists again
+  stat: path={{term_serv_sql}}
+  register: sqlimportfile
+  
+- debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
+
+- name: Stop TS if running and SQL file exists
+  supervisorctl: name=termserver state=stopped
+  when: sqlimportfile.stat.exists == True
+
+- name: if present dump existing db
+  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: sqlimportfile.stat.exists == True
+  
+- name: create db
+  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
+  
+#- name: Run the SQL file
+#  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ term_serv_sql }}
+#  when: sqlimportfile.stat.exists == True
+  
+  
+#- name: Run the SQL file
+#  shell: cat {{ term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
+#  when: sqlimportfile.stat.exists == True  
+
+- name: create db from backup
+  mysql_db: name={{ts_dbname}}  state=import target={{term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
+  
+- name: Remove dataset/indexes folder from termserv/resources
+  command: rm -rf {{term_serv_dir_resources}}
+  when: sqlimportfile.stat.exists == True  
+
+- name: Copy the dataset/indexes folder to termserv/resources
+  command: cp -R {{term_serv_indexes}} {{term_serv_dir_resources}}
+  when: sqlimportfile.stat.exists == True
+
+- name: Start TS
+  supervisorctl: name=termserver state=started

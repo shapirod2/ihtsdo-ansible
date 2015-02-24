@@ -9,13 +9,14 @@
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
+  
+# set the my.cnf
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
 
 # Install the package "python-mysqldb"
 - name: Install mysql python helper
   apt: name=python-mysqldb state=present
-
-# Create a new database with name 'srs' if required
-#- mysql_db: name=srs state=present login_user=root login_password={{ mysql_root_password }}
 
 
 
