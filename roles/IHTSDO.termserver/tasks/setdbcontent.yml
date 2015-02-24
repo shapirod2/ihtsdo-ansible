@@ -57,7 +57,7 @@
   when: sqlimportfile.stat.exists == True  
 
 - name: Copy the dataset/indexes folder to termserv/resources
-  command: cp -R {{term_serv_indexes}} {{term_serv_dir_resources}}
+  command: cp -r {{term_serv_indexes}} {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True
 
 - name: Start TS
