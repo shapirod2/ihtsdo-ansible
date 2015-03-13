@@ -1,6 +1,17 @@
+# Check the copy index code
+# Need bools for :
+# delete zip /unzipped content
+# drop and rebuild db.
+# rebuild flag which does both
+
+
 
 - name: Install unzip
   apt: name=unzip state=present
+  
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{term_serv_dataDir}} state=absent
+  when: "force_zip_download == True" 
 
 - name: make sure dataDir exists
   file: path={{term_serv_dataDir}}  state=directory
@@ -14,7 +25,7 @@
 - debug: msg="zip url = {{zip_url}}"
 
 - name: download sql and indexes zip file if url is set
-  get_url: force=no url={{zip_url}} dest={{term_serv_dataDir}}/{{term_serv_import_file}} mode=0440
+  get_url: force=no url={{zip_url}} dest={{term_serv_dataDir}}/{{term_serv_import_file}} validate_certs=no mode=0440
   when: sqlimportfile.stat.exists == False
 
 - name: Unarchive termserv archive on the remote machine
@@ -53,7 +64,8 @@
   when: sqlimportfile.stat.exists == True
   
 - name: Remove dataset/indexes folder from termserv/resources
-  command: rm -rf {{term_serv_dir_resources}}
+  file: path={{term_serv_dir_resources}} state=absent
+  #command: rm -rf {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True  
 
 - name: Copy the dataset/indexes folder to termserv/resources

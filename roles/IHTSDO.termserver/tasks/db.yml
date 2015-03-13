@@ -22,3 +22,7 @@
 
 # Creates database user 'srs_user' with all database privileges and 'WITH GRANT OPTION'
 - mysql_user: name={{ts_user}} password={{ts_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+
+
+- name: restart mysql
+  service: name={{ mysql_service }} state=restarted 
