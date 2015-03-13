@@ -1,8 +1,8 @@
 ---
 termserver_version: latest
 environment_shortname: UNKNOWN
-set_db_content:  True
-force_zip_download:  True
+set_db_content:  False
+force_zip_download:  False
 
 #Import
 
