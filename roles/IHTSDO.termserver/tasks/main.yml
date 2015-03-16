@@ -7,9 +7,11 @@
 #Setup the database
 - include: db.yml
 
+- name: Stop TS if running and SQL file exists
+  supervisorctl: name=termserver state=stopped
 
 - name: Install term server
-  apt: name=termserver state=present
+  apt: pkg=termserver state=latest force=yes
   
 - name: Make sure all .sh files in bin are executable
   shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'  
@@ -18,6 +20,9 @@
 #If setting up the content
 - include: setdbcontent.yml
   when: "set_db_content == True"
+  
+- name: Start TS
+  supervisorctl: name=termserver state=started
 
 
 

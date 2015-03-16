@@ -38,10 +38,6 @@
   
 - debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
 
-- name: Stop TS if running and SQL file exists
-  supervisorctl: name=termserver state=stopped
-  when: sqlimportfile.stat.exists == True
-
 - name: if present dump existing db
   mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
   when: sqlimportfile.stat.exists == True
@@ -72,5 +68,4 @@
   command: cp -r {{term_serv_indexes}} {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True
 
-- name: Start TS
-  supervisorctl: name=termserver state=started
+
