@@ -13,3 +13,4 @@
     - Ansibles.fail2ban
     - IHTSDO.supervisor
     - IHTSDO.oraclejava
+    - IHTSDO.unattended-updates
