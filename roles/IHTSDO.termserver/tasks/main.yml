@@ -7,7 +7,7 @@
 #Setup the database
 - include: db.yml
 
-- name: Stop TS if running and SQL file exists
+- name: Stop TS if running
   supervisorctl: name=termserver state=stopped
 
 - name: Install term server
