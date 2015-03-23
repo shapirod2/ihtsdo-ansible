@@ -1,0 +1,95 @@
+#!/bin/sh
+
+zip_file={{dmd_zip_path}}
+
+csv_dir={{dmd_csv_dir}}
+xml_dir={{dmd_xml_dir}}
+xsl_dir={{dmd_xsl_dir}}
+#date=120315
+
+# find . -type f -name '*.xml' | sed -r 's|/[^/]+$||' |sort |uniq
+#-o $csv_dir/f_amp_AmpType.csv
+
+#rm -R -f $csv_dir
+#mkdir $csv_dir
+
+#rm -R -f $xml_dir
+#mkdir $xml_dir
+
+#unzip 
+#unzip $zip_file -d $xml_dir &
+
+#wait %1
+
+xmlfile=$(ls $xml_dir/*.xml | head -n 1)
+#echo "xmlfile = " $xmlfile
+datexml=$(echo $xmlfile | awk -F'2_3' '{print $2}')
+#echo "datexml = " $datexml
+date=$(echo $datexml | awk -F'.xml' '{print $1}')
+echo "date = " $date
+
+#AMP
+xsltproc -o $csv_dir/f_amp_AmpType.csv $xsl_dir/f_amp_AmpType.xsl  $xml_dir/f_amp2_3$date.xml 
+xsltproc -o $csv_dir/f_amp_ApiType.csv $xsl_dir/f_amp_ApiType.xsl  $xml_dir/f_amp2_3$date.xml 
+xsltproc -o $csv_dir/f_amp_LicRouteType.csv $xsl_dir/f_amp_LicRouteType.xsl  $xml_dir/f_amp2_3$date.xml 
+xsltproc -o $csv_dir/f_amp_AppProdInfoType.csv $xsl_dir/f_amp_AppProdInfoType.xsl  $xml_dir/f_amp2_3$date.xml 
+
+#AMPP
+
+xsltproc -o $csv_dir/f_ampp_AmppType.csv $xsl_dir/f_ampp_AmppType.xsl  $xml_dir/f_ampp2_3$date.xml 
+xsltproc -o $csv_dir/f_ampp_PackInfoType.csv $xsl_dir/f_ampp_PackInfoType.xsl  $xml_dir/f_ampp2_3$date.xml 
+xsltproc -o $csv_dir/f_ampp_ContentType.csv $xsl_dir/f_ampp_ContentType.xsl  $xml_dir/f_ampp2_3$date.xml 
+xsltproc -o $csv_dir/f_ampp_PrescInfoType.csv $xsl_dir/f_ampp_PrescInfoType.xsl  $xml_dir/f_ampp2_3$date.xml 
+xsltproc -o $csv_dir/f_ampp_PriceInfoType.csv $xsl_dir/f_ampp_PriceInfoType.xsl  $xml_dir/f_ampp2_3$date.xml 
+xsltproc -o $csv_dir/f_ampp_ReimbInfoType.csv $xsl_dir/f_ampp_ReimbInfoType.xsl  $xml_dir/f_ampp2_3$date.xml 
+
+#VTM
+
+xsltproc -o $csv_dir/f_vtm.csv $xsl_dir/f_vtm.xsl  $xml_dir/f_vtm2_3$date.xml 
+
+#INGREDIENT
+xsltproc -o $csv_dir/f_ingredient.csv $xsl_dir/f_ingredient.xsl  $xml_dir/f_ingredient2_3$date.xml 
+
+#LOOKUP 
+
+xsltproc -o $csv_dir/f_lookup_CombPackIndInfoType.csv $xsl_dir/f_lookup_CombPackIndInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_CombProdIndInfoType.csv $xsl_dir/f_lookup_CombProdIndInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_BasisOfNameInfoType.csv $xsl_dir/f_lookup_BasisOfNameInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_NamechangeReasonInfoType.csv $xsl_dir/f_lookup_NamechangeReasonInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_VirProdPresStatInfoType.csv $xsl_dir/f_lookup_VirProdPresStatInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_ControlDrugCatInfoType.csv $xsl_dir/f_lookup_ControlDrugCatInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_LicAuthInfoType.csv $xsl_dir/f_lookup_LicAuthInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_UoMHistoryInfoType.csv $xsl_dir/f_lookup_UoMHistoryInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_FormHistoryInfoType.csv $xsl_dir/f_lookup_FormHistoryInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_OntFormRouteInfoType.csv $xsl_dir/f_lookup_OntFormRouteInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_RouteHistoryInfoType.csv $xsl_dir/f_lookup_RouteHistoryInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_DtPayCatInfoType.csv $xsl_dir/f_lookup_DtPayCatInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_SupplierSupplierInfoType.csv $xsl_dir/f_lookup_SupplierSupplierInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_FlavourInfoType.csv $xsl_dir/f_lookup_FlavourInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_ColourInfoType.csv $xsl_dir/f_lookup_ColourInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_BasisOfStrengthInfoType.csv $xsl_dir/f_lookup_BasisOfStrengthInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_ReimbStatInfoType.csv $xsl_dir/f_lookup_ReimbStatInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_SpecContInfoType.csv $xsl_dir/f_lookup_SpecContInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_VirProdNoAvailInfoType.csv $xsl_dir/f_lookup_VirProdNoAvailInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_DiscIndInfoType.csv $xsl_dir/f_lookup_DiscIndInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_DfIndInfoType.csv $xsl_dir/f_lookup_DfIndInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_PriceBasisInfoType.csv $xsl_dir/f_lookup_PriceBasisInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_LegalCatInfoType.csv $xsl_dir/f_lookup_LegalCatInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_AvailRestrictInfoType.csv $xsl_dir/f_lookup_AvailRestrictInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_LicAuthChgRsnInfoType.csv $xsl_dir/f_lookup_LicAuthChgRsnInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+xsltproc -o $csv_dir/f_lookup_DNDInfoType.csv $xsl_dir/f_lookup_DNDInfoType.xsl  $xml_dir/f_lookup2_3$date.xml 
+
+#VMP
+
+xsltproc -o $csv_dir/f_vmp_VmpType.csv $xsl_dir/f_vmp_VmpType.xsl  $xml_dir/f_vmp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmp_VpiType.csv $xsl_dir/f_vmp_VpiType.xsl  $xml_dir/f_vmp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmp_OntDrugFormType.csv $xsl_dir/f_vmp_OntDrugFormType.xsl  $xml_dir/f_vmp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmp_DrugFormType.csv $xsl_dir/f_vmp_DrugFormType.xsl  $xml_dir/f_vmp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmp_DrugRouteType.csv $xsl_dir/f_vmp_DrugRouteType.xsl  $xml_dir/f_vmp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmp_ControlInfoType.csv $xsl_dir/f_vmp_ControlInfoType.xsl  $xml_dir/f_vmp2_3$date.xml 
+
+#VMPP
+
+xsltproc -o $csv_dir/f_vmpp_VmppType.csv $xsl_dir/f_vmpp_VmppType.xsl  $xml_dir/f_vmpp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmpp_DtInfoType.csv $xsl_dir/f_vmpp_DtInfoType.xsl  $xml_dir/f_vmpp2_3$date.xml 
+xsltproc -o $csv_dir/f_vmpp_ContentType.csv $xsl_dir/f_vmpp_ContentType.xsl  $xml_dir/f_vmpp2_3$date.xml

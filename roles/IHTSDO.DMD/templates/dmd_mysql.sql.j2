@@ -1,0 +1,389 @@
+
+DROP TABLE IF EXISTS `f_amp_AmpType`;
+CREATE TABLE `f_amp_AmpType` (
+  `APID` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `VPID` varchar(255) DEFAULT NULL,
+  `NM` varchar(255) DEFAULT NULL,
+  `ABBREVNM` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL,
+  `NMDT` varchar(255) DEFAULT NULL,
+  `NM_PREV` varchar(255) DEFAULT NULL,
+  `SUPPCD` varchar(255) DEFAULT NULL,
+  `LIC_AUTHCD` varchar(255) DEFAULT NULL,
+  `LIC_AUTH_PREVCD` varchar(255) DEFAULT NULL,
+  `LIC_AUTHCHANGECD` varchar(255) DEFAULT NULL,
+  `LIC_AUTHCHANGEDT` varchar(255) DEFAULT NULL,
+  `COMBPRODCD` varchar(255) DEFAULT NULL,
+  `FLAVOURCD` varchar(255) DEFAULT NULL,
+  `CSM` varchar(255) DEFAULT NULL,
+  `PARALLEL_IMPORT` varchar(255) DEFAULT NULL,
+  `AVAIL_RESTRICTCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_amp_ApiType`;
+CREATE TABLE `f_amp_ApiType` (
+  `APID` varchar(255) DEFAULT NULL,
+  `ISID` varchar(255) DEFAULT NULL,
+  `STRNTH` varchar(255) DEFAULT NULL,
+  `UOMCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_amp_AppProdInfoType`;
+CREATE TABLE `f_amp_AppProdInfoType` (
+  `APID` varchar(255) DEFAULT NULL,
+  `SZ_WEIGHT` varchar(255) DEFAULT NULL,
+  `COLOURCD` varchar(255) DEFAULT NULL,
+  `PROD_ORDER_NO` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_amp_LicRouteType`;
+CREATE TABLE `f_amp_LicRouteType` (
+  `APID` varchar(255) DEFAULT NULL,
+  `ROUTECD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_ampp_AmppType`;
+CREATE TABLE `f_ampp_AmppType` (
+  `APPID` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `NM` varchar(255) DEFAULT NULL,
+  `ABBREVNM` varchar(255) DEFAULT NULL,
+  `VPPID` varchar(255) DEFAULT NULL,
+  `APID` varchar(255) DEFAULT NULL,
+  `COMBPACKCD` varchar(255) DEFAULT NULL,
+  `LEGAL_CATCD` varchar(255) DEFAULT NULL,
+  `SUBP` varchar(255) DEFAULT NULL,
+  `DISCCD` varchar(255) DEFAULT NULL,
+  `DISCDT` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+
+DROP TABLE IF EXISTS `f_ampp_ContentType`;
+CREATE TABLE `f_ampp_ContentType` (
+  `PRNTAPPID` varchar(255) DEFAULT NULL,
+  `CHLDAPPID` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_ampp_PackInfoType`;
+CREATE TABLE `f_ampp_PackInfoType` (
+  `APPID` varchar(255) DEFAULT NULL,
+  `REIMB_STATCD` varchar(255) DEFAULT NULL,
+  `REIMB_STATDT` varchar(255) DEFAULT NULL,
+  `REIMB_STATPREVCD` varchar(255) DEFAULT NULL,
+  `PACK_ORDER_NO` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_ampp_PrescInfoType`;
+CREATE TABLE `f_ampp_PrescInfoType` (
+  `APPID` varchar(255) DEFAULT NULL,
+  `SCHED_2` varchar(255) DEFAULT NULL,
+  `ACBS` varchar(255) DEFAULT NULL,
+  `PADM` varchar(255) DEFAULT NULL,
+  `FP10_MDA` varchar(255) DEFAULT NULL,
+  `SCHED_1` varchar(255) DEFAULT NULL,
+  `HOSP` varchar(255) DEFAULT NULL,
+  `NURSE_F` varchar(255) DEFAULT NULL,
+  `ENURSE_F` varchar(255) DEFAULT NULL,
+  `DENT_F` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_ampp_PriceInfoType`;
+CREATE TABLE `f_ampp_PriceInfoType` (
+  `APPID` varchar(255) DEFAULT NULL,
+  `PRICE` varchar(255) DEFAULT NULL,
+  `PRICEDT` varchar(255) DEFAULT NULL,
+  `PRICE_PREV` varchar(255) DEFAULT NULL,
+  `PRICE_BASISCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_ampp_ReimbInfoType`;
+CREATE TABLE `f_ampp_ReimbInfoType` (
+  `APPID` varchar(255) DEFAULT NULL,
+  `PX_CHRGS` varchar(255) DEFAULT NULL,
+  `DISP_FEES` varchar(255) DEFAULT NULL,
+  `BB` varchar(255) DEFAULT NULL,
+  `LTD_STAB` varchar(255) DEFAULT NULL,
+  `CAL_PACK` varchar(255) DEFAULT NULL,
+  `SPEC_CONTCD` varchar(255) DEFAULT NULL,
+  `DND` varchar(255) DEFAULT NULL,
+  `FP34D` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_ingredient`;
+CREATE TABLE `f_ingredient` (
+  `ISID` varchar(255) DEFAULT NULL,
+  `ISIDDT` varchar(255) DEFAULT NULL,
+  `ISIDPREV` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `NM` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_AvailRestrictInfoType`;
+CREATE TABLE `f_lookup_AvailRestrictInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_BasisOfNameInfoType`;
+CREATE TABLE `f_lookup_BasisOfNameInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_lookup_BasisOfStrengthInfoType`;
+CREATE TABLE `f_lookup_BasisOfStrengthInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_ColourInfoType`;
+CREATE TABLE `f_lookup_ColourInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_CombPackIndInfoType`;
+CREATE TABLE `f_lookup_CombPackIndInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_CombProdIndInfoType`;
+CREATE TABLE `f_lookup_CombProdIndInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_ControlDrugCatInfoType`;
+CREATE TABLE `f_lookup_ControlDrugCatInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_DfIndInfoType`;
+CREATE TABLE `f_lookup_DfIndInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_DiscIndInfoType`;
+CREATE TABLE `f_lookup_DiscIndInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_DNDInfoType`;
+CREATE TABLE `f_lookup_DNDInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_DtPayCatInfoType`;
+CREATE TABLE `f_lookup_DtPayCatInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_FlavourInfoType`;
+CREATE TABLE `f_lookup_FlavourInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_FormHistoryInfoType`;
+CREATE TABLE `f_lookup_FormHistoryInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `CDDT` varchar(255) DEFAULT NULL,
+  `CDPREV` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_LegalCatInfoType`;
+CREATE TABLE `f_lookup_LegalCatInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_LicAuthChgRsnInfoType`;
+CREATE TABLE `f_lookup_LicAuthChgRsnInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_LicAuthInfoType`;
+CREATE TABLE `f_lookup_LicAuthInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_NamechangeReasonInfoType`;
+CREATE TABLE `f_lookup_NamechangeReasonInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_OntFormRouteInfoType`;
+CREATE TABLE `f_lookup_OntFormRouteInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_PriceBasisInfoType`;
+CREATE TABLE `f_lookup_PriceBasisInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_ReimbStatInfoType`;
+CREATE TABLE `f_lookup_ReimbStatInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_RouteHistoryInfoType`;
+CREATE TABLE `f_lookup_RouteHistoryInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `CDDT` varchar(255) DEFAULT NULL,
+  `CDPREV` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_SpecContInfoType`;
+CREATE TABLE `f_lookup_SpecContInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_lookup_SupplierSupplierInfoType`;
+CREATE TABLE `f_lookup_SupplierSupplierInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `CDDT` varchar(255) DEFAULT NULL,
+  `CDPREV` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_UoMHistoryInfoType`;
+CREATE TABLE `f_lookup_UoMHistoryInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `CDDT` varchar(255) DEFAULT NULL,
+  `CDPREV` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_VirProdNoAvailInfoType`;
+CREATE TABLE `f_lookup_VirProdNoAvailInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_lookup_VirProdPresStatInfoType`;
+CREATE TABLE `f_lookup_VirProdPresStatInfoType` (
+  `CD` varchar(255) DEFAULT NULL,
+  `DESC` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_vmp_ControlInfoType`;
+CREATE TABLE `f_vmp_ControlInfoType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `CATCD` varchar(255) DEFAULT NULL,
+  `CATDT` varchar(255) DEFAULT NULL,
+  `CAT_PREVCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_vmp_DrugFormType`;
+CREATE TABLE `f_vmp_DrugFormType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `FORMCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_vmp_DrugRouteType`;
+CREATE TABLE `f_vmp_DrugRouteType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `ROUTECD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_vmp_OntDrugFormType`;
+CREATE TABLE `f_vmp_OntDrugFormType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `FORMCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_vmp_VmpType`;
+CREATE TABLE `f_vmp_VmpType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `VPIDDT` varchar(255) DEFAULT NULL,
+  `VPIDPREV` varchar(255) DEFAULT NULL,
+  `VTMID` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `NM` varchar(255) DEFAULT NULL,
+  `ABBREVNM` varchar(255) DEFAULT NULL,
+  `BASISCD` varchar(255) DEFAULT NULL,
+  `NMDT` varchar(255) DEFAULT NULL,
+  `NMPREV` varchar(255) DEFAULT NULL,
+  `BASIS_PREVCD` varchar(255) DEFAULT NULL,
+  `NMCHANGECD` varchar(255) DEFAULT NULL,
+  `COMBPRODCD` varchar(255) DEFAULT NULL,
+  `PRES_STATCD` varchar(255) DEFAULT NULL,
+  `SUG_F` varchar(255) DEFAULT NULL,
+  `GLU_F` varchar(255) DEFAULT NULL,
+  `PRES_F` varchar(255) DEFAULT NULL,
+  `CFC_F` varchar(255) DEFAULT NULL,
+  `NON_AVAILCD` varchar(255) DEFAULT NULL,
+  `NON_AVAILDT` varchar(255) DEFAULT NULL,
+  `DF_INDCD` varchar(255) DEFAULT NULL,
+  `UDFS` varchar(255) DEFAULT NULL,
+  `UDFS_UOMCD` varchar(255) DEFAULT NULL,
+  `UNIT_DOSE_UOMCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_vmp_VpiType`;
+CREATE TABLE `f_vmp_VpiType` (
+  `VPID` varchar(255) DEFAULT NULL,
+  `ISID` varchar(255) DEFAULT NULL,
+  `BASIS_STRNTCD` varchar(255) DEFAULT NULL,
+  `BS_SUBID` varchar(255) DEFAULT NULL,
+  `STRNT_NMRTR_VAL` varchar(255) DEFAULT NULL,
+  `STRNT_NMRTR_UOMCD` varchar(255) DEFAULT NULL,
+  `STRNT_DNMTR_VAL` varchar(255) DEFAULT NULL,
+  `STRNT_DNMTR_UOMCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_vmpp_ContentType`;
+CREATE TABLE `f_vmpp_ContentType` (
+  `PRNTVPPID` varchar(255) DEFAULT NULL,
+  `CHLDVPPID` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `f_vmpp_DtInfoType`;
+CREATE TABLE `f_vmpp_DtInfoType` (
+  `VPPID` varchar(255) DEFAULT NULL,
+  `PAY_CATCD` varchar(255) DEFAULT NULL,
+  `PRICE` varchar(255) DEFAULT NULL,
+  `DT` varchar(255) DEFAULT NULL,
+  `PREVPRICE` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `f_vmpp_VmppType`;
+CREATE TABLE `f_vmpp_VmppType` (
+  `VPPID` varchar(255) DEFAULT NULL,
+  `INVALID` varchar(255) DEFAULT NULL,
+  `NM` varchar(255) DEFAULT NULL,
+  `ABBREVNM` varchar(255) DEFAULT NULL,
+  `VPID` varchar(255) DEFAULT NULL,
+  `QTYVAL` varchar(255) DEFAULT NULL,
+  `QTY_UOMCD` varchar(255) DEFAULT NULL,
+  `COMBPACKCD` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;

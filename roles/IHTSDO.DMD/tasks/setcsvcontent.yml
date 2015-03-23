@@ -1,0 +1,80 @@
+
+
+- name: Install unzip
+  apt: name=unzip state=present
+  
+- name: Install xsltproc
+  apt: name=xsltproc state=present  
+  
+# clean out existing dirs
+
+- name: Remove datadir 
+  file: path={{dmd_dataDir}} state=absent
+  
+- name: Remove Appdir
+  file: path={{dmd_appDir}} state=absent
+  
+  
+# copy files/xml dir to dmd_appDir
+- name: make sure dmd_appDir exists
+  file: path={{dmd_appDir}}  state=directory  
+  
+- name: make sure scripts dir exists
+  file: path={{dmd_script_dir}}  state=directory 
+  
+- name: make sure csv dir exists
+  file: path={{dmd_csv_dir}}  state=directory  
+  
+- name: make sure xml dir exists
+  file: path={{dmd_xml_dir}}  state=directory      
+  
+ 
+- name: copy the files/xml dir to 
+  copy: src=xml dest={{dmd_appDir}}  
+  
+- name: xml2csv.sh
+  template: 
+     src=xml2csv.sh.j2
+     dest={{xml2csv}}
+     owner=root
+     group=root
+     mode=0744  
+  
+  
+- name: Remove zipdir so as to spark complete rebuild
+  file: path={{dmd_zipDir}} state=absent
+  when: "force_zip_download == True" 
+
+- name: make sure dataDir exists
+  file: path={{dmd_zipDir}}  state=directory
+
+- name: make sure zip file exists
+  stat: path={{dmd_zip_path}}
+  register: dmdimportfile
+
+- debug: msg="dmdimportfile exists = {{dmdimportfile.stat.exists}}"
+
+- debug: msg="zip url = {{zip_url}}"
+
+- name: download zip file if force_zip_download is set to true
+  get_url: force=no url={{zip_url}} dest={{dmd_zip_path}} validate_certs=no mode=0440
+  when: dmdimportfile.stat.exists == False and zip_url is defined
+  
+- name: make sure zip file exists again
+  stat: path={{dmd_zip_path}}
+  register: dmdimportfile
+  
+
+- name: Unarchive dm+d archive on the remote machine
+  unarchive: src={{dmd_zip_path}} dest={{dmd_xml_dir}}/ copy=no
+  when: dmdimportfile.stat.exists == True
+
+- debug: msg="dmdimportfile2 exists = {{dmdimportfile.stat.exists}}" 
+
+- name: run xml2csv
+  command: "{{ xml2csv }}"
+  when: dmdimportfile.stat.exists == True
+
+
+
+

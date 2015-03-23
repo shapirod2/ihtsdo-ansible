@@ -1,0 +1,52 @@
+
+
+- name: make sure csv dir exists
+  stat: path={{dmd_csv_dir}}
+  register: csvdirexists
+
+- debug: msg="csvdirexists exists = {{csvdirexists.stat.exists}}"
+
+- name: make sure dmd_appDir exists
+  file: path={{dmd_appDir}}  state=directory  
+  
+- name: make sure scripts dir exists
+  file: path={{dmd_script_dir}}  state=directory 
+  
+- name: createdb sql
+  template: 
+     src=dmd_mysql.sql.j2
+     dest={{createdb}}
+     owner=root
+     group=root
+     mode=0644   
+
+- name: insertdata sql
+  template: 
+     src=dmd_mysql_import.sql.j2
+     dest={{insertdata}}
+     owner=root
+     group=root
+     mode=0644 
+
+- name: if present dump existing db
+  mysql_db: name={{dmd_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: csvdirexists.stat.exists == True
+  
+- name: create db
+  mysql_db: name={{dmd_dbname}} state=present login_user={{ dmd_user }}  login_password={{dmd_pw}}
+  when: csvdirexists.stat.exists == True
+  
+  
+- name: create db from backup
+  mysql_db: name={{dmd_dbname}}  state=import target={{createdb}} login_user={{ dmd_user }}  login_password={{dmd_pw}}
+  when: csvdirexists.stat.exists == True
+  
+  
+- name: Import the data  
+  shell: cat {{ insertdata }} | mysql -u {{ dmd_user }} -p{{ dmd_pw }} --local-infile dmd;
+  when: csvdirexists.stat.exists == True  
+  
+  
+
+
+
