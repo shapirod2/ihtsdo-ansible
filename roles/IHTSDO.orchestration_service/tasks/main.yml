@@ -8,7 +8,7 @@
   apt: name=ts-delta-import-process state=installed
   notify:
     - restart ts-delta-import-process
-  when: ts-delta-import-process_version == 'installed'
+  when: orchestration_service_version == 'installed'
   tags:
     - ihtsdo-asset
     
@@ -16,15 +16,15 @@
   apt: name=ts-delta-import-process state=latest
   notify:
     - restart ts-delta-import-process
-  when: snomed_release_service_api_version == 'latest'
+  when: orchestration_service_version == 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Install ts-delta-import-process package specific version
-  apt: name=ts-delta-import-process={{ snomed_release_service_api_version }} state=installed
+  apt: name=ts-delta-import-process={{ orchestration_service_version }} state=installed
   notify:
     - restart ts-delta-import-process
-  when: snomed_release_service_api_version != 'installed' and snomed_release_service_api_version != 'latest'
+  when: orchestration_service_version != 'installed' and orchestration_service_version != 'latest'
   tags:
     - ihtsdo-asset
 
