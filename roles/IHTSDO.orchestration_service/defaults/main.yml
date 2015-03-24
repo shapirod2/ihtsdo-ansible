@@ -1,36 +1,39 @@
-server.port=9001
+
+---
+orchestration_server_port=9007
 
 # Snow Owl Server
-snowowl.url = http://localhost:8080/snowowl/
-snowowl.username =
-snowowl.password =
-snowowl.reasonerId = au.csiro.snorocket.owlapi3.snorocket.factory
-
-#SRS Server
-srs.root.url = https://localhost/api/v1/
-srs.product = centers/international/products/snomed_ct_release/
-srs.username =
-srs.password =
-
-#RVF Server
-rvf.pollPeriod = 60  #Polling interval in seconds
-rvf.timeout = 120 #Timeout in minutes
+orchestration_snowowl_url: http://localhost:8080/snowowl/
+orchestration_snowowl_username:
+orchestration_snowowl_password:
+orchestration_snowowl_reasonerId: au.csiro.snorocket.owlapi3.snorocket.factory
 
 # Jira
-jira.url = http://localhost:8080/jira
-jira.username =
-jira.password =
-jira.importProjectKey =
-jira.contentProjectKey =
+orchestration_jira_url: http://uat-jira.ihtsdotools.org:8080/
+orchestration_jira_username:
+orchestration_jira_password:
+orchestration_jira_contentProjectKey: TIDD
 
-aws.key =
-aws.secretKey =
-aws.bucket.archives =
-aws.bucket.filter =
+# AWS 'dev-ts-sync' user
+orchestration_aws_key:
+orchestration_aws_secretKey: 
+orchestration_aws_bucket_archives: dev.workbench-output.ihtsdo
+orchestration_aws_bucket_filter: dev.workbench-output-filter.ihtsdo
 
-google.docs.concept.blacklist.url =
+#SNOMED Release Service settings
+orchestration_srs_root_url: https://dev-release.ihtsdotools.org/api/v1/
+orchestration_srs.product: centers/international/products/snomed_ct_release/
+orchestration_srs_username: 
+orchestration_srs_password: 
 
-import.archive.prefix = WBRP_INT_EXTRACTION_DELTA_20
+#Release Validation Framework settings
+orchestration_rvf_pollPeriod: 60
+orchestration_rvf_timeout: 120
 
-schedule.startDailyImport.cron = 0 0 2 * * *
-schedule.pollJiraTickets.cron = 0 */3 * * * *
+orchestration_google_docs_concept_blacklist_url: https://docs.google.com/spreadsheets/d/1pUTPmJQAs0s9Iba-NWQrFRgvdSdhEs-BFEs-XDbDyoQ/pubhtml?gid=0&single=true
+
+orchestration_import_archive_prefix: WBRP_INT_EXTRACTION_DELTA_20
+
+# Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
+orchestration_schedule_startDailyImport_cron: 0 0 2 * * *
+orchestration_schedule_pollJiraTickets_cron: */30 * * * * *
