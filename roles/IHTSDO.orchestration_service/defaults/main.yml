@@ -35,5 +35,5 @@ orchestration_google_docs_concept_blacklist_url: https://docs.google.com/spreads
 orchestration_import_archive_prefix: WBRP_INT_EXTRACTION_DELTA_20
 
 # Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
-orchestration_schedule_startDailyImport_cron: 0 0 2 * * *
-orchestration_schedule_pollJiraTickets_cron: */30 * * * * *
+orchestration_schedule_startDailyImport_cron: "0 0 2 * * *"
+orchestration_schedule_pollJiraTickets_cron: "*/30 * * * * *"
