@@ -1,0 +1,40 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=120
+  tags:
+    - ihtsdo-asset
+
+- name: Install ts-delta-import-process package
+  apt: name=ts-delta-import-process state=installed
+  notify:
+    - restart ts-delta-import-process
+  when: ts-delta-import-process_version == 'installed'
+  tags:
+    - ihtsdo-asset
+    
+- name: Install latest ts-delta-import-process package
+  apt: name=ts-delta-import-process state=latest
+  notify:
+    - restart ts-delta-import-process
+  when: snomed_release_service_api_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install ts-delta-import-process package specific version
+  apt: name=ts-delta-import-process={{ snomed_release_service_api_version }} state=installed
+  notify:
+    - restart ts-delta-import-process
+  when: snomed_release_service_api_version != 'installed' and snomed_release_service_api_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure
+  template: src=application.properties.j2 dest=/etc/opt/ts-delta-import-process/application.properties
+            owner=root group=ts-delta-import-process mode=0640
+  notify:
+    - restart ts-delta-import-process
+  tags:
+    - ihtsdo-asset
+
+
+
