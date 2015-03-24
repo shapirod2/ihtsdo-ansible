@@ -1,6 +1,6 @@
 
 ---
-orchestration_server_port=9007
+orchestration_server_port: 9007
 
 # Snow Owl Server
 orchestration_snowowl_url: http://localhost:8080/snowowl/
