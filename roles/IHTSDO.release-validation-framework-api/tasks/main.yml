@@ -31,8 +31,24 @@
   tags:
     - ihtsdo-asset
 
-- name: Configure
-  template: src=config.properties.j2 dest=/etc/opt/rvf-api/config.properties
+- name: Configure data-service
+  template: src=data-service.properties.j2 dest=/etc/opt/rvf-api/data-service.properties
+            owner=root group=rvf-api mode=0640
+  notify:
+    - restart rvf-api
+  tags:
+    - ihtsdo-asset
+    
+- name: Configure execution-service
+  template: src=execution-service.properties.j2 dest=/etc/opt/rvf-api/execution-service.properties
+            owner=root group=rvf-api mode=0640
+  notify:
+    - restart rvf-api
+  tags:
+    - ihtsdo-asset
+    
+- name: Configure validation-service
+  template: src=validation-service.properties.j2 dest=/etc/opt/rvf-api/validation-service.properties
             owner=root group=rvf-api mode=0640
   notify:
     - restart rvf-api
