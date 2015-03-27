@@ -1,0 +1,27 @@
+# {{ ansible_managed }}
+
+# -- settings file for access to SNOMED CT  QA data -- #
+rvf.snomed.jdbc.url = {{ rvf_snomed_jdbc_url }}
+rvf.snomed.jdbc.username = {{ rvf_snomed_jdbc_username }}
+rvf.snomed.jdbc.password = {{ rvf_snomed_jdbc_password }}
+rvf.snomed.jdbc.driverClassName = {{ rvf_snomed_jdbc_driverClassName }}
+rvf.snomed.schema.name = {{ rvf_snomed_schema_name }}
+
+#rvf schema parameters
+rvf.qa.result.table.name = {{ rvf_qa_result_table_name }}
+rvf.assertion.id.column.name = {{ rvf_assertion_id_column_name }}
+rvf.assertion.name.column.name = {{ rvf_assertion_name_column_name }}
+rvf.assertion.details.column.name = {{ rvf_assertion_details_column_name }}
+rvf.delta.table.suffix = {{ rvf_delta_table_suffix }}
+rvf.snapshot.table.suffix = {{ rvf_snapshot_table_suffix }}
+rvf.full.table.suffix = {{ rvf_full_table_suffix }}
+
+# set to empty for tests to work - but need to be set to /opt/rvf-api/data in production
+rvf.data.folder.location = {{ rvf_data_folder_location }}
+
+# AWS Settings
+offlineMode = {{ offlineMode }}
+aws.key = {{ aws_key }}
+aws.privateKey = {{ aws_privateKey }}
+bucketName = {{ bucketName }}
+s3.offline.directory = {{ s3_offline_directory }}
