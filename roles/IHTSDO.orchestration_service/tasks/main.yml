@@ -35,6 +35,16 @@
     - restart ts-delta-import-process
   tags:
     - ihtsdo-asset
+    
+- name: Configure Logging in Supervisor Startup
+  replace:
+      dest=/etc/supervisor/conf.d/ts-delta-import-process.conf
+      regexp='LOG_LEVEL=debug'
+      replace='LOG_LEVEL={{ orchestration_ihtsdo_log_level }}'
+  notify:
+    - restart ts-delta-import-process
+  tags:
+    - ihtsdo-asset
 
 
 
