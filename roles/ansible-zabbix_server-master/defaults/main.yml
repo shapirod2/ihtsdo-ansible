@@ -5,7 +5,7 @@ zabbixserver_minor          : '4'
 zabbixserver_revision       : '4'
 
 ##Zabbix Server
-zabbixserver_host           : "{{ansible_ssh_host}}"
+zabbixserver_host           : "{{inventory_hostname}}"
 zabbixserver_name           : "{{inventory_hostname}}"
 ## Zabbix Server Extra options
 zabbixserver_LogFile        : "/var/log/zabbix/zabbixserver.log"
@@ -32,7 +32,7 @@ zabbixserver_front_pass     : "zabbix"  ## fresh installation default 'Zabbix' (
 ## Zabbix Server options
 zabbixserver_install        : True    ## Install server True or False
 zabbixserver_install_type   : 'server'  ## Install zabbix 'server' or 'proxy'
-zabbixserver_port           : 10051     ## Default 10051
+zabbixserver_port           : "10051"     ## Default 10051
 
 ##Database options
 zabbixserver_db_install     : False ## Install database True or False depands on other roles read the docs
@@ -41,7 +41,7 @@ zabbixserver_db_name        : "zabbix"
 zabbixserver_db_user        : "zabbix"
 zabbixserver_db_pass        : "READRdXxc&2zgvgzs_blaaaaaa" ##TODO: Change to by random
 zabbixserver_db_host        : "localhost" ##by default same server
-zabbixserver_db_port        : 5432
+zabbixserver_db_port        : "5432"
 zabbixserver_db_intial_dir  : "/usr/share/zabbix-server-{{zabbixserver_db_type}}"
 
 
