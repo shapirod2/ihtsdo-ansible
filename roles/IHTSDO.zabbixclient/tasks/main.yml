@@ -63,7 +63,7 @@
 # Add the autossh script to the home of the zabbixserver_tunnel_user
 
 - name: Add autossh script
-  template: src=autosshtunnel.sh.j2 dest={{script_dir}}/autosshtunnel.sh
+  template: src=autosshtunnel.sh.j2 dest={{script_path}}
               owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0700
  
 
@@ -77,5 +77,10 @@
 - name: ensure zabbixserver1 is a known host
   known_hosts: host={{zabbixserver1}} state=present owner={{exec_as}}
 
- 
+- name: add command into rc.local
+  lineinfile: dest=/etc/rc.local  insertbefore="^exit 0" line="{{script_path}}" state="present"
+
+- name: call script directly first time.
+  command: "{{ script_path }}"
+   
 
