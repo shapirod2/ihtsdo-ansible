@@ -44,7 +44,7 @@
 - name: tunnel_mgt | Create tunnel user - forward only no shell
   user: 
     name="{{zabbixserver_tunnel_user}}"
-    shell="/bin/bash"
+    shell="/bin/false"
     uid="65111" 
   
   #shell="/bin/false"
@@ -56,5 +56,26 @@
 - name: Copy .ssh folder
   action: copy src=/{{zabbix_user_dir}}/{{zabbixserver1}}/home/{{zabbixserver_tunnel_user}}/.ssh dest=/home/{{zabbixserver_tunnel_user}} owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
   
-# Add the autossh line  
+  
+- name: make sure scripts dir exists
+  file: path={{script_dir}}  state=directory 
+  
+# Add the autossh script to the home of the zabbixserver_tunnel_user
+
+- name: Add autossh script
+  template: src=autosshtunnel.sh.j2 dest={{script_dir}}/autosshtunnel.sh
+              owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0700
+              
+#- name: ensure zabbixserver1 is a known host
+#  lineinfile:
+#    dest: /root/.ssh/known_hosts
+#    create: yes
+#    state: present
+#    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa {{zabbixserver1}}') }}"
+#    regexp: "^{{zabbixserver1}}"             
+
+- name: ensure zabbixserver1 is a known host
+  known_hosts: host={{zabbixserver1}} state=present owner=root
+
+ 
 

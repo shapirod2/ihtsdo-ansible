@@ -6,6 +6,9 @@ zabbixserver_minor          : '4'
 zabbixserver_revision       : '4'
 
 
+script_dir: "/home/{{zabbixserver_tunnel_user}}/scripts"
+
+
 
 
 
