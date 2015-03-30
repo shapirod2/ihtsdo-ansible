@@ -6,6 +6,8 @@ snowowl.url = {{ orchestration_snowowl_url }}
 snowowl.username = {{ orchestration_snowowl_username }}
 snowowl.password = {{ orchestration_snowowl_password }}
 snowowl.reasonerId = {{ orchestration_snowowl_reasonerId }}
+snowowl.log.path = {{ orchestration_snowowl_log_path }}
+snowowl.rolloverLog.path = {{ orchestration_snowowl_rollover_log_path }}
 
 # Jira
 jira.url = {{ orchestration_jira_url }}
@@ -37,6 +39,3 @@ import.archive.prefix = {{ orchestration_import_archive_prefix }}
 # Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
 schedule.startDailyImport.cron = {{ orchestration_schedule_startDailyImport_cron }}
 schedule.pollJiraTickets.cron = {{ orchestration_schedule_pollJiraTickets_cron }}
-
-snowowl.log.path = {{ snowowl_log_path }}
-snowowl.rolloverLog.path = {{ snowowl_rolloverLog_path }}
