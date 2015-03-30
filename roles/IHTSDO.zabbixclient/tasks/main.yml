@@ -65,17 +65,17 @@
 - name: Add autossh script
   template: src=autosshtunnel.sh.j2 dest={{script_dir}}/autosshtunnel.sh
               owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0700
+ 
+
+- name: make sure ssh_dir exists
+  file: path={{ssh_dir}}  owner={{exec_as}} group={{exec_as}} state=directory               
               
-#- name: ensure zabbixserver1 is a known host
-#  lineinfile:
-#    dest: /root/.ssh/known_hosts
-#    create: yes
-#    state: present
-#    line: "{{ lookup('pipe', 'ssh-keyscan -t rsa {{zabbixserver1}}') }}"
-#    regexp: "^{{zabbixserver1}}"             
+- name: make sure known_hosts exists
+  file: path={{ssh_dir}}/known_hosts state=touch owner={{exec_as}} group={{exec_as}}  mode="644"              
+            
 
 - name: ensure zabbixserver1 is a known host
-  known_hosts: host={{zabbixserver1}} state=present owner=root
+  known_hosts: host={{zabbixserver1}} state=present owner={{exec_as}}
 
  
 

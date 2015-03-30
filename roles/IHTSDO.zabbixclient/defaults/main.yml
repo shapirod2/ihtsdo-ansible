@@ -7,6 +7,8 @@ zabbixserver_revision       : '4'
 
 
 script_dir: "/home/{{zabbixserver_tunnel_user}}/scripts"
+ssh_dir: "/root/.ssh"
+exec_as: root
 
 
 
