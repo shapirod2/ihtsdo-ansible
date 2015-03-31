@@ -9,6 +9,7 @@ orchestration_snowowl_password:
 orchestration_snowowl_reasonerId: au.csiro.snorocket.owlapi3.snorocket.factory
 orchestration_snowowl_log_path: /opt/termserver/serviceability/logs/log.log
 orchestration_snowowl_rollover_log_path: /opt/termserver/serviceability/logs/log_1.log
+orchestration_snowowl_export_from_date: 20150201
 
 # Jira
 orchestration_jira_url: http://uat-jira.ihtsdotools.org:8080/
