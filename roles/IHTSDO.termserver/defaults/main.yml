@@ -17,8 +17,8 @@ term_serv_import_file: snowowl-ihtsdo-20150131-data.zip
 term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-20150131-data/dataset"
 
 
-#zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
-zip_base_url: "https://va-static-web.ihtsdotools.org/zips/"
+zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
+#zip_base_url: "https://va-static-web.ihtsdotools.org/zips/"
 
 zip_url: "{{zip_base_url}}{{ term_serv_import_file }}"
 
@@ -30,4 +30,5 @@ term_serv_dir_resources: "{{term_serv_dir}}/resources"
 
 
 mysql_service: mysql
+
 

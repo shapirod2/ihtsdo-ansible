@@ -2,6 +2,9 @@
 - name: restart termserver
   supervisorctl: name=termserver state=restarted
   
+- name: restart nginx
+  service: name=nginx state=restarted  
+  
   
 
 
