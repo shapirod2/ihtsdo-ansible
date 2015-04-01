@@ -6,7 +6,7 @@
 
 
 - name: Install term server web front end
-  apt: pkg=snow-owl-browser state=latest force=yes
+  apt: pkg=terminology-server-browser state=latest force=yes
   
 
 - name: Install SSL cert
