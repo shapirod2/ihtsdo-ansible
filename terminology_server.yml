@@ -8,4 +8,6 @@
     sudo: true
     roles:
       - IHTSDO.termserver
+      - IHTSDO.nginx-std 
+      - IHTSDO.termserver-web
 
