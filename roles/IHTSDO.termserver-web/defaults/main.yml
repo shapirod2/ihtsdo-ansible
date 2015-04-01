@@ -1,0 +1,16 @@
+---
+
+nginx_ssl_key_file: files/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: /etc/ssl/certs/termserver.crt
+nginx_ssl_key_file_dest: /etc/ssl/private/termserver.key
+nginx_ufw_allow_https: true
+nginx_conf: termserver
+nginx_fqdn: ~(?i)term
+nginx_default_site: true
+nginx_ufw_allow_https: true
+nginx_proxy_url: http://localhost:8080/snowowl
+nginx_root: /opt/terminology-server-browser/lib
+nginx_root_files: index index.html test-components.html;
+
+

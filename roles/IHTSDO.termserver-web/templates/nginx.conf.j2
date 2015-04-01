@@ -26,8 +26,24 @@ server {
         set $secure on;
   }
   
+   {% if nginx_root is defined %}
+   root {{nginx_root}};
+   {% endif %} 
+   {% if nginx_root_files is defined %}
+   {{nginx_root_files}};
+   {% endif %} 
+  
+    location / {
+     try_files $uri $uri/ =404;
+     
+        if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
+        return 503;
+   }  
+    
+   }
+  
 
-  location / {
+  location /snowowl {
   {% if nginx_proxy_url is defined %}
       proxy_pass {{ nginx_proxy_url }};
       proxy_http_version 1.1;
@@ -50,14 +66,7 @@ server {
       proxy_set_header X-Forwarded-Host $host;
       
       
-   {% endif %}  
-      
-   {% if nginx_root is defined %}
-   root {{nginx_root}};
-   {% endif %} 
-   {% if nginx_root_files is defined %}
-   {{nginx_root_files}};
-   {% endif %}    
+     
       
    if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
         return 503;
