@@ -36,6 +36,7 @@ orchestration_rvf_timeout: 120
 orchestration_google_docs_concept_blacklist_url: https://docs.google.com/spreadsheets/d/1pUTPmJQAs0s9Iba-NWQrFRgvdSdhEs-BFEs-XDbDyoQ/pubhtml?gid=0&single=true
 
 orchestration_import_archive_prefix: WBRP_INT_EXTRACTION_DELTA_20
+orchestration_import_archive_ignore: WBRP_INT_EXTRACTION_DELTA_20150131
 
 # Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
 orchestration_schedule_startDailyImport_cron: "0 0 2 * * *"
