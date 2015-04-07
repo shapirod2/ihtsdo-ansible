@@ -1,0 +1,15 @@
+ 
+  - name: Print Details
+    debug: msg="Distribution - {{ansible_distribution}}, Version - {{ansible_distribution_version}}, Release Name - {{ansible_distribution_release}},  LSB Release - {{ ansible_lsb.major_release }}"
+ 
+  - name: Print not Std Dist
+    debug: msg="Not Standard Distribution. Std Dist = {{std_dist}} . This Dist = {{ansible_distribution}}"
+    when: "ansible_distribution != std_dist"
+              
+  - name: Print not Std Release
+    debug: msg="Not Standard Release. Std Release = {{std_version}} . This Release = {{ansible_distribution_version}}"
+    when: "ansible_distribution_version != std_version"        
+
+         
+
+    
