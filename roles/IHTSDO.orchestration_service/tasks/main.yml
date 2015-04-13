@@ -4,45 +4,45 @@
   tags:
     - ihtsdo-asset
 
-- name: Install ts-delta-import-process package
-  apt: name=ts-delta-import-process state=installed
+- name: Install orchestration-service package
+  apt: name=orchestration-service state=installed
   notify:
-    - restart ts-delta-import-process
+    - restart orchestration-service
   when: orchestration_service_version == 'installed'
   tags:
     - ihtsdo-asset
     
-- name: Install latest ts-delta-import-process package
-  apt: name=ts-delta-import-process state=latest
+- name: Install latest orchestration-service package
+  apt: name=orchestration-service state=latest
   notify:
-    - restart ts-delta-import-process
+    - restart orchestration-service
   when: orchestration_service_version == 'latest'
   tags:
     - ihtsdo-asset
 
-- name: Install ts-delta-import-process package specific version
-  apt: name=ts-delta-import-process={{ orchestration_service_version }} state=installed
+- name: Install orchestration-service package specific version
+  apt: name=orchestration-service={{ orchestration_service_version }} state=installed
   notify:
-    - restart ts-delta-import-process
+    - restart orchestration-service
   when: orchestration_service_version != 'installed' and orchestration_service_version != 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Configure
-  template: src=application.properties.j2 dest=/etc/opt/ts-delta-import-process/application.properties
-            owner=root group=ts-delta-import-process mode=0640
+  template: src=application.properties.j2 dest=/etc/opt/orchestration-service/application.properties
+            owner=root group=orchestration-service mode=0640
   notify:
-    - restart ts-delta-import-process
+    - restart orchestration-service
   tags:
     - ihtsdo-asset
     
 - name: Configure Logging in Supervisor Startup
   replace:
-      dest=/etc/supervisor/conf.d/ts-delta-import-process.conf
+      dest=/etc/supervisor/conf.d/orchestration-service.conf
       regexp='LOG_LEVEL=debug'
       replace='LOG_LEVEL={{ orchestration_ihtsdo_log_level }}'
   notify:
-    - restart ts-delta-import-process
+    - restart orchestration-service
   tags:
     - ihtsdo-asset
 
