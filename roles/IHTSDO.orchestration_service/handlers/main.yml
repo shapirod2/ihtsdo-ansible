@@ -1,4 +1,4 @@
 ---
-- name: restart ts-delta-import-process
-  supervisorctl: name=ts-delta-import-process state=restarted
+- name: restart orchestration-service
+  supervisorctl: name=orchestration-service state=restarted
 
