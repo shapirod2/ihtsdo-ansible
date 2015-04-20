@@ -1,0 +1,11 @@
+  - name: Debug text from files/rewrites.txt 
+    debug: msg="the value of rewrites.txt is {{ rewrite_contents }}"
+    when: "include_rewrites == true"
+    
+  - name: Insert text from files/rewrites.txt 
+    lineinfile: dest={{nginx_conf_dir}}{{nginx_conf}}.conf  insertafter="^#endofhttpsServer" line="{{rewrite_contents}}" state="present"
+    when: "include_rewrites == true"    
+    
+  - name: restart nginx
+    service: name=nginx state=restarted 
+    

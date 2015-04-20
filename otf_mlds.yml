@@ -7,5 +7,6 @@
   - hosts: mlds
     sudo: true
     roles:
-      - IHTSDO.mlds   
       - IHTSDO.nginx-std
+      - IHTSDO.mlds   
+

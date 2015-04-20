@@ -1,0 +1,2 @@
+#rewrites
+rewrite ^/in /#/landing/IN?lang=en permanent;

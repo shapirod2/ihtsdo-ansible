@@ -1,0 +1,35 @@
+  - name: Install mlds package
+    apt: name=mlds state=installed
+    notify:
+      - restart mlds
+    when: mlds_version == 'installed'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install latest mlds package
+    apt: name=mlds state=latest
+    notify:
+      - restart mlds
+    when: mlds_version == 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install mlds package specific version
+    apt: name=mlds={{ mlds_version }} state=installed
+    notify:
+      - restart mlds
+    when: mlds_version != 'installed' and mlds_version != 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Configure
+    template: src=config.properties.j2 dest=/etc/opt/mlds/config.properties
+              owner=root group=mlds mode=0640
+    notify:
+      - restart mlds
+    tags:
+      - ihtsdo-asset
+      
+  - name: restart mlds
+    supervisorctl: name=mlds state=restarted 
+    

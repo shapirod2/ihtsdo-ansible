@@ -1,124 +1,18 @@
 ---
-#  - name: Add PostgreSQL repository
-#    apt_repository: repo='deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main' state=present
-#    sudo: yes
- 
-#  - name: Add PostgreSQL repository key
-#    apt_key: url=https://www.postgresql.org/media/keys/ACCC4CF8.asc state=present
-#    sudo: yes
-
- 
-  - name: Update apt cache
-    apt: update_cache=yes
-    sudo: yes
-
-  - name: ensure postgres is installed
-    apt: pkg=postgresql state=latest
-#    apt: pkg=postgresql-9.1 state=latest
-
-  - name: ensure postgres contrib/Adminpack is installed
-    apt: pkg=postgresql-contrib state=latest
-
-  - name: ansible postgres python deps
-    apt: pkg=python-psycopg2
+ # - name: Update apt cache
+ #   apt: update_cache=yes
+ #   sudo: yes
     
-  - name: stop mlds
-    supervisorctl: name=mlds state=stopped  
-    
-  - name: drop mlds db if rebuilding for testing  
-    sudo_user: postgres
-    postgresql_db: name=mlds state=absent
-    when: mlds_drop_db == 'true'  
-
-  - name: create mlds user
-    sudo_user: postgres
-    postgresql_user: name=mlds password=password role_attr_flags=LOGIN,NOSUPERUSER
-
-  - name: create mlds db
-    sudo_user: postgres
-    postgresql_db: name=mlds 
-                     encoding='UTF-8' 
-                     lc_collate=en_US.UTF-8
-                     lc_ctype=en_US.UTF-8
-                     template='template0'
+  - include: db.yml
+    when: "only_rewrites is not defined or not only_rewrites == true"
  
-  - name: create admin pack extension
-    sudo_user: postgres
-    action: command psql -c 'CREATE EXTENSION adminpack;' 
-    ignore_errors: True                    
+  - include: mlds.yml
+    when: "only_rewrites is not defined or not only_rewrites == true"
 
-  - name: Apt cache update
-    apt: update_cache=yes cache_valid_time=120
-    tags:
-      - ihtsdo-asset
-
-  - name: Install mlds package
-    apt: name=mlds state=installed
-    notify:
-      - restart mlds
-    when: mlds_version == 'installed'
-    tags:
-      - ihtsdo-asset
-
-  - name: Install latest mlds package
-    apt: name=mlds state=latest
-    notify:
-      - restart mlds
-    when: mlds_version == 'latest'
-    tags:
-      - ihtsdo-asset
-
-  - name: Install mlds package specific version
-    apt: name=mlds={{ mlds_version }} state=installed
-    notify:
-      - restart mlds
-    when: mlds_version != 'installed' and mlds_version != 'latest'
-    tags:
-      - ihtsdo-asset
-
-  - name: Configure
-    template: src=config.properties.j2 dest=/etc/opt/mlds/config.properties
-              owner=root group=mlds mode=0640
-    notify:
-      - restart mlds
-    tags:
-      - ihtsdo-asset
-
- # - name: Install SSL cert
- #   copy: src={{ mlds_nginx_ssl_cert_file }} dest={{ mlds_nginx_ssl_cert_file_dest }}
- #         owner=root group=root mode=0644
- #   notify:
- #     - restart nginx
- #   tags:
- #     - ihtsdo-asset
- #     - nginx
-
-#  - name: Install SSL key
-#    copy: src={{ mlds_nginx_ssl_key_file }} dest={{ mlds_nginx_ssl_key_file_dest }}
-#          owner=root group=root mode=0600
-#    notify:
-#      - restart nginx
-#    tags:
-#      - ihtsdo-asset
-#      - nginx
-
-#  - name: Configure nginx
-#    template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-#              owner=root group=mlds mode=0640
-#    notify:
-#      - restart nginx
-#    tags:
-#      - ihtsdo-asset
-#      - nginx   
-      
-  - name: Allow PostGreSQL through the firewall  
-    ufw: rule=allow port=5432 proto=any
-  
   - name: Reload the firewall  
     ufw: state=reloaded   
     
-  - name: restart mlds
-    supervisorctl: name=mlds state=restarted
+  - include: rewrites.yml
+    when: "include_rewrites == true"
 
-#  - name: restart nginx
-#    service: name=nginx state=restarted                          
+                         
