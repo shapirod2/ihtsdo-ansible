@@ -12,5 +12,5 @@ include_rewrites: true
 
 rewrite_contents: "{{ lookup('file', 'rewrites.txt') }}"
 
-only_rewrites:  true
+#only_rewrites:  true
 
