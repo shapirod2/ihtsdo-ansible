@@ -13,7 +13,7 @@ term_serv_dir: /opt/termserver
 #term_serv_import_file: snowowl-ihtsdo-2014-data.zip
 #term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-2014-data/dataset"
 
-term_serv_import_file: snowowl-ihtsdo-20150131-data.zip
+term_serv_import_file: snowowl-ihtsdo-20150131-inc_refsets-data.zip
 term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-20150131-data/dataset"
 
 
