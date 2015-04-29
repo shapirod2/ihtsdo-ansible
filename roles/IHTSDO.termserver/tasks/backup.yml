@@ -1,0 +1,28 @@
+
+#- name: Set MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- name: Confirm MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
+
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server state=present
+  
+# set the my.cnf
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
+
+# Install the package "python-mysqldb"
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
+
+
+
+# Creates database user 'srs_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name={{ts_user}} password={{ts_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+
+
+- name: restart mysql
+  service: name={{ mysql_service }} state=restarted 
