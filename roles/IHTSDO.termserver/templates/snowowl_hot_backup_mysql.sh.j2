@@ -15,16 +15,16 @@
 SNOW_OWL_SERVER_HOME="{{ term_serv_dir }}"
 
 # The username used for creating hot backups (should be a valid Snow Owl user)
-SNOWOWL_USERNAME="user@localhost.localdomain"
+SNOWOWL_USERNAME="{{ snow_user }}"
 
 # The password for the user given above
-SNOWOWL_PASSWORD="password123"
+SNOWOWL_PASSWORD="{{ snow_pw }}"
 
 # The MySQL username used for creating the database dump
-MYSQL_USERNAME="snowowl"
+MYSQL_USERNAME="{{ ts_user }}"
 
 # The password for the user given above
-MYSQL_PASSWORD="snowowl"
+MYSQL_PASSWORD="{{ ts_pw }}"
 
 # The timestamp suffix for the top-level directory, eg. 20120904_1021
 CURRENT_DATE=`date +%Y%m%d_%H%M`
@@ -45,16 +45,16 @@ RETRIES=5
 RETRY_WAIT_MINUTES=5
 
 # The starting directory
-INITIAL_PWD="$PWD"
+backup_dir="{{ backup_dir }}"
 
 # The working directory and the resulting archive file prefix
 ARCHIVE_PREFIX="snowowl_$CURRENT_DATE"
 
 # The absolute path to the above
-ABSOLUTE_ARCHIVE_PREFIX="$INITIAL_PWD/$ARCHIVE_PREFIX"
+ABSOLUTE_ARCHIVE_PREFIX="$backup_dir/$ARCHIVE_PREFIX"
 
 # The base URL of the REST services to use
-BASE_URL="http://localhost:8080/snowowl"
+BASE_URL="{{ base_url }}"
 
 # The base URL for administrative services
 ADMIN_BASE_URL="$BASE_URL/admin"
@@ -135,7 +135,7 @@ backup_repository_index_version() {
 	fi
 
 	# Return to the initial directory.
-	cd "$INITIAL_PWD"
+	cd "$backup_dir"
 }
 
 # Save index content for all versions
@@ -160,7 +160,7 @@ backup_repository_index_versions() {
 backup_repository() {
 	lock_repository
 	
-	cd "$INITIAL_PWD"
+	cd "$backup_dir"
 	DATABASE_DUMP_FILE="$REPOSITORY.sql"
 	
 	echo_date "Creating SQL dump from contents of repository $REPOSITORY..."
@@ -235,7 +235,7 @@ backup_supporting_index_snapshot() {
 	fi
 	
 	# Return to the initial directory.
-	cd "$INITIAL_PWD"
+	cd "$backup_dir"
 }
 
 # Creates a snapshot of the specified supporting index, then saves its content.
@@ -266,7 +266,7 @@ backup_supporting_indexes() {
 	
 	echo_date "Done backing up supporting indexes."
 }
-
+backup_dir
 # Sends a message to connected users.
 send_message() {
 	rest_call -H "Content-Type:text/plain" --data "$1" "$ADMIN_BASE_URL/messages/send"
@@ -340,15 +340,38 @@ main() {
 	send_message "Write access to repositories restored."	
 
 	echo_date "Creating archive..."
-	cd "$INITIAL_PWD"
+	cd "$backup_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
 	echo_date "Finished successfully."
+	delete_old
+	movetoaws
 	exit 0
 }
 
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
+echo "Backup transferred";
+echo "Backup process complete";
+fi
+}
+
+delete_old() { 
+echo "Cleaning up old backups prior to moving them to aws"
+ if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+  then   
+   echo "Deleting old back ups backup dir = "${backup_dir}; 
+   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+ fi
+}
+
 # Ensures that only a single instance is running at any time
-LOCKFILE="/var/run/snowowl-backup/instance.lock"
+LOCKFILE="$backup_dir/instance.lock"
 
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."

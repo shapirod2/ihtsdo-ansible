@@ -8,7 +8,9 @@ force_zip_download:  False
 
 term_serv_dataDir: /opt/data/termserver
 term_serv_dir: /opt/termserver
+backup_dir: /opt/backup/termserver
 
+base_url: http://localhost:8080/snowowl
 
 #term_serv_import_file: snowowl-ihtsdo-2014-data.zip
 #term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-2014-data/dataset"

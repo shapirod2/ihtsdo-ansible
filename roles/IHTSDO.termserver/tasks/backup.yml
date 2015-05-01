@@ -1,28 +1,15 @@
+  - name: Assures backup_dir dir exists
+    file: path="{{ backup_dir }}" state=directory
+ 
+  - name: Configure cold backup script
+    template: src=snowowl_cold_backup_mysql.sh.j2 dest="{{ backup_dir }}/snowowl_cold_backup_mysql.sh"
+              owner=root group=root mode=0740
+              
+  - name: Configure hot backup script
+    template: src=snowowl_hot_backup_mysql.sh.j2 dest="{{ backup_dir }}/snowowl_hot_backup_mysql.sh"
+              owner=root group=root mode=0740              
+              
+#  - name: Add to cron
+#    cron: name="Run back up" minute="0" hour="{{cron_backup_hour}}" job="/opt/scripts/{{db_type}}/db_backup.sh"              
 
-#- name: Set MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
-
-#- name: Confirm MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
-
-
-# Install the package "mysql-server"
-- name: Install mysql server
-  apt: name=mysql-server state=present
-  
-# set the my.cnf
-- name: Copy my.cnf
-  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
-
-# Install the package "python-mysqldb"
-- name: Install mysql python helper
-  apt: name=python-mysqldb state=present
-
-
-
-# Creates database user 'srs_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name={{ts_user}} password={{ts_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
-
-
-- name: restart mysql
-  service: name={{ mysql_service }} state=restarted 
+         

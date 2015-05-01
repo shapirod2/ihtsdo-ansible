@@ -17,6 +17,9 @@
   shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'  
 
 
+#Setup the backup 
+- include: backup.yml
+
 #If setting up the content
 - include: setdbcontent.yml
   when: "set_db_content == True"
