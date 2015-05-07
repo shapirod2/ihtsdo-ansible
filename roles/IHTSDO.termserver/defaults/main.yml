@@ -1,7 +1,7 @@
 ---
 termserver_version: latest
 environment_shortname: UNKNOWN
-set_db_content:  False
+set_db_content:  True
 force_zip_download:  False
 
 #Import
@@ -9,18 +9,27 @@ force_zip_download:  False
 term_serv_dataDir: /opt/data/termserver
 term_serv_dir: /opt/termserver
 backup_dir: /opt/backup/termserver
+zip_dir: /opt/backup/termserver/zips
+
 
 base_url: http://localhost:8080/snowowl
 
 #term_serv_import_file: snowowl-ihtsdo-2014-data.zip
 #term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-2014-data/dataset"
 
-term_serv_import_file: snowowl-ihtsdo-20150131-inc_refsets-data.zip
-term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-20150131-data/dataset"
+#term_serv_import_file: snowowl-ihtsdo-20150131-inc_refsets-data.zip
+#term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl-ihtsdo-20150131-data/dataset"
 
 
-zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
+
+#zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
 #zip_base_url: "https://va-static-web.ihtsdotools.org/zips/"
+
+zip_base_url: "https://s3.amazonaws.com/uat-term.backup.ihtsdo/"
+term_serv_import_file: "snowowl_uat-term_20150507_0852.zip"
+term_serv_datasetDir: "{{term_serv_dataDir}}/snowowl_uat-term_20150507_0852/resources"
+
+
 
 zip_url: "{{zip_base_url}}{{ term_serv_import_file }}"
 
@@ -29,6 +38,8 @@ zip_url: "{{zip_base_url}}{{ term_serv_import_file }}"
 term_serv_sql: "{{term_serv_datasetDir}}/snomedStore.sql"
 term_serv_indexes: "{{term_serv_datasetDir}}/indexes"
 term_serv_dir_resources: "{{term_serv_dir}}/resources"
+term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/indexes"
+
 
 
 mysql_service: mysql

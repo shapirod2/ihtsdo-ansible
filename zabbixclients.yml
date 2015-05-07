@@ -1,5 +1,13 @@
 ---
   - hosts: zabbixclients
     sudo: true
+    vars:
+      user_accounts_skip_sshd: true
     roles:
+      #- IHTSDO.user-accounts
+      - IHTSDO.harden
+      - Ansibles.fail2ban
+      - IHTSDO.unattended-updates
       - IHTSDO.zabbixclient
+
+      

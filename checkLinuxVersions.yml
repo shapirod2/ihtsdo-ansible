@@ -1,0 +1,5 @@
+---
+  - hosts: zabbixclients
+    sudo: true
+    roles:
+      - IHTSDO.All-Report

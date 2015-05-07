@@ -1,0 +1,14 @@
+---
+do_cid: 621182318af9008f4ef9e6cc353a980b
+do_api_key: 7fb265fd0c000bd91311246e3e81afb0
+
+get_do_codes: true
+
+files_dir: "{{ playbook_dir }}/roles/IHTSDO.DigitalOcean/files"
+
+script: "{{ files_dir }}/get_digital_ocean_codes.sh"
+output: "{{ files_dir }}/do_codes.yml"
+
+def_do_region: 2
+def_do_size: 66
+def_do_image: 9801950

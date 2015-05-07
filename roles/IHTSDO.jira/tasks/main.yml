@@ -1,0 +1,27 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+#Setup the database
+- include: db.yml
+
+#- name: Stop jira if running
+#  supervisorctl: name=jira state=stopped
+
+#- name: Install jira
+#  apt: pkg=jira state=latest force=yes
+  
+#Setup the backup 
+#- include: backup.yml
+
+#If setting up the content
+#- include: setdbcontent.yml
+#  when: "set_db_content == True"
+  
+#- name: Start Jira
+#  supervisorctl: name=jira state=started
+
+
+

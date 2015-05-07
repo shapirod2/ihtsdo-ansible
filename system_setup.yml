@@ -1,7 +1,7 @@
 # Added the install java and super visor roles as it is common and means it does not have to be 
 # included everytime.
 ---
-- hosts: all
+- hosts: jira
   sudo: true
   vars:
     user_accounts_skip_sshd: true

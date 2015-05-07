@@ -1,5 +1,12 @@
+ 
+  - name: Make sure zip is installed
+    apt: name=zip state=installed 
+ 
   - name: Assures backup_dir dir exists
     file: path="{{ backup_dir }}" state=directory
+    
+  - name: Assures zip_dir dir exists
+    file: path="{{ zip_dir }}" state=directory  
  
   - name: Configure cold backup script
     template: src=snowowl_cold_backup_mysql.sh.j2 dest="{{ backup_dir }}/snowowl_cold_backup_mysql.sh"

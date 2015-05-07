@@ -11,7 +11,8 @@
 # The server should be stopped before running the script.
 #
 # The following variables should be set by editing this script before running it:
-
+# The S3 backup dir
+s3_backup_dir="{{s3_backup_dir | default('')}}"
 # The location of the Snow Owl Server installation, eg. /opt/snowowl (no trailing slash)
 SNOW_OWL_SERVER_HOME="{{ term_serv_dir }}"
 
@@ -27,11 +28,14 @@ CURRENT_DATE=`date +%Y%m%d_%H%M`
 # The starting directory
 backup_dir="{{ backup_dir }}"
 
+# The dir where zips go
+zip_dir="{{ zip_dir }}"
+
 # The working directory and the resulting archive file prefix
-ARCHIVE_PREFIX="snowowl_$CURRENT_DATE"
+ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
-ABSOLUTE_ARCHIVE_PREFIX="$backup_dir/$ARCHIVE_PREFIX"
+ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX"
 
 # The list of known terminology stores to preserve
 REPOSITORIES=( atcStore icd10Store icd10amStore \
@@ -101,7 +105,7 @@ backup_indexes() {
 
 # Saves content from a single repository.
 backup_repository() {
-	cd "$backup_dir"
+	cd "$zip_dir"
 	DATABASE_DUMP_FILE="$REPOSITORY.sql"
 	
 	echo_date "Creating SQL dump from contents of repository $REPOSITORY to $DATABASE_DUMP_FILE..."
@@ -134,7 +138,7 @@ main() {
 	backup_indexes
 	
 	echo_date "Creating archive..."
-	cd "$backup_dir"
+	cd "$zip_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
 	echo_date "Finished backup successfully."
@@ -149,7 +153,7 @@ echo "s3_backup_dir = "$s3_backup_dir;
 if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 then
 echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
+/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
 echo "Backup transferred";
 echo "Backup process complete";
 fi
@@ -157,10 +161,10 @@ fi
 
 delete_old() { 
 echo "Cleaning up old backups prior to moving them to aws"
- if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+ if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
   then   
-   echo "Deleting old back ups backup dir = "${backup_dir}; 
-   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+   echo "Deleting old back ups backup dir = "${zip_dir}; 
+   find ${zip_dir}/* -mtime +5 -exec rm {} \;
  fi
 }
 

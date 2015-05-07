@@ -10,7 +10,8 @@
 # server is kept running.
 
 # The following variables should be set by editing this script before running it:
-
+# The S3 backup dir
+s3_backup_dir="{{s3_backup_dir | default('')}}"
 # The location of the Snow Owl Server installation, eg. /opt/snowowl (no trailing slash)
 SNOW_OWL_SERVER_HOME="{{ term_serv_dir }}"
 
@@ -47,11 +48,17 @@ RETRY_WAIT_MINUTES=5
 # The starting directory
 backup_dir="{{ backup_dir }}"
 
+# The dir where zips go
+zip_dir="{{ zip_dir }}"
+
 # The working directory and the resulting archive file prefix
-ARCHIVE_PREFIX="snowowl_$CURRENT_DATE"
+ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
-ABSOLUTE_ARCHIVE_PREFIX="$backup_dir/$ARCHIVE_PREFIX"
+ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX"
+
+# The resources folder within the ABSOLUTE_ARCHIVE_PREFIX
+ABSOLUTE_ARCHIVE_RESOURCES="$ABSOLUTE_ARCHIVE_PREFIX/resources"
 
 # The base URL of the REST services to use
 BASE_URL="{{ base_url }}"
@@ -131,11 +138,11 @@ backup_repository_index_version() {
 	
 	# The returned REST message will contain the list of files (one per each line), which we pass to xargs.
 	if [ ! -z "$CURL_MESSAGE" ]; then
-		echo "$CURL_MESSAGE" | xargs --delimiter='\n' --max-lines=1 cp --verbose --parents --target-directory="$ABSOLUTE_ARCHIVE_PREFIX" || unlock_repository_and_exit "Couldn't copy files for version $VERSION of repository $REPOSITORY. Exiting with error."
+		echo "$CURL_MESSAGE" | xargs --delimiter='\n' --max-lines=1 cp --verbose --parents --target-directory="$ABSOLUTE_ARCHIVE_RESOURCES" || unlock_repository_and_exit "Couldn't copy files for version $VERSION of repository $REPOSITORY. Exiting with error."
 	fi
 
 	# Return to the initial directory.
-	cd "$backup_dir"
+	cd "$zip_dir"
 }
 
 # Save index content for all versions
@@ -160,7 +167,7 @@ backup_repository_index_versions() {
 backup_repository() {
 	lock_repository
 	
-	cd "$backup_dir"
+	cd "$zip_dir"
 	DATABASE_DUMP_FILE="$REPOSITORY.sql"
 	
 	echo_date "Creating SQL dump from contents of repository $REPOSITORY..."
@@ -231,11 +238,11 @@ backup_supporting_index_snapshot() {
 	fi
 	
 	if [ ! -z "$CURL_MESSAGE" ]; then
-		echo "$CURL_MESSAGE" | xargs --delimiter='\n' --max-lines=1 cp --verbose --parents --target-directory="$ABSOLUTE_ARCHIVE_PREFIX" || unlock_repository_and_exit "Couldn't copy files for snapshot $SNAPSHOT of supporting index $INDEX. Exiting with error."
+		echo "$CURL_MESSAGE" | xargs --delimiter='\n' --max-lines=1 cp --verbose --parents --target-directory="$ABSOLUTE_ARCHIVE_RESOURCES" || unlock_repository_and_exit "Couldn't copy files for snapshot $SNAPSHOT of supporting index $INDEX. Exiting with error."
 	fi
 	
 	# Return to the initial directory.
-	cd "$backup_dir"
+	cd "$zip_dir"
 }
 
 # Creates a snapshot of the specified supporting index, then saves its content.
@@ -306,7 +313,7 @@ main() {
 
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
-	
+	mkdir -pv "$ABSOLUTE_ARCHIVE_RESOURCES" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_RESOURCES'. Exiting with error."
 	echo_date "Starting backup; sending message to connected users."
 	send_message "Write access to repositories will be disabled while the system creates a backup in $INITIAL_WAIT_MINUTES minutes."
 	
@@ -340,7 +347,7 @@ main() {
 	send_message "Write access to repositories restored."	
 
 	echo_date "Creating archive..."
-	cd "$backup_dir"
+	cd "$zip_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
 	echo_date "Finished successfully."
@@ -355,7 +362,7 @@ echo "s3_backup_dir = "$s3_backup_dir;
 if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 then
 echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
+/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
 echo "Backup transferred";
 echo "Backup process complete";
 fi
@@ -363,10 +370,10 @@ fi
 
 delete_old() { 
 echo "Cleaning up old backups prior to moving them to aws"
- if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+ if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
   then   
-   echo "Deleting old back ups backup dir = "${backup_dir}; 
-   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+   echo "Deleting old back ups backup dir = "${zip_dir}; 
+   find ${zip_dir}/* -mtime +5 -exec rm {} \;
  fi
 }
 

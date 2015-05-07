@@ -38,29 +38,42 @@
   
 - debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
 
-- name: if present dump existing db
-  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
-  when: sqlimportfile.stat.exists == True
+#- name: if present dump existing db
+#  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+#  when: sqlimportfile.stat.exists == True
   
-- name: create db
-  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
-  when: sqlimportfile.stat.exists == True
+#- name: create db
+#  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+#  when: sqlimportfile.stat.exists == True
   
-#- name: Run the SQL file
+  
+  
+#- name: Run the SQL file -OLD
 #  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ term_serv_sql }}
 #  when: sqlimportfile.stat.exists == True
   
   
-#- name: Run the SQL file
+#- name: Run the SQL file -OLD
 #  shell: cat {{ term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
 #  when: sqlimportfile.stat.exists == True  
 
-- name: create db from backup
-  mysql_db: name={{ts_dbname}}  state=import target={{term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
-  when: sqlimportfile.stat.exists == True
+
+
+
+
+#- name: create db from backup
+#  mysql_db: name={{ts_dbname}}  state=import target={{term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+#  when: sqlimportfile.stat.exists == True
+
+
+- debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
+- debug: msg="term_serv_indexes = {{term_serv_indexes}}"
+- debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
+- debug: msg="term_serv_dir_resources_indexes = {{term_serv_dir_resources_indexes}}"
+
   
 - name: Remove dataset/indexes folder from termserv/resources
-  file: path={{term_serv_dir_resources}} state=absent
+  file: path={{term_serv_dir_resources_indexes}} state=absent
   #command: rm -rf {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True  
 

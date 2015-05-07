@@ -36,4 +36,13 @@
   group: name={{ item.key }} state=absent
   with_dict: users_deleted
   when: users_create_per_user_group
+  
+- name: Update Apt cache
+  apt: update_cache=yes
+  sudo: yes  
+  
+- name: Install zip
+  apt: name=zip state=installed  
 
+- name: Install unzip
+  apt: name=unzip state=installed

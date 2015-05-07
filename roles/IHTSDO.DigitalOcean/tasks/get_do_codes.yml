@@ -1,0 +1,17 @@
+---
+
+ 
+
+
+  - name: ensure jq is installed
+    apt: pkg=jq state=latest
+
+ #-  debug: var=hostvars[inventory_hostname]  
+ 
+  - name: make script executable 
+    local_action: "command chmod +x {{ script}} "  
+
+  - name: run local command 
+    local_action: "command {{ script}} {{do_cid}} {{do_api_key}} {{output}}"
+
+  

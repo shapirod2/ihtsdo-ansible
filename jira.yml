@@ -1,14 +1,13 @@
 ---
-  - hosts: termserver
+  - hosts: jira
     sudo: true
     roles:
       - IHTSDO.user-accounts
 
-  - hosts: termserver
+  - hosts: jira
     sudo: true
     roles:
       - IHTSDO.aws
-      - IHTSDO.termserver
+      - IHTSDO.jira
       - IHTSDO.nginx-std 
-      - IHTSDO.termserver-web
 
