@@ -6,68 +6,73 @@
 
 
 
-- name: Install unzip
-  apt: name=unzip state=present
+#- name: Install unzip
+#  apt: name=unzip state=present
   
-- name: Remove datadir so as to spark complete rebuild
-  file: path={{term_serv_dataDir}} state=absent
-  when: "force_zip_download == True" 
+#- name: Remove datadir so as to spark complete rebuild
+#  file: path={{import_term_serv_base_dir}} state=absent
+#  when: "force_zip_download == True" 
 
 - name: make sure dataDir exists
-  file: path={{term_serv_dataDir}}  state=directory
+  file: path={{import_term_serv_base_dir}}  state=directory
+  
+- debug: msg="import_term_serv_data_dir = {{import_term_serv_data_dir}}"   
+- debug: msg="import_term_serv_sql = {{import_term_serv_sql}}" 
+- debug: msg="import_zip_file = {{import_zip_file}}"
 
+
+
+- name: make sure zip file exists
+  stat: path={{import_zip_file}}
+  register: zipimportfile
+  
 - name: make sure sql file exists
-  stat: path={{term_serv_sql}}
+  stat: path={{import_term_serv_sql}}
   register: sqlimportfile
 
+- debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
 - debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
-
-- debug: msg="zip url = {{zip_url}}"
+- debug: msg="import_zip_url = {{import_zip_url}}"
 
 - name: download sql and indexes zip file if url is set
-  get_url: force=no url={{zip_url}} dest={{term_serv_dataDir}}/{{term_serv_import_file}} validate_certs=no mode=0440
-  when: sqlimportfile.stat.exists == False
+  get_url: force=no url={{import_zip_url}} dest={{import_term_serv_base_dir}}/{{import_term_serv_file}} validate_certs=no mode=0440
+  when: zipimportfile.stat.exists == False
 
 - name: Unarchive termserv archive on the remote machine
-  unarchive: src={{term_serv_dataDir}}/{{term_serv_import_file}} dest={{term_serv_dataDir}}/ copy=no
+  unarchive: src={{import_term_serv_base_dir}}/{{import_term_serv_file}} dest={{import_term_serv_base_dir}}/ copy=no
   when: sqlimportfile.stat.exists == False
 
-- name: make sure sql file exists again
-  stat: path={{term_serv_sql}}
+- name: make sure sql file exists
+  stat: path={{import_term_serv_sql}}
   register: sqlimportfile
   
 - debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
 
-#- name: if present dump existing db
-#  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
-#  when: sqlimportfile.stat.exists == True
+- name: if present dump existing db
+  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: sqlimportfile.stat.exists == True
   
-#- name: create db
-#  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
-#  when: sqlimportfile.stat.exists == True
+- name: create db
+  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
   
-  
-  
-#- name: Run the SQL file -OLD
-#  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ term_serv_sql }}
-#  when: sqlimportfile.stat.exists == True
   
   
 #- name: Run the SQL file -OLD
-#  shell: cat {{ term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
+#  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ import_term_serv_sql }}
+#  when: sqlimportfile.stat.exists == True
+  
+  
+#- name: Run the SQL file -OLD
+#  shell: cat {{ import_term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
 #  when: sqlimportfile.stat.exists == True  
 
 
+- name: create db from backup
+  mysql_db: name={{ts_dbname}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
 
-
-
-#- name: create db from backup
-#  mysql_db: name={{ts_dbname}}  state=import target={{term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
-#  when: sqlimportfile.stat.exists == True
-
-
-- debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
-- debug: msg="term_serv_indexes = {{term_serv_indexes}}"
+- debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
 - debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
 - debug: msg="term_serv_dir_resources_indexes = {{term_serv_dir_resources_indexes}}"
 
@@ -78,7 +83,7 @@
   when: sqlimportfile.stat.exists == True  
 
 - name: Copy the dataset/indexes folder to termserv/resources
-  command: cp -r {{term_serv_indexes}} {{term_serv_dir_resources}}
+  command: cp -r {{import_term_serv_indexes}} {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True
 
 
