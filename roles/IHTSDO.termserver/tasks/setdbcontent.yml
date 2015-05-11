@@ -9,9 +9,9 @@
 #- name: Install unzip
 #  apt: name=unzip state=present
   
-#- name: Remove datadir so as to spark complete rebuild
-#  file: path={{import_term_serv_base_dir}} state=absent
-#  when: "force_zip_download == True" 
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{import_term_serv_base_dir}} state=absent
+  when: "force_zip_download == True" 
 
 - name: make sure dataDir exists
   file: path={{import_term_serv_base_dir}}  state=directory
@@ -19,8 +19,6 @@
 - debug: msg="import_term_serv_data_dir = {{import_term_serv_data_dir}}"   
 - debug: msg="import_term_serv_sql = {{import_term_serv_sql}}" 
 - debug: msg="import_zip_file = {{import_zip_file}}"
-
-
 
 - name: make sure zip file exists
   stat: path={{import_zip_file}}
