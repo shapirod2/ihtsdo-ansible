@@ -1,0 +1,87 @@
+# Check the copy index code
+# Need bools for :
+# delete zip /unzipped content
+# drop and rebuild db.
+# rebuild flag which does both
+
+
+
+#- name: Install unzip
+#  apt: name=unzip state=present
+  
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{import_term_serv_base_dir}} state=absent
+  when: "force_zip_download == True" 
+
+- name: make sure dataDir exists
+  file: path={{import_term_serv_base_dir}}  state=directory
+  
+- debug: msg="import_term_serv_data_dir = {{import_term_serv_data_dir}}"   
+- debug: msg="import_term_serv_sql = {{import_term_serv_sql}}" 
+- debug: msg="import_zip_file = {{import_zip_file}}"
+
+- name: make sure zip file exists
+  stat: path={{import_zip_file}}
+  register: zipimportfile
+  
+- name: make sure sql file exists
+  stat: path={{import_term_serv_sql}}
+  register: sqlimportfile
+
+- debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
+- debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
+- debug: msg="import_zip_url = {{import_zip_url}}"
+
+- name: download sql and indexes zip file if url is set
+  get_url: force=no url={{import_zip_url}} dest={{import_term_serv_base_dir}}/{{import_term_serv_file}} validate_certs=no mode=0440
+  when: zipimportfile.stat.exists == False
+
+- name: Unarchive termserv archive on the remote machine
+  unarchive: src={{import_term_serv_base_dir}}/{{import_term_serv_file}} dest={{import_term_serv_base_dir}}/ copy=no
+  when: sqlimportfile.stat.exists == False
+
+- name: make sure sql file exists
+  stat: path={{import_term_serv_sql}}
+  register: sqlimportfile
+  
+- debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
+
+- name: if present dump existing db
+  mysql_db: name={{ts_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: sqlimportfile.stat.exists == True
+  
+- name: create db
+  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
+  
+  
+  
+#- name: Run the SQL file -OLD
+#  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ import_term_serv_sql }}
+#  when: sqlimportfile.stat.exists == True
+  
+  
+#- name: Run the SQL file -OLD
+#  shell: cat {{ import_term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
+#  when: sqlimportfile.stat.exists == True  
+
+
+- name: create db from backup
+  mysql_db: name={{ts_dbname}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True
+
+- debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
+- debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
+- debug: msg="term_serv_dir_resources_indexes = {{term_serv_dir_resources_indexes}}"
+
+  
+- name: Remove dataset/indexes folder from termserv/resources
+  file: path={{term_serv_dir_resources_indexes}} state=absent
+  #command: rm -rf {{term_serv_dir_resources}}
+  when: sqlimportfile.stat.exists == True  
+
+- name: Copy the dataset/indexes folder to termserv/resources
+  command: cp -r {{import_term_serv_indexes}} {{term_serv_dir_resources}}
+  when: sqlimportfile.stat.exists == True
+
+

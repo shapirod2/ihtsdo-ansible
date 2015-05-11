@@ -1,0 +1,18 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+ 
+- name: Stop TS if running
+  supervisorctl: name=termserver state=stopped
+
+#If setting up the content
+- include: setdbcontent.yml
+  when: "set_db_content == True"
+
+- name: Start TS
+  supervisorctl: name=termserver state=started
+
+
+
