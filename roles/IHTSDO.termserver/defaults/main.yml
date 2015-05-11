@@ -3,9 +3,9 @@ termserver_version: latest
 environment_shortname: UNKNOWN
 mysql_service: mysql
 #Set the db content from a backup
-set_db_content:  False
+#set_db_content:  False
 # Force the import to download a fresh copy of the  backup zip and use that.
-force_zip_download:  False
+#force_zip_download:  False
 # Dir where term server is installed
 term_serv_dir: /opt/termserver
 # Dir name where indexes go
@@ -29,25 +29,25 @@ base_url: http://localhost:8080/snowowl
 
 #Import
 # The SQL import file name
-import_term_serv_sql_name: "snomedStore.sql"
+#import_term_serv_sql_name: "snomedStore.sql"
 # The base Dir for the import data
-import_term_serv_base_dir: /opt/data/termserver
+#import_term_serv_base_dir: /opt/data/termserver
 #The base URL where the backup zip file should be downloaded from
-import_zip_base_url: "https://s3.amazonaws.com/uat-term.backup.ihtsdo/"
+#import_zip_base_url: "https://s3.amazonaws.com/uat-term.backup.ihtsdo/"
 #The import file filname (also the folder name when zip is unzipped)
-import_term_serv_filename: "snowowl_uat-term_20150508_1349"
+#import_term_serv_filename: "snowowl_uat-term_20150508_1349"
 #The import filname with file ending
-import_term_serv_file: "{{ import_term_serv_filename }}.zip"
+#import_term_serv_file: "{{ import_term_serv_filename }}.zip"
 # The directory where the unzipped data is to be found
-import_term_serv_data_dir: "{{import_term_serv_base_dir}}/{{ import_term_serv_filename }}"
+#import_term_serv_data_dir: "{{import_term_serv_base_dir}}/{{ import_term_serv_filename }}"
 #The import zip URL
-import_zip_url: "{{import_zip_base_url}}{{ import_term_serv_file }}"
+#import_zip_url: "{{import_zip_base_url}}{{ import_term_serv_file }}"
 #The path to the import zip file
-import_zip_file: "{{import_term_serv_base_dir}}/{{import_term_serv_file}}"
+#import_zip_file: "{{import_term_serv_base_dir}}/{{import_term_serv_file}}"
 # The path to the sql import file
-import_term_serv_sql: "{{import_term_serv_data_dir}}/{{ import_term_serv_sql_name }}"
+#import_term_serv_sql: "{{import_term_serv_data_dir}}/{{ import_term_serv_sql_name }}"
 # The path to the import indexes folder
-import_term_serv_indexes: "{{import_term_serv_data_dir}}/{{ term_serv_indexes_dir }}"
+#import_term_serv_indexes: "{{import_term_serv_data_dir}}/{{ term_serv_indexes_dir }}"
 
 
 
