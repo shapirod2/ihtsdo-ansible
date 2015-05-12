@@ -36,6 +36,9 @@
   tags:
     - ihtsdo-asset
     
+- name: Symlink configuration file
+  file: src=/etc/opt/orchestration-service/application.properties dest=/var/opt/orchestration-service/run/application.properties owner=orchestration-service group=orchestration-service state=link
+    
 - name: Configure Logging in Supervisor Startup
   replace:
       dest=/etc/supervisor/conf.d/orchestration-service.conf
