@@ -8,6 +8,9 @@
 - name: Install term server web front end
   apt: pkg=terminology-server-browser state=latest force=yes
   
+- name: Install term server authoring web front end
+  apt: pkg=template-based-authoring-frontend state=latest force=yes  
+  
 
 - name: Install SSL cert
   copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_cert_file_dest }}

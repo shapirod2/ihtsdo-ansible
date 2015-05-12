@@ -38,7 +38,11 @@ server {
   }
 
   location /authoring {
-    alias /var/www/template-based-authoring-frontend/bin;
+    alias /opt/template-based-authoring-frontend/lib;
+    
+    if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
+      return 503;
+    }  
   }
 
   location /snowowl {
