@@ -1,0 +1,25 @@
+---
+
+- name: Ensure /opt/moodle dir exists
+  file: path=/opt/moodle state=directory
+        owner=root group=root mode=0644 
+        recurse=yes  
+
+- name: check out moodle    
+  git:  repo=git://git.moodle.org/moodle.git dest=/opt/moodle version=MOODLE_28_STABLE accept_hostkey=True
+  
+                     
+- name: copy
+  command: /bin/cp -R /opt/moodle /var/www/html
+  
+  
+- name: Ensure /var/moodledata dir exists
+  file: path=/var/moodledata state=directory
+        owner=www-data group=www-data mode=0777 
+        recurse=yes
+ 
+ 
+- name: Ensure /var/www/html/moodle dir exists
+  file: path=/var/www/html/moodle state=directory
+        owner=www-data group=www-data mode=0755 
+        recurse=yes

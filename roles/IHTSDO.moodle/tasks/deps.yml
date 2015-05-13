@@ -1,0 +1,51 @@
+---
+
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+- name: Install moodle deps apache2
+  apt: name=apache2 state=latest
+  
+- name: Install moodle deps mysql-client
+  apt: name=mysql-client state=latest
+    
+- name: Install moodle deps php5
+  apt: name=php5 state=latest
+  
+- name: Install moodle deps graphviz
+  apt: name=graphviz state=latest  
+  
+- name: Install moodle deps aspell
+  apt: name=aspell state=latest  
+  
+- name: Install moodle deps php5-pspell 
+  apt: name=php5-pspell  state=latest  
+  
+- name: Install moodle deps php5-curl
+  apt: name=php5-curl state=latest
+  
+- name: Install moodle deps php5-gd
+  apt: name=php5-gd state=latest
+    
+- name: Install moodle deps php5-intl
+  apt: name=php5-intl state=latest
+  
+- name: Install moodle deps php5-mysql 
+  apt: name=php5-mysql  state=latest  
+  
+- name: Install moodle deps php5-xmlrpc
+  apt: name=php5-xmlrpc state=latest  
+  
+- name: Install moodle deps php5-ldap
+  apt: name=php5-ldap state=latest  
+
+- name: Install moodle deps clamav
+  apt: name=clamav state=latest  
+  
+- name: Install moodle deps git-core
+  apt: name=git-core state=latest  
+
+
+                     

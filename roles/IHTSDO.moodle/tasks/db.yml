@@ -1,0 +1,43 @@
+
+#- debug: msg="mysql_root_pass = {{mysql_root_pass}}" 
+#- name: Set MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- name: Confirm MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
+
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server state=present
+  
+# set the my.cnf
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
+
+# Install the package "python-mysqldb"
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
+  
+- name: restart mysql
+  service: name={{ mysql_service }} state=restarted  
+
+# Creates database user 'moodle_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name={{moodle_user}} password={{moodle_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+
+- name: if present dump existing db
+  mysql_db: name={{db_name}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: rebuild_db == True
+
+
+- name: Create a moodle database
+  mysql_db: name={{db_name}}
+            login_user=root
+            login_password={{mysql_root_pass}}
+            collation=utf8_unicode_ci
+            encoding=utf8
+            state=present
+
+
+- name: restart mysql
+  service: name={{ mysql_service }} state=restarted 

@@ -1,0 +1,19 @@
+---
+
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+   #Setup the database
+- include: db.yml 
+
+   #Add the deps
+- include: deps.yml 
+
+- name: restart apache2
+  service: name=apache2 state=restarted
+  
+   #Get moodle
+- include: getMoodle.yml   
+  

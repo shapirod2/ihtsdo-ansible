@@ -1,0 +1,8 @@
+---
+moodle_user: moodle
+moodle_pw: moodle
+mysql_root_pass: r00ty2ty
+mysql_service: mysql
+
+db_name: moodle
+rebuild_db: False
