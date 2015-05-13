@@ -27,7 +27,10 @@
     service: name=cassandra state=started
 
   - name: ensure dsc20 is installed
-    apt: name=dsc20 state=latest
+    apt: name=dsc20=2.0.11-1 state=present
+    
+#  - name: start cassandra
+#    service: name=cassandra state=started    
     
   - name: ensure elasticsearch 1.2.1 is installed
     apt: name=elasticsearch=1.2.1 state=present
@@ -85,31 +88,31 @@
     tags:
       - ihtsdo-asset
       
-  - name: Configure snomed graph properties
-    template: src=snomed-graph-es-dev.properties.j2 dest={{refsetService_folder}}/snomed-graph-es.properties
-              owner=root group=refsetService mode=0640                        
-    notify:
-      - restart refsetService
-    tags:
-      - ihtsdo-asset
+#  - name: Configure snomed graph properties
+#    template: src=snomed-graph-es-dev.properties.j2 dest={{refsetService_folder}}/snomed-graph-es.properties
+#              owner=root group=refsetService mode=0640                        
+#    notify:
+#      - restart refsetService
+#    tags:
+#      - ihtsdo-asset
 
-  - name: Install SSL cert
-    copy: src={{ otf_refsetService_nginx_ssl_cert_file }} dest={{ refsetService_nginx_ssl_cert_file_dest }}
-          owner=root group=root mode=0644
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
+#  - name: Install SSL cert
+#    copy: src={{ otf_refsetService_nginx_ssl_cert_file }} dest={{ refsetService_nginx_ssl_cert_file_dest }}
+#          owner=root group=root mode=0644
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx
 
-  - name: Install SSL key
-    copy: src={{ otf_refsetService_nginx_ssl_key_file }} dest={{ refsetService_nginx_ssl_key_file_dest }}
-          owner=root group=root mode=0600
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
+#  - name: Install SSL key
+#    copy: src={{ otf_refsetService_nginx_ssl_key_file }} dest={{ refsetService_nginx_ssl_key_file_dest }}
+#          owner=root group=root mode=0600
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx
 
   - name: Configure nginx
     template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/refsetService.conf

@@ -1,7 +1,4 @@
 ---
-refsetService_version: latest
-refsetService_userman_url: https://usermanagement3.ihtsdotools.org/query
-refsetService_folder: /etc/opt/{{nginx_conf}}
 
 nginx_conf: refsetService
 nginx_proxy_url: http://localhost:8080/refset
@@ -15,6 +12,3 @@ nginx_ssl_key_file_dest: "/etc/ssl/private/{{nginx_conf}}.key"
 nginx_fqdn: "~(?i)refset"
 nginx_default_site: true
 nginx_ufw_allow_https: true
-
-
-

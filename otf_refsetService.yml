@@ -2,4 +2,5 @@
   - hosts: otf_refsetService
     sudo: true
     roles:
+      - IHTSDO.nginx-std    
       - IHTSDO.refsetService
