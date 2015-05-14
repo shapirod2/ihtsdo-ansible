@@ -1,0 +1,5 @@
+---
+
+- debug: msg="Running term server backup using script = {{ backup_cmd }}"
+
+- command: {{ backup_cmd }}

@@ -1,0 +1,24 @@
+---
+#ClamAV
+- name: Ensure /var/quarantine dir exists
+  file: path=/var/quarantine state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+
+
+#Zend OpCache 
+
+# copy /etc/php5/mods-available/opcache.ini 
+- name: set opcache.ini
+  template: src=opcache.ini.j2 dest=/etc/php5/mods-available/opcache.ini
+            owner=root group=root mode=0644
+
+- name: set moodle_html_dir as document root
+  template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf
+            owner=root group=root mode=0644
+            
+- name: set config.php
+  template: src=config.php.j2 dest={{ moodle_html_dir }}/config.php
+            owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0755            
+  
+  

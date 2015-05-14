@@ -11,9 +11,13 @@
    #Add the deps
 - include: deps.yml 
 
-- name: restart apache2
-  service: name=apache2 state=restarted
-  
+ 
    #Get moodle
 - include: getMoodle.yml   
-  
+
+   #Extra Settings as directed by 
+   # https://docs.moodle.org/28/en/Step-by-step_Installation_Guide_for_Ubuntu
+- include: extraSettings.yml
+
+- name: restart apache2
+  service: name=apache2 state=restarted
