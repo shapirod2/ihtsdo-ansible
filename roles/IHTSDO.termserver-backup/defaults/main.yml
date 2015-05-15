@@ -8,9 +8,9 @@ backup_script: snowowl_hot_backup_mysql.sh
 
 backup_cmd: "{{ backup_dir }}/{{ backup_script }}"
 
-full_backup_cmd: "{{ backup_cmd }} >> {{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+backup_log: "{{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 
-
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
 #Dir for scripts to put final backup zips into
 backup_zip_dir: /opt/backup/termserver/zips

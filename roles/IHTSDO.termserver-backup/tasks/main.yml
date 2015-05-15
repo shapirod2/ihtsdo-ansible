@@ -4,6 +4,8 @@
 
 - debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
 
+- shell: "{{ full_backup_cmd }}"
 
 
-- command: "{{ full_backup_cmd }}"
+
+#- command: "{{ full_backup_cmd }}"
