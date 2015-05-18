@@ -2,9 +2,17 @@
 # tasks file for crowd
 # vim: set ft=ansible ts=2 sw=2:
 
-- name: Check for OS support
-  fail: msg="OS is not supported"
-  when: ansible_os_family != 'RedHat'
+#- name: Check for OS support
+#  fail: msg="OS is not supported"
+#  when: ansible_os_family != 'RedHat'
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+   
+- name: Include db
+  include: db.yml  
+
 
 - name: Ensure group exists
   group: name={{ crowd_user }} state=present
@@ -34,7 +42,7 @@
 
 - name: Set data dir in tomcat config
   lineinfile:
-    dest={{ crowd_installto }}/atlassian/crowd-{{ crowd_version }}/crowd-webapp/WEB-INF/classes/crowd-init.properties
+    dest={{  }}/atlassian/crowd-{{ crowd_version }}/crowd-webapp/WEB-INF/classes/crowd-init.properties
     regexp="^crowd.home"
     line="crowd.home={{ crowd_datadir }}"
   tags: install
@@ -50,12 +58,11 @@
             owner=root group=root mode=0755
   tags: install
 
-- name: add proxy config to Tomcat settings
-  template: >
-    src=server.xml.j2 dest=/opt/atlassian/crowd-{{ crowd_version }}/apache-tomcat/conf/server.xml
-    owner={{ crowd_user }} group={{ crowd_user }} mode=0644
-  tags: install
-  when: crowd_proxy
+#- name: add proxy config to Tomcat settings
+#  template: src=server.xml.j2 dest=/opt/atlassian/crowd-{{ crowd_version }}/apache-tomcat/conf/server.xml
+#    owner={{ crowd_user }} group={{ crowd_user }} mode=0644
+#  tags: install
+#  when: crowd_proxy
 
 - name: Ensure service is set to run
   service: name=crowd state=restarted enabled=yes
