@@ -23,12 +23,14 @@ orchestration_aws_secretKey:
 # All environments should use production as the source of workbench files. Ids from the test ID gen are not much use.
 orchestration_aws_bucket_archives: prod.workbench-output.ihtsdo
 orchestration_aws_bucket_filter: dev.workbench-output-filter.ihtsdo
+orchestration_aws_bucket_refsets: dev.externally-maintained-refsets.ihtsdo
 
 #SNOMED Release Service settings
 orchestration_srs_root_url: https://dev-release.ihtsdotools.org/api/v1/
 orchestration_srs.product: centers/international/products/snomed_ct_release/
 orchestration_srs_username: 
 orchestration_srs_password: 
+orchestration_srs_next_release: 
 
 #Release Validation Framework settings
 orchestration_rvf_pollPeriod: 60
