@@ -11,6 +11,8 @@ crowd_tmp:       /var/tmp
 crowd_installto: /opt
 crowd_datadir:   /srv/atlassian/crowd-data
 
+crowd_install_path: "{{ crowd_installto }}/atlassian/crowd-{{ crowd_version }}"
+
 db_user:         crowd
 db_password:     crowd
 db_name:         crowd
@@ -22,4 +24,6 @@ db_rebuild: true
 
 # type of db. ATM mysql or pgsql
 db_type: pgsql
+
+
 
