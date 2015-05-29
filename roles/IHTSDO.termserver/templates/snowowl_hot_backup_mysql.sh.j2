@@ -220,7 +220,7 @@ release_snapshot() {
 }
 
 # Releases the snapshot for the current supporting index and the global repository lock, then exits with an error.
-relase_snapshot_and_exit() {
+release_snapshot_and_exit() {
 	release_snapshot
 	unlock_all_repositories_and_exit "$1"
 }
@@ -273,7 +273,6 @@ backup_supporting_indexes() {
 	
 	echo_date "Done backing up supporting indexes."
 }
-backup_dir
 # Sends a message to connected users.
 send_message() {
 	rest_call -H "Content-Type:text/plain" --data "$1" "$ADMIN_BASE_URL/messages/send"
