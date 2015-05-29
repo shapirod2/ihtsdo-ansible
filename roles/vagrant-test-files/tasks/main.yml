@@ -1,0 +1,35 @@
+---
+
+#- name: Check if file has 
+#  shell: grep '{{hosts_contents}}' /etc/hosts
+ # register: grep
+
+#- name: Do this if we find Fred
+#  debug: msg="We found Fred"
+# when: grep.stdout
+
+#- name: Rem if present text from files/hosts_contents
+#  lineinfile: dest="/etc/hosts"  insertafter="EOF" line="{{hosts_contents}}" state="absent"
+
+#- name: Insert text from files/hosts_contents
+#  lineinfile: dest="/etc/hosts"  insertafter="EOF" line="{{hosts_contents}}" state="present"
+#  when: grep.stdout   
+
+
+- name: Insert text from files/hosts_contents
+  lineinfile: dest="/etc/hosts"  insertafter="EOF"  state="present" line="{{ item }}"
+  with_items:
+     - 192.168.0.50    va va.ihtsdotools.org
+     - 192.168.0.51    ansible va-ansible.ihtsdotools.org
+     - 192.168.0.52    devops va-devops.ihtsdotools.org
+     - 192.168.0.53    mlds va-mlds.ihtsdotools.org
+     - 192.168.0.54    refset va-refset.ihtsdotools.org
+     - 192.168.0.55    va_static_web.ihtsdotools.org  static va-static-web.ihtsdotools.org va-zabbixserver va-zabbixserver.ihtsdotools.org
+     - 192.168.0.56    user va-userman.ihtsdotools.org
+     - 192.168.0.57    term va-termserver.ihtsdotools.org
+     - 192.168.0.58    va1 va1.ihtsdotools.org
+     - 192.168.0.59    crowd va-crowd.ihtsdotools.org
+     - 192.168.0.60    crowd2 va-crowd2.ihtsdotools.org
+
+
+

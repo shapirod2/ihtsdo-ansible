@@ -1,0 +1,5 @@
+---
+
+hosts_contents: "{{ lookup('file', 'hosts') }}"
+
+
