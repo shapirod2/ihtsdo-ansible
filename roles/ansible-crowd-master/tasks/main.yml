@@ -9,6 +9,9 @@
 - name: Update apt cache
   apt: update_cache=yes
   sudo: yes
+  
+- name: ensure mysql jdbc jar is installed
+  apt: pkg=libmysql-java state=latest  
    
 - name: Include db
   include: db.yml  
@@ -78,6 +81,12 @@
 - name: Ensure logs symlink exists
   file: src={{ crowd_install_path }}/apache-tomcat/logs
         path=/var/log/crowd
+        state=link
+  tags: install
+  
+- name: Ensure mysql jdbc jar symlink exists
+  file: src=/usr/share/java/mysql.jar
+        path={{ crowd_install_path }}/apache-tomcat/lib/mysql.jar
         state=link
   tags: install
 
