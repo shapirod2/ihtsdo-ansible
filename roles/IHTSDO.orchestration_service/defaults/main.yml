@@ -43,4 +43,5 @@ orchestration_import_archive_ignore: WBRP_INT_EXTRACTION_DELTA_20150131
 
 # Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
 orchestration_schedule_startDailyImport_cron: "0 0 2 * * *"
+orchestration_schedule_startDailyImport_importEverything: true
 orchestration_schedule_pollJiraTickets_cron: "*/30 * * * * *"
