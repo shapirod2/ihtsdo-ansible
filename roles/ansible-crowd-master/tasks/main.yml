@@ -26,7 +26,21 @@
 #  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/crowd.conf
 #            owner=root group={{ crowd_user }} mode=0640
             
-#- name: restart supervisor            
+#- name: restart supervisor  
+
+- name: Ensure service is stopped
+  service: name=crowd state=stopped enabled=yes
+  ignore_errors: yes
+ 
+ # Wipe dirs if re-installing: 
+ 
+- name: Delete data dir if crowd_replace_data_dir == true
+  file: path={{ crowd_datadir }} state=absent
+  when: crowd_replace_data_dir == true
+          
+- name: Delete crowd_install_path if crowd_reinstall == true
+  file: path={{ crowd_install_path }} state=absent
+  when: crowd_reinstall == true
 
 - name: Fetch installer
   get_url:
@@ -37,7 +51,7 @@
 
 - name: Extract installation
   shell: tar xvf {{ crowd_tmp }}/{{ crowd_installer }} -C {{ crowd_installto }} --transform='s#\(atlassian\)-#\1/#'
-  when: fetch.changed
+  when: fetch.changed or crowd_reinstall == true
   tags: install
 
 - name: Ensure consistent file ownership
@@ -54,6 +68,12 @@
     regexp="^crowd.home"
     line="crowd.home={{ crowd_datadir }}"
   tags: install
+  
+  
+#- name: copy the config.xml for postgresql if defined
+#  template: src=crowd.cfg.xml.pgsql.j2 dest={{ crowd_datadir }}/crowd.cfg.xml
+#            owner={{ crowd_user }} group={{ crowd_user }} mode=0644
+#  when: "db_type == 'pgsql'"
 
 - name: Ensure logs symlink exists
   file: src={{ crowd_install_path }}/apache-tomcat/logs
