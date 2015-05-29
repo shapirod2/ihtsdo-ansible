@@ -1,6 +1,7 @@
 ---
-  - hosts: test
+  - hosts: moodle
     sudo: true
     roles:
       - IHTSDO.moodle
+     # - IHTSDO.nginx-std 
 

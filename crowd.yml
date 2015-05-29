@@ -1,13 +1,13 @@
 ---
-#  - hosts: crowd
-#    sudo: true
-#    roles:
-#      - IHTSDO.user-accounts
+  - hosts: crowd
+    sudo: true
+    roles:
+      - IHTSDO.user-accounts
 
   - hosts: crowd
     sudo: true
     roles: 
       - ansible-crowd-master
-      #- IHTSDO.nginx-std 
+      - IHTSDO.nginx-std 
       
 
