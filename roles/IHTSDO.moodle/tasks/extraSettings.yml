@@ -12,6 +12,10 @@
 - name: set opcache.ini
   template: src=opcache.ini.j2 dest=/etc/php5/mods-available/opcache.ini
             owner=root group=root mode=0644
+            
+#- name: set apache2 ports.conf
+#  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
+#            owner=root group=root mode=0644
 
 - name: set moodle_html_dir as document root
   template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf

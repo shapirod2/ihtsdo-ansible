@@ -1,0 +1,6 @@
+---
+  - hosts: crowd
+    sudo: true
+    roles:
+      - ansible-swapfile-master   
+
