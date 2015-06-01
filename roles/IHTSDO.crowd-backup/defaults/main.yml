@@ -1,0 +1,16 @@
+---
+
+# Backup 
+# Dir to put scripts into
+backup_dir: /srv/atlassian/crowd-data
+
+backup_script: backup_xml_aws.sh
+
+backup_cmd: "{{ backup_dir }}/{{ backup_script }}"
+
+backup_log: "{{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+
+
