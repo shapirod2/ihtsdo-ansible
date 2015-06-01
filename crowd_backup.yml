@@ -1,0 +1,7 @@
+---
+  - hosts: crowd
+    sudo: true
+    roles:
+      - IHTSDO.crowd-backup
+
+
