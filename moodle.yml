@@ -2,6 +2,7 @@
   - hosts: moodle
     sudo: true
     roles:
+      - IHTSDO.aws
       - IHTSDO.moodle
      # - IHTSDO.nginx-std 
 
