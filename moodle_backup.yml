@@ -1,0 +1,7 @@
+---
+  - hosts: moodle
+    sudo: true
+    roles:
+      - IHTSDO.moodle-backup
+
+

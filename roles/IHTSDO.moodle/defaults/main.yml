@@ -23,6 +23,11 @@ moodle_URL: "http://{{ inventory_hostname }}"
 
 moodle_port: 80
 
+# Dir to put scripts into
+backup_dir: /opt/backup/moodle
+#Dir for scripts to put final backup zips into
+backup_zip_dir: /opt/backup/moodle/zips
+
 
 #nginx_ssl_key_file: files/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/ssl/ihtsdotools.org.chained.crt

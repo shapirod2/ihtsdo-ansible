@@ -1,0 +1,12 @@
+---
+
+- name: Ensure back up zips dir exists
+  file: path="{{ backup_zip_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+       
+- name: set backup script
+  template: src=moodle_backup.sh.j2 dest={{ backup_dir }}/moodle_backup.sh
+            owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0755            
+  
+  

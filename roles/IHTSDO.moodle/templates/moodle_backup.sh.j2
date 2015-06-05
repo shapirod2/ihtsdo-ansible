@@ -1,0 +1,161 @@
+#!/usr/bin/env bash
+
+
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{s3_backup_dir | default('')}}"
+
+# The MySQL databsename used for creating the database dump
+MYSQL_DBNAME="{{ db_name  }}"
+
+# The MySQL username used for creating the database dump
+MYSQL_USERNAME="{{ moodle_user }}"
+
+# The password for the user given above
+MYSQL_PASSWORD="{{ moodle_pw }}"
+
+# The data root where all uploaded files are stored 
+DATA_ROOT="{{ moodle_data_dir }}"
+
+# The www root where all code is stored 
+WWW_ROOT="{{ moodle_html_dir }}"
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+# The starting directory
+backup_dir="{{ backup_dir }}"
+
+# The dir where zips go
+zip_dir="{{ backup_zip_dir }}"
+
+# The working directory and the resulting archive file prefix
+ARCHIVE_PREFIX="moodle_$(hostname -s)_$CURRENT_DATE"
+
+# The absolute path to the above
+ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX"
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$DATA_ROOT" = "x" ]; then
+		error_exit "Please set the variable DATA_ROOT before running this script. Exiting with error."
+	fi
+
+	if [ ! -d "$DATA_ROOT" ]; then
+		error_exit "No directory could be found at '$DATA_ROOT'. Exiting with error."
+	fi
+
+	if [ "x$WWW_ROOT" = "x" ]; then
+		error_exit "Please set the variable WWW_ROOT before running this script. Exiting with error."
+	fi
+
+	if [ ! -d "$WWW_ROOT" ]; then
+		error_exit "No directory could be found at '$WWW_ROOT'. Exiting with error."
+	fi
+	
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+	
+	if [ "x$MYSQL_DBNAME" = "x" ]; then
+		error_exit "Please set the variable MYSQL_DBNAME before running this script. Exiting with error."
+	fi
+
+	if [ "x$MYSQL_USERNAME" = "x" ]; then
+		error_exit "Please set the variable MYSQL_USERNAME before running this script. Exiting with error."
+	fi
+	
+	if [ "x$MYSQL_PASSWORD" = "x" ]; then
+		error_exit "Please set the variable MYSQL_PASSWORD before running this script. Exiting with error."
+	fi
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+
+	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
+	echo_date ""	
+
+	backup_db
+        backup_data_root
+        backup_www_root
+		
+
+	echo_date "Creating archive..."
+	cd "$zip_dir"
+	tar  -zcvf "$ARCHIVE_PREFIX.tar.gz" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+        rm -r "$ARCHIVE_PREFIX"
+	
+	echo_date "Finished successfully."
+	delete_old
+	movetoaws
+	exit 0
+}
+
+# Creates a db dump sql file and copies if to the archiva folder.
+backup_db() {	
+	cd "$zip_dir"
+	DATABASE_DUMP_FILE="moodle.sql"
+	
+	echo_date "Creating SQL dump"
+	mysqldump --user="$MYSQL_USERNAME" --password="$MYSQL_PASSWORD" "$MYSQL_DBNAME" > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE" || unlock_repository_and_exit "Couldn't create SQL dump Moodle. Exiting with error."	
+	echo_date "Done backing up DB."
+}
+
+
+backup_data_root() {
+echo_date "Backing up data root from $DATA_ROOT"
+cp --recursive ls--verbose --parents  $DATA_ROOT $ABSOLUTE_ARCHIVE_PREFIX
+}
+
+backup_www_root() {
+echo_date "Backing up www root from $WWW_ROOT"
+cp --recursive --verbose --parents  $WWW_ROOT $ABSOLUTE_ARCHIVE_PREFIX
+}
+
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
+echo "Backup transferred";
+echo "Backup process complete";
+fi
+}
+
+delete_old() { 
+echo "Cleaning up old backups prior to moving them to aws"
+ if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
+  then   
+   echo "Deleting old back ups backup dir = "${zip_dir}; 
+   find ${zip_dir}/* -mtime +5 -exec rm {} \;
+ fi
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="$backup_dir/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

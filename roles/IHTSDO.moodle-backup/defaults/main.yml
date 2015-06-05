@@ -1,0 +1,17 @@
+---
+
+# Backup 
+# Dir to put scripts into
+backup_dir: /opt/backup/moodle
+
+backup_script: moodle_backup.sh
+
+backup_cmd: "{{ backup_dir }}/{{ backup_script }}"
+
+backup_log: "{{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+#Dir for scripts to put final backup zips into
+backup_zip_dir: /opt/backup/moodle/zips
+
