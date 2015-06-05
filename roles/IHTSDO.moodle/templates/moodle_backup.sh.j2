@@ -87,7 +87,7 @@ main() {
 
 	echo_date "Creating archive..."
 	cd "$zip_dir"
-	tar  -zcvf "$ARCHIVE_PREFIX.tar.gz" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+	tar  -zcf "$ARCHIVE_PREFIX.tar.gz" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
         rm -r "$ARCHIVE_PREFIX"
 	
 	echo_date "Finished successfully."
@@ -109,12 +109,12 @@ backup_db() {
 
 backup_data_root() {
 echo_date "Backing up data root from $DATA_ROOT"
-cp --recursive ls--verbose --parents  $DATA_ROOT $ABSOLUTE_ARCHIVE_PREFIX
+cp --recursive --parents  $DATA_ROOT $ABSOLUTE_ARCHIVE_PREFIX
 }
 
 backup_www_root() {
 echo_date "Backing up www root from $WWW_ROOT"
-cp --recursive --verbose --parents  $WWW_ROOT $ABSOLUTE_ARCHIVE_PREFIX
+cp --recursive --parents  $WWW_ROOT $ABSOLUTE_ARCHIVE_PREFIX
 }
 
 
