@@ -6,6 +6,7 @@ orchestration_server_port: 9007
 orchestration_snowowl_url: http://localhost:8080/snowowl/
 orchestration_snowowl_username:
 orchestration_snowowl_password:
+orchestration_snowowl_projectBranch: workbench-import
 orchestration_snowowl_reasonerId: au.csiro.snorocket.owlapi3.snorocket.factory
 orchestration_snowowl_log_path: /opt/termserver/serviceability/logs/log.log
 orchestration_snowowl_rollover_log_path: /opt/termserver/serviceability/logs/log_1.log
