@@ -1,0 +1,39 @@
+---
+
+- name: Setup apt key
+  apt_key: data="{{ lookup('file', 'jenkins-ci.org.key') }}" state=present
+
+- name: Setup apt repository
+  apt_repository: repo='{{ jenkins_apt_repository }}' state=present
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install jenkins (Debian)
+  apt: pkg=jenkins state=installed update_cache=yes cache_valid_time=3600
+  
+  
+- name: Install Nodejs (for js builds)
+  apt: pkg=nodejs state=latest update_cache=yes cache_valid_time=3600
+  
+- name: Install npm (for js build using grunt, bower etc)
+  apt: pkg=npm state=latest update_cache=yes cache_valid_time=3600    
+  
+- name: Install git
+  apt: pkg=git state=latest update_cache=yes cache_valid_time=3600   
+  
+- name: Install rsync (used to get existing jenkins instance data if existing instance exists)
+  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600       
+  
+  
+  
+- name: Set Jenkins startup config
+  template: >
+    src=debian_jenkins.j2 dest=/etc/default/jenkins
+    owner=root group=root mode=0644
+  notify:
+    - restart jenkins
+  tags:
+    - jenkins
+

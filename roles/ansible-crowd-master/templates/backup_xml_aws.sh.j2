@@ -3,7 +3,7 @@
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
 s3_backup_dir="{{s3_backup_dir | default('')}}"
-# The location of the Crowd installatio
+# The location of the Crowd installation
 crowd_data_dir="{{ crowd_datadir }}"
 
 # The starting directory
@@ -27,6 +27,18 @@ main() {
 	delete_old
 	movetoaws
 	exit 0
+}
+
+check_arguments() {
+
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$crowd_data_dir" = "x" ]; then
+		error_exit "Please set the variable crowd_data_dir before running this script. Exiting with error."
+	fi
+
 }
 
 movetoaws(){

@@ -1,0 +1,18 @@
+---
+
+
+- name: Ensure data dir exists
+  file: path={{ move_scripts_dir }} state=directory
+        owner=root group=root
+        
+- name: Ensure target dir exists
+  file: path={{ target_dir }} state=directory
+        owner=root group=root        
+
+- name: add move scripts
+  template: src=rsync_exist_jenkins.sh.j2 dest="{{ move_scripts_dir }}/rsync_exist_jenkins.sh"
+    owner=root group=root mode=0740  
+
+- name: add move exclude file
+  template: src=exist_jenkins_exclude.txt.j2 dest="{{ move_scripts_dir }}/{{ exclusion_file }}"
+    owner=root group=root mode=0640      

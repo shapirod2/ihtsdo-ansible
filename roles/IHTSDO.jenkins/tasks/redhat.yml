@@ -1,0 +1,34 @@
+---
+
+- name: Setup rpm key
+  rpm_key: key='{{ jenkins_rpm_key }}' state=present
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - jenkins
+
+- name: Setup yum repository
+  get_url: url='{{ jenkins_yum_repository }}' dest=/etc/yum.repos.d/jenkins.repo
+           owner=root group=root mode=0644
+  when: ansible_os_family == 'RedHat'
+  tags:
+    - jenkins
+
+- name: Install jenkins (RedHat)
+  yum: name=jenkins state=installed
+  when: ansible_os_family == 'RedHat'
+  with_items:
+    - jenkins
+    - "{{ jenkins_java_package }}"
+  notify:
+    - restart jenkins
+  tags:
+    - jenkins
+
+- name: Set Jenkins startup config
+  template: >
+    src=debian_jenkins.j2 dest=/etc/default/jenkins
+    owner=root group=root mode=0644
+  notify:
+    - restart jenkins
+  tags:
+    - jenkins

@@ -1,5 +1,5 @@
 ---
-  - hosts: crowd
+  - hosts: jenkins_master
     sudo: true
     roles:
       - ansible-swapfile-master   

@@ -1,0 +1,80 @@
+#!/usr/bin/env bash
+
+# The following variables should be set by editing this script before running it:
+# path to rsync
+RSYNC=/usr/bin/rsync
+# The remote server username is not set defaults to root
+remote_server_username="{{jenkins_user | default('root')}}"
+# The remote server url/ip/name
+remote_server_name="{{exist_jenkins | default('')}}"
+# The location of the target jenkins dir 
+target_jenkins_home_dir="{{ target_dir }}"
+# The location of the source jenkins dir 
+source_jenkins_home_dir="{{ source_dir }}"
+# Exclusion file
+exclusion_file_path="{{ exclusion_file_path }}"
+
+#The basic Rsync Command
+RSYNC_COM="$RSYNC -rhavzPpltc --stats " 
+#if using another key this can be added -e 'ssh -i /etc/claire/key'to the command
+# -e 'ssh -i /home/user/.ssh/a_key' 
+#The Complete Command:
+RSYNC_COM_FULL="$RSYNC_COM --exclude-from=$exclusion_file_path $remote_server_username@$remote_server_name:$source_jenkins_home_dir $target_jenkins_home_dir"
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	rsync
+	exit 0
+}
+
+
+check_arguments() {
+
+	if [ "x$remote_server_name" = "x" ]; then
+		error_exit "Please set the variable remote_server_name before running this script. Exiting with error."
+	fi
+
+	if [ "x$target_jenkins_home_dir" = "x" ]; then
+		error_exit "Please set the variable target_jenkins_home_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$source_jenkins_home_dir" = "x" ]; then
+		error_exit "Please set the variable source_jenkins_home_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$exclusion_file_path" = "x" ]; then
+		error_exit "Please set the variable exclusion_file_path before running this script. Exiting with error."
+	fi
+
+}
+
+
+rsync(){
+echo "Getting jenkins from = "$remote_server_name;
+echo "Running Command "$RSYNC_COM_FULL;
+$RSYNC_COM_FULL
+#$RSYNC_COM  --exclude=$exclusion_file_path $remote_server_username@$remote_server_name:$source_jenkins_home_dir $target_jenkins_home_dir
+echo "jenkins transferred";
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="./instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

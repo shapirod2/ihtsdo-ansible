@@ -15,3 +15,14 @@ jenkins_nginx_ssl: no
 jenkins_nginx_ssl_cert_file: jenkins.crt
 jenkins_nginx_ssl_key_file: jenkins.key
 jenkins_nginx_spdy: no
+
+#Move script settings
+move_scripts_dir: /opt/jenkinsmove
+jenkins_user: "root"
+
+exist_jenkins: jenkins.ihtsdotools.org
+target_dir: "/var/test/lib/jenkins/"
+source_dir: "/var/lib/jenkins/"
+exclusion_file: "exist_jenkins_exclude.txt"
+
+exclusion_file_path: "./{{ exclusion_file }}"

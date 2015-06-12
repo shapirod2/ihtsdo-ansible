@@ -13,6 +13,12 @@
 - name: Install unzip
   apt: name=unzip state=installed
 
+- name: Ensure group exists
+  group: name={{ sonar_group }} state=present
+
+- name: Ensure user exists
+  user: name={{ sonar_user }} group={{ sonar_group }} state=present    
+
 - name: Extract archive
   command: unzip {{ sonarqube_archive }} chdir=/opt creates={{ sonarqube_base }}
 
