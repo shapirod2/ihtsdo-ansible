@@ -1,0 +1,46 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+  
+- name: Install unzip
+  apt: name=unzip state=present  
+  
+- name: stop ims
+  supervisorctl: name=identity-management-web state=stopped   
+  
+- name: Install latest ims package
+  apt: name=identity-service state=latest  
+
+#Not needed as using h2 which is embedded. needed if using mysql    
+#- name: Include db
+#  include: db.yml  
+
+#Just using root atm.  
+#- name: Ensure group exists
+#  group: name={{ ims_user }} state=present
+
+#- name: Ensure user exists
+#  user: name={{ ims_user }} group={{ ims_user }} state=present  
+ 
+# unzip war
+
+- name: make sure zip file exists
+  stat: path={{lib_dir}}/{{war_file}}
+  register: warfile
+
+- name: Unarchive war
+  unarchive: src={{lib_dir}}/{{war_file}} dest={{lib_dir}}/ copy=no
+  when: warfile.stat.exists == True
+
+- name: Configure application.yml
+  template: src=application.yml.j2 dest="{{ classes_dir}}/application.yml"
+              owner=root group=root mode=0640        
+  
+- name: Configure crowd.properties
+  template: src=crowd.properties.j2 dest="{{ classes_dir }}/crowd.properties"
+              owner=root group=root mode=0640        
+  
+- name: start ims
+  supervisorctl: name=identity-management-web state=started 

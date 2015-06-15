@@ -1,0 +1,89 @@
+# Disable the spring security default configuration from spring-boot-actuator
+management.security.enabled: false
+security.basic.enabled: false
+
+# Disable Jolokia - An http/json bridge for remote JMX access
+endpoints.jolokia.enabled: false
+
+# security configuration (this key should be unique for your application, and kept secret)
+application.security.rememberme.key: e8ed09fede62c19086cd17e4101e27d26f0c3b62
+application.security.debug.flag: false
+async:
+    corePoolSize: 2
+    maxPoolSize: 50
+    queueCapacity: 10000
+
+swagger:
+    title: {{ swagger_title }}
+    description: {{ swagger_desc }}
+    termsOfServiceUrl: 
+    contact: {{ swagger_contact }}
+    license: Apache 2.0
+    licenseUrl: http://www.apache.org/licenses/LICENSE-2.0.html
+
+
+server:
+    port: {{ server_port }}
+ihtsdo.im.service.base.url: {{ ihtsdo_im_service_base_url }}
+
+spring:
+    profiles:
+        active: prod
+    #Use H2 as database for now as it is being just used for monitoring for ops.
+    #Later we can use mysql when we want to persist some auditing between server startup
+    datasource:
+        dataSourceClassName: org.h2.jdbcx.JdbcDataSource
+        url: jdbc:h2:mem:refset;DB_CLOSE_DELAY=-1
+        databaseName: 
+        serverName: 
+        username: 
+        password: 
+
+    jpa:
+        database-platform: org.hibernate.dialect.H2Dialect
+        database: H2 
+        openInView: false
+        show_sql: false
+        generate-ddl: false
+        hibernate:
+            ddl-auto: none
+            naming-strategy: org.hibernate.cfg.EJB3NamingStrategy
+        properties:
+            hibernate.cache.use_second_level_cache: true
+            hibernate.cache.use_query_cache: false
+            hibernate.generate_statistics: false
+            hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.SingletonEhCacheRegionFactory
+
+    mail:
+        host: {{ mail_host }}
+        port: {{ mail_port }}
+        user: {{ mail_user }}
+        password: {{ mail_password }}
+        protocol: smtp
+        tls: true
+        auth: true
+        from: {{ mail_from }}
+
+    messageSource:
+        cacheSeconds: 1
+
+    thymeleaf:
+        mode: XHTML
+        cache: true
+
+metrics:
+    jmx.enabled: true
+    spark:
+        enabled: false
+        host: localhost
+        port: 9999
+    graphite:
+        enabled: false
+        host: localhost
+        port: 2003
+        prefix: im
+
+cache:
+    timeToLiveSeconds: 3600
+    ehcache:
+        maxBytesLocalHeap: 256M
