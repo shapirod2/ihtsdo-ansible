@@ -8,7 +8,7 @@
   apt: name=unzip state=present  
   
 - name: stop ims
-  supervisorctl: name=identity-management-web state=stopped   
+  supervisorctl: name=identity-service state=stopped   
   
 - name: Install latest ims package
   apt: name=identity-service state=latest  
@@ -43,4 +43,4 @@
               owner=root group=root mode=0640        
   
 - name: start ims
-  supervisorctl: name=identity-management-web state=started 
+  supervisorctl: name=identity-service state=started 
