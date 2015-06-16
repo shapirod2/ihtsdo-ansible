@@ -1,0 +1,7 @@
+---
+  - hosts: ims
+    sudo: true
+    roles:
+      - IHTSDO.ims
+      - IHTSDO.nginx-std 
+
