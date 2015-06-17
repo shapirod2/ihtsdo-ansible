@@ -20,3 +20,11 @@
   - name: Set default alternative Java
     command: update-java-alternatives --set java-{{ oraclejava_version }}-oracle
     when: oraclejava_default == true
+    
+  - name: Set the /dev/urandom to   /dev/./urandom in java.security
+    lineinfile:
+      dest="{{ oraclejava_secure_path }}"
+      regexp="^securerandom.source=file:/dev/urandom"
+      line="securerandom.source=file:/dev/./urandom"
+  
+  
