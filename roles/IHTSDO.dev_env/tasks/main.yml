@@ -1,0 +1,24 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+  
+- name: Install latest git package
+  apt: name=git state=latest  
+  
+- name: Install latest subversion package
+  apt: name=subversion state=latest   
+
+- name: Install latest maven package
+  apt: name=maven state=latest  
+  
+- name: Install javascript frameworks for angular etc  
+  include: js.yml
+  when: "install_js == True"
+  
+
+ 
+
+
+

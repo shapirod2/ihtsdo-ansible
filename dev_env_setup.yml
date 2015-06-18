@@ -1,0 +1,10 @@
+
+---
+- hosts: test
+  sudo: true
+
+  roles:
+    - IHTSDO.oraclejava
+    - IHTSDO.repositories
+    - IHTSDO.nginx
+    - IHTSDO.dev_env
