@@ -1,0 +1,25 @@
+---
+# defaults file for Angular
+
+# Should be the same as the artifactId in the pom
+app_name: AngularAppTemplate
+install_dir: "/opt/{{ app_name }}"
+lib_dir: "{{ install_dir }}/lib"
+conf_dir: "{{ install_dir }}/conf"
+
+nginx_ssl_key_file: files/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
+nginx_ufw_allow_https: true
+nginx_conf: "{{ app_name }}"
+nginx_fqdn: "~(?i)angular"
+nginx_default_site: true
+nginx_root: "{{ lib_dir }}"
+#nginx_proxy_url: http://localhost:8080/
+
+#Endpoints:
+authoringEndpoint: "/snowowl/ihtsdo-authoring/"
+snowOwlEndpoint: "/snowowl/snomed-ct/"
+imsEndpoint: "https://dev-ims.ihtsdotools.org/#/"
+
