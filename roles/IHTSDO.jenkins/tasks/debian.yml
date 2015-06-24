@@ -14,14 +14,14 @@
   apt: pkg=jenkins state=installed update_cache=yes cache_valid_time=3600
   
   
-- name: Install Nodejs (for js builds)
-  apt: pkg=nodejs state=latest update_cache=yes cache_valid_time=3600
+#- name: Install Nodejs (for js builds)
+#  apt: pkg=nodejs state=latest update_cache=yes cache_valid_time=3600
   
-- name: Install npm (for js build using grunt, bower etc)
-  apt: pkg=npm state=latest update_cache=yes cache_valid_time=3600    
+#- name: Install npm (for js build using grunt, bower etc)
+#  apt: pkg=npm state=latest update_cache=yes cache_valid_time=3600    
   
-- name: Install git
-  apt: pkg=git state=latest update_cache=yes cache_valid_time=3600   
+#- name: Install git
+#  apt: pkg=git state=latest update_cache=yes cache_valid_time=3600   
   
 - name: Install rsync (used to get existing jenkins instance data if existing instance exists)
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600       
