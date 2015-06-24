@@ -1,0 +1,9 @@
+#!/bin/sh
+
+printf "Bringing up tunnels to slaves"
+
+sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8100:cu022.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+
+sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+
+exit 0
