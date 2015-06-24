@@ -1,12 +1,14 @@
 #{{ ansible_managed }}
 server {
+  include    mime.types;
   server_name {{ nginx_fqdn }};
   listen 80 {% if nginx_default_site == true %}default{% endif %};
   rewrite ^ https://$host$request_uri permanent;
-  #endofhttpServer
-}
+  
+} #endofhttpServer
 
 server {
+  include    mime.types;
   server_name {{ nginx_fqdn }};
   listen 443 ssl {% if nginx_default_site == true %}default{% endif %};
 
@@ -64,10 +66,8 @@ server {
    }   
       
       
-#endofLocation/
 
-
-  }
+  } #endofLocation/
   
 error_page 503 @maintenance;
 
@@ -76,6 +76,5 @@ location @maintenance {
                 rewrite ^(.*)$ /{{MAINTFILE}} break;
    } 
    
-#endofhttpsServer  
 
-}
+} #endofhttpsServer  
