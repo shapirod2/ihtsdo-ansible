@@ -1,13 +1,16 @@
 # Added the install java and super visor roles as it is common and means it does not have to be 
 # included everytime.
 ---
-- hosts: jira
+- hosts: temp
   sudo: true
+  remote_user: root
   vars:
     user_accounts_skip_sshd: true
   roles:
     - IHTSDO.user-accounts
-    - laggyluke.hostname
+# Commented out as AWS does not let you reset the host name    
+#    - laggyluke.hostname
+    - IHTSDO.apt-upgrade
     - knopki.timezone
     - IHTSDO.harden
     - Ansibles.fail2ban

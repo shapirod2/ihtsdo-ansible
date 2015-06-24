@@ -10,6 +10,7 @@
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    
 #    - laggyluke.hostname
+    - IHTSDO.apt-upgrade
     - knopki.timezone
     - IHTSDO.harden
     - Ansibles.fail2ban

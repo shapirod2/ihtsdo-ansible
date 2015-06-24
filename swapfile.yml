@@ -1,5 +1,5 @@
 ---
-  - hosts: jenkins_master
+  - hosts: temp
     sudo: true
     roles:
       - ansible-swapfile-master   
