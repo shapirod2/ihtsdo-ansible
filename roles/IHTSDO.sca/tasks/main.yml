@@ -1,0 +1,32 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+  
+- name: Install angular  package
+  apt: name={{ app_name }} state=latest 
+  
+- name: Creates conf directory
+  file: path={{ conf_dir }} state=directory
+  
+- name: Configure endpointConfig.json
+  template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
+              owner=root group=root mode=0640   
+  
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="^error_page 503 @maintenance;" 
+     line="  location /config \n   {\n    alias {{ conf_dir }};\n   }\n"
+     state=present   
+     
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="^error_page 503 @maintenance;" 
+     line="  location /sca \n   {\n    alias {{ lib_dir }};\n   }\n"
+     state=present       
+       
+- name: restart nginx
+  service: name=nginx state=restarted  
