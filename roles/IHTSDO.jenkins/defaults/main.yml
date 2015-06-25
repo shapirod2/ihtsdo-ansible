@@ -20,8 +20,8 @@ jenkins_nginx_spdy: no
 move_scripts_dir: /opt/jenkinsmove
 jenkins_user: "root"
 
-exist_jenkins: jenkins.ihtsdotools.org
-target_dir: "/var/test/lib/jenkins/"
+exist_jenkins: jenkins-2.ihtsdotools.org
+target_dir: "/var/lib/jenkins/"
 source_dir: "/var/lib/jenkins/"
 exclusion_file: "exist_jenkins_exclude.txt"
 

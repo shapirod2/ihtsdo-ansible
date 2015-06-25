@@ -3,6 +3,13 @@ Role Name
 
 Role to install Jenkins, optionally behind nginx, no Ubuntu/Debian. Tested on Ubuntu precise.
 
+Remember to get new key etc from Github for authentication
+add key for user for ssh
+
+  876  ssh -v -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net -i /var/lib/jenkins/.ssh/id_rsa2
+  889  ssh -v otf_jenkins@localhost -p8101 -i /var/lib/jenkins/.ssh/id_rsa2
+
+
 Requirements
 ------------
 
