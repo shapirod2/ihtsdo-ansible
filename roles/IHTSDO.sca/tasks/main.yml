@@ -18,15 +18,17 @@
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="  location /config \n   {\n    alias {{ conf_dir }};\n   }\n"
-     state=present   
+     line="location /config {alias {{ conf_dir }};}"
+     state=present
+     regexp='^location /config'    
      
 - name: Add config location to nginx config
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="  location /sca \n   {\n    alias {{ lib_dir }};\n   }\n"
-     state=present       
+     line="location /sca {alias {{ lib_dir }};}"
+     state=present
+     regexp='^location /sca'       
        
 - name: restart nginx
   service: name=nginx state=restarted  
