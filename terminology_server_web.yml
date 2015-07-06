@@ -9,4 +9,5 @@
     roles:
       - IHTSDO.nginx-std 
       - IHTSDO.termserver-web
+      - IHTSDO.sca
 

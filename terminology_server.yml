@@ -11,4 +11,5 @@
       - IHTSDO.termserver
       - IHTSDO.nginx-std 
       - IHTSDO.termserver-web
+      - IHTSDO.sca
 
