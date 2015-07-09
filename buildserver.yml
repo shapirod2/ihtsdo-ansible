@@ -1,0 +1,30 @@
+---
+  - hosts: jenkins_master
+    sudo: true
+    roles:
+      - IHTSDO.dev_env
+      - IHTSDO.jenkins  
+      - IHTSDO.nginx-std  
+    tasks:
+    - file: >
+        dest=/var/lib/jenkins/.ssh state=directory
+        owner=jenkins group=nogroup mode=0700
+    - copy: >
+        src=files/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
+        owner=jenkins group=nogroup mode=0600
+    - copy: >
+        src=files/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
+        owner=jenkins group=nogroup mode=0600
+    - copy: >
+        src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
+        owner=jenkins group=nogroup mode=0600
+    - copy: >
+        src=files/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
+        owner=jenkins group=nogroup mode=0700
+
+
+#  - hosts: sonarqube
+#    sudo: true
+#    roles:
+#      - IHTSDO.sonarqube 
+#      - IHTSDO.nginx-std 
