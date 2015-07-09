@@ -1,0 +1,7 @@
+---
+  - hosts: zabbixserver
+    sudo: true
+    roles: 
+      - exim4-sender
+
+
