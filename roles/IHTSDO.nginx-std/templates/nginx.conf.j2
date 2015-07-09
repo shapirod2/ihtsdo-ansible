@@ -28,6 +28,9 @@ server {
         set $secure on;
   }
   
+  set $cors ""; 
+  if ($http_origin ~* ({{ nginx_cors_regex }})) { set $cors "true"; }
+  
 
   location / {
   {% if nginx_proxy_url is defined %}
@@ -64,9 +67,14 @@ server {
    if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
         return 503;
    }   
+   
+   if ($cors = "true") { 
+   add_header 'Access-Control-Allow-Origin' "$http_origin"; 
+   add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT'; 
+   add_header 'Access-Control-Allow-Credentials' 'true'; 
+   add_header 'Access-Control-Allow-Headers' 'User-Agent,Keep-Alive,Content-Type'; 
+   } if ($request_method = OPTIONS) { return 204; }
       
-      
-
   } #endofLocation/
   
 error_page 503 @maintenance;
