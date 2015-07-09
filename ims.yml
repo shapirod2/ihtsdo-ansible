@@ -2,6 +2,7 @@
   - hosts: ims
     sudo: true
     roles:
+      #- IHTSDO.oraclejava
       - IHTSDO.ims
       - IHTSDO.nginx-std 
 
