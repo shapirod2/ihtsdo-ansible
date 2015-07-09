@@ -1,0 +1,7 @@
+---
+  - hosts: nexus
+    sudo: true
+    roles:
+      - IHTSDO.sonatype-nexus
+      - IHTSDO.nginx-std 
+
