@@ -10,7 +10,7 @@ rebuild_db: False
 
 moodle_dir_owner: "www-data"
 moodle_dir:  "moodle"
-moodle_git_dir: "/opt/{{ moodle_dir }}"
+moodle_git_dir: 000-"/opt/{{ moodle_dir }}"
 html_dir: "/var/www/html"
 moodle_html_dir: "{{ html_dir }}/{{ moodle_dir }}"
 
@@ -19,7 +19,7 @@ moodle_data_dir: "/var/moodledata"
 moodle_git_repo: "git://git.moodle.org/moodle.git"
 moodle_git_version: "MOODLE_28_STABLE"
 
-moodle_URL: "http://{{ inventory_hostname }}"
+moodle_URL: "https://{{ inventory_hostname }}"
 
 moodle_port: 80
 
@@ -27,6 +27,13 @@ moodle_port: 80
 backup_dir: /opt/backup/moodle
 #Dir for scripts to put final backup zips into
 backup_zip_dir: /opt/backup/moodle/zips
+
+use_ssl_only: "True"
+
+ssl_key_file: files/ssl/ihtsdotools.org.key
+ssl_cert_file: files/ssl/ihtsdotools.org.chained.crt
+ssl_cert_file_dest: /etc/ssl/certs/moodle.crt
+ssl_key_file_dest: /etc/ssl/private/moodle.key
 
 
 #nginx_ssl_key_file: files/ssl/ihtsdotools.org.key

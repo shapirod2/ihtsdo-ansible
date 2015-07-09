@@ -17,7 +17,7 @@
 #  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
 #            owner=root group=root mode=0644
 
-- name: set moodle_html_dir as document root
+- name: copy default conf
   template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf
             owner=root group=root mode=0644
             

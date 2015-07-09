@@ -22,5 +22,8 @@
 # Include backup scripts etc.
 - include: backup.yml
 
+- name: if ssl then set up ssl
+  include: ssl.yml
+
 - name: restart apache2
   service: name=apache2 state=restarted

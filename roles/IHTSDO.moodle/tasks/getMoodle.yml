@@ -6,7 +6,7 @@
         recurse=yes  
 
 - name: check out moodle    
-  git:  repo={{ moodle_git_repo }} dest={{ moodle_git_dir }} version={{ moodle_git_version }} accept_hostkey=True
+  git:  repo={{ moodle_git_repo }} dest={{ moodle_git_dir }} version={{ moodle_git_version }} accept_hostkey=True force=yes
   
                      
 - name: copy
