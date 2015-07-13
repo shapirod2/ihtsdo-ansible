@@ -1,12 +1,12 @@
 ---
-- name : Update apt cache
-  apt : update_cache="yes"
+#- name : Update apt cache
+#  apt : update_cache="yes"
 
 - name: ensure ssh is installed
-  apt: pkg=ssh state=latest
+  apt: pkg=ssh state=latest update_cache=yes cache_valid_time=300
 
 - name: ensure autossh is installed
-  apt: pkg=autossh state=latest
+  apt: pkg=autossh state=latest update_cache=yes cache_valid_time=300
   
 - name: zabbixclient | Install pre dependency
   apt:

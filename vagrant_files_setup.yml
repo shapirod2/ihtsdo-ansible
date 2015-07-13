@@ -2,7 +2,7 @@
 # boxes by setting test files e.g. /etc/hosts such that they can be used for
 # testing
 ---
-  - hosts: tosetup
+  - hosts: test
     sudo: true
     roles:
       - vagrant-test-files

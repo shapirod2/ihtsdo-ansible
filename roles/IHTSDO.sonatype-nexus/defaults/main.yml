@@ -5,10 +5,10 @@ sonatype_nexus_application_host: 0.0.0.0
 sonatype_nexus_work_dir: /var/lib/sonatype-nexus
 sonatype_nexus_pid_dir: "{{ sonatype_nexus_work_dir }}"
 sonatype_nexus_webapp_context_path: /nexus
-sonatype_nexus_nginx: off
+sonatype_nexus_nginx: true
 sonatype_nexus_nginx_fqdn: nexus
 sonatype_nexus_nginx_default_site: no
 sonatype_nexus_nginx_ssl: no
 sonatype_nexus_nginx_ssl_cert_file: sonatype_nexus.crt
 sonatype_nexus_nginx_ssl_key_file: sonatype_nexus.key
-sonatype_nexus_openjdk: yes
+#sonatype_nexus_openjdk: no

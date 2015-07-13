@@ -27,10 +27,14 @@
 - name: make sure sql file exists
   stat: path={{import_term_serv_sql}}
   register: sqlimportfile
+  
+  
 
 - debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
 - debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
 - debug: msg="import_zip_url = {{import_zip_url}}"
+- debug: msg="import_zip path = {{import_zip_file}}" 
+- debug: msg="sqlimportfile path = {{import_term_serv_sql}}" 
 
 - name: download sql and indexes zip file if url is set
   get_url: force=no url={{import_zip_url}} dest={{import_term_serv_base_dir}}/{{import_term_serv_file}} validate_certs=no mode=0440
@@ -44,6 +48,7 @@
   stat: path={{import_term_serv_sql}}
   register: sqlimportfile
   
+- debug: msg="sqlimportfile2 path = {{import_term_serv_sql}}"   
 - debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
 
 - name: if present dump existing db
@@ -75,12 +80,12 @@
 - debug: msg="term_serv_dir_resources_indexes = {{term_serv_dir_resources_indexes}}"
 
   
-- name: Remove dataset/indexes folder from termserv/resources
+- name: Remove indexes folder from termserv/resources
   file: path={{term_serv_dir_resources_indexes}} state=absent
   #command: rm -rf {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True  
 
-- name: Copy the dataset/indexes folder to termserv/resources
+- name: Copy the indexes folder to termserv/resources
   command: cp -r {{import_term_serv_indexes}} {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True
 

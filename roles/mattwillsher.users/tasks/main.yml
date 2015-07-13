@@ -37,12 +37,12 @@
   with_dict: users_deleted
   when: users_create_per_user_group
   
-- name: Update Apt cache
-  apt: update_cache=yes
-  sudo: yes  
+#- name: Update Apt cache
+#  apt: update_cache=yes
+#  sudo: yes  
   
 - name: Install zip
-  apt: name=zip state=installed  
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
 
 - name: Install unzip
-  apt: name=unzip state=installed
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300

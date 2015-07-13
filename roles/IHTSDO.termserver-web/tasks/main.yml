@@ -6,10 +6,10 @@
 
 
 - name: Install term server web front end
-  apt: pkg=terminology-server-browser state=latest force=yes
+  apt: pkg=terminology-server-browser state=latest force=yes update_cache=yes cache_valid_time=300
   
 - name: Install term server authoring web front end
-  apt: pkg=template-based-authoring-frontend state=latest force=yes  
+  apt: pkg=template-based-authoring-frontend state=latest force=yes update_cache=yes cache_valid_time=300
   
 
 - name: Install SSL cert

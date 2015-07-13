@@ -8,4 +8,3 @@ rewrite ^/mt /#/landing/MT?lang=es permanent;
 rewrite ^/be /#/landing/BE permanent;
 rewrite ^/dk /#/landing/DK permanent;
 rewrite ^/ee /#/landing/EE permanent;
-
