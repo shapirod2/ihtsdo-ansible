@@ -4,5 +4,8 @@ rewrite ^/nz /#/landing/NZ?lang=en permanent;
 rewrite ^/se /#/landing/SE?lang=se permanent;
 rewrite ^/pt /#/landing/PT?lang=pt permanent;
 rewrite ^/se /#/landing/SE?lang=se permanent;
+rewrite ^/uy /#/landing/UY?lang=es permanent;
+rewrite ^/mt /#/landing/MT?lang=es permanent;
 rewrite ^/be /#/landing/BE permanent;
 rewrite ^/dk /#/landing/DK permanent;
+rewrite ^/ee /#/landing/EE permanent;
