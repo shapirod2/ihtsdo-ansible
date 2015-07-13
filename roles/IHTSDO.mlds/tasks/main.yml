@@ -4,15 +4,15 @@
     sudo: yes
     
   - include: db.yml
-    when: "only_rewrites is not defined or not only_rewrites == true"
+    when: only_rewrites is not defined or not only_rewrites == "true"
  
   - include: mlds.yml
-    when: "only_rewrites is not defined or not only_rewrites == true"
+    when: only_rewrites is not defined or not only_rewrites == "true"
 
   - name: Reload the firewall  
     ufw: state=reloaded   
     
   - include: rewrites.yml
-    when: "include_rewrites == true"
+    when: include_rewrites == "true"
 
                          
