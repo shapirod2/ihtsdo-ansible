@@ -6,9 +6,18 @@ lib_dir: "{{ install_dir }}/lib"
 war_file: "app.war"
 classes_dir: "{{ lib_dir }}/WEB-INF/classes"
 
-#Crowd.properties:
+#The crowd Server URL
+#crowd_base_url: "https://{{ crowd_host }}/crowd"
+crowd_base_url: "https://dev-crowd.ihtsdotools.org/crowd"
+#The IHTSDO identity management service url
+#ihtsdo_im_service_base_url: https://{{ ims_host }}
+ihtsdo_im_service_base_url: "https://dev-ims.ihtsdotools.org"
+
 crowd_server_url: "{{ crowd_base_url }}/services/"
 application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
+
+#crowd.properties:
+session_tokenkey: "dev-ims-ihtsdo"
 
 #application.yml:
 swagger_title: "IHTSDO Identity & SSO service"
