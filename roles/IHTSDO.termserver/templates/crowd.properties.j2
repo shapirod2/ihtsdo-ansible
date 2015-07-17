@@ -12,8 +12,9 @@ application.login.url={{ application_login_url }}
 session.tokenkey=session.tokenkey
 session.lastvalidation=session.lastvalidation
 session.isauthenticated=session.isauthenticated
-
+{% if cookie_tokenkey is defined %}
 cookie.tokenkey={{ cookie_tokenkey }}
+{% endif %}
 
 
 
