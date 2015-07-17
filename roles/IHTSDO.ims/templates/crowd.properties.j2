@@ -6,6 +6,10 @@ application.login.url={{ application_login_url }}
 #This is IHTSDO identity management service url
 ihtsdo.im.service.base.url={{ ihtsdo_im_service_base_url }}
 
-session.tokenkey={{ session_tokenkey }}
+session.tokenkey=session.tokenkey
 session.lastvalidation=session.lastvalidation
 session.isauthenticated=session.isauthenticated
+
+{% if cookie_tokenkey is defined %}
+cookie.tokenkey={{ cookie_tokenkey }}
+{% endif %}
