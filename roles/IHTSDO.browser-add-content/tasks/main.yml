@@ -1,54 +1,42 @@
+
+# install the deb
+
+# if intl zip name & url defined & if zip not already dl then dl intl
+
+# if ext  zip name & url defined & if zip not already dl then dl ext
+
+# make sure name of ext config file defined
+
+#copy file from conf folder to root changing name to config.xml
+# change ./conf/$CONFIG.xml in run.sh to ./config.xml
+
+#change lines (if exist)
+
+#if indicated dirs exist then run run.sh else bug out
+
+# if json_dir set & exists & if desturl set
+# then rewrite zipAndUpload.sh to that 
+
+# then run zip and upload.
+
+
 ---
-  - name: Update apt cache
-    apt: update_cache=yes
-    sudo: yes
-   
-  - name: Install static web content package
-    apt: name=static-web-content state=installed
-    when: static_web_version == 'installed'
-    tags:
-      - ihtsdo-asset
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
 
-  - name: Install latest static web content package
-    apt: name=static-web-content state=latest
-    when: static_web_version == 'latest'
-    tags:
-      - ihtsdo-asset
+- name: Install latest rf2-to-json-conversion content package
+  apt: name=rf2-to-json-conversion state=latest
+  
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
 
-  - name: Install static web content package specific version
-    apt: name=static-web-content={{ static_web_version }} state=installed
-    when: static_web_version != 'installed' and static_web_version != 'latest'
-    tags:
-      - ihtsdo-asset
-      
-      
-  - name: Install SSL cert
-    copy: src={{ static_web_nginx_ssl_cert_file }} dest={{ static_web_nginx_ssl_cert_file_dest }}
-          owner=root group=root mode=0644
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
 
-  - name: Install SSL key
-    copy: src={{ static_web_nginx_ssl_key_file }} dest={{ static_web_nginx_ssl_key_file_dest }}
-          owner=root group=root mode=0600
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx
-
-  - name: Configure nginx
-    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/static_web.conf
-              owner=root group=root mode=0640
-    notify:
-      - restart nginx
-    tags:
-      - ihtsdo-asset
-      - nginx   
-
- 
-  - name: Reload the firewall  
-    ufw: state=reloaded                         
+- include: downloadreleasefiles.yml
+  when: "get_rel == True"    
+  
+  
+  
+  
