@@ -10,7 +10,7 @@ rebuild_db: False
 
 moodle_dir_owner: "www-data"
 moodle_dir:  "moodle"
-moodle_git_dir: 000-"/opt/{{ moodle_dir }}"
+moodle_git_dir: "/opt/{{ moodle_dir }}"
 html_dir: "/var/www/html"
 moodle_html_dir: "{{ html_dir }}/{{ moodle_dir }}"
 
