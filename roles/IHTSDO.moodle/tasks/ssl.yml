@@ -8,7 +8,7 @@
           owner=root group=root mode=0600
           
 - name: copy default conf
-  template: src=default-ssl.conf.j2 dest=644default-ssl.conf
+  template: src=default-ssl.conf.j2 dest=default-ssl.conf
             owner=root group=root mode=0644          
 
 - name: add default-ssl virtual host
