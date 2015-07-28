@@ -11,6 +11,7 @@
         
         ServerAdmin webmaster@localhost      
         DocumentRoot {{ html_dir }}
+        ServerAlias *.ihtsdotools.org
         {% if use_ssl_only != True %}
      <Location /svn>
       DAV svn
