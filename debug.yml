@@ -1,0 +1,9 @@
+---
+  - hosts: ims
+    sudo: true
+    vars_files:
+      - [ 'files/vars/secret1.yml','files/vars/default.yml' ]
+    roles: 
+      - IHTSDO.debug
+
+

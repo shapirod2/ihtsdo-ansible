@@ -1,0 +1,7 @@
+---
+  - hosts: jira
+    sudo: true
+    roles:
+      - IHTSDO.user-accounts
+      - IHTSDO.nginx-std 
+
