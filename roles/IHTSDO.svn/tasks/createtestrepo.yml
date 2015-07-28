@@ -1,0 +1,6 @@
+
+- name: Creates repo directory
+  file: path={{ repo_dir }} state=directory
+  
+- name: create test repo
+  command: /usr/bin/svnadmin create {{ repo_dir }}

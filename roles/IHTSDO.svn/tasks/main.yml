@@ -1,0 +1,46 @@
+---
+
+#- name: Update apt cache
+#  apt: update_cache=yes
+#  sudo: yes
+  
+- name: Install subversion  package
+  apt: name=subversion state=latest update_cache=yes cache_valid_time=300ht
+  
+- name: Install subversion tools  package
+  apt: name=subversion-tools state=latest   
+  
+- name: Install apache2
+  apt: name=apache2 state=latest  
+
+- name: Install apache  utils
+  apt: name=apache2-utils state=latest  
+  
+- name: Install apache  package
+  apt: name=libapache2-svn state=latest   
+
+- name: add dav module
+  command: /usr/sbin/a2enmod dav_svn
+  
+- name: Creates repo directory
+  file: path={{ repo_dir }} state=directory
+  
+- name: Creates test repo repo is set to test
+  include: createtestrepo.yml 
+  when: svn_test_repo == True
+  
+- name:  set up repo dir up for apache_user
+  file: path={{ repo_dir }} recurse=true
+        owner={{ apache_user }} group={{ apache_user }} 
+  
+- name:  set up ssl
+  include: ssl.yml
+
+- name: set up key file
+  command: /usr/bin/htpasswd -bc {{ AuthUserFile }} {{ svn_user }} {{ svn_user_pw }}
+
+- name: restart apache2
+  service: name=apache2 state=restarted
+       
+#- name: restart nginx
+#  service: name=nginx state=restarted  

@@ -1,0 +1,7 @@
+---
+  - hosts: svn
+    sudo: true
+    roles: 
+      - IHTSDO.svn
+
+

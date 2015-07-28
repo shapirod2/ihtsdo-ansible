@@ -1,0 +1,24 @@
+
+- name: Install SSL cert
+  copy: src={{ ssl_cert_file }} dest={{ ssl_cert_file_dest }}
+          owner=root group=root mode=0644
+
+- name: Install SSL key
+  copy: src={{ ssl_key_file }} dest={{ ssl_key_file_dest }}
+          owner=root group=root mode=0600
+          
+- name: copy default conf
+  template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf
+            owner=root group=root mode=0644          
+          
+- name: copy default conf
+  template: src=default-ssl.conf.j2 dest=/etc/apache2/sites-available/default-ssl.conf
+            owner=root group=root mode=0644          
+
+- name: add default-ssl virtual host
+  command: /usr/sbin/a2ensite default-ssl
+
+
+- name: add ssl module
+  command: /usr/sbin/a2enmod ssl
+      
