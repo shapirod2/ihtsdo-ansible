@@ -1,0 +1,8 @@
+---
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.activemq
+
+      
+

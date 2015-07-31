@@ -1,0 +1,28 @@
+---
+
+#- name: Apt cache update
+#  apt: update_cache=yes 
+
+    
+# Install the package "activemq"
+- name: Install activemq server
+  apt: name=activemq  state=latest
+  
+  
+- name: Allow through the firewall  
+  ufw: rule=allow port=61616 proto=any     
+  
+- name: make sure config dir exists
+  file: path={{ config_dir }} state=directory
+        owner={{ activemq_runasuser }} group={{ activemq_runasuser }} 
+
+- name: xml config
+  template: src=activemq.xml.j2 dest="{{ config_xml }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644    
+
+- name: log4j config
+  template: src=log4j.properties.j2 dest="{{ config_log4j }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644 
+  
+- name: restart activemq
+  service: name=activemq state=restarted  
+    
+  

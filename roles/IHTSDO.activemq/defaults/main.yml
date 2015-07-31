@@ -1,0 +1,10 @@
+---
+config_dir: "/etc/activemq/instances-enabled/main"
+config_xml: "{{ config_dir }}/activemq.xml"
+config_log4j: "{{ config_dir }}/log4j.properties"
+
+activemq_user: "bob"
+activemq_pw: "bob"
+
+activemq_runasuser: "root"
+
