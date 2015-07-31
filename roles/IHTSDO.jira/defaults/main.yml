@@ -1,1 +1,15 @@
-mysql_service: mysql
+
+product: jira
+#product: confluence
+
+confluence_version: 5.8.6
+jira_version: 6.4.9
+
+
+jira_database_server: localhost
+jira_rmiPort:  8005
+jira_httpPort: 8080
+
+confluence_database_server: localhost
+confluence_rmiPort:  8005
+confluence_httpPort: 8080

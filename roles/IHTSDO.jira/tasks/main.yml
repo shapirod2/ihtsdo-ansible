@@ -4,8 +4,11 @@
   tags:
     - ihtsdo-asset
     
+#Setup the product
+- include: installproduct.yml    
+    
 #Setup the database
-- include: db.yml
+#- include: db.yml
 
 #- name: Stop jira if running
 #  supervisorctl: name=jira state=stopped
