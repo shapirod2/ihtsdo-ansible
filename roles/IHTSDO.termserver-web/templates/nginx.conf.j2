@@ -36,6 +36,11 @@ server {
       return 503;
     }  
   }
+  
+  location /ims-api {
+   proxy_pass {{ ImsApiUrl }};
+  }
+  
 
   location /authoring {
     alias /opt/template-based-authoring-frontend/lib;
