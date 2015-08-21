@@ -1,0 +1,23 @@
+---
+
+base_dir: "/opt/svnsync"
+
+svn_base_url: "https://csfe.aceworkspace.net/svn/repos/"
+
+svn_base: "/opt/svnrepo"
+
+svn_curr: "{{svn_base}}/current"
+
+svn_user:
+svn_pw: 
+
+ctf_exe: "/opt/collabnet/teamforge/add-ons/teamforge_cli/bin/ctf"
+
+rep_dir: "{{base_dir}}/reports"
+
+rep1: "{{rep_dir}}/rep1.txt"
+rep2: "{{rep_dir}}/rep2.txt"
+rep3: "{{rep_dir}}/rep3.txt"
+rep4: "{{rep_dir}}/rep4.txt"
+
+

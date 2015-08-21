@@ -1,0 +1,14 @@
+ api CollabNet->getProjectList 1
+ foreach
+ do
+  copy as project
+  echo "Project: $project.title"
+   ctf api ScmApp->getRepositoryList $project.id
+   foreach
+   do
+      print "$project.title : ",  repositoryDirectory
+   done
+ done
+
+
+

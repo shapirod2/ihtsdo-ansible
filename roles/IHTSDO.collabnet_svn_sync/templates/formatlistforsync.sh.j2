@@ -1,0 +1,42 @@
+#!/usr/bin/env bash
+#Some vars
+in_file="{{rep3}}"
+svn_url="{{ svn_base_url }}"
+
+
+# Main script starts here.
+main() {
+#echo_date "----------------------------";
+#echo "calling get lines";
+getlines
+exit 0
+}
+
+getlines(){
+cat $in_file|while read line; do
+echo $line
+echo $svn_url$line
+echo "--"
+done
+
+}
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="./instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

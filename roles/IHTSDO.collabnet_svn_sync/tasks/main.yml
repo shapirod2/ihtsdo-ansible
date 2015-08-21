@@ -1,0 +1,38 @@
+
+---
+
+- name: create base dir
+  file: path={{ base_dir }} state=directory
+  
+- name: copy ctf file  
+  template: src=allprepourl.ctf.j2 dest="{{ base_dir }}/allprepourl.ctf" mode=0644  
+
+- name: copy format shell script
+  template: src=formatlistforsync.sh.j2 dest="{{ base_dir }}/formatlistforsync.sh" mode=0740  
+
+- name: copy svn repo sync shell script
+  template: src=svnreposync.sh.j2 dest="{{ base_dir }}/svnreposync.sh" mode=0740  
+
+- name: remove reports dir if exists
+  file: path={{ rep_dir }} state=absent
+
+- name: create reports dir
+  file: path={{ rep_dir }} state=directory
+
+- name: run ctf script
+  shell: "{{ ctf_exe }} --script {{ base_dir }}/allprepourl.ctf > {{ rep1 }}"
+  
+- name: munge rep1 to give rep2
+  shell: cat rep.txt | grep -o '/svnroot/.*' | sort | sed 's/\/svnroot\///g' > {{ rep2 }}
+  
+- name: munge rep2 to give rep3
+  shell: grep -F -x -v -f svninfo.txt {{ rep2 }}  > {{ rep3 }} 
+
+- name: run formatlistforsync using rep3 as a feed.
+  shell: "{{ base_dir }}/formatlistforsync.sh > {{ rep4 }}"
+
+#- name: run the svnsync on current to pick up any changes in other repos
+
+  
+  
+  
