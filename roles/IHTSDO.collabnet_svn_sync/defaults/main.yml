@@ -26,4 +26,5 @@ rep2: "{{rep_dir}}/rep2.txt"
 rep3: "{{rep_dir}}/rep3.txt"
 rep4: "{{rep_dir}}/rep4.txt"
 rep5: "{{rep_dir}}/rep5.txt"
+rep6: "{{rep_dir}}/rep6.txt"
 

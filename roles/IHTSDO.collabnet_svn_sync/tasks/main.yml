@@ -12,6 +12,9 @@
 
 - name: copy svn repo sync shell script
   template: src=svnreposync.sh.j2 dest="{{ base_dir }}/svnreposync.sh" mode=0740  
+  
+- name: copy svn  sync shell script
+  template: src=svn-sync.sh.j2 dest="{{ base_dir }}/svn-sync.sh" mode=0740   
 
 - name: remove reports dir if exists
   file: path={{ rep_dir }} state=absent
@@ -45,8 +48,12 @@
   shell: "{{ base_dir }}/formatlistforsync.sh > {{ rep4 }}"
 
 - name: run svnreposync using rep4 as a feed. should bring in any missing repos.
-  shell: "{{ base_dir }}/svnreposync.sh > {{ rep5 }}"
+  shell: "{{ base_dir }}/svnreposync.sh"
 
+- name: run svn-sync to sync using curr_svn_list as a feed. 
+  shell: "{{ base_dir }}/svn-sync.sh"
   
+  
+    
   
   
