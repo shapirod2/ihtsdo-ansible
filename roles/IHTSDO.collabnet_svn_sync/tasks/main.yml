@@ -18,20 +18,34 @@
 
 - name: create reports dir
   file: path={{ rep_dir }} state=directory
+  
+- name: copy old svn repo list
+  template: src=old.txt dest="{{ old_rep }}" mode=0644    
+  
+- name: create svn info for use as a comparison  - current
+  shell: "find {{ svn_curr }} -maxdepth 1 -mindepth 1 -type d  -exec basename {} \\; | sort > {{ curr_svn_list }}"
+  
+- name: append current to old to create all
+  shell: "cat {{ curr_svn_list }} {{ old_rep }} >> {{ all_svn_list }}"  
 
+#- name: create svn info for use as a comparison  - old
+#  shell: "find {{ svn_old }} -maxdepth 1 -mindepth 1 -type d  -exec basename {} \\;  > {{ curr_svn_list }}"  
+      
 - name: run ctf script
   shell: "{{ ctf_exe }} --script {{ base_dir }}/allprepourl.ctf > {{ rep1 }}"
   
-- name: munge rep1 to give rep2
-  shell: cat rep.txt | grep -o '/svnroot/.*' | sort | sed 's/\/svnroot\///g' > {{ rep2 }}
+- name: munge rep1 to give rep2 - removes svnroot to give just the names
+  shell: cat {{ rep1 }} | grep -o '/svnroot/.*' | sort | sed 's/\/svnroot\///g' > {{ rep2 }}
   
 - name: munge rep2 to give rep3
-  shell: grep -F -x -v -f svninfo.txt {{ rep2 }}  > {{ rep3 }} 
+  shell: grep -F -x -v -f {{ all_svn_list }} {{ rep2 }}  > {{ rep3 }} 
+  ignore_errors: yes
 
 - name: run formatlistforsync using rep3 as a feed.
   shell: "{{ base_dir }}/formatlistforsync.sh > {{ rep4 }}"
 
-#- name: run the svnsync on current to pick up any changes in other repos
+- name: run svnreposync using rep4 as a feed. should bring in any missing repos.
+  shell: "{{ base_dir }}/svnreposync.sh > {{ rep5 }}"
 
   
   

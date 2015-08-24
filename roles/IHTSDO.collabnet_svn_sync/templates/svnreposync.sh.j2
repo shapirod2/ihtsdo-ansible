@@ -12,9 +12,9 @@ base_dir="{{ svn_curr }}"
 #https://csfe.aceworkspace.net/svn/repos/dwfa
 #--
 
-repo_list="./missing"
+repo_list="{{ rep4 }}"
 
-svn_user="{{ svn_user }"
+svn_user="{{ svn_user }}"
 svn_pw="{{ svn_pw }}"
 
 count=0
@@ -42,7 +42,7 @@ error_exit() {
 main() {
 	echo_date "----------------------------"
 	check_arguments
-        checkbasedir
+    checkbasedir
 	iteratelist
 	exit 0
 }
@@ -127,10 +127,6 @@ $svnsync init file://$base_dir/$f_name $f_url --username $svn_user --password $s
 svnsync_data(){
 echo "svnsync_data $base_dir/$f_name"
 $svnsync --non-interactive sync file://$base_dir/$f_name --username $svn_user --password $svn_pw
-}
-
-postlog(){
-
 }
 
 

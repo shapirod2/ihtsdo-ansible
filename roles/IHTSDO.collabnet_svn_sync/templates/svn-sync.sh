@@ -2,8 +2,7 @@
 
 # The following variables should be set by editing this script before running it:
 # The base url of the svn repo
-#base_dir="/home/adamf/svn/repos/old"
-base_dir="/opt/svnrepo/current"
+base_dir="{{ svn_curr }}"
 # A list of all repos to create and then sync
 # Expecting format of a repeating list of :
 #name
@@ -13,10 +12,10 @@ base_dir="/opt/svnrepo/current"
 #https://csfe.aceworkspace.net/svn/repos/dwfa
 #--
 
-repo_list="./missing"
+repo_list="{{ rep4 }}"
 
-svn_user="aflinton"
-svn_pw="adfab1"
+svn_user="{{ svn_user }}"
+svn_pw="{{ svn_pw }}"
 
 count=0
 name=""
@@ -43,7 +42,7 @@ error_exit() {
 main() {
 	echo_date "----------------------------"
 	check_arguments
-        checkbasedir
+    checkbasedir
 	iteratelist
 	exit 0
 }
@@ -128,10 +127,6 @@ $svnsync init file://$base_dir/$f_name $f_url --username $svn_user --password $s
 svnsync_data(){
 echo "svnsync_data $base_dir/$f_name"
 $svnsync --non-interactive sync file://$base_dir/$f_name --username $svn_user --password $svn_pw
-}
-
-postlog(){
-
 }
 
 
