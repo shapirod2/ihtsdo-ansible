@@ -15,8 +15,8 @@ base_dir="/opt/svnrepo/current"
 
 repo_list="./missing"
 
-svn_user="aflinton"
-svn_pw="adfab1"
+svn_user="{{ svn_user }}"
+svn_pw="{{ svn_pw }}"
 
 count=0
 name=""
