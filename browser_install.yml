@@ -1,0 +1,9 @@
+
+---
+- hosts: browser-aws-1
+  sudo: true
+
+  roles:
+    - IHTSDO.nginx-std 
+    - IHTSDO.browser_server_install
+ 

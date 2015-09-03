@@ -1,0 +1,45 @@
+---
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+  
+- name: Install latest git package
+  apt: name=git state=latest  
+  
+- name: Install latest mongodb package
+  apt: name=mongodb state=latest
+  
+- name: Install latest mongodb-org package
+  apt: name=mongodb-org state=latest
+  
+- name: Install latest libfontconfig1 package
+  apt: name=libfontconfig1 state=latest  
+  
+- name: Install javascript frameworks for angular etc  
+  include: js.yml
+  when: "install_js == True"
+  
+- name: Install rest api from github  
+  git: repo=https://github.com/IHTSDO/sct-snapshot-rest-api.git dest={{ rest_dir }}
+
+- name: Install browser front end from github 
+  git: repo=https://github.com/IHTSDO/sct-browser-frontend.git dest={{ front_end_dir }} 
+ 
+- name: Install rest server based on package.json.
+  npm: path={{ rest_dir }}
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+              owner=root group=root mode=0640  
+              
+- name: Configure nginx
+  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+              owner=root group=root mode=0640  
+              
+- name: restart nginx
+  service: name=nginx state=restarted                           
+              
+- name: (re)start ims
+  supervisorctl: name={{ app_name }} state=restarted              
+
