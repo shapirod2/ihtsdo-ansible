@@ -34,6 +34,8 @@ application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
 
 term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
 
+jira_pem_file: files/ssl/jira.pem
+
 
 
 
