@@ -36,7 +36,7 @@
   template: src=setenv.sh dest={{ term_serv_dir }}/bin/setenv.sh owner=root group=root mode=0755
 
 - name: Copy Jira Private Key
-  template: src=jira.pem dest={{ term_serv_conf_dir }}/jira.pem owner=root group=root mode=0644
+  template: src=jira.pem.j2 dest={{ term_serv_conf_dir }}/jira.pem owner=root group=root mode=0644
 
 - name: Start TS
   supervisorctl: name=termserver state=started
