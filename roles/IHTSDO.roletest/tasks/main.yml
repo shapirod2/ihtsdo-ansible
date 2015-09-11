@@ -1,0 +1,24 @@
+---
+
+# - name: SSH Tunnel management for zabbix
+#   include: tunnel_mgt.yml
+#   when: "zabbixserver_tunnel == True"
+
+
+- name: include aws settings
+  include_vars: "{{ aws_settings }}"
+  
+- name: include srs settings
+  include_vars: "{{ srs_settings }}"  
+
+- name: include orchestration settings
+  include_vars: "{{ orch_settings }}" 
+  
+- name: include smtp settings
+  include_vars: "{{ smtp_settings }}"     
+  
+
+- debug: msg="snomed_release_service_api_aws_key  =  {{ snomed_release_service_api_aws_key }} "
+- debug: msg="smtp_password  =  {{ smtp_password }} "
+- debug: msg="orchestration_jms_password  =  {{ orchestration_jms_password }} "
+- debug: msg="snomed_release_service_api_encryption_salt  =  {{ snomed_release_service_api_encryption_salt }} "
