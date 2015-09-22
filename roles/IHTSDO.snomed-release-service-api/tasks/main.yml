@@ -31,17 +31,31 @@
   tags:
     - ihtsdo-asset
 
+- name: make sure ssh_dir exists
+  file: path={{ssh_dir}}  owner={{exec_as}} group={{exec_as}} state=directory 
+
 - name: Install SSH Public Key
-  template: src=id_rsa.pub.j2 dest=/root/.ssh/id_rsa.pub
-            owner=root group=root mode=0600
+  template: src=id_rsa.pub.j2 dest={{ssh_dir}}/id_rsa.pub
+            owner={{exec_as}} group={{exec_as}} mode=0600
   tags:
     - ihtsdo-asset
 
 - name: Install SSH Private Key
-  template: src=id_rsa.j2 dest=/root/.ssh/id_rsa
-            owner=root group=root mode=0600
+  template: src=id_rsa.j2 dest={{ssh_dir}}/id_rsa
+            owner={{exec_as}} group={{exec_as}} mode=0600
   tags:
     - ihtsdo-asset
+                    
+- name: make sure known_hosts exists
+  file: path={{ssh_dir}}/known_hosts state=touch owner={{exec_as}} group={{exec_as}}  mode="644"    
+  
+- name: SSH | Find Server SSH host key
+  shell: ssh-keyscan {{ tunnel_host}}
+  register: tunnel_host_key          
+           
+- name: ensure tunnel_host is a known host
+  known_hosts: path={{ssh_dir}}/known_hosts host="{{tunnel_host}}" state=present key="{{tunnel_host_key.stdout}}"    
+    
 
 - name: Configure SSH Tunnel
   template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d/srs-id-gen-tunnel.conf

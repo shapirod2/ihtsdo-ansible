@@ -17,3 +17,7 @@ telemetry_smtp_port: 465
 telemetry_smtp_ssl: true
 environment_shortname: UNKNOWN
 
+ssh_dir: "/root/.ssh"
+exec_as: "root"
+tunnel_host: "mgr.servers.aceworkspace.net"
+
