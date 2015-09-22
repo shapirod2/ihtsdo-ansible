@@ -356,15 +356,17 @@ main() {
 }
 
 movetoaws(){
-echo "s3_backup_dir = "$s3_backup_dir;
-# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-then
-echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
-echo "Backup transferred";
-echo "Backup process complete";
-fi
+	echo "s3_backup_dir = "$s3_backup_dir;
+	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+	then
+		echo "Transferring backup to AWS S3";
+		/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
+		echo "Backup transferred";
+		echo "Backup process complete";
+	else
+		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
+	fi
 }
 
 delete_old() { 

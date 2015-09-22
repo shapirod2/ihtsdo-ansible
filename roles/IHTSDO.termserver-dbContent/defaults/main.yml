@@ -22,13 +22,16 @@ term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_index
 import_term_serv_sql_name: "snomedStore.sql"
 # The base Dir for the import data
 import_term_serv_base_dir: /opt/data/termserver
+
 #The base URL where the backup zip file should be downloaded from
 #import_zip_base_url: "https://s3.amazonaws.com/prod-term.backup.ihtsdo/"
 #import_zip_base_url: "http://192.168.0.11:8080/"
 import_zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
+
 #The import file filname (also the folder name when zip is unzipped)
 #import_term_serv_filename: "snowowl_uat-term_20150508_1349"
 import_term_serv_filename:  "snowowl-ihtsdo-20150131-data"
+
 #The import filname with file ending
 import_term_serv_file: "{{ import_term_serv_filename }}.zip"
 # The directory where the unzipped data is to be found
