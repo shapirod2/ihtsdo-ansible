@@ -10,16 +10,16 @@
         dest=/var/lib/jenkins/.ssh state=directory
         owner=jenkins group=nogroup mode=0700
     - copy: >
-        src=files/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
+        src=files/encrypted/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
         owner=jenkins group=nogroup mode=0600
     - copy: >
-        src=files/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
+        src=files/encrypted/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
         owner=jenkins group=nogroup mode=0600
     - copy: >
-        src=files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
+        src=files/NOT-Encrypted/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
         owner=jenkins group=nogroup mode=0600
     - copy: >
-        src=files/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
+        src=files/NOT-Encrypted/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
         owner=jenkins group=nogroup mode=0700
 
 
