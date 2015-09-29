@@ -55,7 +55,19 @@
            
 - name: ensure tunnel_host is a known host
   known_hosts: path={{ssh_dir}}/known_hosts host="{{tunnel_host}}" state=present key="{{tunnel_host_key.stdout}}"    
-    
+
+- name: make sure scripts dir exists
+  file: path={{script_dir}}  state=directory
+
+- name: Add autossh script
+  template: src=autosshtunnel.sh.j2 dest={{script_path}}
+              owner={{exec_as}} group={{exec_as}} mode=0700  
+
+- name: add command into rc.local
+  lineinfile: dest=/etc/rc.local  insertbefore="^exit 0" line="{{script_path}}" state="present"
+
+- name: call script directly first time.
+  command: "{{ script_path }}"                
 
 - name: Configure SSH Tunnel
   template: src=srs-id-gen-tunnel.conf.j2 dest=/etc/supervisor/conf.d/srs-id-gen-tunnel.conf

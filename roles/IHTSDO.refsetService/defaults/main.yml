@@ -7,8 +7,8 @@ nginx_conf: refsetService
 nginx_proxy_url: http://localhost:8080/refset
 nginx_root: /opt/refsetFrontendAngular/lib
 
-nginx_ssl_key_file: files/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{nginx_conf}}.crt"
 nginx_ssl_key_file_dest: "/etc/ssl/private/{{nginx_conf}}.key"
 

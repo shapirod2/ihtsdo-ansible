@@ -20,4 +20,6 @@ environment_shortname: UNKNOWN
 ssh_dir: "/root/.ssh"
 exec_as: "root"
 tunnel_host: "mgr.servers.aceworkspace.net"
+script_dir: "/opt/autossh"
+script_path: "{{script_dir}}/autosshtunnel.sh"
 

@@ -17,7 +17,7 @@ crowd_server_url: "{{ crowd_base_url }}/services/"
 application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
 
 #crowd.properties:
-session_tokenkey: "dev-ims-ihtsdo"
+cookie_tokenkey: "dev-ims-ihtsdo"
 
 #application.yml:
 swagger_title: "IHTSDO Identity & SSO service"
