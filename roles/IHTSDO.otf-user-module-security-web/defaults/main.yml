@@ -11,9 +11,9 @@ otf_user_module_security_web_nginx_ssl_key_file_dest: /etc/ssl/private/otf-user-
 otf_user_module_security_web_sp_props: /etc/opt/otf-user-module-security-web/stormpath.properties
 
 
-otf_user_module_security_web_sp_props_file_md1: files/stormpath/apiKey-meticulous-dreadnaught1.key
-otf_user_module_security_web_sp_props_file_vt: files/stormpath/apiKey-vertical-thunder.key
-otf_user_module_security_web_sp_props_file_ym: files/stormpath/apiKey-youthful-musket.key
-otf_user_module_security_web_sp_props_file_wa: files/stormpath/wise-atom.key
+otf_user_module_security_web_sp_props_file_md1: files/encrypted/stormpath/apiKey-meticulous-dreadnaught1.key
+otf_user_module_security_web_sp_props_file_vt: files/encrypted/stormpath/apiKey-vertical-thunder.key
+otf_user_module_security_web_sp_props_file_ym: files/encrypted/stormpath/apiKey-youthful-musket.key
+otf_user_module_security_web_sp_props_file_wa: files/encrypted/stormpath/wise-atom.key
 
 otf_user_module_security_standalone: true
