@@ -1,0 +1,40 @@
+- debug: msg="import_base_dir_repo = {{import_base_dir_repo}}"   
+- debug: msg="import_zip_file_repo = {{import_zip_file_repo}}" 
+- debug: msg="import_zip_url_repo = {{import_zip_url_repo}}"
+- debug: msg="import_file_dir_repo = {{import_file_dir_repo}}"
+- debug: msg="target_dir_repo = {{target_dir_repo}}"
+
+- name: make sure zip file exists
+  stat: path={{import_file_dir_repo}}
+  register: zipimportfile
+  
+- debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
+
+
+- name: Remove repodir so as to spark complete rebuild
+  file: path={{target_dir_repo}} state=absent
+  when: "force_zip_download_repo == True" 
+
+- name: make sure repoDir exists
+  file: path={{target_dir_repo}}  state=directory
+
+
+- name: download repo zip file if url is set
+  get_url: force=no url={{import_zip_url_repo}} dest={{import_file_dir_repo}} validate_certs=no mode=0440
+  when: zipimportfile.stat.exists == False
+
+- name: make sure zip file exists after dl
+  stat: path={{import_file_dir_repo}}
+  register: zipimportfile2
+
+
+- name: Unarchive  archive on the remote machine
+  unarchive: src={{import_file_dir_repo}} dest={{target_dir_repo}}/ copy=no
+  when: zipimportfile2.stat.exists == True
+  
+- name: Stop app if running
+  supervisorctl: name={{app_name}} state=stopped  
+
+- name: Configure beans.xml (repo dir )
+  template: src=beans.xml.j2 dest="{{xml_config_dir_repo}}"
+              owner=root group=root mode=0640  

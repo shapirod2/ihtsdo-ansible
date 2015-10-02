@@ -1,0 +1,13 @@
+[program:{{app_name}}]
+user = root
+command =  {{target_dir_tom}}/tomcat/bin/catalina.sh run
+startsecs=5
+stopsignal=INT
+autostart = true
+autorestart = true
+stdout_logfile=/var/log/tomcat.log
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760
+

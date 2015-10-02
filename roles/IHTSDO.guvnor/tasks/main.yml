@@ -1,0 +1,63 @@
+---
+
+# if force tomcat d/l then rm tomcat dir
+# make a dir to d/l tomcat
+# if no zip then d/l etc
+
+# if force repo d/l then rm repo dir
+# make a dir to d/l repo
+# if no zip then d/l etc
+
+
+
+
+#- name: Apt cache update
+#  apt: update_cache=yes 
+#  tags:
+#    - ihtsdo-asset
+ 
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300 
+ 
+ 
+- name: Stop guvnor if running
+  supervisorctl: name={{app_name}} state=stopped
+  
+
+#Get Tomcat 
+  
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{import_base_dir_tom}} state=absent
+  when: "force_zip_download_tom == True" 
+
+- name: make sure dataDir exists
+  file: path={{import_base_dir_tom}}  state=directory
+  
+- name: make sure zip file exists
+  stat: path={{import_zip_file_tom}}
+  register: tomzipimportfile  
+  
+- include: getTomcat.yml
+  when: tomzipimportfile.stat.exists == False
+
+#Get Repo 
+  
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{import_base_dir_repo}} state=absent
+  when: "force_zip_download_repo == True" 
+
+- name: make sure dataDir exists
+  file: path={{import_base_dir_repo}}  state=directory
+  
+- name: make sure zip file exists
+  stat: path={{import_zip_file_repo}}
+  register: repozipimportfile  
+  
+- include: getRepo.yml
+  when: repozipimportfile.stat.exists == False
+
+- name: Start App
+  supervisorctl: name={{app_name}} state=started
+
+
+
