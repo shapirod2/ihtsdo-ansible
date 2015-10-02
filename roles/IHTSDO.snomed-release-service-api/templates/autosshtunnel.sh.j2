@@ -2,8 +2,8 @@
 
 printf "Bringing up tunnel to {{tunnel_host}}"
 
-sudo autossh -i /home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -R {{zabbix_client_port}}:localhost:10050 -L 10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{zabbixserver1}}
+sudo autossh  -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L{{ snomed_release_service_id_gen_tunnel_local_port }}:{{ snomed_release_service_id_gen_tunnel_target_hostname }}:{{ snomed_release_service_id_gen_tunnel_target_port }} {{ snomed_release_service_id_gen_tunnel_proxy }} -l {{ snomed_release_service_id_gen_tunnel_username }}
 
-ssh -L{{ snomed_release_service_id_gen_tunnel_local_port }}:{{ snomed_release_service_id_gen_tunnel_target_hostname }}:{{ snomed_release_service_id_gen_tunnel_target_port }} {{ snomed_release_service_id_gen_tunnel_proxy }} -l {{ snomed_release_service_id_gen_tunnel_username }}
+#ssh -L{{ snomed_release_service_id_gen_tunnel_local_port }}:{{ snomed_release_service_id_gen_tunnel_target_hostname }}:{{ snomed_release_service_id_gen_tunnel_target_port }} {{ snomed_release_service_id_gen_tunnel_proxy }} -l {{ snomed_release_service_id_gen_tunnel_username }}
 
 exit 0
