@@ -39,4 +39,4 @@
               owner=root group=root mode=0640  
               
 - name: Start App
-  supervisorctl: name={{app_name}} state=started              
+  supervisorctl: name={{app_name}} state=restarted              
