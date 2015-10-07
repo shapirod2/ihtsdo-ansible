@@ -1,0 +1,47 @@
+---
+
+secret_settings: "files/encrypted/groups/idgen.yml"
+
+import_zip_base_url: "https://s3-us-west-2.amazonaws.com/idgen.backup/"
+
+force_zip_download_tom: False
+import_base_dir_tom: "/opt/download/tomcat"
+import_file_tom: "idgen"
+import_zip_file_tom: "{{ import_file_tom }}.zip"
+import_zip_url_tom: "{{import_zip_base_url}}{{ import_zip_file_tom }}"
+import_file_dir_tom: "{{import_base_dir_tom}}/{{import_zip_file_tom}}"
+
+app_name: "idgen"
+supervisor_dir: "/etc/supervisor/conf.d/"
+
+target_dir_tom: "/opt/{{app_name}}"
+
+
+force_zip_download_sql: False
+import_base_dir_sql: "/opt/download/sql"
+import_file_sql: "idserv.sql"
+import_zip_file_sql: "{{ import_file_sql }}.zip"
+import_zip_url_sql: "{{import_zip_base_url}}{{ import_zip_file_sql }}"
+import_file_dir_sql: "{{import_base_dir_sql}}/{{import_zip_file_sql}}"
+
+# The SQL import file name
+
+import_file_dir_sql_sql: "{{import_base_dir_sql}}/{{import_file_sql}}"
+
+
+installdbcontent: True
+mysql_service: mysql
+mysql_root_pass: 
+dbname: id_gen
+
+nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{app_name}}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{app_name}}.key"
+nginx_ufw_allow_https: true
+nginx_conf: "{{app_name}}"
+nginx_fqdn: "~(?i){{app_name}}"
+nginx_default_site: true
+nginx_ufw_allow_https: true
+#nginx_root: /opt/identity-service
+nginx_proxy_url: http://localhost:7080/

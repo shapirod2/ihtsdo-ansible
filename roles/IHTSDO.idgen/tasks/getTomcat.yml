@@ -1,0 +1,43 @@
+
+  
+- debug: msg="import_base_dir_tom = {{import_base_dir_tom}}"   
+- debug: msg="import_zip_file_tom = {{import_zip_file_tom}}" 
+- debug: msg="import_zip_url_tom = {{import_zip_url_tom}}"
+- debug: msg="import_file_dir_tom = {{import_file_dir_tom}}"
+- debug: msg="target_dir_tom = {{target_dir_tom}}"
+
+- name: make sure zip file exists
+  stat: path={{import_file_dir_tom}}
+  register: zipimportfile
+  
+- debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
+
+
+- name: Remove tomcatdir so as to spark complete rebuild
+  file: path={{target_dir_tom}} state=absent
+  when: "force_zip_download_tom == True" 
+
+- name: make sure tomcatDir exists
+  file: path={{target_dir_tom}}  state=directory
+
+
+- name: download tomcat zip file if url is set
+  get_url: force=no url={{import_zip_url_tom}} dest={{import_file_dir_tom}} validate_certs=no mode=0440
+  when: zipimportfile.stat.exists == False
+
+- name: make sure zip file exists after dl
+  stat: path={{import_file_dir_tom}}
+  register: zipimportfile2
+
+
+- name: Unarchive  archive on the remote machine
+  unarchive: src={{import_file_dir_tom}} dest={{target_dir_tom}}/ copy=no
+  when: zipimportfile2.stat.exists == True
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+              owner=root group=root mode=0640  
+              
+- name: Start App
+  supervisorctl: name={{app_name}} state=restarted  
+  ignore_errors: yes            
