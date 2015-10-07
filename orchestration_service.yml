@@ -3,7 +3,7 @@
     sudo: true
     roles:
       - IHTSDO.user-accounts
-      - IHTSDO.orchestration_service
+      - IHTSDO.orchestration-service
       - IHTSDO.activemq
 
 #  - hosts: orchestration_service
