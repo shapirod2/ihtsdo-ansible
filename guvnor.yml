@@ -1,0 +1,8 @@
+---
+  - hosts: guvnor
+    sudo: true
+    roles:
+      - IHTSDO.guvnor
+      - IHTSDO.nginx-std 
+
+

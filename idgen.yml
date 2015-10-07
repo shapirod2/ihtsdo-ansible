@@ -1,0 +1,8 @@
+---
+  - hosts: idgen
+    sudo: true
+    roles:
+      - IHTSDO.idgen
+      - IHTSDO.nginx-std 
+
+
