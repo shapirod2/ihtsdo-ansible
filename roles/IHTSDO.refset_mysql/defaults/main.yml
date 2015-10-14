@@ -1,0 +1,34 @@
+---
+
+#secret_settings: "files/encrypted/groups/refet.yml"
+app_name: "refset"
+supervisor_dir: "/etc/supervisor/conf.d/"
+
+# Import sql from S3
+#force_zip_download_sql: False
+#import_base_dir_sql: "/opt/download/sql"
+#import_file_sql: "refset.sql"
+#import_zip_file_sql: "{{ import_file_sql }}.zip"
+#import_zip_url_sql: "{{import_zip_base_url}}{{ import_zip_file_sql }}"
+#import_file_dir_sql: "{{import_base_dir_sql}}/{{import_zip_file_sql}}"
+
+# The SQL import file name
+#import_file_dir_sql_sql: "{{import_base_dir_sql}}/{{import_file_sql}}"
+
+
+#installdbcontent: True
+mysql_service: mysql
+mysql_root_pass: changeme
+dbname: refset
+
+nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{app_name}}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{app_name}}.key"
+nginx_ufw_allow_https: true
+nginx_conf: "{{app_name}}"
+nginx_fqdn: "~(?i){{app_name}}"
+nginx_default_site: true
+nginx_ufw_allow_https: true
+#nginx_root: /opt/identity-service
+nginx_proxy_url: http://localhost:8080/
