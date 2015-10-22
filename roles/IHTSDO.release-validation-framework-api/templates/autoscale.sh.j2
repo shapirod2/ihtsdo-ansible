@@ -2,7 +2,7 @@
 
 printf "Updating to latest"
 
-sudo apt-get update
+sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/maven_ihtsdotools_org_content_repositories_*"
 sudo apt-get install rvf-api
 
 sudo dpkg -s rvf-api
