@@ -1,0 +1,14 @@
+
+
+- name: make sure scripts dir exists
+  file: path={{autoscale_script_dir}}  state=directory 
+
+- name: Add autoscale startup script
+  template: src=autoscale.sh.j2 dest={{autoscale_script_path}}
+              owner={{autoscale_exec_as}} group={{autoscale_exec_as}} mode=0700
+ 
+- name: add command into rc.local
+  lineinfile: dest=/etc/rc.local  insertbefore="^exit 0" line="{{autoscale_script_path}}" state="present"
+
+- name: call script directly first time.
+  command: "{{ autoscale_script_path }}" 

@@ -1,0 +1,7 @@
+---
+  - hosts: rvf
+    sudo: true
+    roles:
+     # - IHTSDO.user-accounts
+      - IHTSDO.release-validation-framework-api
+    #  - IHTSDO.release-validation-framework-web

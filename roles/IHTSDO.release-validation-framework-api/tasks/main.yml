@@ -57,3 +57,7 @@
     
 - name: Create RVF data directory
   file: path={{ rvf_data_folder_location }} state=directory
+  
+- name: include autoscale  
+  include: autoscale.yml
+  when: autoscale == 'True'
