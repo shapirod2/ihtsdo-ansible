@@ -1,0 +1,35 @@
+---
+#Zend OpCache 
+
+# copy /etc/php5/mods-available/opcache.ini 
+#- name: set opcache.ini
+#  template: src=opcache.ini.j2 dest=/etc/php5/mods-available/opcache.ini
+#            owner=root group=root mode=0644
+            
+#- name: set apache2 ports.conf
+#  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
+#            owner=root group=root mode=0644
+
+- name: copy default conf
+  template: src=000-default.conf.j2 dest=/etc/apache2/sites-available/000-default.conf
+            owner=root group=root mode=0644
+            
+#- name: set config.php
+#  template: src=config.php.j2 dest={{ testrail_html_dir }}/config.php
+#            owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }} mode=0755            
+ 
+
+  
+- name: get ion cube zip
+  get_url: force=no url={{ioncube_url}}/{{ioncube_file}} dest={{temp_dl_dir}}/{{ioncube_file}} validate_certs=no mode=0440
+
+- name: unzip to ioncube
+  unarchive: src={{temp_dl_dir}}/{{ioncube_file}} dest={{ioncube__unzip_dir}} copy=no
+
+- name: add line to php.ini  php_ini
+  lineinfile: dest="{{php_ini}}" line="{{ioncube_line}}" state="present"  
+  
+  
+    
+
+

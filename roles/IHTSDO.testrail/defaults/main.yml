@@ -1,0 +1,67 @@
+---
+testrail_user: testrail
+testrail_pw: testrail
+mysql_root_pass: r00ty2ty
+mysql_service: mysql
+
+db_name: testrail
+rebuild_db: False
+
+php_ini: "/etc/php5/apache2/php.ini"
+
+temp_dl_dir: "/opt/dl"
+
+ioncube__unzip_dir: "/usr/local"
+ioncube_dir: "{{ioncube__unzip_dir}}/ioncube"
+ioncube_file: "ioncube_loaders_lin_x86-64.zip"
+ioncube_url: "http://downloads3.ioncube.com/loader_downloads"
+ioncube_so: "ioncube_loader_lin_5.5.so"
+ioncube_so_path: "{{ioncube_dir}}/{{ioncube_so}}"
+ioncube_line: "zend_extension={{ioncube_so_path}}"
+
+
+
+testrail_file: "testrail-latest-ion53.zip"
+testrail_url: "http://www.gurock.com/downloads/testrail"
+
+testrail_dl_url: "{{testrail_url}}/{{testrail_file}}"
+
+
+testrail_dir_owner: "www-data"
+testrail_dir:  "testrail"
+#testrail_git_dir: "/opt/{{ testrail_dir }}"
+html_dir: "/var/www/html"
+testrail_html_dir: "{{ html_dir }}/{{ testrail_dir }}"
+
+testrail_data_dir: "/opt/testrail"
+testrail_attach_dir: "{{testrail_data_dir}}/attachments"
+testrail_report_dir: "{{testrail_data_dir}}/reports"
+testrail_log_dir: "{{testrail_html_dir}}/testrail/logs"
+
+testrail_URL: "https://{{ inventory_hostname }}"
+
+testrail_port: 80
+
+# Dir to put scripts into
+backup_dir: /opt/backup/testrail
+#Dir for scripts to put final backup zips into
+backup_zip_dir: /opt/backup/testrail/zips
+
+use_ssl_only: "True"
+
+ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+ssl_cert_file_dest: /etc/ssl/certs/testrail.crt
+ssl_key_file_dest: /etc/ssl/private/testrail.key
+
+
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: /etc/ssl/certs/testrail.crt
+#nginx_ssl_key_file_dest: /etc/ssl/private/testrail.key
+#nginx_ufw_allow_https: true
+#nginx_conf: testrail
+#nginx_fqdn: ~(?i)testrail
+#nginx_default_site: true
+#nginx_ufw_allow_https: true
+#nginx_proxy_url: http://localhost:8080/

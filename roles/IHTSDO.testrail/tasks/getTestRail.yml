@@ -1,0 +1,35 @@
+---
+
+
+- name: get testrail zip
+  get_url: force=no url={{testrail_dl_url}} dest={{temp_dl_dir}}/{{testrail_file}} validate_certs=no mode=0440
+
+- name: unzip to ioncube
+  unarchive: src={{temp_dl_dir}}/{{testrail_file}} dest={{testrail_html_dir}} copy=no
+  
+- name: Ensure testrail_data_dir dir exists
+  file: path={{ testrail_data_dir }} state=directory
+        owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }}  mode=0640 
+        recurse=yes
+        
+- name: Ensure testrail_attach_dir dir exists
+  file: path={{ testrail_attach_dir }} state=directory
+        owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }}  mode=0640 
+        recurse=yes
+        
+- name: Ensure testrail_report_dir dir exists
+  file: path={{ testrail_report_dir }} state=directory
+        owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }}  mode=0640 
+        recurse=yes
+        
+- name: Ensure testrail_log_dir dir exists
+  file: path={{ testrail_log_dir }} state=directory
+        owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }}  mode=0640 
+        recurse=yes                 
+ 
+
+        
+        
+
+
+      

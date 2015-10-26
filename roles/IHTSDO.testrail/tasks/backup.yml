@@ -1,0 +1,12 @@
+---
+
+- name: Ensure back up zips dir exists
+  file: path="{{ backup_zip_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+       
+- name: set backup script
+  template: src=testrail_backup.sh.j2 dest={{ backup_dir }}/testrail_backup.sh
+            owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }} mode=0755            
+  
+  

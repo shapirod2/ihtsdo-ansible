@@ -1,0 +1,14 @@
+; configuration for php ZendOpcache module
+; priority=05
+; /etc/php5/apache2/conf.d/05-opcache.ini
+zend_extension=opcache.so
+opcache.enable = 1
+opcache.memory_consumption = 128
+opcache.max_accelerated_files = 4000
+opcache.revalidate_freq = 60
+ 
+; Required for testrail
+opcache.use_cwd = 1
+opcache.validate_timestamps = 1
+opcache.save_comments = 1
+opcache.enable_file_override = 0

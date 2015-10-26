@@ -1,0 +1,37 @@
+---
+
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+   #Setup the database
+- include: db.yml 
+
+   #Add the deps
+- include: deps.yml 
+
+- name: Ensure testrail_html_dir dir exists
+  file: path={{ testrail_html_dir }} state=directory
+        owner={{ testrail_dir_owner }}  group={{ testrail_dir_owner }}  mode=0755 
+        recurse=yes 
+
+- name: Remove temp datadir 
+  file: path={{temp_dl_dir}} state=absent
+
+- name: make sure temp_dl_dir exists
+  file: path={{temp_dl_dir}}  state=directory 
+ 
+  
+- include: extraSettings.yml
+
+- include: getTestRail.yml   
+
+# Include backup scripts etc.
+- include: backup.yml
+
+- name: if ssl then set up ssl
+  include: ssl.yml
+
+- name: restart apache2
+  service: name=apache2 state=restarted

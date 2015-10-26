@@ -1,0 +1,33 @@
+---
+
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+- name: Install testrail deps apache2
+  apt: name=apache2 state=latest
+  
+- name: Install testrail deps mysql-client
+  apt: name=mysql-client state=latest
+    
+- name: Install testrail deps php5
+  apt: name=php5 state=latest
+  
+- name: Install testrail deps php5-curl
+  apt: name=php5-curl state=latest
+
+- name: Install testrail deps php5-mysql 
+  apt: name=php5-mysql  state=latest  
+  
+- name: Install testrail deps php5-cli 
+  apt: name=php5-cli  state=latest    
+    
+- name: Install testrail deps libapache2-mod-php5 
+  apt: name=libapache2-mod-php5 state=latest
+  
+- name: Install unzip
+  apt: name=unzip state=latest  
+
+
+                     
