@@ -27,7 +27,11 @@
         owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }}  mode=0640 
         recurse=yes                 
  
-
+- name: make sure testrail dir is owned by testrail_dir_owner
+  file: path={{testrail_html_dir}} owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }} recurse=yes state=directory
+  
+- name: set up cron job  
+  cron: name="testrail background" job="/usr/bin/php {{testrail_html_dir}}/testrail/task.php" user="{{testrail_dir_owner}}"
         
         
 
