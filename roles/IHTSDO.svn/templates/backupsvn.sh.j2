@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{s3_backup_dir | default('')}}"
+# The location of the Subversion installation
+svn_repo_dir="{{ svn_repodir }}"
+svn_dump_dir="{{ svn_dumpdir | default('/opt/svndump')}}"
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	dumpsvn
+	#delete_old
+	#movetoaws
+	exit 0
+}
+
+check_arguments() {
+
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$svn_repo_dir" = "x" ]; then
+		error_exit "Please set the variable svn_repodir before running this script. Exiting with error."
+	fi
+	
+
+
+}
+
+dumpsvn(){
+
+cd $svn_repo_dir
+
+for i in *; 
+do 
+echo "$i".gz; 
+/usr/bin/svnadmin dump ./$i | gzip -9 > $svn_dump_dir/"$i".gz;
+done
+
+}
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+/usr/bin/aws s3 sync $svn_dump_dir $s3_backup_dir --delete;
+echo "Backup transferred";
+echo "Backup process complete";
+fi
+}
+
+#delete_old() { 
+#echo "Cleaning up old backups prior to moving them to aws"
+# if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+#  then   
+#   echo "Deleting old back ups backup dir = "${backup_dir}; 
+#   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+# fi
+#}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="$svn_dump_dir/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
