@@ -32,3 +32,8 @@ s3.offline.directory = {{ rvf_api_s3_offline_directory }}
 rvf.validation.queue.concurrency = {{ rvf_validation_queue_concurrency }}
 # batch size for running assertions concurrently 0 means running sequentially
 rvf.assertion.execution.BatchSize = {{ rvf_assertion_execution_BatchSize }}
+# Auto-scaling
+rvf.execution.isWorker = {{ rvf_execution_isWorker }}
+rvf.execution.isAutoScalingEnabled = {{ rvf_execution_isAutoScalingEnabled }}
+rvf.validation.queue.brokerUrl = {{ rvf_validation_queue_brokerUrl }}
+rvf.validation.queue.name = {{ rvf_validation_queue_name }}
