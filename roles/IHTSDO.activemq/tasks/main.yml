@@ -5,9 +5,36 @@
 
     
 # Install the package "activemq"
-- name: Install activemq server
-  apt: name=activemq  state=latest
+#- name: Install activemq server
+#  apt: name=activemq  state=latest
+
+- name: Remove dldir so as to spark complete rebuild
+  file: path={{active_mq_dl_dir}} state=absent
+  when: "force_download == True" 
   
+- name: make sure dlDir exists
+  file: path={{active_mq_dl_dir}}  state=directory
+
+- debug: msg="active_mq_dl_file  =  {{ active_mq_dl_file }} "  
+
+- name: make sure intl zip file exists
+  stat: path={{active_mq_dl_dir}}/{{active_mq_dl_file}}
+  register: dlfile  
+
+- name: download zip file if url is set
+  get_url: force=no url={{active_mq_dl_url}}/{{active_mq_dl_file}} dest={{active_mq_dl_dir}}/{{active_mq_dl_file}} validate_certs=no mode=0440
+  when: dlfile.stat.exists == False
+  
+- name: make sure intl zip file exists after dl
+  stat: path={{active_mq_dl_dir}}/{{active_mq_dl_file}}
+  register: dlfile2  
+
+- name: make sure install dir exists
+  file: path={{active_mq_install_dir}}  state=directory  
+  
+- name: Unarchive intl zip file on the remote machine
+  unarchive: src={{active_mq_dl_dir}}/{{active_mq_dl_file}} dest={{active_mq_install_dir}} copy=no
+  when: dlfile2.stat.exists == True  
   
 - name: Allow through the firewall  
   ufw: rule=allow port=61616 proto=any     
@@ -22,7 +49,7 @@
 - name: log4j config
   template: src=log4j.properties.j2 dest="{{ config_log4j }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644 
   
-- name: restart activemq
-  service: name=activemq state=restarted  
+#- name: restart activemq
+#  service: name=activemq state=restarted  
     
   

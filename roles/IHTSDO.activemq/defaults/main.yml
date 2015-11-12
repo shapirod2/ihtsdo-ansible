@@ -1,10 +1,30 @@
 ---
-config_dir: "/etc/activemq/instances-enabled/main"
-config_xml: "{{ config_dir }}/activemq.xml"
-config_log4j: "{{ config_dir }}/log4j.properties"
 
 activemq_user: "bob"
 activemq_pw: "bob"
 
 activemq_runasuser: "root"
 
+active_mq_dl_url: "https://repository.apache.org/content/repositories/snapshots/org/apache/activemq/apache-activemq/5.6-SNAPSHOT/"
+active_mq_dl_filename: "apache-activemq-5.6-SNAPSHOT"
+active_mq_dl_file_type: "-bin.tar.gz"
+
+active_mq_dl_file: "{{ active_mq_dl_filename }}{{ active_mq_dl_file_type }}"
+
+active_mq_dl_dir: "/opt/dl/activemq"
+
+active_mq_install_dir: "/opt/activemq"
+
+force_download: false
+
+
+active_mq_dir: "{{ active_mq_install_dir }}/{{ active_mq_dl_filename }}"
+
+config_dir: "{{ active_mq_dir }}/conf"
+config_xml: "{{ config_dir }}/activemq.xml"
+config_log4j: "{{ config_dir }}/log4j.properties"
+
+
+active_mq_bin_dir: "{{ active_mq_dir }}/bin"
+
+start_command: "{{ active_mq_bin_dir }}/activemq start"
