@@ -26,11 +26,21 @@
      - 192.168.0.54    refset va-refset.ihtsdotools.org
      - 192.168.0.55    va_static_web.ihtsdotools.org  static va-static-web.ihtsdotools.org va-zabbixserver va-zabbixserver.ihtsdotools.org
      - 192.168.0.56    user va-userman.ihtsdotools.org
-     - 192.168.0.57    term va-termserver.ihtsdotools.org
+     - 192.168.0.57    term va-termserver.ihtsdotools.org orch va-orch.ihtsdotools.org
      - 192.168.0.58    va1 va1.ihtsdotools.org
      - 192.168.0.59    crowd va-crowd.ihtsdotools.org
      - 192.168.0.60    crowd2 va-crowd2.ihtsdotools.org
      - 192.168.0.61    moodle va-moodle.ihtsdotools.org
      - 192.168.0.62    ims va-ims.ihtsdotools.org
      - 192.168.0.63    jenkins va-jenkins.ihtsdotools.org
+     - 192.168.0.63    sonar va-sonar.ihtsdotools.org
 
+
+
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
+
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
+  
+  

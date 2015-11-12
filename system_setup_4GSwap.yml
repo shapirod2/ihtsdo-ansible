@@ -1,8 +1,9 @@
 # Added the install java and super visor roles as it is common and means it does not have to be 
 # included everytime.
 ---
-- hosts: temp
+- hosts: zabbixclients
   sudo: true
+  #remote_user: ubuntu
   remote_user: root
   vars:
     user_accounts_skip_sshd: true
@@ -18,3 +19,4 @@
     - IHTSDO.oraclejava
     - IHTSDO.unattended-updates
     - ansible-swapfile-master
+

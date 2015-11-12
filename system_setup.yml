@@ -1,9 +1,10 @@
 # Added the install java and super visor roles as it is common and means it does not have to be 
 # included everytime.
 ---
-- hosts: temp
+- hosts: zabbixclients
   sudo: true
-  remote_user: root
+  #remote_user: root
+  #remote_user: ubuntu
   vars:
     user_accounts_skip_sshd: true
   roles:

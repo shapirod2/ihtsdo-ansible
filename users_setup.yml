@@ -1,7 +1,8 @@
 # Added or re-add the users.
 ---
-- hosts: all
+- hosts: zabbixclients
   sudo: true
+  #remote_user: root
   vars:
     user_accounts_skip_sshd: true
   roles:

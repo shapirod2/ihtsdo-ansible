@@ -1,0 +1,8 @@
+---
+  - hosts: testrail
+    sudo: true
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.testrail
+     # - IHTSDO.nginx-std 
+

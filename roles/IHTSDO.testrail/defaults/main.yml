@@ -8,6 +8,7 @@ db_name: testrail
 rebuild_db: False
 
 php_ini: "/etc/php5/apache2/php.ini"
+php_cli_ini: "/etc/php5/cli/php.ini"
 
 temp_dl_dir: "/opt/dl"
 
