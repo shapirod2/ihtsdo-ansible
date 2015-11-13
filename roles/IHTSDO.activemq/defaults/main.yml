@@ -1,9 +1,11 @@
 ---
 
-activemq_user: "bob"
+app_name: "activemq"
+
+activemq_user: "activemq"
 activemq_pw: "bob"
 
-activemq_runasuser: "root"
+activemq_runasuser: "{{ activemq_user }}"
 
 active_mq_dl_url: "https://repository.apache.org/content/repositories/snapshots/org/apache/activemq/apache-activemq/5.6-SNAPSHOT/"
 active_mq_dl_filename: "apache-activemq-5.6-SNAPSHOT"
@@ -13,18 +15,27 @@ active_mq_dl_file: "{{ active_mq_dl_filename }}{{ active_mq_dl_file_type }}"
 
 active_mq_dl_dir: "/opt/dl/activemq"
 
-active_mq_install_dir: "/opt/activemq"
+active_mq_install_dir: "/opt/installs/activemq"
+
+
+active_mq_std_dir: "/opt/activemq"
+active_mq_default_dir: "/etc/default"
+
 
 force_download: false
 
 
 active_mq_dir: "{{ active_mq_install_dir }}/{{ active_mq_dl_filename }}"
 
-config_dir: "{{ active_mq_dir }}/conf"
+config_dir: "{{ active_mq_std_dir }}/conf"
 config_xml: "{{ config_dir }}/activemq.xml"
+jetty_xml: "{{ config_dir }}/jetty.xml"
 config_log4j: "{{ config_dir }}/log4j.properties"
 
 
-active_mq_bin_dir: "{{ active_mq_dir }}/bin"
+active_mq_bin_dir: "{{ active_mq_std_dir }}/bin"
 
-start_command: "{{ active_mq_bin_dir }}/activemq start"
+start_command: "{{ active_mq_bin_dir }}/activemq"
+initd_command: "/etc/init.d/activemq"
+
+#supervisor_dir: "/etc/supervisor/conf.d/"
