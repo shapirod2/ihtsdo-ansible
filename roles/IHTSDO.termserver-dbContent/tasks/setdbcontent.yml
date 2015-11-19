@@ -11,7 +11,7 @@
   
 - name: Remove datadir so as to spark complete rebuild
   file: path={{import_term_serv_base_dir}} state=absent
-  when: "force_zip_download == True" 
+  when: "force_zip_download  == True" 
 
 - name: make sure dataDir exists
   file: path={{import_term_serv_base_dir}}  state=directory
@@ -59,7 +59,13 @@
   mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
   when: sqlimportfile.stat.exists == True
   
+- name: if present dump existing db
+  mysql_db: name={{ts_review_dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  when: sqlimportfile.stat.exists == True
   
+- name: create db
+  mysql_db: name={{ts_review_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  when: sqlimportfile.stat.exists == True  
   
 #- name: Run the SQL file -OLD
 #  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ import_term_serv_sql }}
@@ -71,9 +77,20 @@
 #  when: sqlimportfile.stat.exists == True  
 
 
+#- name: create db from backup
+#  mysql_db: name={{ts_dbname}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+#  when: sqlimportfile.stat.exists == True
+
+#All only works with ansible 2.0  
+#- name: create db from backup
+#  mysql_db: name=all  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+#  when: sqlimportfile.stat.exists == True  
+  
 - name: create db from backup
-  mysql_db: name={{ts_dbname}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
-  when: sqlimportfile.stat.exists == True
+  mysql_db: state=import name={{ item.name }} target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+  with_items: mysql_db
+  when: mysql_db|lower() != 'none' and sqlimportfile.stat.exists == True
+ 
 
 - debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
 - debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"

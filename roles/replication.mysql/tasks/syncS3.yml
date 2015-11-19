@@ -1,0 +1,11 @@
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
+
+- name: Configure backup script
+  template: src={{backup_script}}.j2 dest={{script_dir}}/{{backup_script}}
+            owner=root group=root mode=0740
+
+- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"  
+
+- name: Run aws script
+  shell: "{{ full_backup_cmd }}"

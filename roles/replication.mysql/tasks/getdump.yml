@@ -1,0 +1,31 @@
+
+- name: make sure replic_backup_dir exists
+  file: path={{replic_backup_dir}}  state=absent
+  when: force_download == 'true'
+
+- name: make sure replic_backup_dir exists
+  file: path={{replic_backup_dir}}  state=directory
+   
+- include: syncS3.yml
+  when: use_s3 == 'true' and   
+
+- name: make sure intl zip file exists
+  stat: path={{ replic_backup_dir }}/{{ replic_filename }}
+  register: dumpfile    
+
+- debug: msg="dumpfile exists = {{dumpfile.stat.exists}}" 
+
+- include: syncS3.yml
+  when: use_s3 == 'true' and dumpfile.stat.exists == False  
+  
+# all only works with ansible 2.0  
+#- name: get Db'es from dump file
+#  mysql_db: state=import name=all target={{ replic_backup_dir }}/{{ replic_filename }} login_user=root login_password={{ mysql_root_pass }}
+#  when: dumpfile.stat.exists == True
+  
+- name: get Db'es from dump file
+  mysql_db: state=import name={{ item.name }} target={{ replic_backup_dir }}/{{ replic_filename }} login_user=root login_password={{ mysql_root_pass }}
+  with_items: mysql_db
+  when: mysql_db|lower() != 'none' and dumpfile.stat.exists == True
+
+

@@ -1,0 +1,15 @@
+#!/bin/bash
+
+backup_dir="{{replic_backup_dir}}"
+s3_backup_dir={{s3_backup_dir}}
+
+echo "s3_backup_dir = "$s3_backup_dir;
+echo "backup_dir = "$backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
+echo "Backup transferred";
+echo "Backup process complete";
+fi

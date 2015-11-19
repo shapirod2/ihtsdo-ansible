@@ -3,9 +3,9 @@ termserver_version: latest
 environment_shortname: UNKNOWN
 mysql_service: mysql
 #Set the db content from a backup
-set_db_content:  False
+set_db_content:  True
 # Force the import to download a fresh copy of the  backup zip and use that.
-force_zip_download:  False
+force_zip_download:  True
 # Dir where term server is installed
 term_serv_dir: /opt/termserver
 # Dir name where indexes go
@@ -25,7 +25,7 @@ import_term_serv_base_dir: /opt/data/termserver
 
 #The base URL where the backup zip file should be downloaded from
 #import_zip_base_url: "https://s3.amazonaws.com/prod-term.backup.ihtsdo/"
-#import_zip_base_url: "http://192.168.0.11:8080/"
+#import_zip_base_url: "http://192.168.0.2/"
 import_zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
 
 #The import file filname (also the folder name when zip is unzipped)

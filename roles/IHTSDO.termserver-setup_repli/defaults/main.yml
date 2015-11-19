@@ -1,0 +1,20 @@
+---
+
+system_type: local_test
+
+# Backup 
+# Dir to put scripts into
+
+replic_backup_dir: /opt/backup/replic
+replic_filename: termrep.gz
+
+script_dir: /opt/scripts/replic
+backup_script: replic_s3.sh
+
+backup_cmd: "{{ script_dir }}/{{ backup_script }}"
+
+backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+

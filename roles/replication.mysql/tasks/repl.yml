@@ -1,0 +1,55 @@
+#
+# Replication settings
+#
+
+
+# Dumps all databases to hostname.sql
+#- mysql_db: state=dump name=all target=/tmp/{{ inventory_hostname }}.sql
+
+# Imports file.sql similiar to mysql -u <username> -p <password> < hostname.sql
+#- mysql_db: state=import name=all target=/tmp/{{ inventory_hostname }}.sql
+
+#mysqldump -uroot -prooty --databases snomedstore ts_review --master-data | gzip -9 > dbdump.gz
+# zip
+# upload to s3
+# download to replica machine
+  
+
+- debug: msg="mysql_repl_role = {{ mysql_repl_role }}"
+- debug: msg="mysql_repl_master = {{ mysql_repl_master }}"
+
+- name: check if slave is already configured for replication
+  mysql_replication: mode=getslave login_user=root login_password={{ mysql_root_pass }}
+  ignore_errors: true
+  register: slave
+  when: mysql_repl_role == 'slave'
+  
+- debug: msg="slave = {{ slave }}"  
+
+- name: get the current master servers replication status
+  mysql_replication: mode=getmaster login_user=root login_password={{ mysql_root_pass }}
+  delegate_to: "{{ mysql_repl_master }}"
+  register: repl_stat
+  when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
+
+- debug: msg="repl_stat = {{ repl_stat }}"
+
+- name: change the master in slave to start the replication
+  mysql_replication: >
+    mode=changemaster
+    master_host={{ mysql_repl_master }}
+    master_user={{ mysql_repl_user[0].name }}
+    master_password={{ mysql_repl_user[0].pass }}
+    master_log_file={{ repl_stat.File }}
+    master_log_pos={{ repl_stat.Position }} 
+    login_user=root login_password={{ mysql_root_pass }}
+  when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
+  ignore_errors: True
+
+- name: start replication
+  mysql_replication: mode=startslave login_user=root login_password={{ mysql_root_pass }}
+  when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined
+  
+#- name: start replication
+#  mysql_replication: mode=startslave login_user={{ mysql_repl_user[0].name }} login_password={{ mysql_repl_user[0].pass }}
+#  when: slave|failed and mysql_repl_role == 'slave' and mysql_repl_master is defined  

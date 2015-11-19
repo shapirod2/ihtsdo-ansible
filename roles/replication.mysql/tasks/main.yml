@@ -1,0 +1,54 @@
+
+- name: Apt cache update
+  apt: update_cache=yes 
+  tags:
+    - ihtsdo-asset
+    
+- name: include aws settings
+  include_vars: "files/encrypted/aws/s3-default.yml"    
+
+ #include system vars
+- include: system.yml 
+
+- name: Install rsync
+  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600 
+
+- name: Include db setup if defined
+  include: db.yml
+  when: "set_up_db == 'true'"
+
+#
+# Setup users
+#
+
+#- name: ensure anonymous users are not in the database
+#  mysql_user: name='' login_user=root login_password={{ mysql_root_pass }}  state=absent
+
+- name: create the database users
+  mysql_user: name={{ item.name }} host={{ item.host }} password={{ item.pass }} 
+              priv={{ item.priv }} state=present login_user=root login_password={{ mysql_root_pass }}
+  with_items: mysql_users
+  when: mysql_users|lower() != 'none'
+
+- name: create the replication users
+  mysql_user: name={{ item.name }} host='%' password={{ item.pass }}
+                priv=*.*:"REPLICATION SLAVE" state=present login_user=root login_password={{ mysql_root_pass }}
+  with_items: mysql_repl_user
+  when: mysql_repl_role == 'master'
+
+#
+# Create database
+#
+
+- name: remove the test database
+  action: mysql_db db=test state=absent login_user=root login_password={{ mysql_root_pass }} 
+
+- name: create the databases
+  mysql_db: name={{ item.name }} state=present login_user=root login_password={{ mysql_root_pass }} 
+  with_items: mysql_db
+  when: mysql_db|lower() != 'none'
+  
+- include: getdump.yml
+
+#- include: repl.yml   
+

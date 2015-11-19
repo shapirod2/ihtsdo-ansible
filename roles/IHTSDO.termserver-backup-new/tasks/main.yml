@@ -1,0 +1,52 @@
+- include: system.yml 
+
+
+- name: Install rsync
+  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600     
+
+
+- name: make sure temp_backup_dir exists
+  file: path={{temp_backup_dir}}  state=directory
+  
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
+
+- name: Configure backup script
+  template: src={{backup_script}}.j2 dest={{script_dir}}/{{backup_script}}
+            owner=root group=root mode=0740
+
+- name: Stop TS if running
+  supervisorctl: name=termserver state=stopped
+
+- debug: msg="about tostart dump time now = {{ ansible_date_time.iso8601_micro }}"
+
+
+- name: Dump all MySQL databases to a single file
+  shell: /usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} --master-data | gzip -9 > {{ temp_backup_dir }}/{{ dump_filename }}
+
+- name: Dump all MySQL databases to a single file
+  shell: /usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} 
+         --quick --single-transaction --master-data | gzip -9 > {{ temp_backup_dir }}/{{ dump_filename }}
+
+
+- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
+
+- name: copy resources_dir to temp_backup_dir
+  command: cp {{ resources_dir }} {{ temp_backup_dir }}
+  
+
+# make zip inc resources folder + gzip
+
+
+- name: Run aws script
+  shell: "{{ full_backup_cmd }}"
+
+
+
+
+
+# put to s3
+
+
+#- name: start TS if not running
+#  supervisorctl: name=termserver state=started

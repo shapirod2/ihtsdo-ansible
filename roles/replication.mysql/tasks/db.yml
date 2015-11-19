@@ -1,0 +1,43 @@
+---
+
+- name: Allow mysql  
+  ufw: rule=allow port={{mysql_port}} proto=any
+
+- debug: msg="mysql_root_pass = {{ mysql_root_pass }}"
+
+#- name: Set MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- name: Confirm MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
+
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server state=present
+   
+- name: copy the my.cnf file
+  action: template src=my.cnf.j2 dest={{ mysql_conf_dir }}/my.cnf owner=root mode=0644
+ # notify: restart mysql
+     
+# Install the package "python-mysqldb"
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
+  
+- name: ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} login_user=root login_password={{ mysql_root_pass }} state=absent
+  with_items:
+   - localhost
+   - "{{ ansible_hostname }}"
+
+- name: remove the test database
+  mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }} 
+
+
+
+#- name: touch the mysql-slow.log file
+#  file: path={{ mysql_slow_log }} owner=mysql mode=0644 state=touch
+
+- name: start mysql service
+  service: name={{ mysql_service }} state=restarted enabled=yes
+
