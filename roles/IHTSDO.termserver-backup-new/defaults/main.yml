@@ -4,14 +4,16 @@ system_type: local_test
 # Dir to put scripts into
 
 dump_backup_dir: /opt/backup/termdump
-dump_filename: "termbak.gz"
+dump_filename: "snomedStore.sql"
 
-temp_backup_dir: /opt/backup/termbak_{{ ansible_date_time.iso8601 }}
+temp_backup_dir: /opt/backup/termbak_{{ ansible_date_time.iso8601 }}/dataset
 
 backup_dir: /opt/backup/termserver
 
 resources_dir: /opt/termserver/resources
 
+
+#dataset
 script_dir: /opt/scripts/termbackup
 backup_script: backup_s3.sh
 
