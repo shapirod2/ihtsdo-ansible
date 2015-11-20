@@ -72,7 +72,9 @@
   
 - name: link to /init.d
   file: src={{ start_command }} dest={{ initd_command }} state=link 
-   
+ 
+- name: make sure in restart   
+  command: update-rc.d {{ app_name }} defaults
   
 - name: restart activemq
   service: name={{ app_name }} state=restarted  
