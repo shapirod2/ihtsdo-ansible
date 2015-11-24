@@ -18,7 +18,14 @@
 
 - debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
 
-- shell: "{{ full_backup_cmd }}"
+- name: make sure rsync_dir exists
+  file: path={{rsync_dir}}  state=directory
+
+- name: rsync indexes
+  command: /usr/bin/rsync  -av --delete --no-compress {{ts_dir}} {{ rsync_dir }}
+
+- name: run backup command
+  shell: "{{ full_backup_cmd }}"
 
 
 - name: start TS if not running

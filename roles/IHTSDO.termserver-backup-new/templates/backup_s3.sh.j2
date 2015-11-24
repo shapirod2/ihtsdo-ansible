@@ -40,8 +40,8 @@ main() {
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
 	echo_date "Starting backup; sending message to connected users."
-	echo_date "Rsync'ing indexes..."
-	rsyncindexes
+	#echo_date "Rsync'ing indexes..."
+	#rsyncindexes
 	echo_date "dumping mysql..."
     mysql_dump
     echo_date "copying from rsync folder..."
