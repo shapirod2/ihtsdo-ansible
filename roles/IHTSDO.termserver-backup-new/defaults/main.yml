@@ -1,44 +1,19 @@
 system_type: local_test
 
+
+backup_mode: "hot"
 # Backup 
 # Dir to put scripts into
-
-dump_backup_dir: /opt/backup/termdump
+s3_backup_dir: "none"
+backup_dir: "/opt/backup/termserver"
 dump_filename: "snomedStore.sql"
-
-temp_backup_dir: /opt/backup/termbak_{{ ansible_date_time.iso8601 }}/dataset
-
-backup_dir: /opt/backup/termserver
-
-resources_dir: /opt/termserver/resources
-
+ts_dir: "/opt/termserver/resources/indexes"
+rsync_dir: "/opt/backup/rsync/termserver"
 
 #dataset
 script_dir: /opt/scripts/termbackup
-backup_script: backup_s3.sh
-
-backup_cmd: "{{ script_dir }}/{{ backup_script }}"
-
+new_backup_script: backup_s3.sh
+backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
-
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
-
-
-
-# Backup 
-# Dir to put scripts into
-
-
-backup_script: snowowl_hot_backup_mysql.sh
-
-backup_cmd: "{{ backup_dir }}/{{ backup_script }}"
-
-backup_log: "{{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
-
-full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
-
-#Dir for scripts to put final backup zips into
-backup_zip_dir: /opt/backup/termserver/zips
-#base URL for rest calls for use by hot backup
-base_url: http://localhost:8080/snowowl
