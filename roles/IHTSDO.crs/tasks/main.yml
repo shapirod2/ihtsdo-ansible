@@ -25,21 +25,21 @@
 #  template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
 #              owner=root group=root mode=0644   
   
-#- name: Add config location to nginx config
-#  lineinfile: 
-#     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-#     insertbefore="^error_page 503 @maintenance;" 
-#     line="location /config {alias {{ conf_dir }};}"
-#     state=present
-#     regexp='^location /config'    
+- name: Add ihtsdo-crs location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="^} \#endofLocation/" 
+     line="location /ihtsdo-crs {proxy_pass http://localhost:8080;}"
+     state=present
+     regexp='^location /ihtsdo-crs'    
      
-#- name: Add sca location to nginx config
-#  lineinfile: 
-#     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-#     insertbefore="^error_page 503 @maintenance;" 
-#     line="location /sca {alias {{ lib_dir }};}"
-#     state=present
-#     regexp='^location /sca'       
+- name: Add crs location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="^} \#endofLocation/" 
+     line="location /crs {alias {{ lib_dir }};}"
+     state=present
+     regexp='^location /crs'       
        
 - name: restart nginx
   service: name=nginx state=restarted  
