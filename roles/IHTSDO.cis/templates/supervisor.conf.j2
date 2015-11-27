@@ -1,0 +1,10 @@
+[program:{{ app_name }}]
+user = root
+directory = {{ install_dir }}
+command = {{ node_dir }} {{ rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760

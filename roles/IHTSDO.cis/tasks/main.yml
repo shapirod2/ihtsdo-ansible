@@ -1,0 +1,51 @@
+
+#- name: Update apt cache
+#  apt: update_cache=yes
+#  sudo: yes
+  
+  #Setup the database
+#- include: db.yml
+  
+#- name: Install latest git package
+#  apt: name=git state=latest  
+  
+  
+#- name: Install latest libfontconfig1 package
+#  apt: name=libfontconfig1 state=latest  
+  
+#- name: Install javascript frameworks for angular etc  
+#  include: js.yml
+#  when: "install_js == True"
+  
+#- name: Install rest api from github  
+#  git: repo=https://github.com/termMed/component-identifier-service.git dest={{ install_dir }}
+
+ 
+#- name: Install rest server based on package.json.
+#  npm: path={{ install_dir }}
+  
+#- name: config create schema
+#  command: "{{node_dir}} {{ install_dir }}/config/createSchema.js dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}"
+  
+#- name: config create additonal ids
+#  command: "{{node_dir}} {{ install_dir }}/config/initializeIdSchemes.js dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}" 
+
+
+#- name: Configure supervisor
+#  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+#              owner=root group=root mode=0640  
+              
+#- name: Configure nginx
+#  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+#              owner=root group=root mode=0640  
+              
+#- name: restart nginx
+#  service: name=nginx state=restarted    
+  
+  #Setup the database content
+- include: dbcontent.yml                         
+              
+#- name: (re)start app
+#  supervisorctl: name={{ app_name }} state=restarted              
+
+ 

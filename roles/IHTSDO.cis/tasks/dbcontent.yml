@@ -1,0 +1,17 @@
+
+
+- name: make sure sql init file exists
+  stat: path={{init_script}}
+  register: sqlinitfile
+
+- name: create db from init sql
+  mysql_db: name={{ cis_db_name }}  state=import target={{ init_script }} login_user={{ cis_db_user }}  login_password={{ cis_db_pw }}
+  when: sqlinitfile.stat.exists == True
+
+
+
+ 
+ 
+ #- name: create db from backup
+#  mysql_db: name={{cis_db_name}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+#  when: sqlimportfile.stat.exists == True
