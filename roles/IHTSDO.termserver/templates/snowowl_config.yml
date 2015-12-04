@@ -1,0 +1,51 @@
+#
+# Copyright 2011-2015 B2i Healthcare Pte Ltd, http://b2i.sg
+#
+
+authentication:
+  type: PROP_FILE
+
+fileAuth:
+  users:
+    -
+      username: {{ ts_user }}
+      password: {{ ts_pw }}
+
+repository:
+  host: 0.0.0.0
+  port: 2036
+
+  # Minutes to invalidate and close the unused indexes for tasks
+  # Default is 4 hours, setting it to 0 means infinite (turns the feature off)
+  # indexTimeout: 240
+
+  database:
+    type: b2i_mysql
+    datasource: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
+    driver: com.mysql.jdbc.Driver
+    scheme: jdbc:mysql://
+    location: localhost:3306/
+    settings: ?useServerPrepStmts=true&useCursorFetch=true
+    username: {{ snowowl_db_user }}
+    password: {{ snowowl_db_password }}
+
+snomed:
+  ids:
+    strategy : CIS
+    cisBaseUrl : {{ cis_url }}
+    cisContextRoot : api
+    cisUserName : {{ cis_username }}
+    cisPassword : {{ cis_password }}
+    cisClientSoftwareKey : {{ cis_client_name }}
+    cisNumberOfPollTries : 1
+    cisTimeBetweenPollTries : 1000
+
+reviewManager:
+  # Minutes to keep reviews in CURRENT state persisted in the index (default 15 minutes)
+  keepCurrentMins: 120
+  # Minutes to keep reviews in others states persisted (default 5 minutes)
+  keepOtherMins: 120
+
+# metrics:
+  # Enable Request execution metrics logging
+  # enabled: true | false
