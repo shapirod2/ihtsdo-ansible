@@ -53,9 +53,9 @@
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
               owner=root group=root mode=0640  
               
-#- name: Configure nginx
-#  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-#              owner=root group=root mode=0640  
+- name: Configure run script
+  template: src=runCis.sh.j2 dest={{run_script}}
+              owner=root group=root mode=0770  
                           
 - name: restart nginx
   service: name=nginx state=restarted    
