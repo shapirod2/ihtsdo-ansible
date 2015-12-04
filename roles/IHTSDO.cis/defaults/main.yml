@@ -1,5 +1,7 @@
 ---
 
+add_dbcontent: false
+
 mysql_root_pass: rooty
 mysql_port: 3306
 mysql_service: mysql

@@ -1,28 +1,38 @@
 
-#- name: Update apt cache
-#  apt: update_cache=yes
-#  sudo: yes
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
   
   #Setup the database
-#- include: db.yml
+- include: db.yml
   
-#- name: Install latest git package
-#  apt: name=git state=latest  
+- name: Install latest git package
+  apt: name=git state=latest  
   
   
-#- name: Install latest libfontconfig1 package
-#  apt: name=libfontconfig1 state=latest  
+- name: Install latest libfontconfig1 package
+  apt: name=libfontconfig1 state=latest  
   
-#- name: Install javascript frameworks for angular etc  
-#  include: js.yml
-#  when: "install_js == True"
+- name: Install javascript frameworks for angular etc  
+  include: js.yml
+  when: "install_js == True"
+
+- name: stop app
+  supervisorctl: name={{ app_name }} state=stopped 
   
-#- name: Install rest api from github  
+- name: rem install dir
+  file: path={{ install_dir }} state=absent
+ 
+
+  
+#- name: Install rest api from github - termmed 
 #  git: repo=https://github.com/termMed/component-identifier-service.git dest={{ install_dir }}
 
+- name: Install rest api from github 
+  git: repo=https://github.com/IHTSDO/component-identifier-service.git dest={{ install_dir }}
  
-#- name: Install rest server based on package.json.
-#  npm: path={{ install_dir }}
+- name: Install rest server based on package.json.
+  npm: path={{ install_dir }}
   
 #- name: config create schema
 #  command: "{{node_dir}} {{ install_dir }}/config/createSchema.js dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}"
@@ -30,22 +40,31 @@
 #- name: config create additonal ids
 #  command: "{{node_dir}} {{ install_dir }}/config/initializeIdSchemes.js dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}" 
 
+- debug: msg="ansible_hostname = {{ansible_hostname}}"
+- debug: msg="inventory_hostname = {{inventory_hostname}}"
 
-#- name: Configure supervisor
-#  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
-#              owner=root group=root mode=0640  
+- replace: dest={{ install_dir }}/api/swagger-ids.json regexp='localhost' replace='{{inventory_hostname}}'
+
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+              owner=root group=root mode=0640  
               
 #- name: Configure nginx
 #  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
 #              owner=root group=root mode=0640  
-              
-#- name: restart nginx
-#  service: name=nginx state=restarted    
+                          
+- name: restart nginx
+  service: name=nginx state=restarted    
+  
+- name: allow port 3000 through the firewall  
+  ufw: rule=allow port=3000 proto=any    
   
   #Setup the database content
 - include: dbcontent.yml                         
+  when: add_dbcontent == true
               
-#- name: (re)start app
-#  supervisorctl: name={{ app_name }} state=restarted              
+- name: (re)start app
+  supervisorctl: name={{ app_name }} state=restarted              
 
  

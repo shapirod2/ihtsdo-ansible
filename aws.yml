@@ -1,10 +1,8 @@
 ---
-  - hosts: cis
+  - hosts: zabbixclients
     sudo: true
     vars_files:
     - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.aws
-      - IHTSDO.nginx-std  
-      - IHTSDO.cis
       

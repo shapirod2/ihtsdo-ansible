@@ -15,3 +15,11 @@
  #- name: create db from backup
 #  mysql_db: name={{cis_db_name}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
 #  when: sqlimportfile.stat.exists == True
+
+
+
+
+# create index job_sctid_log on sctId_log (jobId );
+
+
+# create index job_schemeid_log on schemeId_log (jobId );
