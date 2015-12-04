@@ -1,0 +1,23 @@
+---
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.user-accounts
+
+  - hosts: termserver
+    sudo: true
+    vars_files:
+    - files/encrypted/aws/s3-default.yml
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.termserver
+      - IHTSDO.nginx-std 
+      - IHTSDO.termserver-web
+      - IHTSDO.sca
+      
+  - hosts: orchestration_service
+    sudo: true
+    roles:
+      - IHTSDO.orchestration-service
+      - IHTSDO.activemq
+

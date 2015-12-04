@@ -1,7 +1,8 @@
 ---
-  - hosts: nginx-test
+  - hosts: zabbixclients
     sudo: true
     roles:
-      #- IHTSDO.user-accounts
+      - IHTSDO.refset_mysql
       - IHTSDO.nginx-std 
+
 

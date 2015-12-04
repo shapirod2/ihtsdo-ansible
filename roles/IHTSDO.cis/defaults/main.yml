@@ -39,4 +39,8 @@ nginx_fqdn: "~(?i)cis"
 nginx_default_site: true
 nginx_proxy_url: http://localhost:3000/
 
+crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
+crowd_app_name: "component-id-service"
+crowd_pw: "snomedid"
+
 

@@ -1,0 +1,10 @@
+---
+  - hosts: rvf-srs
+    sudo: true
+    roles:
+     # - IHTSDO.user-accounts
+      - IHTSDO.release-validation-framework-api
+      - IHTSDO.release-validation-framework-web
+      - IHTSDO.snomed-release-service-api 
+      - IHTSDO.snomed-release-service-web
+
