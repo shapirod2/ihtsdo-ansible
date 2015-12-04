@@ -1,6 +1,6 @@
 [program:{{ app_name }}]
 user = root
-#directory = {{ install_dir }}
+directory = {{ install_dir }}
 #command = {{ node_dir }} {{ rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }} crowd_url={{cis_crowd_url}} crowd_app_name={{cis_crowd_app_name}} crowd_app_password={{cis_crowd_pw}} 
 command = {{ run_script }}
 autostart = true
