@@ -5,7 +5,10 @@
   
   #Setup the database
 - include: db.yml
-  
+
+  #include system vars
+- include: system.yml 
+
 - name: Install latest git package
   apt: name=git state=latest  
   
