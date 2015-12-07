@@ -53,9 +53,31 @@
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
               owner=root group=root mode=0640  
               
-- name: Configure run script
-  template: src=runCis.sh.j2 dest={{run_script}}
-              owner=root group=root mode=0770  
+#- name: Configure run script
+#  template: src=runCis.sh.j2 dest={{run_script}}
+#              owner=root group=root mode=0770  
+              
+- name: Add crowd_url to Env file
+  lineinfile: 
+     dest={{ env_file }}  
+     line="crowd_url="{{cis_crowd_url}}""
+     state=present
+     regexp='^crowd_url='              
+ 
+- name: Add crowd_app_name to Env file
+  lineinfile: 
+     dest={{ env_file }}  
+     line="crowd_app_name="{{cis_crowd_app_name}}""
+     state=present
+     regexp='^crowd_app_name='
+      
+- name: Add crowd_app_password to Env file
+  lineinfile: 
+     dest={{ env_file }}  
+     line="crowd_app_password="{{cis_crowd_pw}}""
+     state=present
+     regexp='^crowd_app_password='
+ 
                           
 - name: restart nginx
   service: name=nginx state=restarted    

@@ -29,6 +29,7 @@ rest_app: "{{ install_dir }}/app.js"
 supervisor_dir: "/etc/supervisor/conf.d/"
 script_name: "runCis.sh"
 run_script: "{{ install_dir }}/{{script_name}}"
+env_file: "/etc/environment"
 
 
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
