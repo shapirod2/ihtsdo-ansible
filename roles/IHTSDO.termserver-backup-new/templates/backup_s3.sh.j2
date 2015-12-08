@@ -139,7 +139,7 @@ mkdir -pv {{ rsync_dir }}
 }
 
 copyfromrsyncdir(){
-cp -R {{ rsync_dir }}/$indexes $ABSOLUTE_ARCHIVE_PREFIX
+cp -R {{ rsync_dir }}/* $ABSOLUTE_ARCHIVE_PREFIX
 }
 
 movetoaws(){
