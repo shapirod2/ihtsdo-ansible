@@ -1,0 +1,16 @@
+system_type: local_test
+
+# Backup 
+# Dir to put scripts into
+s3_backup_dir: "none"
+
+backup_dir: "/opt/backup/cis"
+dump_filename: "cisdump.sql"
+
+#dataset
+script_dir: /opt/scripts/cis
+new_backup_script: backup_cis_s3.sh
+backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
+backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
