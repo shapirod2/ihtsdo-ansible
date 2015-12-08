@@ -45,9 +45,9 @@ main() {
 	cd "$zip_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
-	echo_date "Finished successfully."
-	//delete_old
-	//movetoaws
+	echo_date "Finished successfully. Moving to AWS"
+	delete_old
+	movetoaws
 	exit 0
 }
 
