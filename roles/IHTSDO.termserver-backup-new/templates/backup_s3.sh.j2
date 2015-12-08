@@ -21,6 +21,24 @@ ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX/dataset"
 
+# The connection timeout for HTTP requests in seconds.
+CONNECTION_TIMEOUT_SECONDS=5
+
+# The username used for creating hot backups (should be a valid Snow Owl user)
+SNOWOWL_USERNAME="{{ ts_user }}"
+
+# The password for the user given above
+SNOWOWL_PASSWORD="{{ ts_pw }}"
+
+# The base URL of the REST services to use
+BASE_URL="{{ base_url }}"
+
+# The base URL for administrative services
+ADMIN_BASE_URL="$BASE_URL/admin"
+
+# The number of milliseconds to wait before giving up trying to lock the complete repository.
+LOCK_TIMEOUT_MILLIS=30000
+
 # Prints a message to stdout with the current date and time.
 echo_date() {
 	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
@@ -32,21 +50,75 @@ error_exit() {
 	exit 1
 }
 
+# Invokes curl to make an HTTP request to the server; stores returned message and HTTP status code in output variables.
+rest_call() {
+	CURL_OUTPUT=`curl -q --fail --silent --show-error --connect-timeout "$CONNECTION_TIMEOUT_SECONDS" --user "$SNOWOWL_USERNAME:$SNOWOWL_PASSWORD" --write-out "\n%{http_code}" "$@"`
+	CURL_MESSAGE=`echo "$CURL_OUTPUT" | head -n-1`
+	CURL_HTTP_STATUS=`echo "$CURL_OUTPUT" | tail -n1`
+}
+
+# Tries to acquire a global lock that prevents writing to any of the terminology stores on any available branch.
+lock_all_repositories() {
+	echo_date "Locking repositories..."
+	rest_call --data-urlencode "timeoutMillis=$LOCK_TIMEOUT_MILLIS" "$ADMIN_BASE_URL/repositories/lock"
+}
+
+# Removes the lock from all repositories.
+unlock_all_repositories() {
+	echo_date "Unlocking repositories..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/unlock"
+}
+
+# Cleans up the global repository lock and exits with an error.
+unlock_all_repositories_and_exit() {
+	unlock_all_repositories
+	error_exit "$1"
+}
+
+# Locks the specified repository, preventing write access to all of its branches.
+lock_repository() {
+	echo_date "Locking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/lock"
+	
+	if [ "$CURL_HTTP_STATUS" -ne "204" ]; then
+		unlock_all_repositories_and_exit "Couldn't lock repository $REPOSITORY. Exiting with error."
+	fi
+}
+
+# Unlocks the specified repository if it was already locked.
+unlock_repository() {
+	echo_date "Unlocking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/unlock"
+}
+
+# Unlocks the specified repository, cleans up the global repository lock and exits with an error.
+unlock_repository_and_exit() {
+	unlock_repository
+	unlock_all_repositories_and_exit "$1"
+}
+
 # Main script starts here.
 main() {
 	echo_date "----------------------------"
-	check_arguments
+	#check_arguments
+	
+	lock_all_repositories
 
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
 	echo_date "Starting backup; sending message to connected users."
 	#echo_date "Rsync'ing indexes..."
-	#rsyncindexes
+	rsyncindexes
 	echo_date "dumping mysql..."
-    mysql_dump
+    mysql_dump &
+    unlock_all_repositories
+    wait
+    
     echo_date "copying from rsync folder..."
     copyfromrsyncdir
 	echo_date "Creating archive..."
+	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
+	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
 	cd "$zip_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	

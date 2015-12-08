@@ -1,13 +1,20 @@
 system_type: local_test
 
-
-backup_mode: "hot"
+ts_backup_mode: "hot"
+ts_user: "snowowl"
+ts_pw: "snowowl"
 # Backup 
 # Dir to put scripts into
 s3_backup_dir: "none"
+
+#base URL for rest calls for use by hot backup
+base_url: http://localhost:8080/snowowl
+
+
 backup_dir: "/opt/backup/termserver"
 dump_filename: "snomedStore.sql"
-ts_dir: "/opt/termserver/resources/indexes"
+#ts_dir: "/opt/termserver/resources/indexes"
+ts_dir: "/opt/termserver_indexes"
 rsync_dir: "/opt/backup/rsync/termserver"
 
 #dataset
