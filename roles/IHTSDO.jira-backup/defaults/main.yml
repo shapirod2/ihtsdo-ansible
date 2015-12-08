@@ -1,0 +1,17 @@
+system_type: local_test
+
+# Backup 
+# Dir to put scripts into
+s3_backup_dir: "s3://{{jira_backup}}"
+
+backup_dir: "/opt/backup/jira"
+jira_data_dir: "/var/atlassian"
+dump_filename: "jiradump.sql"
+
+#dataset
+script_dir: /opt/scripts/jira
+new_backup_script: backup_jira_s3.sh
+backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
+backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+

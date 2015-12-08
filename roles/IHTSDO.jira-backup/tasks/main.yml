@@ -1,0 +1,13 @@
+- include: system.yml 
+
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
+
+- name: Configure backup script
+  template: src={{new_backup_script}}.j2 dest={{script_dir}}/{{new_backup_script}}
+            owner=root group=root mode=0740
+
+- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
+
+- name: run backup command
+  shell: "{{ full_backup_cmd }}"
