@@ -2,12 +2,13 @@
 - name: Update apt cache
   apt: update_cache=yes
   sudo: yes
-  
-  #Setup the database
-- include: db.yml
 
   #include system vars
 - include: system.yml 
+
+  
+  #Setup the database
+- include: db.yml
 
 - name: Install latest git package
   apt: name=git state=latest  
@@ -31,8 +32,10 @@
 #- name: Install rest api from github - termmed 
 #  git: repo=https://github.com/termMed/component-identifier-service.git dest={{ install_dir }}
 
+- debug: msg="cis_version = {{cis_version}}"
+
 - name: Install rest api from github 
-  git: repo=https://github.com/IHTSDO/component-identifier-service.git dest={{ install_dir }}
+  git: repo=https://github.com/IHTSDO/component-identifier-service.git dest={{ install_dir }} version={{cis_version}}
  
 - name: Install rest server based on package.json.
   npm: path={{ install_dir }}
@@ -57,27 +60,54 @@
 #  template: src=runCis.sh.j2 dest={{run_script}}
 #              owner=root group=root mode=0770  
               
-- name: Add crowd_url to Env file
-  lineinfile: 
-     dest={{ env_file }}  
-     line="crowd_url="{{cis_crowd_url}}""
-     state=present
-     regexp='^crowd_url='              
+#- name: Add crowd_url to Env file
+#  lineinfile: 
+#     dest={{ env_file }}  
+#     line="crowd_url="{{cis_crowd_url}}""
+#     state=present
+#     regexp='^crowd_url='              
  
-- name: Add crowd_app_name to Env file
-  lineinfile: 
-     dest={{ env_file }}  
-     line="crowd_app_name="{{cis_crowd_app_name}}""
-     state=present
-     regexp='^crowd_app_name='
+#- name: Add crowd_app_name to Env file
+#  lineinfile: 
+#     dest={{ env_file }}  
+#     line="crowd_app_name="{{cis_crowd_app_name}}""
+#     state=present
+#     regexp='^crowd_app_name='
       
-- name: Add crowd_app_password to Env file
-  lineinfile: 
-     dest={{ env_file }}  
-     line="crowd_app_password="{{cis_crowd_pw}}""
-     state=present
-     regexp='^crowd_app_password='
+#- name: Add crowd_app_password to Env file
+#  lineinfile: 
+#     dest={{ env_file }}  
+#     line="crowd_app_password="{{cis_crowd_pw}}""
+#     state=present
+#     regexp='^crowd_app_password='
  
+ 
+# --------------ADD Javascript munging for the above vars----------------- 
+ 
+- debug: msg="cis_crowd_url = {{cis_crowd_url}}" 
+- debug: msg="security_file = {{security_file}}" 
+ 
+- name: Add crowd_url to Security file
+  lineinfile: 
+     dest={{ security_file }}  
+     line='"base":"{{cis_crowd_url}}"'
+     state=present
+     regexp='"base"\:'
+     
+- name: Add cis_crowd_app_name to Security file
+  lineinfile: 
+     dest={{ security_file }}  
+     line='"name":"{{cis_crowd_app_name}}",'
+     state=present
+     regexp='"name"\:'      
+ 
+- name: Add crowd_app_password to Security file
+  lineinfile: 
+     dest={{ security_file }}  
+     line='"password":"{{cis_crowd_pw}}"'
+     state=present
+     regexp='"password"\:'
+
                           
 - name: restart nginx
   service: name=nginx state=restarted    

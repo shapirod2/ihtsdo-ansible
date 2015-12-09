@@ -11,6 +11,8 @@ cis_db_name: idservice
 cis_db_user: idservice 
 cis_db_pw: idservice 
 
+cis_version: HEAD
+
 init_script: "{{ install_dir }}/config/db_script.sql"
 # defaults file for Angular
 
@@ -20,7 +22,7 @@ version_cis: "latest"
 install_dir: "/opt/{{ app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
-
+security_file: "{{ install_dir }}/blogic/Security.js"
 
 install_js: True
 node_dir: "/usr/bin/node"
