@@ -26,9 +26,17 @@
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="location /sca {alias {{ lib_dir }};}"
+     line="location /sca { alias /opt/sca/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
      state=present
-     regexp='^location /sca'       
+     regexp='^location /sca '
        
+- name: Add sca-private location to nginx config
+  lineinfile:
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+     insertbefore="^error_page 503 @maintenance;"
+     line="location /sca-private { alias /opt/sca/lib; }"
+     state=present
+     regexp='^location /sca-private '
+
 - name: restart nginx
-  service: name=nginx state=restarted  
+  service: name=nginx state=restarted
