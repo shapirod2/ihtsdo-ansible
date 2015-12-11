@@ -39,6 +39,7 @@ snomed:
     cisClientSoftwareKey : {{ cis_client_name }}
     cisNumberOfPollTries : 1
     cisTimeBetweenPollTries : 1000
+    enforceNamespace: INT
 
 reviewManager:
   # Minutes to keep reviews in CURRENT state persisted in the index (default 15 minutes)
