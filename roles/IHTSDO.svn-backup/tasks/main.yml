@@ -1,0 +1,28 @@
+---
+
+- debug: msg="Dumping Svn to ={{svn_dumpdir}}"
+- debug: msg="Backing up Svn to ={{s3_backup_dir}}"
+
+
+#- name: Install rsync
+#  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600     
+
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
+  
+- name: Configure backup script
+  template: src={{new_backup_script}}.j2 dest={{script_dir}}/{{new_backup_script}}
+            owner=root group=root mode=0740
+
+- name: make sure svn_dumpdir exists
+  file: path={{svn_dumpdir}}  state=directory
+
+- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
+
+
+
+#- name: rsync files
+#  command: /usr/bin/rsync  -av --delete --no-compress {{ts_dir}} {{ rsync_dir }}
+
+#- name: run backup command
+#  shell: "{{ full_backup_cmd }}"
