@@ -17,7 +17,7 @@ term_serv_dir_resources: "{{term_serv_dir}}/{{ term_serv_resources_dir }}"
 #Term Serv Indexes dir
 term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_indexes_dir }}"
 
-snowowl_reasoner_id: au.csiro.snorocket.owlapi3.snorocket.factory
+snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
 
 # Backup 
 # Dir to put scripts into
