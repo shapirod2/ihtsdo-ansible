@@ -28,7 +28,7 @@
 - name: Add ihtsdo-crs location to nginx config
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^} \#endofLocation/" 
+     insertbefore="^error_page 503 @maintenance;"  
      line="location /ihtsdo-crs {proxy_pass http://localhost:8080;}"
      state=present
      regexp='^location /ihtsdo-crs'    
@@ -36,7 +36,7 @@
 - name: Add crs location to nginx config
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^} \#endofLocation/" 
+     insertbefore="^error_page 503 @maintenance;" 
      line="location /crs {alias {{ lib_dir }};}"
      state=present
      regexp='^location /crs'       
