@@ -51,7 +51,7 @@
   when: sqlimportfile.stat.exists == True
   
 - name: create db
-  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}} encoding=utf8
   when: sqlimportfile.stat.exists == True
   
   
