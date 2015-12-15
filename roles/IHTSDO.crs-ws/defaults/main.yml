@@ -1,0 +1,18 @@
+---
+# defaults file for Angular
+
+# Should be the same as the artifactId in the pom
+ihtsdo_repository: snapshot
+
+app_name: crs-web
+version_crs_web: "latest"
+install_dir: "/opt/{{ app_name }}"
+lib_dir: "{{ install_dir }}/lib"
+
+crsPropertiesFolderLocation: "{{install_dir}}/crs-resources"
+crowdConfigFolderLocation:  "{{install_dir}}/crowd"
+crowdPropertiesFileLocation: "{{crowdConfigFolderLocation}}"
+
+#nginx_proxy_url: http://localhost:8080/
+
+
