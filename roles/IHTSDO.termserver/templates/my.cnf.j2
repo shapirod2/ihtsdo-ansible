@@ -3,12 +3,17 @@
 socket          = /var/run/mysqld/mysqld.sock
 nice            = 0
 
+[client]
+default-character-set=utf8
+
 [mysqld]
 lower_case_table_names=1
+default-character-set = utf8
 #
 # * Basic Settings
 #
 user            = mysql
+default_storage_engine         = InnoDB
 pid-file        = /var/run/mysqld/mysqld.pid
 socket          = /var/run/mysqld/mysqld.sock
 port            = 3306
@@ -20,7 +25,7 @@ skip-external-locking
 #
 # Instead of skip-networking the default is now to listen only on
 # localhost which is more compatible and is not less secure.
-bind-address            = 127.0.0.1
+bind-address            = 0.0.0.0
 #
 # * Fine Tuning
 #
@@ -60,11 +65,13 @@ log_error = /var/log/mysql/error.log
 # The following can be used as easy to replay backup logs or for replication.
 # note: if you are setting up a replication slave, see README.Debian about
 #       other settings you may need to change.
-#server-id              = 1
-#log_bin                        = /var/log/mysql/mysql-bin.log
-expire_logs_days        = 10
-max_binlog_size         = 100M
-#binlog_do_db           = include_database_name
+
+server-id               = {{ ansible_date_time.epoch }}
+#log_bin                 = /var/log/mysql/mysql-bin.log
+#expire_logs_days        = 10
+#max_binlog_size         = 100M
+#binlog_do_db            = {{ts_dbname}}
+#binlog_do_db            = {{ ts_review_dbname }}
 #binlog_ignore_db       = include_database_name
 #
 # * InnoDB
