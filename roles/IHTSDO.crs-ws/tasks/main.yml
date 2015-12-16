@@ -3,30 +3,35 @@
 - name: Update apt cache
   apt: update_cache=yes
   sudo: yes
-  
+ 
+ #Setup the database
+- include: db.yml 
   
 - name: Install package
-  apt: name={{app_name}} state=installed
+  apt: name={{crs_ws_app_name}} state=installed
   when: version_crs_web == 'installed'
 
 - name: Install latest package
-  apt: name={{app_name}} state=latest
+  apt: name={{crs_ws_app_name}} state=latest
   when: version_crs_web == 'latest'
 
 - name: Install package specific version
-  apt: name={{app_name}}={{ version_crs_web }} state=installed
+  apt: name={{crs_ws_app_name}}={{ version_crs_web }} state=installed
   when: version_crs_web != 'installed' and version_crs_web != 'latest'
  
   
-- name: Creates conf directory
+- name: Creates crsPropertiesFolderLocation directory
   file: path={{ crsPropertiesFolderLocation }} state=directory
   
-- name: Creates conf directory
+- name: Creates crowdConfigFolderLocation directory
   file: path={{ crowdConfigFolderLocation }} state=directory
+
+- name: Creates log directory
+  file: path={{ log_dir }} state=directory  
   
   
 - name: Configure supervisor
-  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ crs_ws_app_name }}.conf"
               owner=root group=root mode=0640    
               
 
@@ -42,11 +47,11 @@
   template: src=crowd.properties.j2 dest="{{ crowdPropertiesFileLocation   }}/crowd.properties"
               owner=root group=root mode=0640     
               
-- name: Configure crowd.properties
+- name: Configure crs-application.properties
   template: src=crs-application.properties.j2 dest="{{ crsPropertiesFolderLocation   }}/crs-application.properties"
               owner=root group=root mode=0640                       
 
 # crs-application.properties? crs-application.properties
 
 - name: (re)start app
-  supervisorctl: name={{ app_name }} state=restarted               
+  supervisorctl: name={{ crs_ws_app_name }} state=restarted               

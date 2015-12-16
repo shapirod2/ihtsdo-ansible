@@ -6,40 +6,50 @@
   
   
 - name: Install package
-  apt: name={{app_name}} state=installed
+  apt: name={{crs_web_app_name}} state=installed
   when: version_crs_web_ui == 'installed'
 
 - name: Install latest package
-  apt: name={{app_name}} state=latest
+  apt: name={{crs_web_app_name}} state=latest
   when: version_crs_web_ui == 'latest'
 
 - name: Install package specific version
-  apt: name={{app_name}}={{ version_crs_web_ui }} state=installed
+  apt: name={{crs_web_app_name}}={{ version_crs_web_ui }} state=installed
   when: version_crs_web_ui != 'installed' and version_crs_web_ui != 'latest'
  
   
 - name: Creates conf directory
-  file: path={{ conf_dir }} state=directory
+  file: path={{ crs_web_conf_dir }} state=directory
   
 #- name: Configure endpointConfig.json
-#  template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
+#  template: src=endpointConfig.json.j2 dest="{{ crs_web_conf_dir }}/endpointConfig.json"
 #              owner=root group=root mode=0644   
   
 - name: Add ihtsdo-crs location to nginx config
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;"  
-     line="location /ihtsdo-crs {proxy_pass http://localhost:8080;}"
+     line="location /ihtsdo-crs {proxy_pass http://localhost:8080/crs-ws;}"
      state=present
      regexp='^location /ihtsdo-crs'    
-     
+ 
 - name: Add crs location to nginx config
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="location /crs {alias {{ lib_dir }};}"
+     line="location /crs {alias {{ crs_web_lib_dir }};}"
      state=present
-     regexp='^location /crs'       
+     regexp='^location /crs' 
+     
+- name: Add snowowl_url location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="^error_page 503 @maintenance;" 
+     line="location /snowowl {proxy_pass {{ snowowl_url }};}"
+     state=present
+     regexp='^location /snowowl'    
+     
+        
        
 - name: restart nginx
   service: name=nginx state=restarted  

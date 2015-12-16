@@ -4,23 +4,25 @@
 # Should be the same as the artifactId in the pom
 ihtsdo_repository: snapshot
 
-app_name: crs-web-ui
-app_name1: crs
+crs_web_app_name: crs-web-ui
 version_crs_web_ui: "latest"
-version_crs: "latest"
-install_dir: "/opt/{{ app_name }}"
-lib_dir: "{{ install_dir }}/lib"
-conf_dir: "{{ install_dir }}/conf"
+crs_web_install_dir: "/opt/{{ crs_web_app_name }}"
+crs_web_lib_dir: "{{ crs_web_install_dir }}/lib"
+crs_web_conf_dir: "{{ crs_web_install_dir }}/conf"
 
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ crs_web_app_name}}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{ crs_web_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "crs"
 nginx_fqdn: "~(?i)crs"
 nginx_default_site: true
-nginx_root: "{{ lib_dir }}"
+nginx_root: "{{ crs_web_lib_dir }}"
 #nginx_proxy_url: http://localhost:8080/
+
+snowowl_url: "https://dev-term.ihtsdotools.org/snowowl"
+
+
 
 

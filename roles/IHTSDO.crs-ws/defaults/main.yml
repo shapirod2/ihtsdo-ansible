@@ -4,15 +4,34 @@
 # Should be the same as the artifactId in the pom
 ihtsdo_repository: snapshot
 
-app_name: crs-web
+crs_ws_app_name: crs-web
 version_crs_web: "latest"
-install_dir: "/opt/{{ app_name }}"
-lib_dir: "{{ install_dir }}/lib"
+crs_ws_install_dir: "/opt/{{ crs_ws_app_name }}"
+crs_ws_lib_dir: "{{ crs_ws_install_dir }}/lib"
 
-crsPropertiesFolderLocation: "{{install_dir}}/crs-resources"
-crowdConfigFolderLocation:  "{{install_dir}}/crowd"
+crsPropertiesFolderLocation: "{{crs_ws_install_dir}}/crs-resources"
+crowdConfigFolderLocation:  "{{crs_ws_install_dir}}/crowd"
 crowdPropertiesFileLocation: "{{crowdConfigFolderLocation}}"
 
 #nginx_proxy_url: http://localhost:8080/
+mysql_service: mysql
+crs_dbname: crs
+crs_user: "root"
+crs_pw: "{{mysql_root_pass}}"
+
+
+log_dir: "{{ crs_ws_install_dir }}/log"
+
+ims_base_url: "https://dev-ims.ihtsdotools.org"
+crs_jira_url: "https://dev-jira.ihtsdotools.org"
+snomect_host: "dev-term.ihtsdotools.org"
+snomect_url: "https://dev-term.ihtsdotools.org/snowowl/snomed-ct/v2"
+snomect_authorization: "Basic c25vd293bDpzbm93b3ds"
+snomect_method_browser: "browser"
+snomect_method_mrcm: "mrcm"
+snomect_branch: "MAIN"
+
+
+supervisor_dir: "/etc/supervisor/conf.d/"
 
 
