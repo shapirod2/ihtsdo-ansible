@@ -1,0 +1,55 @@
+
+#- name: Allow mysql  
+#  ufw: rule=allow port={{mysql_port}} proto=any
+
+#- name: Set MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- name: Confirm MySQL root password before installing
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
+
+#- debug: msg="mysql_root_pass = {{mysql_root_pass}}"
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server state=present
+  
+# set the my.cnf
+#- name: Copy my.cnf
+#  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
+
+# Install the package "python-mysqldb"
+- name: Install mysql python helper
+  apt: name=python-mysqldb state=present
+  
+- name: Copy the root credentials as .my.cnf file
+  template: src=root.cnf.j2 dest=~/.my.cnf mode=0600   
+  
+- name: Update MySQL root password for all root accounts
+  mysql_user: name=root host={{ item }} password={{ mysql_root_pass }} state=present
+  with_items:
+     - "{{ ansible_hostname }}"
+     - 127.0.0.1
+     - ::1
+     - localhost
+         
+  
+- name: ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }}  login_user=root login_password={{ mysql_root_pass }}  state=absent
+  with_items:
+   - localhost
+   - "{{ ansible_hostname }}"
+
+- name: remove the test database
+  mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }}
+
+
+# Create a new database with name ts_dbname ('snomedStore') if required
+- mysql_db: name={{crs_dbname}} state=present login_user=root login_password={{ mysql_root_pass }} encoding=utf8
+
+# Creates database user 'crs_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name={{crs_user}} password={{crs_pw}} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+  when: "crs_user != 'root'"
+
+- name: restart mysql
+  service: name={{ mysql_service }} state=restarted 
