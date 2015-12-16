@@ -4,5 +4,5 @@
     roles:
       - IHTSDO.nginx-std  
       - IHTSDO.crs
-      #- IHTSDO.crs-ws
+      - IHTSDO.crs-ws
       
