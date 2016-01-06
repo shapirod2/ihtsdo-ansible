@@ -30,7 +30,7 @@
   npm: path={{ rest_dir }}
 
 - name: Configure supervisor
-  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ sct_rest_app_name }}.conf"
               owner=root group=root mode=0640  
               
 - name: Configure nginx
@@ -41,5 +41,5 @@
   service: name=nginx state=restarted                           
               
 - name: (re)start ims
-  supervisorctl: name={{ app_name }} state=restarted              
+  supervisorctl: name={{ sct_rest_app_name }} state=restarted              
 
