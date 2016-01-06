@@ -2,15 +2,16 @@
 # defaults file for Angular
 
 # Should be the same as the artifactId in the pom
-app_name: sca
-install_dir: "/opt/{{ app_name }}"
+sca_app_name: sca
+version_sca: "latest"
+install_dir: "/opt/{{ sca_app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ sca_app_name }}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{ sca_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "termserver"
 nginx_fqdn: "~(?i)angular"

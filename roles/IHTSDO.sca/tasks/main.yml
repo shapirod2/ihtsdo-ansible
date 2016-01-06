@@ -4,8 +4,21 @@
   apt: update_cache=yes
   sudo: yes
   
-- name: Install angular  package
-  apt: name={{ app_name }} state=latest 
+#- name: Install angular  package
+#  apt: name={{ sca_app_name }} state=latest 
+  
+- name: Install package
+  apt: name={{sca_app_name}} state=installed
+  when: version_sca == 'installed'
+
+- name: Install latest package
+  apt: name={{sca_app_name}} state=latest
+  when: version_sca == 'latest'
+
+- name: Install package specific version
+  apt: name={{sca_app_name}}={{ version_sca }} state=installed
+  when: version_sca != 'installed' and version_sca != 'latest'
+ 
   
 - name: Creates conf directory
   file: path={{ conf_dir }} state=directory
@@ -26,17 +39,9 @@
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="location /sca { alias /opt/sca/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
+     line="location /sca {alias {{ lib_dir }};}"
      state=present
-     regexp='^location /sca '
+     regexp='^location /sca'       
        
-- name: Add sca-private location to nginx config
-  lineinfile:
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-     insertbefore="^error_page 503 @maintenance;"
-     line="location /sca-private { alias /opt/sca/lib; }"
-     state=present
-     regexp='^location /sca-private '
-
 - name: restart nginx
-  service: name=nginx state=restarted
+  service: name=nginx state=restarted  
