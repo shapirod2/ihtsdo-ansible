@@ -1,6 +1,6 @@
 ---
 
-app_name: "activemq"
+activemq_app_name: "activemq"
 
 activemq_user: "activemq"
 activemq_pw: "bob"

@@ -74,18 +74,18 @@
   file: src={{ start_command }} dest={{ initd_command }} state=link 
  
 - name: make sure in restart   
-  command: update-rc.d {{ app_name }} defaults
+  command: update-rc.d {{ activemq_app_name }} defaults
   
 - name: restart activemq
-  service: name={{ app_name }} state=restarted  
+  service: name={{ activemq_app_name }} state=restarted  
 
 
 #- name: Configure supervisor
-#  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+#  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ activemq_app_name }}.conf"
 #              owner=root group=root mode=0640  
                           
               
 #- name: (re)start activemq
-#  supervisorctl: name={{ app_name }} state=restarted   
+#  supervisorctl: name={{ activemq_app_name }} state=restarted   
     
   
