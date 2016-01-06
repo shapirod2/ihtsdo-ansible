@@ -16,10 +16,10 @@ s3_backup_dir="{{s3_backup_dir | default('')}}"
 SNOW_OWL_SERVER_HOME="{{ term_serv_dir }}"
 
 # The username used for creating hot backups (should be a valid Snow Owl user)
-SNOWOWL_USERNAME="{{ snow_user }}"
+SNOWOWL_USERNAME="{{ ts_user }}"
 
 # The password for the user given above
-SNOWOWL_PASSWORD="{{ snow_pw }}"
+SNOWOWL_PASSWORD="{{ ts_pw }}"
 
 # The MySQL username used for creating the database dump
 MYSQL_USERNAME="{{ ts_user }}"

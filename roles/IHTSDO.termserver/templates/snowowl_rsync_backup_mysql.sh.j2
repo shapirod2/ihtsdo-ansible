@@ -1,0 +1,177 @@
+#!/usr/bin/env bash
+
+###############################################################################
+# Copyright (c) 2014 B2i Healthcare. All rights reserved.
+###############################################################################
+
+# This sample backup script for the Snow Owl Server creates a .zip file in the 
+# current directory with the saved contents of the MySQL databases and semantic
+# indexes for each terminology, as well as supporting index content, while the
+# server is kept running.
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{s3_backup_dir | default('')}}"
+# The location of the Snow Owl Server installation, eg. /opt/snowowl (no trailing slash)
+SNOW_OWL_SERVER_HOME="{{ term_serv_dir }}"
+
+# The username used for creating hot backups (should be a valid Snow Owl user)
+SNOWOWL_USERNAME="{{ ts_user }}"
+
+# The password for the user given above
+SNOWOWL_PASSWORD="{{ ts_pw }}"
+
+# The MySQL username used for creating the database dump
+MYSQL_USERNAME="{{ ts_user }}"
+
+# The password for the user given above
+MYSQL_PASSWORD="{{ ts_pw }}"
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+# The number of milliseconds to wait before giving up trying to lock the complete repository.
+LOCK_TIMEOUT_MILLIS=30000
+
+# The connection timeout for HTTP requests in seconds.
+CONNECTION_TIMEOUT_SECONDS=5
+
+# The initial waiting time after sending a message to connected users in minutes.
+INITIAL_WAIT_MINUTES=5
+
+# The number of retries the first lock is attempted.
+RETRIES=5
+
+# The waiting time after an unsuccessful lock attempt in minutes.
+RETRY_WAIT_MINUTES=5
+
+# The starting directory
+backup_dir="{{ backup_dir }}"
+
+# The dir where zips go
+zip_dir="{{ backup_zip_dir }}"
+
+# The working directory and the resulting archive file prefix
+ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
+
+# The absolute path to the above
+ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX"
+
+# The indexes folder within the ABSOLUTE_ARCHIVE_PREFIX
+ABSOLUTE_ARCHIVE_INDEXES="$ABSOLUTE_ARCHIVE_PREFIX/{{ term_serv_indexes_dir }}"
+
+# The base URL of the REST services to use
+BASE_URL="{{ base_url }}"
+
+# The base URL for administrative services
+ADMIN_BASE_URL="$BASE_URL/admin"
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+
+# Copies the contents of the specified repository to the zip file.
+backup_repository() {
+	lock_repository
+	
+	cd "$zip_dir"
+	DATABASE_DUMP_FILE="$REPOSITORY.sql"
+	
+	echo_date "Creating SQL dump from contents of repository $REPOSITORY..."
+	mysqldump --user="$MYSQL_USERNAME" --password="$MYSQL_PASSWORD" "$REPOSITORY" > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE" || unlock_repository_and_exit "Couldn't create SQL dump for repository $REPOSITORY. Exiting with error."
+
+	backup_repository_index_versions
+	unlock_repository
+	
+	echo_date "Done backing up repository $REPOSITORY."
+}
+
+
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$SNOW_OWL_SERVER_HOME" = "x" ]; then
+		error_exit "Please set the variable SNOW_OWL_SERVER_HOME before running this script. Exiting with error."
+	fi
+
+	if [ ! -d "$SNOW_OWL_SERVER_HOME/resources/indexes" ]; then
+		error_exit "No index directory could be found for the installation under '$SNOW_OWL_SERVER_HOME'. Exiting with error."
+	fi
+	
+	if [ "x$SNOWOWL_USERNAME" = "x" ]; then
+		error_exit "Please set the variable SNOWOWL_USERNAME before running this script. Exiting with error."
+	fi
+	
+	if [ "x$SNOWOWL_PASSWORD" = "x" ]; then
+		error_exit "Please set the variable SNOWOWL_PASSWORD before running this script. Exiting with error."
+	fi
+
+	if [ "x$MYSQL_USERNAME" = "x" ]; then
+		error_exit "Please set the variable MYSQL_USERNAME before running this script. Exiting with error."
+	fi
+	
+	if [ "x$MYSQL_PASSWORD" = "x" ]; then
+		error_exit "Please set the variable MYSQL_PASSWORD before running this script. Exiting with error."
+	fi
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+
+	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_INDEXES" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_INDEXES'. Exiting with error."
+	echo_date "Starting backup; sending message to connected users."
+
+
+	echo_date "Creating archive..."
+	cd "$zip_dir"
+	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+	
+	echo_date "Finished successfully."
+	delete_old
+	movetoaws
+	exit 0
+}
+
+movetoaws(){
+	echo "s3_backup_dir = "$s3_backup_dir;
+	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+	then
+		echo "Transferring backup to AWS S3";
+		/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
+		echo "Backup transferred";
+		echo "Backup process complete";
+	else
+		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
+	fi
+}
+
+delete_old() { 
+echo "Cleaning up old backups prior to moving them to aws"
+ if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
+  then   
+   echo "Deleting old back ups backup dir = "${zip_dir}; 
+   find ${zip_dir}/* -mtime +5 -exec rm {} \;
+ fi
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="$backup_dir/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

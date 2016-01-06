@@ -1,5 +1,6 @@
 ---
-termserver_version: latest
+term_serv_app_name: termserver
+version_term_serv: latest
 environment_shortname: UNKNOWN
 mysql_service: mysql
 #Set the db content from a backup
@@ -17,6 +18,7 @@ term_serv_dir_resources: "{{term_serv_dir}}/{{ term_serv_resources_dir }}"
 #Term Serv Indexes dir
 term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_indexes_dir }}"
 
+#snowowl_reasoner_id: au.csiro.snorocket.owlapi3.snorocket.factory
 snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
 
 # Backup 
@@ -37,4 +39,6 @@ application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
 term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
 
 jira_pem_file: files/encrypted/ssl/jira.pem
+
+system_type: local_test
 
