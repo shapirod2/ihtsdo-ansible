@@ -22,7 +22,7 @@
   when: "install_js == True"
 
 - name: stop app
-  supervisorctl: name={{ app_name }} state=stopped 
+  supervisorctl: name={{ cis_app_name }} state=stopped 
   
 - name: rem install dir
   file: path={{ install_dir }} state=absent
@@ -53,7 +53,7 @@
 
 
 - name: Configure supervisor
-  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ cis_app_name }}.conf"
               owner=root group=root mode=0640  
               
 #- name: Configure run script
@@ -120,6 +120,6 @@
   when: add_dbcontent == true
               
 - name: (re)start app
-  supervisorctl: name={{ app_name }} state=restarted              
+  supervisorctl: name={{ cis_app_name }} state=restarted              
 
  

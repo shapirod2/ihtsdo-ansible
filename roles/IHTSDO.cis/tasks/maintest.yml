@@ -22,7 +22,7 @@
 #  when: "install_js == True"
 
 #- name: stop app
-#  supervisorctl: name={{ app_name }} state=stopped 
+#  supervisorctl: name={{ cis_app_name }} state=stopped 
   
 - name: rem install dir
   file: path={{ install_dir }} state=absent

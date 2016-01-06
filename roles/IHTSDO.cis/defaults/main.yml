@@ -17,9 +17,9 @@ init_script: "{{ install_dir }}/config/db_script.sql"
 # defaults file for Angular
 
 # Should be the same as the artifactId in the pom
-app_name: cis
+cis_app_name: cis
 version_cis: "latest"
-install_dir: "/opt/{{ app_name }}"
+install_dir: "/opt/{{ cis_app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 security_file: "{{ install_dir }}/blogic/Security.js"
@@ -36,8 +36,8 @@ env_file: "/etc/environment"
 
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
+nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ cis_app_name }}.crt"
+nginx_ssl_key_file_dest: "/etc/ssl/private/{{ cis_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "cis"
 nginx_fqdn: "~(?i)cis"
