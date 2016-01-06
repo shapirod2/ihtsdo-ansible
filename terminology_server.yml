@@ -6,10 +6,14 @@
 
   - hosts: termserver
     sudo: true
+    vars_files:
+    - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.aws
       - IHTSDO.termserver
       - IHTSDO.nginx-std 
       - IHTSDO.termserver-web
+      - IHTSDO.termserver-dbContent
       - IHTSDO.sca
+
 
