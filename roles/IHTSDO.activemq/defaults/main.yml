@@ -2,6 +2,8 @@
 
 activemq_app_name: "activemq"
 
+
+
 activemq_user: "activemq"
 activemq_pw: "bob"
 
@@ -23,6 +25,7 @@ active_mq_default_dir: "/etc/default"
 
 
 force_download: false
+activemq_force_reinstall: false
 
 
 active_mq_dir: "{{ active_mq_install_dir }}/{{ active_mq_dl_filename }}"

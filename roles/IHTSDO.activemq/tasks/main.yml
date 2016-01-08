@@ -8,84 +8,20 @@
 #- name: Install activemq server
 #  apt: name=activemq  state=latest
 
-- name: Remove dldir so as to spark complete rebuild
-  file: path={{active_mq_dl_dir}} state=absent
-  when: "force_download == True" 
+
+- name: see if install dir exists
+  stat: path={{active_mq_install_dir}}
+  register: p 
   
-- name: make sure dlDir exists
-  file: path={{active_mq_dl_dir}}  state=directory
+- debug: msg="active_mq_install_dir_exists  =  {{ p.stat.exists }} " 
+- debug: msg="activemq_force_reinstall = {{ activemq_force_reinstall }}"
 
-- debug: msg="active_mq_dl_file  =  {{ active_mq_dl_file }} "  
-
-- name: make sure intl zip file exists
-  stat: path={{active_mq_dl_dir}}/{{active_mq_dl_file}}
-  register: dlfile  
-
-- name: download zip file if url is set
-  get_url: force=no url={{active_mq_dl_url}}/{{active_mq_dl_file}} dest={{active_mq_dl_dir}}/{{active_mq_dl_file}} validate_certs=no mode=0440
-  when: dlfile.stat.exists == False
+- debug: msg="active_mq_install_dir_exists and is a directory"
+  when: p.stat.isdir is defined and p.stat.isdir  
   
-- name: make sure intl zip file exists after dl
-  stat: path={{active_mq_dl_dir}}/{{active_mq_dl_file}}
-  register: dlfile2  
-
-- name: make sure install dir exists
-  file: path={{active_mq_install_dir}}  state=directory  
-  
-- name: Unarchive intl zip file on the remote machine
-  unarchive: src={{active_mq_dl_dir}}/{{active_mq_dl_file}} dest={{active_mq_install_dir}} copy=no
-  when: dlfile2.stat.exists == True  
-  
-
-- name: Ensure group exists
-  group: name={{ activemq_user }} state=present
-
-- name: Ensure user exists
-  user: name={{ activemq_user }} group={{ activemq_user }} state=present 
-  
-- name: set owner to activemq_user
-  file: path={{active_mq_install_dir}} owner={{ activemq_user }} group={{ activemq_user }} recurse=yes 
-
-- name: link to /opt/activemq
-  file: src={{ active_mq_dir }} dest={{ active_mq_std_dir }} state=link owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}"
-
-- name: default config
-  template: src=activemq.default.j2 dest="{{ active_mq_default_dir }}/activemq" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644    
-
-- name: make sure config dir exists
-  file: path={{ config_dir }} state=directory
-        owner={{ activemq_runasuser }} group={{ activemq_runasuser }} 
-
-- name: xml config
-  template: src=activemq.xml.j2 dest="{{ config_xml }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644    
-
-- name: jetty config
-  template: src=jetty.xml.j2 dest="{{ jetty_xml }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644    
-
-
-- name: log4j config
-  template: src=log4j.properties.j2 dest="{{ config_log4j }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644 
+- name: Install if active_mq_install_dir doesn't exist or if activemq_force_reinstall == true
+  include: install.yml
+  when: "activemq_force_reinstall == true or p.stat.isdir is not defined"
   
   
-- name: Allow through the firewall  
-  ufw: rule=allow port=61616 proto=any  
-  
-- name: link to /init.d
-  file: src={{ start_command }} dest={{ initd_command }} state=link 
- 
-- name: make sure in restart   
-  command: update-rc.d {{ activemq_app_name }} defaults
-  
-- name: restart activemq
-  service: name={{ activemq_app_name }} state=restarted  
-
-
-#- name: Configure supervisor
-#  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ activemq_app_name }}.conf"
-#              owner=root group=root mode=0640  
-                          
-              
-#- name: (re)start activemq
-#  supervisorctl: name={{ activemq_app_name }} state=restarted   
-    
   
