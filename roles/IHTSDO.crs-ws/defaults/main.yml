@@ -14,19 +14,27 @@ crs_crowdConfigFolderLocation:  "{{crs_ws_install_dir}}/crowd"
 crs_crowdPropertiesFileLocation: "{{crs_crowdConfigFolderLocation}}"
 
 #nginx_proxy_url: http://localhost:8080/
-mysql_service: mysql
-crs_dbname: crs
+mysql_service: "mysql"
+crs_dbname: "crs"
 crs_user: "root"
 crs_pw: "{{crs_mysql_root_pass}}"
 
 
 crs_log_dir: "{{ crs_ws_install_dir }}/log"
 
-crs_ims_base_url: "https://dev-ims.ihtsdotools.org"
-crs_snomect_host: "dev-term.ihtsdotools.org"
+crs_ims_host: "dev-ims.ihtsdotools.org" 
+crs_ims_base_url: "https://{{crs_ims_host}}"
+crs_ims_app_pw: "ihtsdo-tools"
+crs_ims_app_name: "ihtsdo-tools"
+
+crs_ims_crowd_host: "dev-crowd.ihtsdotools.org"
+crs_ims_crowd_url: "https://{{ crs_ims_crowd_host }}"
+
+crs_ims_token_key: "dev-ims.ihtsdo"
 
 crs_host: "dev-request2.ihtsdotools.org"
 crs_url: "https://{{ crs_host }}"
+
 
 crs_jira_host: "dev-jira.ihtsdotools.org"
 crs_jira_url: "https://{{ crs_jira_host }}"
@@ -36,11 +44,15 @@ crs_jira_customField_reasonForChange: "customfield_10111"
 crs_jira_coKey: "dev-sca"
 crs_jira_privKey: "{{crs_crsPropertiesFolderLocation}}/jira.pem"
 
+crs_snomect_host: "dev-term.ihtsdotools.org"
 crs_snomect_url: "https://{{ crs_snomect_host }}/snowowl/snomed-ct/v2"
 crs_snomect_authorization: "Basic c25vd293bDpzbm93b3ds"
 crs_snomect_method_browser: "browser"
 crs_snomect_method_mrcm: "mrcm"
 crs_snomect_branch: "MAIN"
+
+
+
 
 supervisor_dir: "/etc/supervisor/conf.d/"
 
