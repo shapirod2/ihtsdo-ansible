@@ -10,6 +10,9 @@ crs_web_install_dir: "/opt/{{ crs_web_app_name }}"
 crs_web_lib_dir: "{{ crs_web_install_dir }}/lib"
 crs_web_conf_dir: "{{ crs_web_install_dir }}/conf"
 
+crs_web_snowowl_host: "dev-term.ihtsdotools.org"
+crs_web_snowowl_url: "https://{{ crs_web_snowowl_host }}/snowowl"
+
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ crs_web_app_name}}.crt"
@@ -21,7 +24,7 @@ nginx_default_site: true
 nginx_root: "{{ crs_web_lib_dir }}"
 #nginx_proxy_url: http://localhost:8080/
 
-snowowl_url: "https://dev-term.ihtsdotools.org/snowowl"
+
 
 
 
