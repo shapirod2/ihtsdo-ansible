@@ -32,7 +32,7 @@ crs_ims_crowd_url: "https://{{ crs_ims_crowd_host }}"
 
 crs_ims_token_key: "dev-ims.ihtsdo"
 
-crs_host: "dev-request2.ihtsdotools.org"
+crs_host: "{{ inventory_hostname }}"
 crs_url: "https://{{ crs_host }}"
 
 
@@ -41,8 +41,10 @@ crs_jira_url: "https://{{ crs_jira_host }}"
 crs_jira_customField_extId: "customfield_10110"
 crs_jira_customField_reasonForChange: "customfield_10111"
 #Jira SSO
-crs_jira_coKey: "dev-sca"
-crs_jira_privKey: "{{crs_crsPropertiesFolderLocation}}/jira.pem"
+crs_jira_privateKeyName: "jira.pem"
+crs_jira_pem_file: files/encrypted/ssl/jira.pem
+crs_jira_consumerKey: "dev-sca"
+crs_jira_privKey: "{{crs_crsPropertiesFolderLocation}}/{{crs_jira_privateKeyName}}"
 
 crs_snomect_host: "dev-term.ihtsdotools.org"
 crs_snomect_url: "https://{{ crs_snomect_host }}/snowowl/snomed-ct/v2"

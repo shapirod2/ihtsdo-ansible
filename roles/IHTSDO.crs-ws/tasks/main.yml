@@ -3,6 +3,9 @@
 - name: Update apt cache
   apt: update_cache=yes
   sudo: yes
+  
+ #include system vars
+- include: system.yml    
  
  #Setup the database
 - include: db.yml 
@@ -28,6 +31,10 @@
 
 - name: Creates log directory
   file: path={{ crs_log_dir }} state=directory  
+  
+- name: Copy Jira Private Key to crsPropertiesFolderLocation
+  copy: src={{ crs_jira_pem_file }} dest={{ crs_jira_privKey }}
+        owner=root group=root mode=0644  
   
   
 - name: Configure supervisor
