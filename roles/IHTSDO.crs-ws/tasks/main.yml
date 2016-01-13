@@ -21,13 +21,13 @@
  
   
 - name: Creates crsPropertiesFolderLocation directory
-  file: path={{ crsPropertiesFolderLocation }} state=directory
+  file: path={{ crs_crsPropertiesFolderLocation }} state=directory
   
 - name: Creates crowdConfigFolderLocation directory
-  file: path={{ crowdConfigFolderLocation }} state=directory
+  file: path={{ crs_crowdConfigFolderLocation }} state=directory
 
 - name: Creates log directory
-  file: path={{ log_dir }} state=directory  
+  file: path={{ crs_log_dir }} state=directory  
   
   
 - name: Configure supervisor
@@ -36,19 +36,19 @@
               
 
 - name: Configure application-im-common-security-config.xml
-  template: src=application-im-common-security-config.xml.j2 dest="{{ crowdConfigFolderLocation  }}/application-im-common-security-config.xml"
+  template: src=application-im-common-security-config.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/application-im-common-security-config.xml"
               owner=root group=root mode=0640   
               
 - name: Configure applicationContext-CrowdClient.xml
-  template: src=applicationContext-CrowdClient.xml.j2 dest="{{ crowdConfigFolderLocation  }}/applicationContext-CrowdClient.xml"
+  template: src=applicationContext-CrowdClient.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/applicationContext-CrowdClient.xml"
               owner=root group=root mode=0640                 
 
 - name: Configure crowd.properties
-  template: src=crowd.properties.j2 dest="{{ crowdPropertiesFileLocation   }}/crowd.properties"
+  template: src=crowd.properties.j2 dest="{{ crs_crowdPropertiesFileLocation   }}/crowd.properties"
               owner=root group=root mode=0640     
               
 - name: Configure crs-application.properties
-  template: src=crs-application.properties.j2 dest="{{ crsPropertiesFolderLocation   }}/crs-application.properties"
+  template: src=crs-application.properties.j2 dest="{{ crs_crsPropertiesFolderLocation   }}/crs-application.properties"
               owner=root group=root mode=0640                       
 
 # crs-application.properties? crs-application.properties

@@ -1,16 +1,56 @@
 #This is IHTSDO identity management service url
-ihtsdo.im.service.base.url={{ims_base_url}}
+ihtsdo.im.service.base.url={{crs_ims_base_url}}
 
+#Database connection
 datasource.url=jdbc:mysql://localhost/{{crs_dbname}}
 datasource.username={{crs_user}}
 datasource.password={{crs_pw}}
 datasource.driver-class-name=com.mysql.jdbc.Driver
 
+#CRS Urls
+ihtsdo.crs.host={{crs_url}}
+ihtsdo.crs.batchRequest.url=/#/batches/{id}/view
+ihtsdo.crs.request.url=/#/requests/view/{id}
+
+#JIRA Configurations
 jira.url={{crs_jira_url}}
-snomect.host={{snomect_host}}
-snomect.url={{snomect_url}}
-snomect.authorization={{snomect_authorization}}
-snomect.method.browser={{snomect_method_browser}}
-snomect.method.mrcm={{snomect_method_mrcm}}
-snomect.branch={{snomect_branch}}
-log.dir={{log_dir}}
+jira.ticket.batch=SCT Content Request Batch
+jira.ticket.single=SCT Content Request Ticket
+jira.ticket.scaAuthoringTask=SCA Authoring Task
+jira.ticket.batch.linkType=Relates
+jira.crs.issueKey=CRT
+jira.ticket.requestAttachment.name=request.json
+
+#Custom fields on JIRA. To get the custom fields IDs, use JIRA REST API to retrieve custom field ID: {jira.url}/rest/api/2/field
+jira.ticket.customField.externalId.id={{crs_jira_customField_extId}}
+jira.ticket.customField.reasonForChange.id={{crs_jira_customField_reasonForChange}}
+
+#Status mapping between CRS and JIRA
+jira.ticket.statusMapping.new=New
+jira.ticket.statusMapping.accepted=Accepted
+jira.ticket.statusMapping.underAuthoring=In Progress
+jira.ticket.statusMapping.pendingClarification=Clarification Needed
+jira.ticket.onHold=
+jira.ticket.statusMapping.approved=Ready For Release
+jira.ticket.statusMapping.rejected=Rejected
+jira.ticket.statusMapping.withdrawn=Withdrawn
+jira.ticket.statusMapping.appeal=In Appeal
+jira.ticket.statusMapping.appealRejected=Rejected
+jira.ticket.statusMapping.released=Released
+jira.ticket.statusMapping.forwarded=Forwarded
+
+#Keys for JIRA SSO
+jira.credential.consumerKey=dev-sca
+jira.credential.privateKey=D:/crs-resources/jira.pem
+
+#Label to be added to authoring tasks
+jira.authoringTask.label.crs=CRS
+
+#SNOMEDCT Configurations
+snomect.host={{crs_snomect_host}}
+snomect.url={{crs_snomect_url}}
+snomect.authorization={{crs_snomect_authorization}}
+snomect.branch={{crs_snomect_branch}}
+
+snomect.method.browser={{crs_snomect_method_browser}}
+snomect.method.mrcm={{crs_snomect_method_mrcm}}
