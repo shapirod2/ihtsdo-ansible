@@ -1,6 +1,6 @@
 ---
 
-add_dbcontent: false
+cis_add_dbcontent: false
 
 mysql_root_pass: rooty
 mysql_port: 3306
@@ -13,24 +13,24 @@ cis_db_pw: idservice
 
 cis_version: HEAD
 
-init_script: "{{ install_dir }}/config/db_script.sql"
+cis_init_script: "{{ cis_install_dir }}/config/db_script.sql"
 # defaults file for Angular
 
 # Should be the same as the artifactId in the pom
 cis_app_name: cis
 version_cis: "latest"
-install_dir: "/opt/{{ cis_app_name }}"
-lib_dir: "{{ install_dir }}/lib"
-conf_dir: "{{ install_dir }}/conf"
-security_file: "{{ install_dir }}/blogic/Security.js"
+cis_install_dir: "/opt/{{ cis_app_name }}"
+cis_lib_dir: "{{ cis_install_dir }}/lib"
+cis_conf_dir: "{{ cis_install_dir }}/conf"
+cis_security_file: "{{ cis_install_dir }}/blogic/Security.js"
 
-install_js: True
-node_dir: "/usr/bin/node"
-rest_app: "{{ install_dir }}/app.js"
+cis_install_js: True
+cis_node_dir: "/usr/bin/node"
+cis_rest_app: "{{ cis_install_dir }}/app.js"
 
 supervisor_dir: "/etc/supervisor/conf.d/"
-script_name: "runCis.sh"
-run_script: "{{ install_dir }}/{{script_name}}"
+cis_script_name: "runCis.sh"
+cis_run_script: "{{ cis_install_dir }}/{{cis_script_name}}"
 env_file: "/etc/environment"
 
 

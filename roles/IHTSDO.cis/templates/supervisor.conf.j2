@@ -1,8 +1,8 @@
 [program:{{ cis_app_name }}]
 user = root
-directory = {{ install_dir }}
-command = {{ node_dir }} {{ rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }} 
-#command = {{ run_script }}
+directory = {{ cis_install_dir }}
+command = {{ cis_node_dir }} {{ cis_rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }} 
+#command = {{ cis_run_script }}
 autostart = true
 autorestart = true
 stdout_logfile_backups=5
