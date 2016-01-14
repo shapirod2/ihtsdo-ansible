@@ -6,6 +6,8 @@ CURRENT_DATE=`date +%Y%m%d_%H%M`
 indexes=indexes
 ts_indexes_dir={{ts_dir}}
 
+ts_resources_dir={{ts_res_dir}}
+
 # The S3 backup dir
 s3_backup_dir={{s3_backup_dir | default('')}}
 
@@ -23,6 +25,9 @@ ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX/dataset"
 
 # The connection timeout for HTTP requests in seconds.
 CONNECTION_TIMEOUT_SECONDS=5
+
+# The time to wait in seconds after start mysql dump before unlocking repo.
+REPO_WAIT_SECONDS=5
 
 # The username used for creating hot backups (should be a valid Snow Owl user)
 SNOWOWL_USERNAME="{{ ts_user }}"
@@ -111,6 +116,7 @@ main() {
 	rsyncindexes
 	echo_date "dumping mysql..."
     mysql_dump &
+    sleep $REPO_WAIT_SECONDS
     unlock_all_repositories
     wait
     
@@ -136,6 +142,7 @@ echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
 rsyncindexes(){
 mkdir -pv {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress $ts_indexes_dir {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir }}
 }
 
 copyfromrsyncdir(){
