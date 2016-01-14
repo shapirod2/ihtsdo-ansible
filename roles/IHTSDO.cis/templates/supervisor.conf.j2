@@ -1,4 +1,4 @@
-[program:{{ app_name }}]
+[program:{{ cis_app_name }}]
 user = root
 directory = {{ install_dir }}
 command = {{ node_dir }} {{ rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }} 
