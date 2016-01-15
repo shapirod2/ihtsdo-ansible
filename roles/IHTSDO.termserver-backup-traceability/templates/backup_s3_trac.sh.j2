@@ -8,9 +8,9 @@ ts_log_dir={{trac_ts_log_dir}}
 # The S3 backup dir
 s3_backup_dir={{trac_s3_backup_dir | default('')}}
 
-# The starting directory
+# The backup directory
 backup_dir={{ trac_backup_dir }}
-
+# the pattern to use
 backup_pattern={{trac_pattern}}
 
 # Prints a message to stdout with the current date and time.
@@ -23,8 +23,6 @@ error_exit() {
 	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
 	exit 1
 }
-
-
 
 # Main script starts here.
 main() {
@@ -42,8 +40,7 @@ main() {
 
 
 copyfromlogdir(){
-
-cp {{ ts_log_dir }}/$backup_pattern $backup_dir
+cp {{ trac_ts_log_dir }}/{{trac_pattern}} {{ trac_backup_dir }}
 }
 
 movetoaws(){
@@ -62,15 +59,15 @@ movetoaws(){
 
 delete_old() { 
 echo "Cleaning up old backups prior to moving them to aws"
- if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
+ if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
   then   
-   echo "Deleting old back ups backup dir = "${zip_dir}; 
-   find ${zip_dir}/* -mtime +5 -exec rm {} \;
+   echo "Deleting old back ups backup dir = "${backup_dir}; 
+   find ${backup_dir}/* -mtime +5 -exec rm {} \;
  fi
 }
 
 # Ensures that only a single instance is running at any time
-LOCKFILE="{{script_dir}}/instance.lock"
+LOCKFILE="{{trac_script_dir}}/instance.lock"
 
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."

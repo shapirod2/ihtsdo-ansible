@@ -14,8 +14,6 @@
 - name: make sure backup dir exists
   file: path={{trac_backup_dir}}  state=directory
 
-#- name: rsync indexes
-#  command: /usr/bin/rsync  -av --delete --no-compress {{ts_dir}} {{ rsync_dir }}
 
-- name: run backup command
-  shell: "{{ trac_full_backup_cmd }}"
+#- name: run backup command
+#  shell: "{{ trac_full_backup_cmd }}"
