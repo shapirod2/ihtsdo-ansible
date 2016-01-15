@@ -49,7 +49,7 @@ movetoaws(){
 	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 	then
 		echo "Transferring backup to AWS S3";
-		/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir;
+		/usr/bin/aws s3 sync ${backup_dir} s3://$s3_backup_dir;
 		echo "Backup transferred";
 		echo "Backup process complete";
 	else

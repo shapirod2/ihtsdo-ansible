@@ -15,5 +15,5 @@
   file: path={{trac_backup_dir}}  state=directory
 
 
-#- name: run backup command
-#  shell: "{{ trac_full_backup_cmd }}"
+- name: run backup command
+  shell: "{{ trac_full_backup_cmd }}"
