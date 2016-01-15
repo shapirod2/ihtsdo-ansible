@@ -7,9 +7,6 @@
  #include system vars
 - include: system.yml    
  
-- debug: msg="crs_mysql_root_pass = {{crs_mysql_root_pass}}" 
- 
- 
  #Setup the database
 - include: db.yml 
   
