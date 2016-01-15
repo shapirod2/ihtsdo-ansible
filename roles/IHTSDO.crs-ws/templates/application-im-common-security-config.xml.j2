@@ -7,7 +7,7 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
 		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security.xsd">
     <!-- THIS is mainly to avoid putting too many atlassian java classes inside java code. SSO + application specific bean configurations -->
-	 <context:property-placeholder location="file:${crs_crowdPropertiesFileLocation}/crowd.properties"/>
+	 <context:property-placeholder location="file:${crowdPropertiesFileLocation}/crowd.properties"/>
 
      <bean id="crowdUserDetailsService" class="org.ihtsdo.otf.im.sso.service.IHTSDOUserDetailsService">
         <property name="groupMembershipManager" ref="crowdGroupMembershipManager"/>

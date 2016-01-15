@@ -17,6 +17,7 @@ crs_crowdPropertiesFileLocation: "{{crs_crowdConfigFolderLocation}}"
 mysql_service: "mysql"
 crs_dbname: "crs"
 crs_user: "root"
+crs_mysql_root_pass: "defaultpw"
 crs_pw: "{{crs_mysql_root_pass}}"
 
 
