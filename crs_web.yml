@@ -2,6 +2,6 @@
   - hosts: crs
     sudo: true
     roles:
-      - IHTSDO.nginx-std  
+      #- IHTSDO.nginx-std  
       - IHTSDO.crs-ws
       
