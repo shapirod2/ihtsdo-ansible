@@ -1,0 +1,21 @@
+- include: system.yml 
+
+- debug: msg="Backing up term server traceability logs"
+
+- name: make sure script_dir exists
+  file: path={{trac_script_dir}}  state=directory  
+  
+- name: Configure backup script
+  template: src={{trac_backup_script}}.j2 dest={{trac_script_dir}}/{{trac_backup_script}}
+            owner=root group=root mode=0740
+
+- debug: msg="trac_full_backup_cmd = {{ trac_full_backup_cmd }}"
+
+- name: make sure backup dir exists
+  file: path={{trac_backup_dir}}  state=directory
+
+#- name: rsync indexes
+#  command: /usr/bin/rsync  -av --delete --no-compress {{ts_dir}} {{ rsync_dir }}
+
+- name: run backup command
+  shell: "{{ trac_full_backup_cmd }}"

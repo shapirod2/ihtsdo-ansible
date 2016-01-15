@@ -1,0 +1,80 @@
+#!/bin/bash
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+ts_log_dir={{trac_ts_log_dir}}
+
+# The S3 backup dir
+s3_backup_dir={{trac_s3_backup_dir | default('')}}
+
+# The starting directory
+backup_dir={{ trac_backup_dir }}
+
+backup_pattern={{trac_pattern}}
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+
+	echo_date "Create backup destination directory '$backup_dir'."
+	mkdir -pv "$backup_dir" || error_exit "Couldn't create directory '$backup_dir'. Exiting with error."
+	echo_date "Starting backup."
+    copyfromlogdir
+	echo_date "Finished successfully."
+	#delete_old
+	movetoaws
+	exit 0
+}
+
+
+copyfromlogdir(){
+
+cp {{ ts_log_dir }}/$backup_pattern $backup_dir
+}
+
+movetoaws(){
+	echo "s3_backup_dir = "$s3_backup_dir;
+	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+	then
+		echo "Transferring backup to AWS S3";
+		/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir;
+		echo "Backup transferred";
+		echo "Backup process complete";
+	else
+		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
+	fi
+}
+
+delete_old() { 
+echo "Cleaning up old backups prior to moving them to aws"
+ if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
+  then   
+   echo "Deleting old back ups backup dir = "${zip_dir}; 
+   find ${zip_dir}/* -mtime +5 -exec rm {} \;
+ fi
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{script_dir}}/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
+

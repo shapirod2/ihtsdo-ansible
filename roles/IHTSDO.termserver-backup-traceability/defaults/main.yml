@@ -1,0 +1,19 @@
+system_type: local_test
+
+
+# Backup 
+# Dir to put scripts into
+trac_s3_backup_dir: "none"
+
+trac_backup_dir: "/opt/backup/termserver-trac"
+trac_pattern: "snomed-traceability*" 
+trac_ts_log_dir: "/opt/termserver/serviceability/logs"
+
+
+#dataset
+trac_script_dir: /opt/scripts/termbackup_trac
+trac_backup_script: backup_s3_trac.sh
+trac_backup_cmd: "{{ trac_script_dir }}/{{ new_backup_script }}"
+trac_backup_log: "{{ trac_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+trac_full_backup_cmd: "{{ trac_backup_cmd }} >> {{ trac_backup_log }}"
+
