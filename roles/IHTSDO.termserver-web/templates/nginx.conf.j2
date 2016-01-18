@@ -74,6 +74,8 @@ server {
 #endofLocation/
   }
   
+location /tslogs { alias /tslogs; }  
+  
 error_page 503 @maintenance;
 
 location @maintenance {
