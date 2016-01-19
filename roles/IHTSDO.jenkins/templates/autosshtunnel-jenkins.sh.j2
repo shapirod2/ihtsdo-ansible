@@ -1,9 +1,13 @@
 #!/bin/sh
 
-printf "Bringing up tunnels to slaves"
+printf "Bringing up tunnels to term servers"
 
-sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8100:cu022.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+#sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8100:cu022.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+#sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
 
-sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9017:localhost:9007 ansible@dev-term.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9027:localhost:9007 ansible@uat-term.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9037:localhost:9007 ansible@term.ihtsdotools.org
+
 
 exit 0
