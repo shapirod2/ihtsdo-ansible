@@ -11,7 +11,18 @@ crs_web_lib_dir: "{{ crs_web_install_dir }}/lib"
 crs_web_conf_dir: "{{ crs_web_install_dir }}/conf"
 
 crs_web_snowowl_host: "dev-term.ihtsdotools.org"
+crs_web_ims_host: "dev-ims.ihtsdotools.org"
+crs_web_jira_host: "dev-jira.ihtsdotools.org"
+crs_web_host: "{{ inventory_hostname }}"
+crs_web_crs_host: "{{ crs_web_host }}"
+
 crs_web_snowowl_url: "https://{{ crs_web_snowowl_host }}/snowowl"
+crs_web_conf_crs_url: "https://{{ crs_web_crs_host }}/ihtsdo-crs/"
+crs_web_conf_snowowl_url: "https://{{ crs_web_host }}/snowowl/" 
+crs_web_conf_ims_url: "https://{{ crs_web_ims_host }}/"
+crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
+crs_web_conf_ims_api_url: "https://{{ crs_web_snowowl_host }}/ims-api/"
+
 
 nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt

@@ -23,9 +23,9 @@
 - name: Creates conf directory
   file: path={{ crs_web_conf_dir }} state=directory
   
-#- name: Configure endpointConfig.json
-#  template: src=endpointConfig.json.j2 dest="{{ crs_web_conf_dir }}/endpointConfig.json"
-#              owner=root group=root mode=0644   
+- name: Configure endpointConfig.json
+  template: src=config.json.j2 dest="{{ crs_web_lib_dir }}/config.json"
+            owner=root group=root mode=0644   
   
 - name: Add ihtsdo-crs location to nginx config
   lineinfile: 
