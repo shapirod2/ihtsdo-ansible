@@ -71,7 +71,9 @@ server {
       proxy_set_header X-Forwarded-Ssl $secure;
       proxy_set_header X-Forwarded-Host $host;
 
-#endofLocation/
+      if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
+        return 503;
+      }
   }
   
 location /tslogs { alias /tslogs; }  
