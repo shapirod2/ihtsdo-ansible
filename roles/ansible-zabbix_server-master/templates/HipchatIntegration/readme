@@ -1,0 +1,30 @@
+echo "{TRIGGER.STATUS}: {TRIGGER.NAME}" | /usr/local/bin/hipchat_room_message -t c1747fab8c9b817d269954d4cd36aa -f "Zabbix" -r "IHTSDO Devops" -n -c red
+taken from:
+
+http://www.briancarpio.com/2012/08/11/send-zabbix-alerts-to-hipchat/
+
+In case the above goes into the ether....
+Put the script somewhere (may script this as std)
+
+then configuration >> actions >> create Action
+
+Action - name HipChat notification else leave as default settings are ok 
+Conditions - add Trigger severity >= Warning 
+Operations - Add step 
+
+operation type = remote command
+Target = Zabbix server
+type = custom Script
+execute on = Zabbix server
+Commands =
+
+echo "{TRIGGER.STATUS}: {TRIGGER.NAME}" | /usr/local/bin/hipchat_room_message -t c1747fab8c9b817d269954d4cd36aa 
+-f "Zabbix Warning ..." -r "IHTSDO Devops" -n -c red
+
+
+-t = the key
+-f = The user is appears as
+-r - The room
+
+
+
