@@ -1,5 +1,8 @@
 ---
 
+ #include system vars
+- include: system.yml  
+
 - debug: msg="Running Crowd backup using script = {{ backup_cmd }}"
 
 - debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
