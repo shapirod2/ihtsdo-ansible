@@ -1,0 +1,31 @@
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+  #include system vars
+- include: system.yml 
+ 
+- name: Install latest dnsmasq package
+  apt: name=git state=latest    
+  
+- name: Ensure dnsmasq group exists
+  group: name={{ dns_masq_group }} state=present
+
+- name: Ensure dnsmasq user exists
+  user: name={{ dns_masq_user }} group={{ dns_masq_group }} state=present 
+
+
+- name: Configure dnsmasq.conf
+  template: src=dnsmasq.conf.j2 dest="/etc/dnsmasq.conf"
+              owner={{ dns_masq_user }} group={{ dns_masq_group }} mode=0640  
+              
+- name: Configure resolv.dnsmasq
+  template: src=resolv.dnsmasq.j2 dest="/etc/resolv.dnsmasq"
+              owner={{ dns_masq_user }} group={{ dns_masq_group }} mode=0640  
+                            
+- name: restart dnsmasq
+  service: name=dnsmasq state=restarted    
+          
+
+ 

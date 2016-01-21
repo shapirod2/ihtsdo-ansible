@@ -1,0 +1,6 @@
+---
+
+
+dns_masq_user: "dnsmasq"
+dns_masq_group: "{{ dns_masq_user }}"
+
