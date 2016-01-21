@@ -23,6 +23,12 @@
 - name: Configure resolv.dnsmasq
   template: src=resolv.dnsmasq.j2 dest="/etc/resolv.dnsmasq"
               owner={{ dns_masq_user }} group={{ dns_masq_group }} mode=0640  
+ 
+ # set the dns
+ 
+# echo "nameserver 127.0.0.1" | sudo resolvconf -a eth0
+# resolvconf -u
+
                             
 - name: restart dnsmasq
   service: name=dnsmasq state=restarted    
