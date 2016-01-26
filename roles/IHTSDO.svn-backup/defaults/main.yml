@@ -1,56 +1,19 @@
 ---
-app_name: svnrepo
-install_dir: "/opt/{{ app_name }}"
-repo_dir: "{{ install_dir }}"
 
+svn_repodir_base: "/opt/svnrepo"
 svn_repodir: "{{repo_dir}}/current"
 svn_dumpdir: "/opt/svndump"
 svn_s3_bucket: "prod-svn.backup.ihtsdo"
-s3_backup_dir: "s3://{{svn_s3_bucket}}"
-
-script_dir: /opt/scripts/svnbackup
-new_backup_script: backupsvn.sh
-backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
-backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
-full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+svn_s3_backup_dir: "s3://{{svn_s3_bucket}}"
+svn_year: "2016"
 
 
+svn_script_dir: /opt/scripts/svnbackup
+svn_new_backup_script: backupsvnbyyear.sh
+svn_backup_cmd: "{{ svn_script_dir }}/{{ svn_new_backup_script }}"
+svn_backup_log: "{{ svn_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+svn_full_backup_cmd: "{{ svn_backup_cmd }} >> {{ svn_backup_log }}"
 
-
-
-
-
-
-
-apache_port: 80
-apache_user: www-data
-html_dir: "/var/www/html"
-
-svn_test_repo: False
-svn_user: aflinton
-svn_user_pw: b0b
-
-SVNParentPath: "{{ repo_dir }}"
-AuthzSVNAccessFile: "{{ install_dir }}/.svn-policy-file"
-AuthName: "SVN Repositories"
-AuthType: Basic
-AuthUserFile: "{{ install_dir }}/.svn-auth-file"
-
-use_ssl_only: True
-
-
-ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
-ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
-
-
-nginx_ufw_allow_https: true
-nginx_conf: "{{ app_name }}"
-nginx_fqdn: '*.ihtsdotools.org "" '
-nginx_default_site: true
-#nginx_root: "{{ lib_dir }}"
-nginx_proxy_url: "http://localhost:{{ apache_port }}/"
 
 
 

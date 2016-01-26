@@ -1,0 +1,105 @@
+#!/usr/bin/env bash
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir_base="{{svn_s3_backup_dir | default('')}}"
+# The location of the Subversion installation
+svn_repo_dir="{{ svn_repodir }}"
+
+svn_dump_dir_base="{{ svn_dumpdir | default('/opt/svndump')}}"
+svn_dump_year="{{svn_year}}"
+
+s3_backup_dir="$s3_backup_dir_base/$svn_dump_year/"
+svn_dump_dir="$svn_dump_dir_base/$svn_dump_year"
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	mkbkdir
+	dumpsvn
+	movetoaws
+	exit 0
+}
+
+check_arguments() {
+
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$svn_repo_dir" = "x" ]; then
+		error_exit "Please set the variable svn_repodir before running this script. Exiting with error."
+	fi
+	
+}
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $svn_dump_dir"
+rm -rf $svn_dump_dir
+mkdir -pv $svn_dump_dir
+
+}
+
+dumpsvn(){
+
+cd $svn_repo_dir
+
+for i in *; 
+do 
+echo "$i".gz; 
+datevar=$(/usr/bin/svnlook date ./$i | awk '{print $1, $2, $3}');
+echo "$datevar"
+if [[ $datevar =~ .*$svn_dump_year.* ]]
+then
+echo "should back up $i".gz;
+/usr/bin/svnadmin dump ./$i | gzip -9 > $svn_dump_dir/"$i".gz;
+fi
+
+
+done
+
+}
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+cd $svn_dump_dir
+#/usr/bin/aws s3 sync $svn_dump_dir $s3_backup_dir --delete;
+for i in *.gz; do /usr/bin/aws s3 cp $i $s3_backup_dir; done
+echo "Backup transferred";
+echo "Backup process complete";
+fi
+}
+
+#delete_old() { 
+#echo "Cleaning up old backups prior to moving them to aws"
+# if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+#  then   
+#   echo "Deleting old back ups backup dir = "${backup_dir}; 
+#   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+# fi
+#}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="/opt/svn_back_instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
