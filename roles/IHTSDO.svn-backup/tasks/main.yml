@@ -15,5 +15,5 @@
 
 - debug: msg="full_backup_cmd = {{ svn_full_backup_cmd }}"
 
-#- name: run backup command
-#  shell: "{{ full_backup_cmd }}"
+- name: run backup command
+  shell: "{{ full_backup_cmd }}"
