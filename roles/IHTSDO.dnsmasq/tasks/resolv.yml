@@ -1,0 +1,8 @@
+
+
+- name: Configure resolvconf.base
+  template: src=resolvconf.base.j2 dest="/etc/resolvconf/resolv.conf.d/base"
+              owner={{ dns_masq_user }} group={{ dns_masq_group }} mode=0640  
+              
+- name: Update resolvconf  
+  command: resolvconf -u            

@@ -7,7 +7,7 @@
 - include: system.yml 
  
 - name: Install latest dnsmasq package
-  apt: name=git state=latest    
+  apt: name=dnsmasq state=latest    
   
 - name: Ensure dnsmasq group exists
   group: name={{ dns_masq_group }} state=present
@@ -28,6 +28,10 @@
  
 # echo "nameserver 127.0.0.1" | sudo resolvconf -a eth0
 # resolvconf -u
+
+- include: resolv.yml 
+  when: "update_resolv == 'true'"
+
 
                             
 - name: restart dnsmasq
