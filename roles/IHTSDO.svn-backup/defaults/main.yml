@@ -1,7 +1,7 @@
 ---
 
 svn_repodir_base: "/opt/svnrepo"
-svn_repodir: "{{repo_dir}}/current"
+svn_repodir: "{{svn_repodir_base}}/current"
 svn_dumpdir: "/opt/svndump"
 svn_s3_bucket: "prod-svn.backup.ihtsdo"
 svn_s3_backup_dir: "s3://{{svn_s3_bucket}}"
