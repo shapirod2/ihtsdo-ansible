@@ -3,7 +3,7 @@ release_validation_framework_api_version: latest
 
 app_name: rvf-api
 
-autoscale: "True"
+autoscale: "False"
 autoscale_script_dir: "/root/scripts"
 autoscale_exec_as: root
 autoscale_script_path: "{{autoscale_script_dir}}/autoscale.sh"
