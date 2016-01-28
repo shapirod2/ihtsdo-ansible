@@ -14,6 +14,7 @@ moodle_data_dir: "/var/moodledata"
 
 moodle_dir_owner: "www-data"
 moodle_s3_backup_dir: ""
+moodle_s3_backup_region: ""
 
 moodle_backup_dir: /opt/backup/moodle
 

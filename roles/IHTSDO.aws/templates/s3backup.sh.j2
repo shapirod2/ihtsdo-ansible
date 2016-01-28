@@ -1,0 +1,125 @@
+#!/usr/bin/env bash
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir_base="test.backup.ihtsdo"
+s3_backup_region_base="us-east-1"
+
+s3_backup_dir="s3://$s3_backup_dir_base"
+
+backup_dir="/tmp/back"
+numbackups=5
+
+OUTFILE=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+TEST_FILE="test_$(hostname -s)_$CURRENT_DATE.txt"
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	mkbkdir
+	createtest
+	movetoaws
+    delete_old_from_aws
+	exit 0
+}
+
+check_arguments() {
+
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$backup_dir" = "x" ]; then
+		error_exit "Please set the variable backup_dir before running this script. Exiting with error."
+	fi
+	
+}
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $backup_dir"
+rm -rf $backup_dir
+mkdir -pv $backup_dir
+
+}
+
+createtest(){
+cd $backup_dir
+touch $TEST_FILE;
+}
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+then
+echo "Transferring backup to AWS S3";
+cd $backup_dir
+#/usr/bin/aws s3 sync $svn_dump_dir $s3_backup_dir --delete;
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir $s3_backup_region; done
+echo "Backup transferred";
+echo "Backup process complete";
+fi
+}
+
+delete_old_from_aws() { 
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir --region us-east-1 | grep '^20' | sort -k1,2 > $OUTFILE
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+                
+done < $OUTFILE
+echo "Total number of lines in file: $k"
+echo "numbackups: $numbackups"
+echo "filename = $filename"
+
+if [ $k \> $numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+echo "Deleted filename = $filename"
+fi
+
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="/opt/test_instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
+
+
