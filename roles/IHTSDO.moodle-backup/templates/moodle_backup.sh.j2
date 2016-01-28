@@ -4,7 +4,7 @@
 
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
-s3_moodle_backup_dir="{{s3_moodle_backup_dir | default('')}}"
+s3_backup_dir="{{moodle_s3_backup_dir | default('')}}"
 
 # The MySQL databsename used for creating the database dump
 MYSQL_DBNAME="{{ moodle_db_name  }}"
@@ -25,7 +25,7 @@ WWW_ROOT="{{ moodle_html_dir }}"
 CURRENT_DATE=`date +%Y%m%d_%H%M`
 
 # The starting directory
-moodle_backup_dir="{{ moodle_backup_dir }}"
+backup_dir="{{ moodle_backup_dir }}"
 
 # The dir where zips go
 zip_dir="{{ moodle_backup_zip_dir }}"
@@ -54,8 +54,8 @@ check_arguments() {
 		error_exit "No directory could be found at '$WWW_ROOT'. Exiting with error."
 	fi
 	
-	if [ "x$s3_moodle_backup_dir" = "x" ]; then
-		error_exit "Please set the variable s3_moodle_backup_dir before running this script. Exiting with error."
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
 	fi
 	
 	if [ "x$MYSQL_DBNAME" = "x" ]; then
@@ -131,12 +131,12 @@ error_exit() {
 
 
 movetoaws(){
-echo "s3_moodle_backup_dir = "$s3_moodle_backup_dir;
+echo "s3_backup_dir = "$s3_backup_dir;
 # sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-if [ -f ~/.aws/config ] && [ "$s3_moodle_backup_dir" != "" ];
+if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 then
 echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${zip_dir} $s3_moodle_backup_dir --delete;
+/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
 echo "Backup transferred";
 echo "Backup process complete";
 fi
@@ -152,7 +152,7 @@ echo "Cleaning up old backups prior to moving them to aws"
 }
 
 # Ensures that only a single instance is running at any time
-LOCKFILE="$moodle_backup_dir/instance.lock"
+LOCKFILE="$backup_dir/instance.lock"
 
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."

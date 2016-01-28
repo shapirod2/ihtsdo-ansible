@@ -10,7 +10,7 @@
   
                      
 - name: copy
-  command: /bin/cp -R {{ moodle_git_dir }} {{ html_dir }}
+  command: /bin/cp -R {{ moodle_git_dir }} {{ moodle_html_base_dir }}
   
   
 - name: Ensure moodle_data_dir dir exists

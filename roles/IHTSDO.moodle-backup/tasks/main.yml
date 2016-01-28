@@ -1,10 +1,22 @@
 ---
 
-- debug: msg="Running term server backup using script = {{ backup_cmd }}"
+ #include system vars
+- include: system.yml  
 
-- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
+- name: Ensure back up dir exists
+  file: path="{{ moodle_backup_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
 
-- shell: "{{ full_backup_cmd }}"
+- name: set backup script
+  template: src=moodle_backup.sh.j2 dest={{ moodle_backup_dir }}/moodle_backup.sh
+            owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0755    
+
+- debug: msg="Running term server backup using script = {{ moodle_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ moodle_full_backup_cmd }}"
+
+#- shell: "{{ moodle_full_backup_cmd }}"
 
 
 

@@ -2,16 +2,29 @@
 
 # Backup 
 # Dir to put scripts into
-backup_dir: /opt/backup/moodle
 
-backup_script: moodle_backup.sh
+moodle_db_name: "moodle"
+moodle_user: "moodle"
+moodle_pw: "moodle"
 
-backup_cmd: "{{ backup_dir }}/{{ backup_script }}"
+moodle_dir:  "moodle"
+moodle_html_base_dir: "/var/www/html"
+moodle_html_dir: "{{ moodle_html_base_dir }}/{{ moodle_dir }}"
+moodle_data_dir: "/var/moodledata"
 
-backup_log: "{{ backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+moodle_dir_owner: "www-data"
+moodle_s3_backup_dir: ""
 
-full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+moodle_backup_dir: /opt/backup/moodle
+
+moodle_backup_script: moodle_backup.sh
+
+moodle_backup_cmd: "{{ moodle_backup_dir }}/{{ moodle_backup_script }}"
+
+moodle_backup_log: "{{ moodle_backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+moodle_full_backup_cmd: "{{ moodle_backup_cmd }} >> {{ moodle_backup_log }}"
 
 #Dir for scripts to put final backup zips into
-backup_zip_dir: /opt/backup/moodle/zips
+moodle_backup_zip_dir: /opt/backup/moodle/zips
 
