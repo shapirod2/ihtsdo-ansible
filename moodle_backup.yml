@@ -1,5 +1,5 @@
 ---
-  - hosts: local
+  - hosts: moodle
     sudo: true
     vars_files:
     - files/encrypted/aws/s3-default.yml
