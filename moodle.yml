@@ -1,5 +1,5 @@
 ---
-  - hosts: moodle
+  - hosts: local
     sudo: true
     roles:
       - IHTSDO.aws
