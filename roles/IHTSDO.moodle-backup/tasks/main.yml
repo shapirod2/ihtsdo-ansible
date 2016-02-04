@@ -12,11 +12,11 @@
   template: src=moodle_backup.sh.j2 dest={{ moodle_backup_dir }}/moodle_backup.sh
             owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0755    
 
-- debug: msg="Running term server backup using script = {{ moodle_backup_cmd }}"
+- debug: msg="Running moodle backup using script = {{ moodle_backup_cmd }}"
 
 - debug: msg="full_backup_cmd = {{ moodle_full_backup_cmd }}"
 
-- shell: "{{ moodle_full_backup_cmd }}"
+#- shell: "{{ moodle_full_backup_cmd }}"
 
 
 

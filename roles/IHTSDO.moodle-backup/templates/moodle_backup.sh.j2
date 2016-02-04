@@ -5,6 +5,8 @@
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
 s3_backup_dir="{{moodle_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
 s3_backup_region_base="{{moodle_s3_backup_region | default('')}}"
 s3_numbackups=5
 s3_bk_list=s3list.txt
@@ -100,8 +102,11 @@ main() {
         rm -r "$ARCHIVE_PREFIX"
 	
 	echo_date "Finished successfully."
-	movetoaws
-	delete_old_from_aws
+        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+         then
+	  movetoaws
+	  delete_old_from_aws
+         fi
 	exit 0
 }
 
@@ -152,20 +157,20 @@ error_exit() {
 movetoaws(){
 echo "s3_backup_dir = "$s3_backup_dir;
 # sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-then
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
 echo "Transferring backup to AWS S3";
 cd $tmp_backup_dir
-for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir $s3_backup_region; done
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
 echo "Backup transferred";
 echo "Backup process complete";
-fi
+#fi
 }
 
 delete_old_from_aws() { 
 echo "Cleaning up old backups from aws"
 cd $backup_dir
-aws s3 ls $s3_backup_dir $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
 
 k=0
 filename=""
@@ -184,7 +189,7 @@ echo "filename = $filename"
 
 if [ $k \> $s3_numbackups ]; then
 echo "number of backups exceeded. Deleting filename = $filename"
-aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
 echo "Deleted filename = $filename"
 fi
 
