@@ -1,0 +1,27 @@
+---
+
+# Backup 
+# Dir to put scripts into
+
+gitlab_dir_owner: "git"
+gitlab_s3_backup_dir: ""
+gitlab_s3_backup_region: ""
+
+gitlab_backup_dir: /opt/backup/gitlab
+
+gitlab_backup_script: gitlab_backup.sh
+
+gitlab_backup_cmd: "{{ gitlab_backup_dir }}/{{ gitlab_backup_script }}"
+
+gitlab_backup_log: "{{ gitlab_backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+gitlab_full_backup_cmd: "{{ gitlab_backup_cmd }} >> {{ gitlab_backup_log }}"
+
+#Dir for scripts to put final backup zips into
+gitlab_backup_tmp_dir: "/var/opt/gitlab/backups"
+
+gitlab_bin: "/opt/gitlab/bin"
+gitlab_bin_backup_cmd: "gitlab-rake gitlab:backup:create"
+gitlab_bin_full_backup_cmd: "{{ gitlab_bin }}/{{ gitlab_bin_backup_cmd }}"
+
+
