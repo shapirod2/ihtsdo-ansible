@@ -16,7 +16,7 @@
 
 - debug: msg="full_backup_cmd = {{ moodle_full_backup_cmd }}"
 
-#- shell: "{{ moodle_full_backup_cmd }}"
+- shell: "{{ moodle_full_backup_cmd }}"
 
 
 
