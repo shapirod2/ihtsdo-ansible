@@ -1,6 +1,6 @@
 
 ---
-- hosts: browser-aws-1
+- hosts: browser
   sudo: true
 
   roles:

@@ -1,5 +1,5 @@
 ---
-  - hosts: ims
+  - hosts: browser
     sudo: true
     roles:
       - IHTSDO.browser-add-content
