@@ -2,7 +2,10 @@
  - name: Update apt cache
    apt: update_cache=yes
    sudo: yes
-
+   
+ #include system vars
+ - include: system.yml    
+   
  - name: ensure postgres is installed
    apt: pkg=postgresql state=latest
 
