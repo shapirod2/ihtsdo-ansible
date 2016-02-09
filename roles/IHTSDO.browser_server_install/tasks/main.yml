@@ -22,6 +22,9 @@
 
 - name: Install browser front end from github 
   git: repo=https://github.com/IHTSDO/sct-browser-frontend.git dest={{ front_end_dir }} 
+
+- name: bcrypt needs c++ compiler..
+  apt: name=build-essential state=latest
  
 - name: Install rest server based on package.json.
   npm: path={{ rest_dir }}
