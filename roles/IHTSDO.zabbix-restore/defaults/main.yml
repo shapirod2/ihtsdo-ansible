@@ -1,0 +1,19 @@
+---
+
+# Backup 
+# Dir to put scripts into
+zabbix_dir_owner: "www-data"
+zabbix_s3_backup_dir: ""
+zabbix_s3_backup_region: ""
+
+zabbix_backup_dir: /opt/backup/zabbix
+
+zabbix_restore_script: zabbix_restore.sh
+
+zabbix_restore_cmd: "{{ zabbix_backup_dir }}/{{ zabbix_restore_script }}"
+
+zabbix_restore_log: "{{ zabbix_backup_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+
+zabbix_full_restore_cmd: "{{ zabbix_restore_cmd }} >> {{ zabbix_restore_log }}"
+
+
