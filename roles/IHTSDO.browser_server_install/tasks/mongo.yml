@@ -1,0 +1,23 @@
+---
+
+
+- name: Install python-software-properties
+  apt: name=python-software-properties state=installed update_cache=yes cache_valid_time=3600
+
+- name: Install mongodb.org signing key
+  apt_key: keyserver=keyserver.ubuntu.com id=EA312927
+
+- name: Setup apt repository
+  apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.2 multiverse' state=present
+
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install latest mongodb package
+  apt: name=mongodb state=latest
+  
+- name: Install latest mongodb-org package
+  apt: name=mongodb-org state=latest
+         
+

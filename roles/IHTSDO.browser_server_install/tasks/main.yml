@@ -1,18 +1,15 @@
 ---
 
-- name: Update apt cache
-  apt: update_cache=yes
-  sudo: yes
-  
+ #include system vars
+- include: system.yml 
+
+ #include mongo setup and install
+- include: mongo.yml 
+
 - name: Install latest git package
   apt: name=git state=latest  
   
-- name: Install latest mongodb package
-  apt: name=mongodb state=latest
-  
-- name: Install latest mongodb-org package
-  apt: name=mongodb-org state=latest
-  
+ 
 - name: Install latest libfontconfig1 package
   apt: name=libfontconfig1 state=latest  
   
@@ -40,6 +37,6 @@
 - name: restart nginx
   service: name=nginx state=restarted                           
               
-- name: (re)start ims
+- name: (re)start sct_rest_app
   supervisorctl: name={{ sct_rest_app_name }} state=restarted              
 
