@@ -1,0 +1,18 @@
+---
+edition_name: en-edition
+
+release_version: 20160731
+
+rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
+
+daily_build_rf2json_file_name: rf2Json.tgz
+
+daily_build_import_dir: "/home/dailybuild"
+
+rf2_json_s3_copy_script: copyRf2JsonFromS3.sh
+
+rf2_json_mongo_import_script: rf2JsonMongoImport.sh
+
+rf2_json_s3_copy_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_s3_copy_script }}"
+
+rf2_json_mongo_install_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_mongo_import_script }} {{ edition_name }} {{ release_version }}"

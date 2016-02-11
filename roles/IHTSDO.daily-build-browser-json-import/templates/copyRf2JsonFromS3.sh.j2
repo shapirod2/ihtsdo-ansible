@@ -1,0 +1,17 @@
+#!/bin/bash
+s3_bukcet_name="{{ rf2json_s3_bucket_name }}"
+filename="{{ daily_build_rf2json_file_name }}"
+import_dir="{{ daily_build_import_dir }}"
+
+echo "Getting rf2 json from AWS S3";
+echo $import_dir
+cd $import_dir
+echo "start s3 copying..."
+aws s3 cp $s3_bukcet_name/$filename $filename
+
+echo "Retreived $filename to $import_dir"
+echo "s3 copy process is completed"
+
+echo "start untar json file"
+tar -xf $filename
+echo "end of untar json file"
