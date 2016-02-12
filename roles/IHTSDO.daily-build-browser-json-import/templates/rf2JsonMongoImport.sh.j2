@@ -1,6 +1,10 @@
 #!/bin/bash
 # Import json data
 # import.sh database collection
+json_dir="{{ daily_build_import_dir }}"
+echo "Getting rf2 json from AWS S3";
+echo $json_dir
+cd $json_dir
 export LC_ALL=C
 mongo --eval "db = db.getSiblingDB('server');db.resources.remove({'databaseName': '$1', 'collectionName': '$2'});"
 mongo --eval "db = db.getSiblingDB('$1');db.dropDatabase();"
