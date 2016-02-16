@@ -92,18 +92,3 @@
   when: mysql_db|lower() != 'none' and sqlimportfile.stat.exists == True
  
 
-- debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
-- debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
-- debug: msg="term_serv_dir_resources_indexes = {{term_serv_dir_resources_indexes}}"
-
-  
-- name: Remove indexes folder from termserv/resources
-  file: path={{term_serv_dir_resources_indexes}} state=absent
-  #command: rm -rf {{term_serv_dir_resources}}
-  when: sqlimportfile.stat.exists == True  
-
-- name: Copy the indexes folder to termserv/resources
-  command: cp -r {{import_term_serv_indexes}} {{term_serv_dir_resources}}
-  when: sqlimportfile.stat.exists == True
-
-

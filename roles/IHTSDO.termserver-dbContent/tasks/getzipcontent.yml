@@ -1,0 +1,44 @@
+# Check the copy index code
+# Need bools for :
+# delete zip /unzipped content
+# drop and rebuild db.
+# rebuild flag which does both
+
+
+
+#- name: Install unzip
+#  apt: name=unzip state=present
+  
+- name: Remove datadir so as to spark complete rebuild
+  file: path={{import_term_serv_base_dir}} state=absent
+  when: "force_zip_download  == True" 
+
+- name: make sure dataDir exists
+  file: path={{import_term_serv_base_dir}}  state=directory
+  
+- debug: msg="import_term_serv_data_dir = {{import_term_serv_data_dir}}"   
+- debug: msg="import_term_serv_sql = {{import_term_serv_sql}}" 
+- debug: msg="import_zip_file = {{import_zip_file}}"
+
+- name: make sure zip file exists
+  stat: path={{import_zip_file}}
+  register: zipimportfile
+  
+- name: make sure sql file exists
+  stat: path={{import_term_serv_sql}}
+  register: sqlimportfile
+  
+- debug: msg="zipimportfile exists = {{zipimportfile.stat.exists}}"
+- debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
+- debug: msg="import_zip_url = {{import_zip_url}}"
+- debug: msg="import_zip path = {{import_zip_file}}" 
+- debug: msg="sqlimportfile path = {{import_term_serv_sql}}" 
+
+- name: download sql and indexes zip file if url is set
+  get_url: force=no url={{import_zip_url}} dest={{import_term_serv_base_dir}}/{{import_term_serv_file}} validate_certs=no mode=0440
+  when: zipimportfile.stat.exists == False
+
+- name: Unarchive termserv archive on the remote machine
+  unarchive: src={{import_term_serv_base_dir}}/{{import_term_serv_file}} dest={{import_term_serv_base_dir}}/ copy=no
+  when: sqlimportfile.stat.exists == False
+
