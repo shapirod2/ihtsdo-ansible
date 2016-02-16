@@ -1,0 +1,15 @@
+#!/bin/bash
+s3_bukcet_name="{{ rf2json_s3_bucket_name }}"
+filename="{{ daily_build_rf2json_file_name }}"
+json_output_dir="{{ jsonOutputFolder }}"
+
+echo "Uploading rf2 json to AWS S3";
+echo $json_output_dir
+cd $json_output_dir
+echo "start tar json file"
+tar -czf $filename *.json
+echo "end of tar json file"
+
+echo "start s3 uploading..."
+aws s3 cp $filename $s3_bukcet_name/ 
+echo "s3 uploading process is completed"

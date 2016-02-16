@@ -1,0 +1,5 @@
+---
+  - hosts: browser
+    sudo: true
+    roles:
+      - IHTSDO.daily-build-browser-json-import

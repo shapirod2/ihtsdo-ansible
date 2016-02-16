@@ -12,6 +12,8 @@ exec_as: root
 
 script_path: "{{script_dir}}/autosshtunnel.sh"
 
+ssh_keyfolder: "files/encrypted/ssh/zabbixclient/ssh"
+
 
 
 
