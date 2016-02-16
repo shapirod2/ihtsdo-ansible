@@ -1,0 +1,53 @@
+
+# install the deb
+
+# if intl zip name & url defined & if zip not already dl then dl intl
+
+# if ext  zip name & url defined & if zip not already dl then dl ext
+
+# make sure name of ext config file defined
+
+#copy file from conf folder to root changing name to config.xml
+# change ./conf/$CONFIG.xml in run.sh to ./config.xml
+
+#change lines (if exist)
+
+#if indicated dirs exist then run run.sh else bug out
+
+# if json_dir set & exists & if desturl set
+# then rewrite zipAndUpload.sh to that 
+
+# then run zip and upload.
+
+
+---
+- name: Update apt cache
+  apt: update_cache=yes
+  sudo: yes
+
+- name: Install latest rf2-to-json-conversion content package
+  apt: name=rf2-to-json-conversion state=latest
+  
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
+
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
+  
+- name: set config.xml
+  template: src=enConfig.xml.j2 dest={{ rf2_conversion_root_dir }}/config.xml
+            owner=root group=root mode=0755    
+            
+- name: set the run.sh
+  template: src=run.sh.j2 dest={{ rf2_conversion_root_dir }}/run.sh
+            owner=root group=root mode=0755    
+                       
+- include: downloadreleasefiles.yml
+  when: "get_rel == True"  
+  
+#- shell: "{{ rf2_conversion_root_dir }}/run.sh"
+  
+  
+  
+  
+  

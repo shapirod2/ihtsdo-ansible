@@ -1,0 +1,4 @@
+#!/bin/bash
+rf2ToJsonJarVersion="./{{ rf2_to_json_jar_version }}"
+echo "rf2 conversion jar version is: $rf2ToJsonJarVersion"
+java -Xmx8g -jar $rf2ToJsonJarVersion ./config.xml
