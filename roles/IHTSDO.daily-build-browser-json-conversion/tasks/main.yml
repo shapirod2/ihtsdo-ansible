@@ -1,25 +1,3 @@
-
-# install the deb
-
-# if intl zip name & url defined & if zip not already dl then dl intl
-
-# if ext  zip name & url defined & if zip not already dl then dl ext
-
-# make sure name of ext config file defined
-
-#copy file from conf folder to root changing name to config.xml
-# change ./conf/$CONFIG.xml in run.sh to ./config.xml
-
-#change lines (if exist)
-
-#if indicated dirs exist then run run.sh else bug out
-
-# if json_dir set & exists & if desturl set
-# then rewrite zipAndUpload.sh to that 
-
-# then run zip and upload.
-
-
 ---
 - name: Update apt cache
   apt: update_cache=yes
@@ -42,12 +20,31 @@
   template: src=run.sh.j2 dest={{ rf2_conversion_root_dir }}/run.sh
             owner=root group=root mode=0755    
                        
-- include: downloadreleasefiles.yml
-  when: "get_rel == True"  
+- include: downloadLatestDailyRelease.yml
+  when: "get_release == True"  
   
-#- shell: "{{ rf2_conversion_root_dir }}/run.sh"
+- name:  Check whether the release zip file is downloaded successfully
+  stat: path={{daily_build_dir}}/{{release_file_name}}
+  register: zipFileDownloaded
   
+- name: run the json conversion command if zip file is extracted 
+  shell: "{{ rf2_conversion_root_dir }}/run.sh"
+  when: zipFileDownloaded.stat.exists == True
   
+- name: Check files generated in the json output dir
+  stat: path={{jsonOutputFolder}}/concepts.json
+  register: jsonFileCreated
   
+- debug: msg="jsonFileCreated.stat.exists= {{ jsonFileCreated.stat.exists }}"
+ 
+- name: set the rf2 json upload script
+  template: src=uploadRf2JsonToS3.sh.j2 dest={{ jsonOutputFolder }}/{{ rf2_json_s3_upload_script}}
+            owner=root group=root mode=0755    
+  when: jsonFileCreated.stat.exists == True
   
-  
+- debug: msg="cmd = {{rf2_json_s3_upload_cmd }}"
+
+- name: Run upload script
+  shell: "{{ rf2_json_s3_upload_cmd }}"
+  when: jsonFileCreated.stat.exists == True
+ 

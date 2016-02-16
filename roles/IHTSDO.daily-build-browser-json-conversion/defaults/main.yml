@@ -1,25 +1,20 @@
 ---
-
-get_rel: True
-
-rel_base_dir: /opt/rel
-force_zip_download: False
-
-dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
-intl_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/2016-02-15T05:14:52/outputfiles
-
-intl_zip_file: SnomedCT_RF2Release_INT_20160731
-
-intl_dir: "{{rel_base_dir}}/intl"
-
+get_release: True
+daily_build_dir: /opt/dailybuild
+force_zip_download: True
+release_file_name: SnomedCT_RF2Release_INT_20160731.zip
+unpacked_release_file_name: SnomedCT_RF2Release_INT_20160731
 normalizeTextIndex: true
 effectiveTime: 20160731
 expirationTime: 20170801
-
-outputFolder: /opt/output
-snapshotFolder: "{{ intl_dir }}/{{ intl_zip_file}}/Snapshot"
-
+jsonOutputFolder: /opt/rf2-json
+dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
+snapshotFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Snapshot"
 processInMemory: false
 createCompleteConceptsFile: false
 rf2_conversion_root_dir: /opt/rf2-to-json-conversion
 rf2_to_json_jar_version: rf2-to-json-conversion-1.1-jar-with-dependencies.jar
+rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
+daily_build_rf2json_file_name: rf2Json.tgz
+rf2_json_s3_upload_script: uploadRf2JsonToS3.sh
+rf2_json_s3_upload_cmd: "{{ jsonOutputFolder }}/{{ rf2_json_s3_upload_script }}"

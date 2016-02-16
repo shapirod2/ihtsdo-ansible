@@ -1,0 +1,41 @@
+---
+- name: Remove daily_build so as to spark complete rebuild
+  file: path={{daily_build_dir}} state=absent
+  when: "force_zip_download == True"
+
+- name: make sure daily_build_dir exists
+  file: path={{daily_build_dir}}  state=directory
+  
+- debug: msg="daily_build_dir= {{daily_build_dir}}"   
+
+- name: Get build list and save to buildList.txt
+  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt
+  
+- name: Get latest build status
+  shell: "cat {{daily_build_dir}}/buildList.txt | grep 'status' | head -1 | cut -d ':' -f2 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
+  register: buildStatus
+   
+- debug: msg="buildStatus={{buildStatus.stdout}}"
+  
+- name: Get latest build output url and save to latestOutputUrl.txt
+  shell: "cat {{daily_build_dir}}/buildList.txt | grep 'outputfiles_url' | head -1 |  cut -d ',' -f1 > {{daily_build_dir}}/latestOutputUrl.txt"
+  when: buildStatus.stdout == "BUILT"
+
+- name: Retrieve the latest build output url from latestOutputUrl.txt
+  shell: "cat {{daily_build_dir}}/latestOutputUrl.txt | cut -d '\"' -f4 | uniq"
+  register: buildOutputUrl
+  when: buildStatus.stdout == "BUILT"
+  
+- debug: msg="buildOutputUrl= {{ buildOutputUrl.stdout }}"
+  
+- name: download release zip file if daily build is successful
+  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{daily_build_dir}}/{{release_file_name}} validate_certs=no mode=0440
+  when: buildStatus.stdout == "BUILT"
+  
+- name: make sure release zip file exists
+  stat: path={{daily_build_dir}}/{{release_file_name}}
+  register: releaseZipfile
+   
+- name: Unarchive release zip file on the remote machine
+  unarchive: src={{daily_build_dir}}/{{release_file_name}}  dest={{daily_build_dir}} copy=no
+  when: releaseZipfile.stat.exists == True
