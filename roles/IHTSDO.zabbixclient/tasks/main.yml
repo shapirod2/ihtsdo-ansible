@@ -79,7 +79,8 @@
   shell: ssh-keyscan {{ zabbixserver1}}
   register: zabbix_host_key          
      
-#- debug: msg="zabbix_host_key =  {{zabbix_host_key}}"            
+#- debug: msg="zabbix_host_key =  {{zabbix_host_key}}"   
+- debug: msg="ssh_dir =  {{ssh_dir}}"          
 
 - name: ensure zabbixserver1 is a known host
   known_hosts: path={{ssh_dir}}/known_hosts host="{{zabbixserver1}}" state=present key="{{zabbix_host_key.stdout}}"
