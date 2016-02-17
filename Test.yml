@@ -1,5 +1,5 @@
 ---
-  - hosts: srs
+  - hosts: test
     sudo: true
     roles: 
       - IHTSDO.roletest 
