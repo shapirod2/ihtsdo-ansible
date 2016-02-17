@@ -3,10 +3,14 @@
 
 # This is a generic task to install openssh regardless of platform
 # All variables are taken from vars/{{ansible_os_family}}.yml
+#- name: Install openssh
+#  action: >
+#    {{package_manager}} {{package_name_param}}={{package_name}}
+#    state={{package_installed_state}}
+
 - name: Install openssh
-  action: >
-    {{package_manager}} {{package_name_param}}={{package_name}}
-    state={{package_installed_state}}
+  apt: pkg=openssh-server state=latest
+
 
 - name: Find openssh version
   shell: sshd -v 2>&1 | egrep '^OpenSSH' | sed -r 's/^OpenSSH_([0-9]+\.[0-9]+).*/\1/g'

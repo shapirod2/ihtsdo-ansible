@@ -2,11 +2,31 @@
 
 printf "Updating to latest"
 
+sudo service mysql stop
+mkdir -pv /mnt/tmp
+sudo mount -B /tmp /mnt/tmp
+
+mkdir -pv /mnt/opt/rvf-api
+sudo mount -B /opt/rvf-api /mnt/opt/rvf-api
+
+
+mkdir -pv /mnt/var/opt/rvf-api
+sudo mount -B /var/opt/rvf-api /mnt/var/opt/rvf-api
+
+
+mkdir -pv /mnt/var/lib
+mv /var/lib/mysql /mnt/var/lib/
+mkdir /var/lib/mysql
+mount -o bind /var/lib/mysql /mnt/var/lib/mysql
+
+#service mysql start
+
 sudo apt-get update -o Dir::Etc::sourcelist="sources.list.d/maven_ihtsdotools_org_content_repositories_*"
 sudo apt-get install rvf-api
 
 sudo dpkg -s rvf-api
 
-sudo service mysql restart
+sudo service mysql start
+#sudo service mysql restart
 
 exit 0

@@ -37,8 +37,8 @@ crs_host: "{{ inventory_hostname }}"
 crs_url: "https://{{ crs_host }}"
 
 
-crs_jira_host: "dev-jira.ihtsdotools.org"
-crs_jira_url: "https://{{ crs_jira_host }}"
+#crs_jira_host: "dev-jira.ihtsdotools.org"
+crs_jira_url: "https://dev-jira.ihtsdotools.org"
 crs_jira_customField_extId: "customfield_10110"
 crs_jira_customField_reasonForChange: "customfield_10111"
 #Jira SSO

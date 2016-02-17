@@ -3,7 +3,7 @@
 - debug: msg="otf_user_module_security_standalone =  {{ otf_user_module_security_standalone }} " 
 
 - name: Apt cache update
-  apt: update_cache=yes cache_valid_time=120
+  apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
 

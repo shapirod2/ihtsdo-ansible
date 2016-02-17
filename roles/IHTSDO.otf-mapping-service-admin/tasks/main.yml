@@ -3,7 +3,7 @@
   include_vars: "{{ otf_mapping_service_data_secure }}"
 
 - name: Install maven, git and csh
-  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=3600
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=300
   with_items:
     - csh
     - maven

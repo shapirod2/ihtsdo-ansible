@@ -16,7 +16,7 @@
     sudo: yes
  
   - name: Update apt cache
-    apt: update_cache=yes
+    apt: update_cache=yes cache_valid_time=300
     sudo: yes
     
   - name: ensure cassandra is installed
@@ -42,7 +42,7 @@
     supervisorctl: name=refsetService state=stopped  
                      
   - name: Apt cache update
-    apt: update_cache=yes cache_valid_time=120
+    apt: update_cache=yes cache_valid_time=300
     tags:
       - ihtsdo-asset
       

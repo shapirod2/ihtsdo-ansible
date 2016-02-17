@@ -1,63 +1,215 @@
 #!/bin/bash
 
-backup_dir="{{db_back_dir}}/{{db_type}}"
-
 # db_type acceptable values:
 # pgsql = Postgres
 # mysql = MySql
-db_type={{db_type}}
+db_type={{db_back_db_type}}
 
-db_host={{db_host}}
-db_port={{db_port}}
-db_admin={{db_admin}}
-db_include={{include_dbs}}
+db_host={{db_back_db_host}}
+db_port={{db_back_db_port}}
+db_include={{db_back_include_dbs}}
 
 # If Postgres and not using default postgres admin user (postgres) 
 # then instead make sure there is a Postgres .pgpass file
 # ( format : localhost:5432:mydbname:postgres:mypass ) make sure chmod 600 
-db_password={{db_password}} 
+db_user={{db_back_db_user}}
+db_password={{db_back_db_password}} 
 
-s3_backup_dir={{s3_backup_dir}}
+# The S3 backup dir
+s3_backup_dir="{{db_back_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+s3_backup_region_base="{{db_back_s3_backup_region | default('')}}"
+s3_numbackups="{{db_back_s3_backup_num | default('5')}}"
+s3_bk_list=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+
+
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+# The starting directory
+backup_dir="{{ db_back_backup_dir }}"
+#title for backup archive file
+backup_title="{{db_back_backup_title | default('dbBackup')}}"
+# The working directory and the resulting archive file prefix
+ARCHIVE_PREFIX="$backup_title_$(hostname -s)_$CURRENT_DATE"
+# The absolute path to the above
+ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
+
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$backup_dir" = "x" ]; then
+		error_exit "Please set the variable backup_dir before running this script. Exiting with error."
+	fi
+		if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi	
+	
+	if [ "x$db_type" = "x" ]; then
+		error_exit "Please set the variable db_type before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_host" = "x" ]; then
+		error_exit "Please set the variable db_host before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_port" = "x" ]; then
+		error_exit "Please set the variable db_port before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_include" = "x" ]; then
+		error_exit "Please set the variable db_include before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_user" = "x" ]; then
+		error_exit "Please set the variable db_user before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_password" = "x" ]; then
+		error_exit "Please set the variable db_password before running this script. Exiting with error."
+	fi
+}
 
 # create backup dir
 echo "backup dir = "${backup_dir};  
 mkdir -p ${backup_dir}
 
-# then for each db in db_include
 
+
+    
+    # Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	mkbkdir
+	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
+	echo_date ""	
+
+	backup_db
+        backup_data_root
+        backup_www_root
+		
+
+	echo_date "Creating archive..."
+	cd "$tmp_backup_dir"
+	tar  -zcf "$ARCHIVE_PREFIX.tar.gz" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+        rm -r "$ARCHIVE_PREFIX"
+	
+	echo_date "Finished successfully."
+        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+         then
+	  movetoaws
+	  delete_old_from_aws
+         fi
+	exit 0
+}
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+mkdir -pv $tmp_backup_dir
+
+}
+
+
+
+
+backup_db() {	
+	cd "$tmp_backup_dir"	
+	echo_date "Creating db dump file in dir $ABSOLUTE_ARCHIVE_PREFIX"
+# then for each db in db_include
         for db in $db_include;
         do  
                 echo "db = "${db}
-                ts=$(date +\%Y-\%m-%d_\%T_\%z)
-                echo "ts = "${ts}
-                backup_archive="${ts}-$(hostname -s)-${db}-${db_type}.gz"
-
+                DATABASE_DUMP_FILE="${db}.sql"
 if [ "$db_type" = "pgsql" ];
 then
-                        if [ "$db_admin" = "postgres" ]; #we assume the db is locally hosted
+                        if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
                         then
-                                su - postgres -c "/usr/bin/pg_dump ${db}" | gzip > ${backup_dir}/${backup_archive}
+                                su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
                         else    
-                                /usr/bin/pg_dump -U${db_admin} -h${db_host} -p${db_port} ${db} | gzip > ${backup_dir}/${backup_archive}
+                                /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
                         fi
  fi      
  if [ "$db_type" = "mysql" ];
 then      
-      /usr/bin/mysqldump  --single-transaction --routines --triggers --user=$db_admin -p$MYSQL_PASSWORD  $db | gzip > ${backup_dir}/${backup_archive}   
+      /usr/bin/mysqldump  --single-transaction --routines --triggers --user=$db_user -p$MYSQL_PASSWORD  $db > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
  fi               
     done 
+	echo_date "Done backing up DB."
+	
+}
 
-if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
-then   
-echo "Deleting old back ups backup dir = "${backup_dir}; 
-find ${backup_dir}/* -mtime +5 -exec rm {} \;
-fi
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+
+movetoaws(){
 echo "s3_backup_dir = "$s3_backup_dir;
 # sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-then
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
 echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
+cd $tmp_backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
 echo "Backup transferred";
 echo "Backup process complete";
+#fi
+}
+
+delete_old_from_aws() { 
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+                
+done < $s3_bk_list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k \> $s3_numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
+echo "Deleted filename = $filename"
 fi
+
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="$backup_dir/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

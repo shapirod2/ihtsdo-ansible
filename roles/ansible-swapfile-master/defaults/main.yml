@@ -1,7 +1,8 @@
 ---
 swapfile_location: /swapfile
 #swapfile_size: 512MB
-swapfile_size: 8GB
+#swapfile_size: 8GB
+swapfile_size: 16GB
 #swapfile_swappiness: False
 swapfile_swappiness: 10
 swapfile_vfs_cache_pressure: False

@@ -38,7 +38,7 @@
   when: users_create_per_user_group
   
 #- name: Update Apt cache
-#  apt: update_cache=yes
+#  apt: update_cache=yes cache_valid_time=3600
 #  sudo: yes  
   
 - name: Install zip

@@ -4,7 +4,7 @@
 - include: system.yml  
 
 - name: Update apt cache
-  apt: update_cache=yes
+  apt: update_cache=yes cache_valid_time=3600
   sudo: yes
   
 - name: ensure mysql jdbc jar is installed
