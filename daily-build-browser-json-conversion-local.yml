@@ -1,0 +1,5 @@
+---
+  - hosts: local
+    sudo: true
+    roles:
+      - IHTSDO.daily-build-browser-json-conversion
