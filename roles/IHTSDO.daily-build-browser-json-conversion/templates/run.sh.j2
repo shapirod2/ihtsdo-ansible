@@ -1,6 +1,7 @@
 #!/bin/bash
-echo "root dir $rf2_conversion_root_dir"
-cd $rf2_conversion_root_dir
-rf2ToJsonJarVersion="./{{ rf2_to_json_jar_version }}"
+runScriptDir= {{ rf2_conversion_root_dir }}
+echo "root dir $runScriptDir"
+cd $runScriptDir
+rf2ToJsonJarVersion="{{ rf2_to_json_jar_version }}"
 echo "rf2 conversion jar version is: $rf2ToJsonJarVersion"
-java -Xmx8g -jar $rf2ToJsonJarVersion ./config.xml
+java -Xmx8g -jar $rf2ToJsonJarVersion config.xml
