@@ -9,7 +9,7 @@
 - debug: msg="daily_build_dir= {{daily_build_dir}}"   
 
 - name: Get build list and save to buildList.txt
-  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt
+  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt validate_certs=no
   
 - name: Get latest build status
   shell: "cat {{daily_build_dir}}/buildList.txt | grep 'status' | head -1 | cut -d ':' -f2 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
