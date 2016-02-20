@@ -10,7 +10,7 @@ expirationTime: 20170801
 jsonOutputFolder: "{{ daily_build_dir }}/json"
 dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
 snapshotFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Snapshot"
-processInMemory: True
+processInMemory: true
 createCompleteConceptsFile: false
 rf2_conversion_root_dir: /opt/rf2-to-json-conversion
 rf2_to_json_jar_version: rf2-to-json-conversion-1.1-jar-with-dependencies.jar
