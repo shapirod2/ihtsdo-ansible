@@ -1,0 +1,23 @@
+---
+
+ #include system vars
+- include: system.yml  
+
+- name: Ensure back up dir exists
+  file: path="{{ jenkins_backup_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+
+- name: set backup script
+  template: src=jenkins_backup.sh.j2 dest={{ jenkins_backup_dir }}/jenkins_backup.sh
+            owner={{ jenkins_dir_owner }} group={{ jenkins_dir_owner }} mode=0755    
+
+- debug: msg="Running jenkins backup using script = {{ jenkins_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ jenkins_full_backup_cmd }}"
+
+- shell: "{{ jenkins_full_backup_cmd }}"
+
+
+
+#- command: "{{ full_backup_cmd }}"

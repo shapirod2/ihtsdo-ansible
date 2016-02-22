@@ -1,0 +1,21 @@
+---
+
+# Backup 
+# Dir to put scripts into
+
+jenkins_dir_owner: "root"
+
+jenkins_data_dir: "/var/lib/jenkins"
+jenkins_s3_backup_dir: ""
+jenkins_s3_backup_region: ""
+
+jenkins_backup_dir: /opt/backup/jenkins
+
+jenkins_backup_script: jenkins_backup.sh
+
+jenkins_backup_cmd: "{{ jenkins_backup_dir }}/{{ jenkins_backup_script }}"
+
+jenkins_backup_log: "{{ jenkins_backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+jenkins_full_backup_cmd: "{{ jenkins_backup_cmd }} >> {{ jenkins_backup_log }}"
+
