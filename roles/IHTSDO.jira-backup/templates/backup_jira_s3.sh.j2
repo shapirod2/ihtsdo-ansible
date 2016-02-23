@@ -4,19 +4,34 @@
 CURRENT_DATE=`date +%Y%m%d_%H%M`
 
 # The S3 backup dir
-s3_backup_dir={{s3_backup_dir | default('')}}
+#s3_backup_dir={{s3_backup_dir | default('')}}
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{jira_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+s3_backup_region_base="{{jira_s3_backup_region | default('')}}"
+s3_numbackups=5
+s3_bk_list=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
 
 # The starting directory
 backup_dir={{ backup_dir }}
 
 # The dir where zips go
-zip_dir=$backup_dir/zips
+tmp_backup_dir=$backup_dir/tmp
 
 # The working directory and the resulting archive file prefix
 ARCHIVE_PREFIX="jira_$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
-ABSOLUTE_ARCHIVE_PREFIX="$zip_dir/$ARCHIVE_PREFIX"
+ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -33,6 +48,7 @@ error_exit() {
 main() {
 	echo_date "----------------------------"
 	#check_arguments
+	mkbkdir
 
 
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
@@ -44,12 +60,15 @@ main() {
     wait
 	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
 	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
-	cd "$zip_dir"
+	cd "$tmp_backup_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
-	echo_date "Finished successfully. Moving to AWS"
-	delete_old
-	movetoaws
+	echo_date "Finished successfully."
+        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+         then
+	      movetoaws
+	      delete_old_from_aws
+         fi
 	exit 0
 }
 
@@ -62,30 +81,56 @@ copyfromdatadir(){
 cp -R {{ jira_data_dir }} $ABSOLUTE_ARCHIVE_PREFIX
 }
 
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+mkdir -pv $tmp_backup_dir
 
+}
 
 movetoaws(){
-	echo "s3_backup_dir = "$s3_backup_dir;
-	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-	then
-		echo "Transferring backup to AWS S3";
-		/usr/bin/aws s3 sync ${zip_dir} $s3_backup_dir --delete;
-		echo "Backup transferred";
-		echo "Backup process complete";
-	else
-		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
-	fi
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
+echo "Transferring backup to AWS S3";
+cd $tmp_backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
+echo "Backup transferred";
+echo "Backup process complete";
+#fi
 }
 
-delete_old() { 
-echo "Cleaning up old backups prior to moving them to aws"
- if [ -d $zip_dir ] && [ "$zip_dir" != "" ] ;
-  then   
-   echo "Deleting old back ups backup dir = "${zip_dir}; 
-   find ${zip_dir}/* -mtime +5 -exec rm {} \;
- fi
+delete_old_from_aws() { 
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+                
+done < $s3_bk_list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k \> $s3_numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
+echo "Deleted filename = $filename"
+fi
+
 }
+
+
 
 # Ensures that only a single instance is running at any time
 LOCKFILE="{{script_dir}}/instance.lock"

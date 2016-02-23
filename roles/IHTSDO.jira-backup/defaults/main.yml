@@ -2,7 +2,7 @@ system_type: local_test
 
 # Backup 
 # Dir to put scripts into
-s3_backup_dir: "s3://{{jira_backup}}"
+#s3_backup_dir: "s3://{{jira_backup}}"
 
 backup_dir: "/opt/backup/jira"
 jira_data_dir: "/var/atlassian"
