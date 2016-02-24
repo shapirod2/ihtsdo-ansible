@@ -1,0 +1,5 @@
+---
+  - hosts: test
+    sudo: true
+    roles:
+      - docker.ubuntu-master      
