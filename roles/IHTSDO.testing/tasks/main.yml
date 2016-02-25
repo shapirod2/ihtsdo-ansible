@@ -3,6 +3,6 @@
 - name: install docker images
   docker:
     name: "{{ item.name }}"
-    image: "{{ item.name }}"
+    image: "{{ item.image }}"
     state: restarted
-    with_items: docker_images
+  with_items: "{{ docker_images }}"
