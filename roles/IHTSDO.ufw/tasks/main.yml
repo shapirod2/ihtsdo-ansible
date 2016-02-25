@@ -7,6 +7,9 @@
  
  - name: Allow SSL  
    ufw: rule=allow port=443 proto=any
+   
+ - name: Allow HTTP (for now)  
+   ufw: rule=allow port=80 proto=any   
 
  - name: Enable firewall
    ufw: state=enabled policy=deny
