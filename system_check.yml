@@ -1,0 +1,17 @@
+# Basic System hardening and setup check - users, network security
+# included everytime.
+---
+- hosts: zabbixclients
+  sudo: true
+  vars:
+    user_accounts_skip_sshd: true
+  roles:
+    - IHTSDO.user-accounts
+    - knopki.timezone
+    - IHTSDO.harden
+    - IHTSDO.ufw
+    - Ansibles.fail2ban
+    - IHTSDO.oraclejava
+    - IHTSDO.unattended-updates
+
+    
