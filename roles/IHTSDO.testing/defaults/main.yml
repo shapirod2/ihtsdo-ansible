@@ -1,0 +1,9 @@
+---
+
+docker_images:                                 
+  - name: "selenium/hub"
+  - name: "selenium/node-firefox"
+  - name: "selenium/node-chrome"
+
+
+

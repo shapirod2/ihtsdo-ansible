@@ -1,0 +1,8 @@
+---
+
+- name: install docker images
+  docker:
+    name: "{{ item.name }}"
+    image: "{{ item.name }}"
+    state: restarted
+    with_items: docker_images
