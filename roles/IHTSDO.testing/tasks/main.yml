@@ -6,3 +6,5 @@
     image: "{{ item.image }}"
     state: restarted
   with_items: "{{ docker_images }}"
+  
+- debug: msg="finished installing docker images = {{ docker_images }}"  
