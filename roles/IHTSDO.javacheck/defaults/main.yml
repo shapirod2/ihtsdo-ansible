@@ -1,0 +1,6 @@
+---
+security_file: "java.security"
+java_dir: "/usr/lib/jvm/"
+
+find_command: "find {{ java_dir }} -name '{{ security_file }}'"
+ 
