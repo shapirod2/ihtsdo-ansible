@@ -1,0 +1,5 @@
+---
+
+mysql_service: mysql
+system_type: local_test
+
