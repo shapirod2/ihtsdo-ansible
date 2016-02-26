@@ -12,6 +12,7 @@
     - IHTSDO.ufw
     - Ansibles.fail2ban
 #    - IHTSDO.oraclejava
+    - IHTSDO.javacheck
     - IHTSDO.unattended-updates
 
     
