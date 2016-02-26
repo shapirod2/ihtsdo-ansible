@@ -2,5 +2,5 @@
 - name: restart sonarqube
   service: name={{ sonarqube_service }} state=restarted
 
-- name: restart nginx
-  service: name=nginx state=restarted
+#- name: restart nginx
+#  service: name=nginx state=restarted

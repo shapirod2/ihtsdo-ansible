@@ -1,4 +1,6 @@
 ---
-- include: download.yml
+#- include: download.yml
+- include: db.yml
+- include: install.yml
 - include: configure.yml
 #- include: nginx.yml

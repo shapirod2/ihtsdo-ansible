@@ -1,9 +1,9 @@
 ---
 - name: Set JDBC user
   lineinfile: dest={{ sonarqube_config }}
-              regexp='^sonar.jdbc.user='
-              insertafter="#sonar.jdbc.user="
-              line='sonar.jdbc.user={{ sonarqube_db_user }}'
+              regexp='^sonar.jdbc.username='
+              insertafter="#sonar.jdbc.username="
+              line='sonar.jdbc.username={{ sonarqube_db_user }}'
   notify:
     - restart sonarqube
 

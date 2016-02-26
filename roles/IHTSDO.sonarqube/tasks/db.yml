@@ -1,0 +1,12 @@
+- name: Create a database for Sonar.
+  mysql_db:
+    name: "{{ sonarqube_mysql_database }}"
+    state: present
+
+- name: Create a sonar user.
+  mysql_user:
+    name: "{{ sonarqube_db_user }}"
+    host: "{{ item }}"
+    priv: "{{ sonarqube_mysql_database }}.*:ALL"
+    password: "{{ sonarqube_db_password }}"
+  with_items: sonarqube_mysql_allowed_hosts

@@ -4,6 +4,9 @@
 
 - name: Setup apt repository
   apt_repository: repo="{{ sonarqube_apt_repository }}" state=present
+  
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=300   
 
 - name: Install sonar package
   apt: name=sonar state=installed force=yes
@@ -22,3 +25,7 @@
   notify:
     - restart sonarqube
   when: sonarqube_version != 'installed' and sonarqube_version != 'latest'
+  
+  
+- name: restart sonarqube
+  service: name={{ sonarqube_service }} state=restarted

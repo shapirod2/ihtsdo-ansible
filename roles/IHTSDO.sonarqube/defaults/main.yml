@@ -1,15 +1,54 @@
 ---
-sonarqube_version: 4.3
+sonarqube_apt_repository: "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/"
+
+
+sonarqube_version: 4.5.6
+sonarqube_version_name: "sonarqube-{{ sonarqube_version }}"
+sonarqube_version_zip: "{{ sonarqube_version_name }}.zip" 
+sonarqube_download_url: "http://dist.sonar.codehaus.org/{{ sonarqube_version_zip }}"
+
+sonarqube_service: "sonar"
+
+sonarqube_root_dir: '/opt/sonar'
+sonarqube_config: '{{ sonarqube_root_dir }}/conf/sonar.properties'
+
 sonarqube_host: 0.0.0.0
 sonarqube_port: 9000
 sonarqube_db_user: sonar
 sonarqube_db_password: sonar1234
-sonarqube_db_url: jdbc:mysql://localhost:3306/sonar?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true
-#sonarqube_nginx_fqdn: sonarqube
-#sonarqube_nginx_default_site: off
-#sonarqube_nginx_ssl: no
-#sonarqube_nginx_ssl_cert_file: sonarqube.crt
-#sonarqube_nginx_ssl_key_file: sonarqube.key
+sonarqube_user: sonar
+sonarqube_group: sonar
 
-sonar_user: sonar
-sonar_group: sonar
+nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: /etc/ssl/certs/termserver.crt
+nginx_ssl_key_file_dest: /etc/ssl/private/termserver.key
+nginx_ufw_allow_https: true
+nginx_conf: sonar
+nginx_fqdn: ~(?i)sonar
+nginx_default_site: true
+nginx_ufw_allow_https: true
+nginx_proxy_url: http://localhost:9000
+
+
+sonarqube_mysql_host: localhost
+sonarqube_mysql_port: "3306"
+sonarqube_mysql_database: sonar
+sonarqube_db_url: "jdbc:mysql://{{sonarqube_mysql_host}}:{{sonarqube_mysql_port}}/{{sonarqube_mysql_database}}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
+
+
+sonarqube_mysql_allowed_hosts:
+  - 127.0.0.1
+  - ::1
+  - localhost
+
+
+
+
+
+
+
+
+
+
+

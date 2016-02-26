@@ -1,9 +1,0 @@
----
-sonarqube_apt_repository: 'deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/'
-sonarqube_root_dir: '/opt/sonarqube'
-sonarqube_config: '{{ sonarqube_root_dir }}/conf/sonar.properties'
-sonarqube_base: sonarqube-{{ sonarqube_version }}
-sonarqube_archive: sonarqube-{{ sonarqube_version }}.zip
-sonarqube_download_dest: /opt/{{ sonarqube_archive }}
-sonarqube_download_url: http://dist.sonar.codehaus.org/{{ sonarqube_archive }}
-sonarqube_service: sonarqube
