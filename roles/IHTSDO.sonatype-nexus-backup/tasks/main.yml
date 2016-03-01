@@ -1,0 +1,22 @@
+- include: system.yml 
+
+- debug: msg="nexus_s3_backup_dir = {{ nexus_s3_backup_dir }}"
+- debug: msg="nexus_s3_backup_region = {{ nexus_s3_backup_region }}"
+
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=3600  
+
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=3600
+
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
+  
+- name: Configure backup script
+  template: src={{new_backup_script}}.j2 dest={{script_dir}}/{{new_backup_script}}
+            owner=root group=root mode=0740
+
+- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
+
+- name: run backup command
+  shell: "{{ full_backup_cmd }}"

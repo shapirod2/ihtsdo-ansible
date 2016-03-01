@@ -1,0 +1,17 @@
+system_type: local_test
+
+# Backup 
+# Dir to put scripts into
+#s3_backup_dir: "s3://{{nexus_backup}}"
+
+backup_dir: "/opt/backup/nexus"
+nexus_data_dir: "/var/lib/sonatype-nexus"
+
+#dataset
+script_dir: /opt/scripts/nexus
+new_backup_script: backup_nexus_s3.sh
+backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
+backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+
