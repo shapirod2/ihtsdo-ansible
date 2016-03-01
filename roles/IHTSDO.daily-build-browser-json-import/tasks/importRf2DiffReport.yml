@@ -1,0 +1,14 @@
+---
+
+- name: Ensure import dir exists
+  file: path="{{ daily_build_import_dir }}" state=directory
+        owner=root group=root mode=0644 
+        recurse=yes  
+
+- name: set downloading rf2 diff report from s3 script
+  template: src=copyRf2DiffReportFromS3.sh.j2 dest={{ rf2_diff_reports_json_dir }}/copyRf2DiffReportFromS3.sh
+            owner=root group=root mode=0755   
+
+- debug: msg="rf2_diff_report_s3_copy_cmd = {{ rf2_diff_report_s3_copy_cmd }}"
+
+- shell: "{{ rf2_diff_report_s3_copy_cmd }}"

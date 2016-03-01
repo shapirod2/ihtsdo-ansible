@@ -1,0 +1,7 @@
+#!/bin/bash
+runScriptDir="{{ rf2_diff_root_dir }}"
+echo "root dir $runScriptDir"
+cd $runScriptDir
+rf2DiffJarVersion="{{ rf2_diff_jar_version }}"
+echo "rf2 diff jar version is: $rf2DiffJarVersion"
+java -Xmx3g -jar $rf2DiffJarVersion config.xml
