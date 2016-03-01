@@ -6,7 +6,9 @@ system_type: local_test
 
 backup_dir: "/opt/backup/jira"
 jira_data_dir: "/var/atlassian"
-dump_filename: "jiradump.sql"
+dump_filename: "mysqldump.sql"
+
+back_type: "jira"
 
 #dataset
 script_dir: /opt/scripts/jira
@@ -14,4 +16,7 @@ new_backup_script: backup_jira_s3.sh
 backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+#default to jira backup val
+mysql_root_pass_jira_backup: "{{ mysql_root_pass_jira }}"
 

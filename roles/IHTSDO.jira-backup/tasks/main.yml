@@ -1,5 +1,15 @@
 - include: system.yml 
 
+- debug: msg="back_type = {{ back_type }}"
+- debug: msg="jira_s3_backup_dir = {{ jira_s3_backup_dir }}"
+- debug: msg="jira_s3_backup_region = {{ jira_s3_backup_region }}"
+
+- name: set to confluence mysql if type set to confluence  
+  set_fact:
+   mysql_root_pass_jira_backup: "{{ mysql_root_pass_confluence }}"
+  when: back_type == "confluence"
+  
+
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=3600  
 
@@ -8,7 +18,7 @@
 
 - name: make sure script_dir exists
   file: path={{script_dir}}  state=directory  
-
+  
 - name: Configure backup script
   template: src={{new_backup_script}}.j2 dest={{script_dir}}/{{new_backup_script}}
             owner=root group=root mode=0740

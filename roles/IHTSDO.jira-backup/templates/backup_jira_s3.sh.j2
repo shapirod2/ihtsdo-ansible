@@ -74,7 +74,7 @@ main() {
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass_jira }} --all-databases --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+/usr/bin/mysqldump -uroot -p{{ mysql_root_pass_jira_backup }} --all-databases --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
 }
 
 copyfromdatadir(){
