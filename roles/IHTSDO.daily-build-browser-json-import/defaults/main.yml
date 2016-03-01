@@ -7,7 +7,7 @@ rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
 
 daily_build_rf2json_file_name: rf2Json.tgz
 
-daily_build_diff_report_file_name: diff_reports.tgz
+daily_build_diff_report_file_name: diffReports.tgz
 
 import_rf2_diff_report_enabled: True
 
