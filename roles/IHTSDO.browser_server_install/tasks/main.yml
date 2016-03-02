@@ -37,6 +37,16 @@
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ sct_rest_app_name }}.conf"
               owner=root group=root mode=0640  
+         
+- name: Ensure search.log dir exists
+  file: path={{ search_log_dir }} state=directory
+  
+- stat: path={{ search_log_dir }}/{{ search_log_file }}
+  register: p
+- name: create search.log if doesn't already exist
+  file: path={{ search_log_dir }}/{{ search_log_file }} state=touch owner=root group=root mode=0600
+  when: p.stat.exists is defined and p.stat.exists  
+         
               
 - name: Configure nginx
   template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
