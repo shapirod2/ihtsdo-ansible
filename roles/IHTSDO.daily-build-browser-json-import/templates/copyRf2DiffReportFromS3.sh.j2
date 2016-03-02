@@ -1,0 +1,21 @@
+#!/bin/bash
+s3_bukcet_name="{{ rf2json_s3_bucket_name }}"
+filename="{{ daily_build_diff_report_file_name }}"
+import_dir="{{ rf2_diff_reports_json_dir }}"
+
+echo "Getting rf2 diff reports from AWS S3";
+echo $import_dir
+cd $import_dir
+echo "start s3 copying..."
+aws s3 cp $s3_bukcet_name/$filename $filename
+
+echo "Retrieved $filename to $import_dir"
+echo "s3 copy process is completed"
+
+echo "start untar diff report file"
+tar -xf $filename
+echo "end of untar diff report file"
+
+echo "copy report json to /opt/sct_front_end/diff_reports"
+cp -rf *.json /opt/sct_front_end/diff_reports/
+echo "rf2 diff report json imported"

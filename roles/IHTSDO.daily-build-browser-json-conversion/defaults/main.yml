@@ -2,6 +2,8 @@
 get_release: True
 daily_build_dir: /opt/dailybuild
 force_zip_download: True
+rf2_json_conversion_enabled: True
+rf2_diff_report_enabled: True
 release_file_name: SnomedCT_RF2Release_INT_20160731.zip
 unpacked_release_file_name: SnomedCT_RF2Release_INT_20160731
 effectiveTime: 20160731
@@ -15,3 +17,11 @@ rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
 daily_build_rf2json_file_name: rf2Json.tgz
 rf2_json_s3_upload_script: uploadRf2JsonToS3.sh
 rf2_json_s3_upload_cmd: "{{ jsonOutputFolder }}/{{ rf2_json_s3_upload_script }}"
+rf2_diff_jar_version: rf2-diff-generator-1.1-jar-with-dependencies.jar
+rf2_diff_json_file_name: diffReports.tgz
+rf2_diff_json_report_folder: "{{ daily_build_dir }}/diff_reports"
+rf2_diff_root_dir: /opt/rf2-diff-generator
+# One date after the previous release
+rf2_diff_start_date: 20160201
+rf2_diff_json_s3_upload_script: uploadRf2DiffJsonToS3.sh
+rf2_diff_report_s3_upload_cmd:  "{{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}"

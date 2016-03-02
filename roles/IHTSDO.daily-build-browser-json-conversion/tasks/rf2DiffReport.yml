@@ -1,0 +1,34 @@
+---
+
+- name: set diffConfig.xml
+  template: src=diffConfig.xml.j2 dest={{ rf2_diff_root_dir }}/config.xml
+            owner=root group=root mode=0755    
+            
+- name: set the rf2Diff.sh
+  template: src=rf2Diff.sh.j2 dest={{ rf2_diff_root_dir }}/rf2Diff.sh
+            owner=root group=root mode=0755    
+ 
+- name:  Check whether the release zip file is downloaded successfully
+  stat: path={{daily_build_dir}}/{{release_file_name}}
+  register: zipFileDownloaded
+                      
+- name: run the rf2 diff report command
+  shell: "{{ rf2_diff_root_dir }}/rf2Diff.sh"
+  when: zipFileDownloaded.stat.exists == True
+  
+- name: Check diff report json files generated
+  stat: path={{rf2_diff_json_report_folder}}/diff_index.json
+  register: diffReportCreated
+  
+- debug: msg="jsonFileCreated.stat.exists= {{ jsonFileCreated.stat.exists }}"
+ 
+- name: set the rf2 diff report json s3 upload script
+  template: src=uploadRf2DiffJsonToS3.sh.j2 dest={{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}
+            owner=root group=root mode=0755    
+  when: diffReportCreated.stat.exists == True
+  
+- debug: msg="rf2 diff json upload cmd = {{ rf2_diff_report_s3_upload_cmd }}"
+
+- name: Run rf2 diff report s3 upload script
+  shell: "{{ rf2_diff_report_s3_upload_cmd }}"
+  when: diffReportCreated.stat.exists == True
