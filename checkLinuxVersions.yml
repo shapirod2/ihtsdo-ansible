@@ -1,5 +1,5 @@
 ---
-  - hosts: zabbixclients
+  - hosts: securityCheck
     sudo: true
     roles:
       - IHTSDO.All-Report
