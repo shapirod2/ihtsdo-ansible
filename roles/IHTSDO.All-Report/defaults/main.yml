@@ -1,5 +1,6 @@
 ---
 report_dist: True
+report_hw: True
 
 
 std_dist: 'Ubuntu'
