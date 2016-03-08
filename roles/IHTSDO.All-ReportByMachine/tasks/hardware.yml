@@ -1,9 +1,6 @@
  
   - name: Print IP
     debug: msg="IP V4 Addresses for - {{ ansible_fqdn }} - {{ansible_all_ipv4_addresses}} Default IP = {{ ansible_default_ipv4.address }}"
- 
-  - name: Print Server Date Time
-    debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "
               
   - name: Print Server H/w
     debug: msg="Processor = {{ ansible_processor }}  Num Cores = {{ ansible_processor_cores }}  Num processors = {{ ansible_processor_count }}"

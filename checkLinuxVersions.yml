@@ -1,6 +1,5 @@
 ---
   - hosts: securityCheck
-    serial: 1
     sudo: true
     roles:
       - IHTSDO.All-Report

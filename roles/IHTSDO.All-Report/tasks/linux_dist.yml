@@ -9,7 +9,6 @@
   - name: Print not Std Release
     debug: msg="Not Standard Release. Std Release = {{std_version}} . This Release = {{ansible_distribution_version}}"
     when: "ansible_distribution_version != std_version"        
-
-         
+ 
 
     
