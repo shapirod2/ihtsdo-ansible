@@ -1,0 +1,6 @@
+- include: hardware.yml
+  when: "report_hw == True"       
+
+         
+
+    
