@@ -1,9 +1,6 @@
  
 - include: linux_dist.yml
   when: "report_dist == True"   
-  
-- include: hardware.yml
-  when: "report_hw == True"       
 
          
 
