@@ -1,0 +1,27 @@
+---
+
+- name: Run usermod
+  command:  usermod -u {{ new_uid }} {{ username }}
+  sudo: yes 
+  when: new_uid is defined
+  ignore_errors: yes 
+
+- name: Run find to update files with old uid
+  command:  find / -user {{ current_uid }} -exec chown -h {{ username }} {} \; 
+  sudo: yes 
+  when: current_uid is defined 
+  ignore_errors: yes 
+  
+- name: Run groupmod
+  command:  groupmod -g {{ new_gid }} {{ username }}
+  sudo: yes 
+  when: new_gid is defined 
+  ignore_errors: yes  
+  
+- name: Run find to update files with old gid
+  command:  find / -group {{ current_gid }} -exec chgrp -h {{ username }} {} \; 
+  sudo: yes 
+  when: current_gid is defined 
+  ignore_errors: yes   
+
+ 
