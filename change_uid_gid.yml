@@ -1,0 +1,7 @@
+---
+  - hosts: securityCheck
+    sudo: true
+    roles:
+      - IHTSDO.change-uid-gid
+
+

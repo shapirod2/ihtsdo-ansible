@@ -1,7 +1,8 @@
 # Basic System hardening and setup check - users, network security
 # included everytime.
 ---
-- hosts: zabbixclients
+- hosts: securityCheck
+#  serial: 1
   sudo: true
   vars:
     user_accounts_skip_sshd: true
@@ -11,8 +12,9 @@
     - IHTSDO.harden
     - IHTSDO.ufw
     - Ansibles.fail2ban
+    - IHTSDO.unattended-updates
 #    - IHTSDO.oraclejava
     - IHTSDO.javacheck
-    - IHTSDO.unattended-updates
+    
 
     
