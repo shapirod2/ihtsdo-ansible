@@ -1,5 +1,5 @@
 ---
-  - hosts: test
+  - hosts: toAdd
     sudo: true
     roles: 
       - IHTSDO.dnsmasq
