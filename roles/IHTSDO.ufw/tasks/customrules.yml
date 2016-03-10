@@ -1,0 +1,5 @@
+---
+ - name: Allow Custom List   
+   ufw: rule=allow port={{ item }} proto=any 
+   with_items: "{{ extra_ports }}"
+
