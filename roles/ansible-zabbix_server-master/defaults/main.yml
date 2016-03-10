@@ -69,6 +69,18 @@ zabbixserver_ubuntu        : "1:{{zabbixserver_version}}-1+trusty"
 zabbix_php_db               : "{%if zabbixserver_db_type == 'pgsql' %}POSTGRESQL{% elif zabbixserver_db_type == 'mysql' %}MYSQL{% else %}ERROR_UNKNOWN_DB{% endif %}"
 
 
+nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+nginx_ssl_cert_file_dest: /etc/ssl/certs/zabbixserver.crt
+nginx_ssl_key_file_dest: /etc/ssl/private/zabbixserver.key
+nginx_ufw_allow_https: true
+nginx_conf: zabbixserver
+nginx_fqdn: ~(?i)zabbixserver
+nginx_default_site: false
+nginx_ufw_allow_https: true
+
+zabbixserver_apache_port: 8088
+nginx_proxy_url: http://localhost:8088/zabbix/
 
 
 
