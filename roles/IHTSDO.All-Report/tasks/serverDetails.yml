@@ -1,4 +1,14 @@
-  - name: Print Server Date Time
-    debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
+- name: Print Server Date Time
+  debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
+  
+  
+- shell: /usr/sbin/ufw status
+  register: result
+
+- name: print out firewall info  
+  debug: var=result.stdout_lines  
+    
+ 
+    
 
     
