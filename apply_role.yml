@@ -1,0 +1,9 @@
+#Play: apply_role.yml
+#Purpose: Stub play to apply a single role against a given host
+#Usage: ansible-playbook -i ansible-inventory/inventory/zabbix.ini ihtsdo-ansible/apply_role.yml -e "ROLE=<role>" -e "TARGET=<fqdn>" --user=<user> --check
+
+---
+   - hosts:  '{{TARGET}}'
+     sudo: true
+     roles:
+     - { role: '{{ROLE}}' }
