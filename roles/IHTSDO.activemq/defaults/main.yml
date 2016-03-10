@@ -9,8 +9,8 @@ activemq_pw: "bob"
 
 activemq_runasuser: "{{ activemq_user }}"
 
-active_mq_dl_url: "https://repository.apache.org/content/repositories/snapshots/org/apache/activemq/apache-activemq/5.6-SNAPSHOT/"
-active_mq_dl_filename: "apache-activemq-5.6-SNAPSHOT"
+active_mq_dl_url: "https://repository.apache.org/content/repositories/releases/org/apache/activemq/apache-activemq/5.6.0/"
+active_mq_dl_filename: "apache-activemq-5.6.0"
 active_mq_dl_file_type: "-bin.tar.gz"
 
 active_mq_dl_file: "{{ active_mq_dl_filename }}{{ active_mq_dl_file_type }}"
