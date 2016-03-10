@@ -3,9 +3,13 @@
  #include system vars
 - include: system.yml  
 
+- name: Ensure service is stopped
+  service: name=zabbix-server state=stopped enabled=yes
+  ignore_errors: yes
+
 - name: Ensure back up dir exists
   file: path="{{ zabbix_backup_dir }}" state=directory
-        owner=www-data group=www-data mode=0644 
+        owner=postgres group=postgres mode=0755 
         recurse=yes  
 
 - name: set backup script
@@ -19,5 +23,7 @@
 - shell: "{{ zabbix_full_restore_cmd }}"
 
 
+- name: Ensure service is started
+  service: name=zabbix-server state=restarted enabled=yes
 
 #- command: "{{ full_backup_cmd }}"

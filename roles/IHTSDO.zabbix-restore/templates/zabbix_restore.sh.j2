@@ -55,6 +55,7 @@ main() {
 	echo_date ""	
 	get_latest_from_aws
         restore_db
+echo "finished"
 
 }
 
@@ -68,9 +69,21 @@ mkdir -pv $tmp_backup_dir
 
 restore_db() {	
 
+# dropdb zabbix
+
+su postgres -c "/usr/bin/psql dropdb zabbix"
+
 echo "retoredb filename = $filename"
 	cd "$tmp_backup_dir"	
 for i in *.gz; do tar -zxvf $i; done
+
+for f in 
+
+for file in `find . -name "*.sql" -type f`; do
+  echo "file = $file"
+su - postgres -c "/usr/bin/psql -f $tmp_backup_dir/$file postgres"
+done
+
 
 #extract sql file
 }
