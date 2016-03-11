@@ -31,5 +31,5 @@
     action: command psql -c 'CREATE EXTENSION adminpack;' 
     ignore_errors: True   
     
-  - name: Allow PostGreSQL through the firewall  
-    ufw: rule=allow port=5432 proto=any                     
+ # - name: Allow PostGreSQL through the firewall  
+ #   ufw: rule=allow port=5432 proto=any                     
