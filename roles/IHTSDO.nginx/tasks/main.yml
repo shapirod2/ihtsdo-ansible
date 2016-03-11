@@ -82,15 +82,15 @@
   tags:
     - nginx
 
-- name: allow HTTP traffic
-  ufw: name='Nginx HTTP' rule=allow
-  when: nginx_ufw_allow_http == true
+#- name: allow HTTP traffic
+#  ufw: name='Nginx HTTP' rule=allow
+#  when: nginx_ufw_allow_http == true
 
-- name: allow HTTPS traffic
-  ufw: name='Nginx HTTPS' rule=allow
-  when: nginx_ufw_allow_https == true
+#- name: allow HTTPS traffic
+#  ufw: name='Nginx HTTPS' rule=allow
+#  when: nginx_ufw_allow_https == true
    
-- name: Reload the firewall  
-  ufw: state=reloaded  
+#- name: Reload the firewall  
+#  ufw: state=reloaded  
 
 
