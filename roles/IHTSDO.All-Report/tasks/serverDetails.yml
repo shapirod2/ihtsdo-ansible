@@ -2,7 +2,7 @@
   debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
   
   
-- shell: /usr/sbin/ufw status
+- shell: /usr/sbin/ufw status verbose
   register: result
 
 - name: print out firewall info  
