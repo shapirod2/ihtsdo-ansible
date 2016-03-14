@@ -12,13 +12,13 @@
    ufw: rule=allow port=80 proto=any   
 
 
- - name: debug
-   debug: msg="extraport not defined"
-   when: extra_ports is undefined 
+# - name: debug
+#   debug: msg="extraport not defined"
+#   when: extra_ports is undefined 
 
- - name: Include custom rules if extra_ports is defined 
-   include: customrules.yml
-   when: extra_ports is defined
+# - name: Include custom rules if extra_ports is defined 
+#   include: customrules.yml
+#   when: extra_ports is defined
 
 # - name: Allow Custom List   
 #   ufw: rule=allow port={{ item }} proto=any 
