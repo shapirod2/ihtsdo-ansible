@@ -5,22 +5,7 @@
    
  #include system vars
  - include: system.yml    
-   
- - name: ensure postgres is installed
-   apt: pkg=postgresql state=latest
-
- - name: ensure postgres contrib/Adminpack is installed
-   apt: pkg=postgresql-contrib state=latest
-
- - name: ansible postgres python deps
-   apt: pkg=python-psycopg2
-    
- - name: create admin pack extension
-   sudo_user: postgres
-   action: command psql -c 'CREATE EXTENSION adminpack;' 
-   ignore_errors: True      
-    
-    
+       
  - name: Include postgresql if defined
    include: postgresql.yml
    when: "zabbixserver_db_type == 'pgsql'"
