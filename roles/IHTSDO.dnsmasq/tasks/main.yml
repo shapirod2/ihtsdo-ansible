@@ -5,6 +5,10 @@
 
   #include system vars
 - include: system.yml 
+
+- name: Ensure service is stopped
+  service: name=dnsmasq state=stopped enabled=yes
+  ignore_errors: yes  
  
 - name: Install latest dnsmasq package
   apt: name=dnsmasq state=latest    
@@ -32,10 +36,13 @@
 - include: resolv.yml 
   when: "update_resolv == 'true'"
 
-
+- name: Ensure service is set to run
+  service: name=dnsmasq state=restarted enabled=yes  
+  ignore_errors: yes  
                             
-- name: restart dnsmasq
-  service: name=dnsmasq state=restarted    
+
+  
+      
           
 
  
