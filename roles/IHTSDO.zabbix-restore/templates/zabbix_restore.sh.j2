@@ -73,11 +73,9 @@ restore_db() {
 
 su postgres -c "/usr/bin/psql dropdb zabbix"
 
-echo "retoredb filename = $filename"
+echo "restoredb filename = $filename"
 	cd "$tmp_backup_dir"	
 for i in *.gz; do tar -zxvf $i; done
-
-for f in 
 
 for file in `find . -name "*.sql" -type f`; do
   echo "file = $file"
