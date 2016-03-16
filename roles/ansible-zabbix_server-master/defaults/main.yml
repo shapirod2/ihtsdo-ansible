@@ -8,10 +8,10 @@ zabbixserver_revision       : '4'
 zabbixserver_host           : "{{inventory_hostname}}"
 zabbixserver_name           : "{{inventory_hostname}}"
 ## Zabbix Server Extra options
-zabbixserver_LogFile        : "/var/log/zabbix/zabbixserver.log"
+zabbixserver_LogFile        : "/var/log/zabbix/zabbix_server.log"
 zabbixserver_LogFileSize    : 0    ## 0 - disable automatic log rotation.
 zabbixserver_DebugLevel     : 3    ## (0) no, (1) critical info (2) error info (3) warnings (4) A lots of infor)
-zabbixserver_PidFile        : "/var/run/zabbix/zabbixserver.pid"
+zabbixserver_PidFile        : "/var/run/zabbix/zabbix_server.pid"
 ##Zabbix Server Frontend
 zabbixserver_front_install  : True  ## Install frontend and dependency True or False
 zabbixserver_front_root     : "/var/www"
