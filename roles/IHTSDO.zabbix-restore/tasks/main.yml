@@ -22,7 +22,6 @@
 
 - shell: "{{ zabbix_full_restore_cmd }}"
 
-
 - name: Ensure service is started
   service: name=zabbix-server state=restarted enabled=yes
 

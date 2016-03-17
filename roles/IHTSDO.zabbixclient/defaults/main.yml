@@ -1,9 +1,19 @@
 zabbixserver_tunnel_user     : "zabbixagent"
 
 ## zabbix Server version
-zabbixserver_major          : '2'
-zabbixserver_minor          : '4'
-zabbixserver_revision       : '4'
+#zabbixserver_major          : '2'
+#zabbixserver_minor          : '4'
+#zabbixserver_revision       : '4'
+
+zabbixserver_major          : '3'
+zabbixserver_minor          : '0'
+zabbixserver_revision       : '1'
+
+
+## last zabbix Server version
+#zabbixserver_major_old      : '2'
+#zabbixserver_minor_old      : '4'
+
 
 
 script_dir: "/home/{{zabbixserver_tunnel_user}}/scripts"

@@ -70,8 +70,10 @@ mkdir -pv $tmp_backup_dir
 restore_db() {	
 
 # dropdb zabbix
+su postgres -c "/usr/bin/dropdb --if-exists zabbix"
+# recreate zabbix db
+su postgres -c "/usr/bin/createdb -T template0 zabbix"
 
-su postgres -c "/usr/bin/psql dropdb zabbix"
 
 echo "restoredb filename = $filename"
 	cd "$tmp_backup_dir"	
@@ -79,7 +81,10 @@ for i in *.gz; do tar -zxvf $i; done
 
 for file in `find . -name "*.sql" -type f`; do
   echo "file = $file"
-su - postgres -c "/usr/bin/psql -f $tmp_backup_dir/$file postgres"
+#su - postgres -c "/usr/bin/psql -f $tmp_backup_dir/$file postgres"
+su - postgres -c "/usr/bin/psql zabbix < $tmp_backup_dir/$file"
+
+
 done
 
 
