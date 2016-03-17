@@ -7,7 +7,21 @@
 
 - name: print out firewall info  
   debug: var=result.stdout_lines  
-    
+  
+- shell: "service --status-all | egrep '{{ services_list }}'"
+  register: services
+
+- name: print out services info  
+  debug: var=services.stdout_lines   
+  
+- shell: supervisorctl status
+  register: supervisor
+
+- name: print out supervisor upservices info  
+  debug: var=supervisor.stdout_lines   
+ 
+  
+#service --status-all | egrep 'apache|postgresql|mysql'    
  
     
 

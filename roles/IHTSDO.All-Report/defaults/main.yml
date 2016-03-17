@@ -6,3 +6,5 @@ report_serv: True
 std_dist: 'Ubuntu'
 std_version: '14.04'
 
+services_list: "apache|nginx|postgresql|mysql|mongod|tomcat7|zabbix-server|dnsmasq|beat|postfix|exim|clamav|jenkins|sonarqube"
+

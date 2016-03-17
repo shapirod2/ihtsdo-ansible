@@ -1,6 +1,6 @@
  
-- include: linux_dist.yml
-  when: "report_dist == True"   
+#- include: linux_dist.yml
+#  when: "report_dist == True"   
   
 - include: serverDetails.yml
   when: "report_serv == True"   
