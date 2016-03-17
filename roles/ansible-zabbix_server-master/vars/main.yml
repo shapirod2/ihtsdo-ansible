@@ -3,4 +3,8 @@ zabbixserver_sql_files   :
          - "{{ zabbixserver_sql_path }}/schema.sql"
          - "{{ zabbixserver_sql_path }}/images.sql"
          - "{{ zabbixserver_sql_path }}/data.sql"
-    
+ 
+ 
+zabbixserver_sql_path_3   : /usr/share/doc/zabbix-server-pgsql
+zabbixserver_sql_file_3   : create.sql   
+zabbixserver_sql_file_path_3: "{{zabbixserver_sql_path_3}}/{{zabbixserver_sql_file_3}}"

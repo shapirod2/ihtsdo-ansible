@@ -3,6 +3,9 @@
 - name : zabbixserver | Update apt cache
   apt :
      update_cache="yes"
+     
+#- name: Install unzip
+#  apt: name=gzip state=present update_cache=yes cache_valid_time=300     
 
 - name: zabbixserver | Install pre dependency
   apt:
@@ -135,8 +138,13 @@
   shell: 
       psql {{ zabbixserver_db_name }}  < {{item}} && sleep 3
   with_items: zabbixserver_sql_files
-  when: postgres_db.changed and zabbixserver_db_type == 'pgsql'
+  when: "postgres_db.changed and zabbixserver_db_type == 'pgsql' and {{ zabbixserver_major | version_compare('2', '<=') }}"
+  #when: "zabbixserver_db_type == 'pgsql' and {{ zabbixserver_major | version_compare('2', '<=') }}"
   sudo_user: postgres
-  
 
-
+- name: zabbixserver | populate postgres database is populated
+  shell: 
+      export PGPASSWORD={{ zabbixserver_db_pass }}; zcat {{zabbixserver_sql_file_path_3}}.gz | psql -h 127.0.0.1 -U  {{zabbixserver_db_user}} {{ zabbixserver_db_name }} 
+  when: "postgres_db.changed and zabbixserver_db_type == 'pgsql' and {{ zabbixserver_major | version_compare('3', '>=') }}"
+  #when: "zabbixserver_db_type == 'pgsql' and {{ zabbixserver_major | version_compare('3', '>=') }}"
+  sudo_user: postgres  

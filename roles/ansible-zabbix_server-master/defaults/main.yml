@@ -1,8 +1,14 @@
 
+reload_db: False
+
 ## zabbix Server version
-zabbixserver_major          : '2'
-zabbixserver_minor          : '4'
-zabbixserver_revision       : '4'
+#zabbixserver_major          : '2'
+#zabbixserver_minor          : '4'
+#zabbixserver_revision       : '4'
+
+zabbixserver_major          : '3'
+zabbixserver_minor          : '0'
+zabbixserver_revision       : '1'
 
 ##Zabbix Server
 zabbixserver_host           : "{{inventory_hostname}}"

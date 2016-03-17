@@ -21,6 +21,13 @@
   sudo_user: postgres
   notify: restart apache2
   tags: postgresql_server
+  
+- name: postgresql | If reload db drop old zabbix db
+  postgresql_db: 
+     name="{{zabbixserver_db_name}}"  state=absent
+  when: reload_db == True
+  sudo_user: postgres
+  
 
 - name: postgresql | Create Zabbix postgresql database
   postgresql_db: 
