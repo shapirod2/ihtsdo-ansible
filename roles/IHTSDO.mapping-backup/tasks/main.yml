@@ -1,0 +1,18 @@
+
+ #include system vars
+- include: system.yml  
+
+- name: Ensure back up dir exists
+  file: path="{{ mapping_backup_dir }}" state=directory
+        owner=root group=root mode=0755 
+        recurse=yes  
+
+- name: set backup script
+  template: src=mapping_backup.sh.j2 dest={{ mapping_backup_dir }}/mapping_backup.sh
+            owner=root group=root mode=0755    
+
+- debug: msg="Running mapping backup using script = {{ mapping_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ mapping_full_backup_cmd }}"
+
+- shell: "{{ mapping_full_backup_cmd }}"
