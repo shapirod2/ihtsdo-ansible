@@ -11,8 +11,8 @@ zabbixserver_revision       : '1'
 
 
 ## last zabbix Server version
-#zabbixserver_major_old      : '2'
-#zabbixserver_minor_old      : '4'
+zabbixserver_major_old      : '2'
+zabbixserver_minor_old      : '4'
 
 
 
