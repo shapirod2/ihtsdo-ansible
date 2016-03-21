@@ -1,0 +1,13 @@
+---
+
+  - hosts: useraddtest
+    sudo: true
+    tasks:
+
+    - name: Ensure group exists
+      group: name=test4 state=present system=yes 
+
+    - name: Ensure user exists
+      user: name=test4 group=test4 state=present system=yes   
+
+      
