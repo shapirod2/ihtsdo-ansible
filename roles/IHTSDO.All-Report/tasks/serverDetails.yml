@@ -1,7 +1,6 @@
 - name: Print Server Date Time
   debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
-  
-  
+    
 - shell: /usr/sbin/ufw status verbose
   register: result
 
@@ -10,18 +9,18 @@
   
 - shell: "service --status-all | egrep '{{ services_list }}'"
   register: services
+  ignore_errors: yes
 
 - name: print out services info  
   debug: var=services.stdout_lines   
   
 - shell: supervisorctl status
   register: supervisor
+  ignore_errors: yes
 
 - name: print out supervisor upservices info  
   debug: var=supervisor.stdout_lines   
- 
   
-#service --status-all | egrep 'apache|postgresql|mysql'    
  
     
 
