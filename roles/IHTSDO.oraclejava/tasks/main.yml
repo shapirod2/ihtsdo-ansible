@@ -21,10 +21,23 @@
     command: update-java-alternatives --set java-{{ oraclejava_version }}-oracle
     when: oraclejava_default == true
     
+#  - name: Set the /dev/urandom to   /dev/./urandom in java.security
+#    lineinfile:
+#      dest="{{ oraclejava_secure_path }}"
+#      regexp="^securerandom.source=file:/dev/urandom"
+#      line="securerandom.source=file:/dev/./urandom"
+  
+  - name: find "{{ security_file }}"
+    shell: "{{ find_command }}"
+    register: find_output
+
+#- debug: var=find_output
+  - debug: msg="file = {{ item }}"
+    with_items: "{{ find_output.stdout_lines }}"
+  
   - name: Set the /dev/urandom to   /dev/./urandom in java.security
     lineinfile:
-      dest="{{ oraclejava_secure_path }}"
-      regexp="^securerandom.source=file:/dev/urandom"
-      line="securerandom.source=file:/dev/./urandom"
-  
-  
+        dest="{{ item }}"
+        regexp="^securerandom.source=file:/dev/urandom"
+        line="securerandom.source=file:/dev/./urandom"
+    with_items: "{{ find_output.stdout_lines }}"    
