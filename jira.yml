@@ -1,8 +1,11 @@
 ---
   - hosts: jira
     sudo: true
+    vars:
+    oraclejava_version: 8
     roles:
       - IHTSDO.user-accounts
+      - IHTSDO.oraclejava 
 
   - hosts: jira
     sudo: true
