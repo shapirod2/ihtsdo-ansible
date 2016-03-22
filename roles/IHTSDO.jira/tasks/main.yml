@@ -4,27 +4,16 @@
   tags:
     - ihtsdo-asset
     
-#Setup the product
-- include: installproduct.yml    
-    
-#Setup the database
-#- include: db.yml
+#Setup mysql
+- include: installDB.yml 
 
-#- name: Stop jira if running
-#  supervisorctl: name=jira state=stopped
+#Setup jira
+- include: installJira.yml
 
-#- name: Install jira
-#  apt: pkg=jira state=latest force=yes
-  
-#Setup the backup 
-#- include: backup.yml
+#Setup mysql connector
+- include: installMysqlConnector.yml
 
-#If setting up the content
-#- include: setdbcontent.yml
-#  when: "set_db_content == True"
-  
-#- name: Start Jira
-#  supervisorctl: name=jira state=started
+#Setup database connection
+- include: configureDB.yml
 
-
-
+#Register and launch service
