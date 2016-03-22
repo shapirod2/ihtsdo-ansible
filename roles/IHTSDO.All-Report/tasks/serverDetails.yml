@@ -44,10 +44,13 @@
 - name: print out supervisor services info  
   debug: var=supervisor.stdout_lines   
   
-
-- shell: java -version 2>&1
+- script: "printjavaversion.sh"
   register: javaversion
-  ignore_errors: yes  
+  ignore_errors: yes
+  
+#- shell: java -version 2>&1
+#  register: javaversion
+#  ignore_errors: yes  
   
 - name: print out java version info  
   debug: var=javaversion.stdout_lines  
