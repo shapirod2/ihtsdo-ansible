@@ -1,26 +1,51 @@
-- name: Print Server Date Time
-  debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
+#- name: Print Server Date Time
+#  debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
     
-- shell: /usr/sbin/ufw status verbose
-  register: result
+- script: "files/printufw.sh"
+  register: ufwresult
+  ignore_errors: yes  
+
+#- shell: /usr/sbin/ufw status verbose
+#  register: ufwresult
 
 - name: print out firewall info  
-  debug: var=result.stdout_lines  
-  
-- shell: "service --status-all | egrep '{{ services_list }}'"
-  register: services
+  debug: var=ufwresult.stdout_lines  
+
+
+- shell: "getent passwd | awk -F: '($3>600) && ($3<20000) && ($3>maxuid) { maxuid=$3; } END { print maxuid+1; }'"
+  register: max_uid
   ignore_errors: yes
 
-- name: print out services info  
-  debug: var=services.stdout_lines   
+- name: print out max_uid info  
+  debug: var=max_uid.stdout_lines 
+
   
-- shell: supervisorctl status
+#- shell: "service --status-all 2>&1 | egrep '{{ services_list }}'"
+#  register: services
+#  ignore_errors: yes
+
+- script: "files/printservices.sh"
+  register: services
+  ignore_errors: yes  
+  
+- name: print out services info  
+  debug: var=services.stdout_lines  
+  
+    
+  
+#- shell: supervisorctl status
+#  register: supervisor
+#  ignore_errors: yes
+
+- script: "files/printsupervisor.sh"
   register: supervisor
   ignore_errors: yes
 
 - name: print out supervisor upservices info  
   debug: var=supervisor.stdout_lines   
   
+
+ 
  
     
 
