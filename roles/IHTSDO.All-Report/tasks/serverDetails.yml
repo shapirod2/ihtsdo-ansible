@@ -1,7 +1,7 @@
 #- name: Print Server Date Time
 #  debug: msg="Server Date Time {{ansible_date_time.iso8601}} TZ - {{ ansible_date_time.tz }} "    
     
-- script: "files/printufw.sh"
+- script: "printufw.sh"
   register: ufwresult
   ignore_errors: yes  
 
@@ -24,7 +24,7 @@
 #  register: services
 #  ignore_errors: yes
 
-- script: "files/printservices.sh"
+- script: "printservices.sh"
   register: services
   ignore_errors: yes  
   
@@ -37,7 +37,7 @@
 #  register: supervisor
 #  ignore_errors: yes
 
-- script: "files/printsupervisor.sh"
+- script: "printsupervisor.sh"
   register: supervisor
   ignore_errors: yes
 
