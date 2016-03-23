@@ -1,15 +1,26 @@
+system_tmp: /tmp
 
-product: jira
-#product: confluence
+jira_version: 7.1.2
+jira_archive: atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz
+jira_url: http://www.atlassian.com/software/jira/downloads/binary/{{ jira_archive }}
+jira_home: /var/atlassian/application-data/jira
+jira_runaservice: true
+jira_rmiport: 8005
+jira_httpport: 8080
+jira_install: /opt/atlassian
+jira_connector: mysql
+jira_libs: "{{ jira_install }}/jira/lib"
+jira_user: jira
+jira_group: jira
 
-confluence_version: 5.8.6
-jira_version: 6.4.9
+mysql_connector_version: 5.1.38
+mysql_connector_archive: mysql-connector-java-{{ mysql_connector_version }}.tar.gz
+mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ mysql_connector_archive }}
 
+mysql_root_password: change_me
+mysql_jira_user: jira
+mysql_jira_password: change_me
+mysql_jira_db: jiradb
+mysql_hostname: localhost
+mysql_port: 3306
 
-jira_database_server: localhost
-jira_rmiPort:  8005
-jira_httpPort: 8080
-
-confluence_database_server: localhost
-confluence_rmiPort:  8005
-confluence_httpPort: 8080
