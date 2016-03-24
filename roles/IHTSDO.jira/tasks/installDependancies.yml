@@ -1,0 +1,19 @@
+---
+  - name: Install python-apt
+    apt: name=python-software-properties state=installed update_cache=yes cache_valid_time=3600
+
+  - name: Add WebUpd8 repository
+    apt_repository: repo='ppa:webupd8team/java'
+
+  - name: Accept licenses
+    shell: echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
+
+  - name: Accept licenses
+    shell: echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
+
+  - name: Install Java
+    apt: pkg=oracle-java8-installer
+         state=installed
+         update_cache=yes
+         cache_valid_time=3600
+

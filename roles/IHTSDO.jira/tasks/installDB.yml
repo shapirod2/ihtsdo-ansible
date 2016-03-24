@@ -13,12 +13,6 @@
 - name: Install mysql python helper
   apt: name=python-mysqldb state=present
   
-# Creates database user for jira  with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name={{ mysql_jira_user }} password={{ mysql_jira_password }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
-
-# Create the database
-- mysql_db: name={{mysql_jira_db}} login_user={{mysql_jira_user}} login_password={{mysql_jira_password}} encoding=utf8 state=present
-
 # Starts mysql as a service
 - name: restart mysql
   service: name=mysql state=restarted 

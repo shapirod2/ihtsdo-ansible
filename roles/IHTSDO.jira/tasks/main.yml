@@ -3,6 +3,9 @@
   apt: update_cache=yes cache_valid_time=3600 
   tags:
     - ihtsdo-asset
+
+#Install jira dependancies
+- include: installDependancies.yml
     
 #Setup mysql
 - include: installDB.yml 
@@ -15,5 +18,8 @@
 
 #Setup database connection
 - include: configureDB.yml
+  when: system_config_database
 
 #Register and launch service
+- include: configureService.yml
+  when: system_config_init
