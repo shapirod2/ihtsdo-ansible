@@ -1,16 +1,15 @@
 ---
-  - hosts: jira
+  - hosts: zabbixclients
     sudo: true
     vars:
-    oraclejava_version: 8
+      - oraclejava_version: 8
     roles:
       - IHTSDO.user-accounts
       - IHTSDO.oraclejava 
 
-  - hosts: jira
+  - hosts: zabbixclients
     sudo: true
     roles:
-      - IHTSDO.aws
       - IHTSDO.jira
       - IHTSDO.nginx-std 
 
