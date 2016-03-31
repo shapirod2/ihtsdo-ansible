@@ -40,7 +40,13 @@ server {
   location /ims-api {
    proxy_pass {{ ImsApiUrl }};
   }
-  
+
+  location /traceability-service {
+    proxy_pass http://localhost:8085/;
+    if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
+      return 503;
+    }
+  }
 
   location /authoring {
     alias /opt/template-based-authoring-frontend/lib;
