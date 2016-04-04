@@ -10,6 +10,7 @@
   - hosts: zabbixclients
     sudo: true
     roles:
+      - IHTSDO.aws
       - IHTSDO.jira
       - IHTSDO.nginx-std 
 
