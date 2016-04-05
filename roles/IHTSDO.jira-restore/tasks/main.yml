@@ -1,0 +1,21 @@
+---
+
+ #include system vars
+- include: system.yml  
+
+- name: Ensure service is stopped
+  service: name=jira state=stopped enabled=yes pattern="atlassian.standalone=JIRA"
+
+- name: Ensure back up dir exists
+  file: path="{{ jira_restore_script_location }}" state=directory
+        owner=root group=root mode=0755 
+        recurse=yes 
+
+- name: set backup script
+  template: src=jira_restore.sh.j2 dest={{ jira_restore_script_location }}/jira_restore.sh
+            owner=root group=root mode=0755    
+
+- shell: "{{ jira_restore_script_location }}/{{ jira_restore_script }}"
+
+- name: Ensure service is started
+  service: name=jira state=started enabled=yes

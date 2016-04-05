@@ -1,0 +1,20 @@
+---
+system_location_tmp: /tmp
+
+mysql_jira_root_password: change_me
+mysql_jira_hostname: localhost
+mysql_jira_port: 3306
+
+jira_home: /var/atlassian/application-data/jira
+jira_user: "jira"
+jira_group: "jira"
+
+# Backup 
+jira_s3_backup_dir: "prod-jira.backup1.ihtsdo"
+jira_s3_backup_region: "us-east-1"
+
+jira_restore_script_location: /opt/scripts/jira
+jira_restore_working_directory: "{{ system_location_tmp }}/jira-restore"
+jira_restore_script: jira_restore.sh
+jira_restore_cmd: "{{ jira_backup_dir }}/{{ jira_restore_script }}"
+jira_restore_log: "{{ jira_backup_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
