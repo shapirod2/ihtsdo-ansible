@@ -8,6 +8,8 @@ jira_url: http://www.atlassian.com/software/jira/downloads/binary/{{ jira_archiv
 jira_home: /var/atlassian/application-data/jira
 jira_install: /opt/atlassian
 jira_libs: "{{ jira_install }}/jira/lib"
+jira_user: "jira"
+jira_group: "jira"
 
 mysql_connector_version: 5.1.38
 mysql_connector_archive: mysql-connector-java-{{ mysql_connector_version }}.tar.gz

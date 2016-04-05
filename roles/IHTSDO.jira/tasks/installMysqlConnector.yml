@@ -1,7 +1,7 @@
 ---
 #Download and Extract the source
 - name: Extract Mysql connector
-  unarchive: src="{{ mysql_connector_url }}" dest={{ system_location_tmp }} owner=jira group=jira copy=no
+  unarchive: src="{{ mysql_connector_url }}" dest={{ system_location_tmp }} owner={{ jira_user }} group={{ jira_group }} copy=no
 
 #copy to libs
 - name: Coppy the connector to jira libs directory
