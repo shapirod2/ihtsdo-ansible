@@ -1,5 +1,5 @@
 system_location_tmp: /tmp
-system_config_database: true 
+system_config_database: false 
 system_config_init: true
 
 jira_version: 7.1.2
