@@ -1,0 +1,27 @@
+atlassian_application: jira
+system_location_tmp: /tmp
+system_create_database: true 
+system_config_service: true
+system_user: "{{ atlassian_application }}"
+system_group: "{{ atlassian_application }}"
+
+common_install: /opt/atlassian
+common_home: /var/atlassian/application-data
+common_download_location: http://www.atlassian.com/software/{{ atlassian_application }}/downloads/binary/ 
+
+jira_version: 7.1.2
+jira_archive: atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz
+
+confluence_version: 5.9.7 
+confluence_archive: atlassian-confluence-{{ confluence_version }}.tar.gz
+
+mysql_connector_version: 5.1.38
+mysql_connector_archive: mysql-connector-java-{{ mysql_connector_version }}.tar.gz
+mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ mysql_connector_archive }}
+
+mysql_root_password: change_me
+mysql_user: "{{ system_user }}"
+mysql_password: change_me
+mysql_db: "{{ atlassian_application }}"
+mysql_hostname: localhost
+mysql_port: 3306

@@ -1,0 +1,38 @@
+---
+#Create the default user
+- name: Ensure jira group exists
+  group: name={{ system_group }}  state=present system=yes 
+
+- name: Ensure jira user exists
+  user: name={{ system_user }} group={{ system_group }} state=present system=yes  
+
+#Create installation dir
+- name: Create jira installation directory
+  file: path={{ common_install }} state=directory owner={{ system_user }}  group={{ system_group }}
+
+#Download and Extract the source
+- name: Download and Extract Jira
+  unarchive: src="{{ common_download_location }}/{{jira_archive}}" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
+
+#Rename installation directory
+- name: Make the installed path version neutral
+  command: mv {{ common_install }}/atlassian-jira-software-{{ jira_version }}-standalone {{ common_install }}/jira
+
+#Create home dir
+- name: Create jira-home directory
+  file: path={{ common_home }}/jira state=directory owner={{ system_user }}  group={{ system_group }}
+
+#Update config file 
+- name: Set java_home fir jira
+  lineinfile: 
+     dest="{{ common_install }}/jira/atlassian-jira/WEB-INF/classes/jira-application.properties"
+     regexp="^jira.home ="
+     line="jira.home = {{ common_home }}/jira"
+
+#Use jira user
+- name: Set default user for jira
+  lineinfile:
+     dest="{{ common_install }}/jira/bin/user.sh"
+     regexp="^JIRA_USER="
+     line="JIRA_USER={{ system_user }}"
+
