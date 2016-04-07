@@ -2,8 +2,8 @@
 
 # Populate and install init script
 - name: Install init script
-  template: src=templates/jira.j2 dest=/etc/init.d/jira owner=root group=root mode=755
+  template: src=templates/init.j2 dest=/etc/init.d/{{ atlassian_application }} owner=root group=root mode=755
 
 # Register service
 - name: Register Service
-  service: name=jira enabled=yes state=started 
+  service: name={{ atlassian_application }} enabled=yes state=started 

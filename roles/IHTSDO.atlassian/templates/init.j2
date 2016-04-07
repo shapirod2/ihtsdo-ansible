@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Atlassian Linux service controller script
+cd "{{ common_install }}/{{ atlassian_application }}/bin"
+
+case "$1" in
+    start)
+        ./start-{{ atlassian_application }}.sh
+        ;;
+    stop)
+        ./stop-{{ atlassian_application }}.sh
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac

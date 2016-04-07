@@ -3,7 +3,12 @@
 - name: Extract Mysql connector
   unarchive: src="{{ mysql_connector_url }}" dest={{ system_location_tmp }} owner={{ system_user }} group={{ system_group }} copy=no
 
-#copy to libs
-- name: Coppy the connector to jira libs directory
+#copy to libs (jira)
+- name: Copy the connector to jira libs directory
   command: "cp {{ system_location_tmp }}/mysql-connector-java-{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}-bin.jar {{ common_install }}/{{ atlassian_application }}/lib"
+  when: atlassian_application == "jira"
 
+#copy to libs (confluence)
+- name: Copy the connector to jira libs directory
+  command: "cp {{ system_location_tmp }}/mysql-connector-java-{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}-bin.jar {{ common_install }}/{{ atlassian_application }}/confluence/WEB-INF/lib"
+  when: atlassian_application == "confluence"

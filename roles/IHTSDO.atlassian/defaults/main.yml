@@ -1,7 +1,9 @@
-atlassian_application: jira
+atlassian_application: confluence 
 system_location_tmp: /tmp
+system_install_mysql: true
+system_install_mysql_connector: true
 system_create_database: true 
-system_config_service: true
+system_create_service: true
 system_user: "{{ atlassian_application }}"
 system_group: "{{ atlassian_application }}"
 

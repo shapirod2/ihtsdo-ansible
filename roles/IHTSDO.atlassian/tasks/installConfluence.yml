@@ -12,27 +12,27 @@
 
 #Download and Extract the source
 - name: Download and Extract Confluence
-  unarchive: src="{{ common_download_location }}/confluence_archive" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
+  unarchive: src="{{ common_download_location }}/{{ confluence_archive }}" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
 
 #Rename installation directory
 - name: Make the installed path version neutral
-  command: mv {{ common_install }}/atlassian-jira-software-{{ jira_version }}-standalone {{ common_install }}/jira
+  command: mv {{ common_install }}/atlassian-confluence-{{ confluence_version }} {{ common_install }}/confluence
 
 #Create home dir
-- name: Create jira-home directory
-  file: path={{ common_home }}/jira state=directory owner={{ system_user }}  group={{ system_group }}
+- name: Create confluence home directory
+  file: path="{{ common_home }}/confluence" state=directory owner={{ system_user }}  group={{ system_group }}
 
 #Update config file 
-- name: Set java_home fir jira
+- name: Set Confluence home dir in init properties
   lineinfile: 
-     dest="{{ jira_install }}/jira/atlassian-jira/WEB-INF/classes/jira-application.properties"
-     regexp="^jira.home ="
-     line="jira.home = {{ common_home }}/jira"
+      dest="{{ common_install }}/confluence/confluence/WEB-INF/classes/confluence-init.properties"
+      regexp="confluence.home="
+      line="confluence.home={{ common_home }}/confluence"
 
-#Use jira user
-- name: Set default user for jira
+#Use confluence user
+- name: Set default user for confluence
   lineinfile:
-     dest="{{ common_install }}/jira/bin/user.sh"
-     regexp="^JIRA_USER="
-     line="JIRA_USER={{ system_user }}"
+     dest="{{ common_install }}/confluence/bin/user.sh"
+     regexp="^CONF_USER="
+     line="CONF_USER={{ system_user }}"
 

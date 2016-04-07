@@ -7,6 +7,7 @@
 - name: Create default database
   mysql_db: name={{mysql_db}} login_user={{mysql_user}} login_password={{mysql_password}} encoding=utf8 state=present
 
-# Configure mysql database server
+# Configure mysql database server in jira
 - name: Configure application to use mysql 
   template: src=templates/dbconfig.xml.j2 dest={{common_home}}/{{atlassian_application}}/dbconfig.xml owner={{ system_user }} group={{ system_group }}
+  when: atlassian_application == "jira"

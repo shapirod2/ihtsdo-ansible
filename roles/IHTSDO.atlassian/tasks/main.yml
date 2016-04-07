@@ -9,6 +9,7 @@
     
 #Setup mysql
 - include: installDB.yml 
+  when: system_install_mysql
 
 #Setup jira
 - include: installJira.yml
@@ -20,11 +21,12 @@
 
 #Setup mysql connector
 - include: installMysqlConnector.yml
+  when: (atlassian_application=="jira" or atlassian_application=="confluence")  and system_install_mysql_connector
 
 #Setup database connection
 - include: configureDB.yml
-  when: system_create_database
+  when: (system_install_mysql and system_create_database)
 
 #Register and launch service
 - include: configureService.yml
-  when: system_config_service
+  when: system_create_service
