@@ -12,3 +12,8 @@
 - name: Copy the connector to jira libs directory
   command: "cp {{ system_location_tmp }}/mysql-connector-java-{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}-bin.jar {{ common_install }}/{{ atlassian_application }}/confluence/WEB-INF/lib"
   when: atlassian_application == "confluence"
+
+#copy to libs (crowd)
+- name: Copy the connector to jira libs directory
+  command: "cp {{ system_location_tmp }}/mysql-connector-java-{{ mysql_connector_version }}/mysql-connector-java-{{ mysql_connector_version }}-bin.jar {{ common_install }}/{{ atlassian_application }}/apache-tomcat/lib"
+  when: atlassian_application == "crowd"

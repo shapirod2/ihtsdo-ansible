@@ -19,6 +19,10 @@
 - include: installConfluence.yml
   when: atlassian_application == "confluence"
 
+#Setup Crowd
+- include: installCrowd.yml
+  when: atlassian_application == "crowd"
+
 #Setup mysql connector
 - include: installMysqlConnector.yml
   when: (atlassian_application=="jira" or atlassian_application=="confluence")  and system_install_mysql_connector
@@ -28,5 +32,5 @@
   when: (system_install_mysql and system_create_database)
 
 #Register and launch service
-- include: configureService.yml
-  when: system_create_service
+#- include: configureService.yml
+#  when: system_create_service
