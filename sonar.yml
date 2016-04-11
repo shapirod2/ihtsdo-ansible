@@ -1,5 +1,5 @@
 ---
-  - hosts: test
+  - hosts: sonar
     sudo: true
     roles: 
       - IHTSDO.nginx-std 
