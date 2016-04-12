@@ -1,0 +1,38 @@
+---
+
+- debug: msg="nginx_ssl_cert_file = {{ nginx_ssl_cert_file }}"
+- debug: msg="nginx_ssl_cert_file_dest = {{ nginx_ssl_cert_file_dest }}"
+- debug: msg="nginx_ssl_key_file = {{ nginx_ssl_key_file }}"
+- debug: msg="nginx_ssl_key_file_dest = {{ nginx_ssl_key_file_dest }}"
+
+- name: Install SSL cert
+  copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_cert_file_dest }}
+        owner=root group=root mode=0644
+  notify:
+    - restart nginx
+  tags:
+    - ihtsdo-asset
+    - nginx
+    
+- name: Install SSL key
+  copy: src={{ nginx_ssl_key_file }} dest={{ nginx_ssl_key_file_dest }}
+        owner=root group=root mode=0600
+  notify:
+    - restart nginx
+
+- name: find all nginx conf files
+  shell: "{{ find_command }}"
+  register: find_output
+
+#- debug: var=find_output
+- debug: msg="file = {{ item }}"
+  with_items: "{{ find_output.stdout_lines }}"
+  
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate " line="  ssl_certificate    {{nginx_ssl_cert_file_dest}}"
+  with_items: "{{ find_output.stdout_lines }}"
+  
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate_key " line="  ssl_certificate_key  {{nginx_ssl_key_file_dest}}"
+  with_items: "{{ find_output.stdout_lines }}"  
+
+- name: restart nginx
+  service: name=nginx state=restarted                          

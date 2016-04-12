@@ -1,0 +1,5 @@
+---
+nginx_conf_file: "*.conf"
+nginx_conf_dir: "/etc/nginx/conf.d"
+
+find_command: "find {{ nginx_conf_dir }} -name '{{ nginx_conf_file }}'"
