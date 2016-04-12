@@ -1,5 +1,5 @@
 ---
-jenkins_nginx_ssl_cert_file_dest: /etc/ssl/certs/jenkins.crt
-jenkins_nginx_ssl_key_file_dest: /etc/ssl/private/jenkins.key
+jenkins_nginx_ssl_cert_file_dest: {{ nginx_ssl_cert_file_dest }}
+jenkins_nginx_ssl_key_file_dest: {{ nginx_ssl_key_file_dest }}
 jenkins_runtime_config: /etc/default/jenkins
 jenkins_java_package: openjdk-7-jdk

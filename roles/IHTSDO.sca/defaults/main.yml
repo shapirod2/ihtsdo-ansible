@@ -8,10 +8,10 @@ install_dir: "/opt/{{ sca_app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 
-nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ sca_app_name }}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ sca_app_name }}.key"
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ sca_app_name }}.crt"
+#nginx_ssl_key_file_dest: "/etc/ssl/private/{{ sca_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "termserver"
 nginx_fqdn: "~(?i)angular"

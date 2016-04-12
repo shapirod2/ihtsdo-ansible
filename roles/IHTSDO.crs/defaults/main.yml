@@ -24,10 +24,10 @@ crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
 crs_web_conf_ims_api_url: "https://{{ crs_web_snowowl_host }}/ims-api/"
 
 
-nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ crs_web_app_name}}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ crs_web_app_name }}.key"
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ crs_web_app_name}}.crt"
+#nginx_ssl_key_file_dest: "/etc/ssl/private/{{ crs_web_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "crs"
 nginx_fqdn: "~(?i)crs"

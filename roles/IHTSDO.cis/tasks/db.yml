@@ -1,6 +1,6 @@
 
-- name: Allow mysql  
-  ufw: rule=allow port={{mysql_port}} proto=any
+#- name: Allow mysql  
+#  ufw: rule=allow port={{mysql_port}} proto=any
 
 #- name: Set MySQL root password before installing
 - debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'

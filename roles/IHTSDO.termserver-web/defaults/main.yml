@@ -7,10 +7,10 @@ ts_auth_app_name: "template-based-authoring-frontend"
 version_term_serv_browser: "latest"
 version_template_authoring: "latest"
 
-nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: /etc/ssl/certs/termserver.crt
-nginx_ssl_key_file_dest: /etc/ssl/private/termserver.key
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: /etc/ssl/certs/termserver.crt
+#nginx_ssl_key_file_dest: /etc/ssl/private/termserver.key
 nginx_ufw_allow_https: true
 nginx_conf: termserver
 nginx_fqdn: ~(?i)termserver

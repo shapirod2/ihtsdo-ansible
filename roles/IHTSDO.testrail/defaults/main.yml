@@ -50,10 +50,10 @@ backup_zip_dir: /opt/backup/testrail/zips
 
 use_ssl_only: "True"
 
-ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-ssl_cert_file_dest: /etc/ssl/certs/testrail.crt
-ssl_key_file_dest: /etc/ssl/private/testrail.key
+ssl_key_file: {{nginx_ssl_key_file}}
+ssl_cert_file: {{nginx_ssl_cert_file}}
+ssl_cert_file_dest: {{nginx_ssl_cert_file_dest}}
+ssl_key_file_dest: {{nginx_ssl_key_file_dest}}
 
 
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key

@@ -16,10 +16,10 @@ search_log_dir: "/root/concepts-json/node_modules/sct-snapshot-rest-api"
 search_log_file: "search.log" 
 
 
-nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{sct_rest_app_name}}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{sct_rest_app_name}}.key"
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{sct_rest_app_name}}.crt"
+#nginx_ssl_key_file_dest: "/etc/ssl/private/{{sct_rest_app_name}}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "{{sct_rest_app_name}}"
 nginx_fqdn: "_"

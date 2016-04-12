@@ -34,10 +34,10 @@ cis_run_script: "{{ cis_install_dir }}/{{cis_script_name}}"
 env_file: "/etc/environment"
 
 
-nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ cis_app_name }}.crt"
-nginx_ssl_key_file_dest: "/etc/ssl/private/{{ cis_app_name }}.key"
+#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
+#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ cis_app_name }}.crt"
+#nginx_ssl_key_file_dest: "/etc/ssl/private/{{ cis_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "cis"
 nginx_fqdn: "~(?i)cis"
