@@ -5,14 +5,14 @@
       - restart nginx
 
   - name: Install SSL cert
-    copy: src={{ sonatype_nexus_nginx_ssl_cert_file }} dest=/etc/ssl/certs/sonatype_nexus.crt
+    copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_cert_file_dest }}
           owner=root group=root mode=0644
     when: sonatype_nexus_nginx_ssl == true
     notify:
       - restart nginx
 
   - name: Install SSL key
-    copy: src={{ sonatype_nexus_nginx_ssl_key_file }} dest=/etc/ssl/private/sonatype_nexus.key
+    copy: src={{ nginx_ssl_key_file }} dest={{ nginx_ssl_key_file_dest }}
           owner=root group=root mode=0600
     when: sonatype_nexus_nginx_ssl == true
     notify:
@@ -23,3 +23,5 @@
               owner=root group=root mode=0644
     notify:
       - restart nginx
+
+      
