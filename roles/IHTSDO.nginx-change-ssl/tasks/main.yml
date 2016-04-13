@@ -27,7 +27,7 @@
 #- debug: var=find_output
 - debug: msg="file = {{ item }}"
   with_items: "{{ find_output.stdout_lines }}"
-  
+
 - lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate " line="  ssl_certificate    {{nginx_ssl_cert_file_dest}};"
   with_items: "{{ find_output.stdout_lines }}"
   
@@ -41,7 +41,8 @@
   shell: "{{ find_command_sites }}"
   register: find_output_sites
 
-#- debug: var=find_output
+#- debug: var=find_output_sites
+
 - debug: msg="file = {{ item }}"
   with_items: "{{ find_output_sites.stdout_lines }}"
   
@@ -52,4 +53,11 @@
   with_items: "{{ find_output_sites.stdout_lines }}"   
 
 - name: restart nginx
-  service: name=nginx state=restarted                          
+  service: name=nginx state=restarted   
+  
+- shell: "echo | openssl s_client -connect {{ansible_hostname}}:443 2>/dev/null | openssl x509 -noout -dates"
+  register: ssl_dates
+  ignore_errors: yes
+
+- name: print out ssl_dates info  
+  debug: var=ssl_dates.stdout_lines                          
