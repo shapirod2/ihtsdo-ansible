@@ -1,5 +1,8 @@
 ---
 nginx_conf_file: "*.conf"
 nginx_conf_dir: "/etc/nginx/conf.d"
+nginx_sites_dir: "/etc/nginx/sites-enabled"
 
 find_command: "find {{ nginx_conf_dir }} -name '{{ nginx_conf_file }}'"
+
+find_command_sites: "find {{ nginx_sites_dir }} -name '{{ nginx_conf_file }}'"

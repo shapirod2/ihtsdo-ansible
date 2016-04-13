@@ -33,6 +33,23 @@
   
 - lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate_key " line="  ssl_certificate_key  {{nginx_ssl_key_file_dest}};"
   with_items: "{{ find_output.stdout_lines }}"  
+  
+  
+  
+  
+- name: find all nginx sites-enabled files
+  shell: "{{ find_command_sites }}"
+  register: find_output_sites
+
+#- debug: var=find_output
+- debug: msg="file = {{ item }}"
+  with_items: "{{ find_output_sites.stdout_lines }}"
+  
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate " line="  ssl_certificate    {{nginx_ssl_cert_file_dest}};"
+  with_items: "{{ find_output_sites.stdout_lines }}"
+  
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate_key " line="  ssl_certificate_key  {{nginx_ssl_key_file_dest}};"
+  with_items: "{{ find_output_sites.stdout_lines }}"   
 
 - name: restart nginx
   service: name=nginx state=restarted                          
