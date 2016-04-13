@@ -1,4 +1,4 @@
-atlassian_application: crowd 
+atlassian_application: confluence 
 system_location_tmp: /tmp
 system_install_mysql: true
 system_install_mysql_connector: true
