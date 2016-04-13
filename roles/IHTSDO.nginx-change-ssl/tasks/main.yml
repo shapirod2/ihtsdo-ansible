@@ -28,10 +28,10 @@
 - debug: msg="file = {{ item }}"
   with_items: "{{ find_output.stdout_lines }}"
   
-- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate " line="  ssl_certificate    {{nginx_ssl_cert_file_dest}}"
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate " line="  ssl_certificate    {{nginx_ssl_cert_file_dest}};"
   with_items: "{{ find_output.stdout_lines }}"
   
-- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate_key " line="  ssl_certificate_key  {{nginx_ssl_key_file_dest}}"
+- lineinfile: dest={{ item }} backrefs=yes regexp="^\s*ssl_certificate_key " line="  ssl_certificate_key  {{nginx_ssl_key_file_dest}};"
   with_items: "{{ find_output.stdout_lines }}"  
 
 - name: restart nginx
