@@ -8,6 +8,12 @@
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
+  when: (atlassian_application=="jira" or atlassian_application=="cloud")
+
+# Install the package "mysql-server"
+- name: Install mysql server
+  apt: name=mysql-server-5.6 state=present
+  when: atlassian_application=="confluence"
 
 # Install the package "python-mysqldb"
 - name: Install mysql python helper

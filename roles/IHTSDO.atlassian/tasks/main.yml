@@ -32,5 +32,5 @@
   when: (system_install_mysql and system_create_database)
 
 #Register and launch service
-#- include: configureService.yml
-#  when: system_create_service
+- include: configureService.yml
+  when: system_create_service
