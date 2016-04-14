@@ -49,11 +49,11 @@
 - debug: msg="sqlimportfile2 exists = {{sqlimportfile.stat.exists}}" 
 
 - name: if present dump existing db
-  mysql_db: name={{dbname}} state=absent login_user=root login_password={{mysql_root_pass}}
+  mysql_db: name={{dbname}} state=absent login_user=root login_password={{mysql_root_pass_refset}}
   when: sqlimportfile.stat.exists == True
   
 - name: create db
-  mysql_db: name={{dbname}} state=present login_user=root  login_password={{mysql_root_pass}}
+  mysql_db: name={{dbname}} state=present login_user=root  login_password={{mysql_root_pass_refset}}
   when: sqlimportfile.stat.exists == True
   
   
@@ -69,7 +69,7 @@
 
 
 - name: create db from backup
-  mysql_db: name={{dbname}}  state=import target={{import_file_dir_sql_sql}} login_user=root  login_password={{mysql_root_pass}}
+  mysql_db: name={{dbname}}  state=import target={{import_file_dir_sql_sql}} login_user=root  login_password={{mysql_root_pass_refset}}
   when: sqlimportfile.stat.exists == True
 
 

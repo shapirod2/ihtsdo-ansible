@@ -5,6 +5,9 @@
 
 - name: Apt cache update
   apt: update_cache=yes cache_valid_time=300 
+  
+ #include system vars
+- include: system.yml 
 
 - name: Install unzip
   apt: name=unzip state=present update_cache=yes cache_valid_time=300 
@@ -15,13 +18,20 @@
 - name: Install speedometer for use in seeing how downloads are going (initial testing only)
   apt: name=speedometer state=present update_cache=yes cache_valid_time=300  
  
-- name: Stop app if running
-  supervisorctl: name={{app_name}} state=stopped
+#- name: Stop app if running
+#  supervisorctl: name={{app_name}} state=stopped
   
 
 - name: install db
   include: db.yml  
 
+
+- name: Install tomcat - apt for now. should be bundled as the the std.
+  apt: name=tomcat7 state=present update_cache=yes cache_valid_time=300 
+
+
+- name: restart tomcat
+  service: name=tomcat7 state=restarted 
 
 
 #Get Backup sql file from S3
@@ -40,8 +50,8 @@
 #- include: setdbcontent.yml
 #  when: installdbcontent == True
 
-- name: Start App
-  supervisorctl: name={{app_name}} state=started
+#- name: Start App
+#  supervisorctl: name={{app_name}} state=started
 
 
 

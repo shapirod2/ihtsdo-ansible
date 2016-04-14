@@ -18,13 +18,12 @@ supervisor_dir: "/etc/supervisor/conf.d/"
 
 #installdbcontent: True
 mysql_service: mysql
-mysql_root_pass: changeme
+mysql_root_pass_refset: changeme
+mysql_user_pass_refset: changeme2
+mysql_user: refset
 dbname: refset
 
-#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
-#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{app_name}}.crt"
-#nginx_ssl_key_file_dest: "/etc/ssl/private/{{app_name}}.key"
+
 nginx_ufw_allow_https: true
 nginx_conf: "{{app_name}}"
 nginx_fqdn: "~(?i){{app_name}}"

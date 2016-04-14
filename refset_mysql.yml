@@ -1,5 +1,5 @@
 ---
-  - hosts: zabbixclients
+  - hosts: refset
     sudo: true
     roles:
       - IHTSDO.refset_mysql
