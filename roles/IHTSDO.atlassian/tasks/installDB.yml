@@ -15,19 +15,9 @@
   apt: name=mysql-server-5.6 state=present
   when: atlassian_application=="confluence"
 
-#mysql additional settings
-- name: Set innodb buffer size
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     insertafter="\[mysqld\]"
-     line="innodb_buffer_pool_size = 2G"
-
-#mysql additional settings
-- name: Set max packet size
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     insertafter="\[mysqld\]"
-     line="max_allowed_packet=1G"
+# set the my.cnf
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644 
 
 # Install the package "python-mysqldb"
 - name: Install mysql python helper
