@@ -12,6 +12,7 @@
       dest="{{ item }}"
       regexp="^securerandom.source=file:/dev/urandom"
       line="securerandom.source=file:/dev/./urandom"
+      backrefs=yes
   with_items: "{{ find_output.stdout_lines }}"  
   
   
