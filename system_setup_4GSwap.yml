@@ -2,11 +2,13 @@
 # included everytime.
 ---
 - hosts: zabbixclients
+#- hosts: www
   sudo: true
   #remote_user: ubuntu
   remote_user: root
   vars:
     user_accounts_skip_sshd: true
+    swapfile_size: 16GB
   roles:
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    
