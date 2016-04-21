@@ -1,26 +1,13 @@
 ---
-- name: Apt cache update
-  apt: update_cache=yes cache_valid_time=300 
-  tags:
-    - ihtsdo-asset
-    
- #include system vars
-- include: system.yml     
-    
-#- name: Allow mysql  
-#  ufw: rule=allow port={{mysql_port}} proto=any
-
 #- name: Set MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_password | quote}}' vtype='password'
 
 #- name: Confirm MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
-
-#- debug: msg="mysql_root_pass = {{mysql_root_pass}}"
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_password | quote}}' vtype='password'
 
 # Install the package "mysql-server"
 - name: Install mysql server
-  apt: name=mysql-server state=present
+  apt: name=mysql-server-{{ mysql_version }} state=present
   
 # set the my.cnf
 #- name: Copy my.cnf
@@ -34,7 +21,7 @@
   template: src=root.cnf.j2 dest=~/.my.cnf mode=0600   
   
 - name: Update MySQL root password for all root accounts
-  mysql_user: name=root host={{ item }} password={{ mysql_root_pass }} state=present
+  mysql_user: name=root host={{ item }} password={{ mysql_root_password }} state=present
   with_items:
      - "{{ ansible_hostname }}"
      - 127.0.0.1
@@ -42,15 +29,13 @@
      - localhost
          
 - name: ensure anonymous users are not in the database
-  mysql_user: name='' host={{ item }}  login_user=root login_password={{ mysql_root_pass }}  state=absent
+  mysql_user: name='' host={{ item }}  login_user=root login_password={{ mysql_root_password }}  state=absent
   with_items:
    - localhost
    - "{{ ansible_hostname }}"
 
 - name: remove the test database
-  mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }}
-
+  mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_password }}
 
 - name: restart mysql
-  service: name={{ mysql_service }} state=restarted 
-    
+  service: name={{ mysql_service_name }} state=restarted 
