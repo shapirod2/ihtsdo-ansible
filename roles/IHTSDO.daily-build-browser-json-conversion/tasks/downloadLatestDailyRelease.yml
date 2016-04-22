@@ -9,7 +9,7 @@
 - debug: msg="daily_build_dir= {{daily_build_dir}}"   
 
 - name: Get build list and save to buildList.txt
-  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt validate_certs=no
+  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt validate_certs=no timeout=30
   
 - name: Get latest build status
   shell: "cat {{daily_build_dir}}/buildList.txt | grep 'status' | head -1 | cut -d ':' -f2 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
@@ -29,7 +29,7 @@
 - debug: msg="buildOutputUrl= {{ buildOutputUrl.stdout }}"
   
 - name: download release zip file if daily build is successful
-  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{daily_build_dir}}/{{release_file_name}} validate_certs=no mode=0440
+  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{daily_build_dir}}/{{release_file_name}} validate_certs=no mode=0440 timeout=30
   when: buildStatus.stdout == "BUILT"
   
 - name: make sure release zip file exists
