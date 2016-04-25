@@ -1,0 +1,22 @@
+# Added the install java and super visor roles as it is common and means it does not have to be 
+# included everytime.
+---
+- hosts: zabbixclients
+  sudo: true
+  remote_user: root
+  vars_files:
+    - files/encrypted/aws/s3-default.yml
+  roles:
+    - { role: IHTSDO.user-accounts, user_accounts_skip_sshd: true }
+    - IHTSDO.apt-upgrade
+    - knopki.timezone
+    - IHTSDO.harden
+    - IHTSDO.ufw
+    - Ansibles.fail2ban
+    - IHTSDO.supervisor
+    - IHTSDO.unattended-updates
+    - { role: ansible-swapfile-master, swapfile_size: 4GB }
+    - IHTSDO.aws
+    - { role: IHTSDO.mysql, mysql_version: 5.56 }
+    - { role: IHTSDO.oraclejava, oraclejava_version: 8 }
+    - { role: IHTSDO.atlassian, atlassian_application: jira }
