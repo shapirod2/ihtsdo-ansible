@@ -4,13 +4,6 @@
   tags:
     - ihtsdo-asset
 
-#Install dependancies
-- include: installDependancies.yml
-    
-#Setup mysql
-- include: installDB.yml 
-  when: system_install_mysql
-
 #Setup jira
 - include: installJira.yml
   when: atlassian_application == "jira"
@@ -29,7 +22,7 @@
 
 #Setup database connection
 - include: configureDB.yml
-  when: (system_install_mysql and system_create_database)
+  when: (system_create_database)
 
 #Register and launch service
 - include: configureService.yml

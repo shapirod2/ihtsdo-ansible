@@ -11,3 +11,36 @@
 - name: Configure application to use mysql 
   template: src=templates/dbconfig.xml.j2 dest={{common_home}}/{{atlassian_application}}/dbconfig.xml owner={{ system_user }} group={{ system_group }}
   when: atlassian_application == "jira"
+
+- name: Add innodb_log_file_size = 1024M to my.cnf
+  lineinfile: 
+     dest="/etc/mysql/my.cnf"
+     insertafter="\[mysqld\]"
+     line="innodb_log_file_size = 1024M"
+  when: atlassian_application == "confluence"
+
+- name: Add innodb_buffer_pool_size = 2G to my.cnf
+  lineinfile:
+     dest="/etc/mysql/my.cnf"
+     insertafter="\[mysqld\]"
+     line="innodb_buffer_pool_size = 2G"
+  when: atlassian_application == "confluence"
+
+- name:  Modify max_allowed_packet mysqldump settings in my.cnf
+  lineinfile:
+     dest="/etc/mysql/my.cnf"
+     regexp="^max_allowed_packet	"
+     line="max_allowed_packet = 1G"
+  when: atlassian_application == "confluence"
+
+- name:  Modify max_allowed_packet server  settings in my.cnf
+  lineinfile:
+     dest="/etc/mysql/my.cnf"
+     regexp="^max_allowed_packet	"
+     line="max_allowed_packet = 1G"
+  when: atlassian_application == "confluence"
+
+- name: Ensure service is started
+  service: name=mysql  state=restarted
+  when: atlassian_application == "confluence"
+              

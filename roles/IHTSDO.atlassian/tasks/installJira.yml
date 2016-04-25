@@ -23,7 +23,7 @@
   file: path={{ common_home }}/jira state=directory owner={{ system_user }}  group={{ system_group }}
 
 #Update config file 
-- name: Set java_home fir jira
+- name: Set jira_home in application
   lineinfile: 
      dest="{{ common_install }}/jira/atlassian-jira/WEB-INF/classes/jira-application.properties"
      regexp="^jira.home ="
@@ -36,3 +36,8 @@
      regexp="^JIRA_USER="
      line="JIRA_USER={{ system_user }}"
 
+#- name: Hardcode JRE_HOME for Oracle Java 8 
+#  lineinfile:
+#     dest="{{ common_install }}/jira/bin/catalina.sh"
+#     insertafter="#!/bin/sh"
+#     line="JRE_HOME=\"/usr/lib/jvm/java-8-oracle/jre\"

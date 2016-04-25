@@ -1,6 +1,5 @@
 atlassian_application: confluence 
 system_location_tmp: /tmp
-system_install_mysql: true
 system_install_mysql_connector: true
 system_create_database: true 
 system_create_service: true
@@ -13,10 +12,8 @@ common_download_location: http://www.atlassian.com/software/{{ atlassian_applica
 
 jira_version: 7.1.2
 jira_archive: atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz
-
 confluence_version: 5.9.7 
 confluence_archive: atlassian-confluence-{{ confluence_version }}.tar.gz
-
 crowd_version: 2.8.4
 crowd_archive: atlassian-crowd-{{ crowd_version }}.tar.gz
 
