@@ -1,21 +1,25 @@
 
+- set_fact:  system_dir="files/encrypted/system"
+- set_fact:  system_dev="{{ system_dir }}/prod.yml"
 
-- name: include dev settings
-  include_vars: "{{ system_dev }}"
-  when: system_type =="dev"
+- debug: msg="system_dev  =  {{ system_dev }} "
+
+#- name: include dev settings
+#  include_vars: "{{ system_dev }}"
+#  when: system_type =="dev"
   
-- name: include prod settings
-  include_vars: "{{ system_prod }}"
-  when: system_type =="prod"  
+#- name: include prod settings
+#  include_vars: "{{ system_prod }}"
+#  when: system_type =="prod"  
   
-- name: include uat settings
-  include_vars: "{{ system_uat }}"
-  when: system_type =="uat"  
+#- name: include uat settings
+#  include_vars: "{{ system_uat }}"
+#  when: system_type =="uat"  
   
-- name: include local test (usually vagrant) settings
-  include_vars: "{{ system_local_test }}"
-  when: system_type =="local_test" 
+#- name: include local test (usually vagrant) settings
+#  include_vars: "{{ system_local_test }}"
+#  when: system_type =="local_test" 
   
-- name: include sit settings
-  include_vars: "{{ system_sit }}"
-  when: system_type =="sit"    
+#- name: include sit settings
+#  include_vars: "{{ system_sit }}"
+#  when: system_type =="sit"    
