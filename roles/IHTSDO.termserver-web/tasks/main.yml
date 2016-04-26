@@ -5,15 +5,11 @@
     - ihtsdo-asset
     
  #include system vars
-- include: system.yml      
+- include: library/system/system.yml      
 
 - name: Install term server web front end
   apt: pkg=terminology-server-browser state=latest force=yes update_cache=yes cache_valid_time=300
   
-- name: Install term server authoring web front end
-  apt: pkg=template-based-authoring-frontend state=latest force=yes update_cache=yes cache_valid_time=300
-  
-
 - name: Install package
   apt: name={{ts_browse_app_name}} state=installed
   when: version_term_serv_browser == 'installed'
@@ -25,19 +21,21 @@
 - name: Install package specific version
   apt: name={{ts_browse_app_name}}={{ version_term_serv_browser }} state=installed
   when: version_term_serv_browser != 'installed' and version_term_serv_browser != 'latest'
-  
-  
-- name: Install package
-  apt: name={{ts_auth_app_name}} state=installed
-  when: version_template_authoring == 'installed'
-    
-- name: Install latest package
-  apt: name={{ts_auth_app_name}} state=latest
-  when: version_template_authoring == 'latest'
 
-- name: Install package specific version
-  apt: name={{ts_auth_app_name}}={{ version_template_authoring }} state=installed
-  when: version_template_authoring != 'installed' and version_template_authoring != 'latest'
+#- name: Install term server authoring web front end
+#  apt: pkg=template-based-authoring-frontend state=latest force=yes update_cache=yes cache_valid_time=300  
+  
+#- name: Install package
+#  apt: name={{ts_auth_app_name}} state=installed
+#  when: version_template_authoring == 'installed'
+    
+#- name: Install latest package
+#  apt: name={{ts_auth_app_name}} state=latest
+#  when: version_template_authoring == 'latest'
+
+#- name: Install package specific version
+#  apt: name={{ts_auth_app_name}}={{ version_template_authoring }} state=installed
+#  when: version_template_authoring != 'installed' and version_template_authoring != 'latest'
 
 
 
