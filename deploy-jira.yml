@@ -17,6 +17,7 @@
     - IHTSDO.unattended-updates
     - { role: ansible-swapfile-master, swapfile_size: 4GB }
     - IHTSDO.aws
-    - { role: IHTSDO.mysql, mysql_version: 5.56 }
+    - { role: IHTSDO.mysql, mysql_version: 5.5 }
     - { role: IHTSDO.oraclejava, oraclejava_version: 8 }
-    - { role: IHTSDO.atlassian, atlassian_application: jira }
+    - { role: IHTSDO.atlassian, atlassian_application: jira, jira_archive: atlassian-jira-6.4.3.tar.gz }
+    - IHTSDO.nginx-std 
