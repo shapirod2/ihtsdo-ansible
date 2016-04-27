@@ -14,9 +14,13 @@
 - name: Download and Extract Jira
   unarchive: src="{{ common_download_location }}/{{jira_archive}}" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
 
+- shell: ls -d {{ common_install }}/atlassian-{{ atlassian_application }}*
+  register: full_path 
+
 #Rename installation directory
 - name: Make the installed path version neutral
-  command: mv {{ common_install }}/atlassian-jira-software-{{ jira_version }}-standalone {{ common_install }}/jira
+  command: mv {{ item }} {{ common_install }}/jira
+  with_items: "{{ full_path.stdout_lines }}"
 
 #Create home dir
 - name: Create jira-home directory
