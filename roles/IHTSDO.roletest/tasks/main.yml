@@ -4,7 +4,7 @@
 
 - debug: msg="sys_type  =  {{ sys_type }} "
 - debug: msg="version_term_serv  =  {{ version_term_serv }} "
-
+- debug: msg="Role path  =  {{role_path}} "
 
 # - name: SSH Tunnel management for zabbix
 #   include: tunnel_mgt.yml
