@@ -4,7 +4,7 @@
     vars_files:
     - files/encrypted/aws/s3-default.yml
     roles:
-      - IHTSDO.user-accounts
+#      - IHTSDO.user-accounts
       - IHTSDO.aws
       - IHTSDO.termserver
       - IHTSDO.nginx-std 
