@@ -5,7 +5,8 @@
     - ihtsdo-asset
     
  #include system vars
-- include: system.yml     
+- include: system.yml
+#- include: library/system/system.yml     
     
 #Setup the database
 - include: db.yml
@@ -58,6 +59,10 @@
 
 - name: Copy setenv.sh
   template: src=setenv.sh dest={{ term_serv_dir }}/bin/setenv.sh owner=root group=root mode=0755
+
+- name: Copy dmk.sh
+  template: src=dmk.sh.j2 dest={{ term_serv_dir }}/bin/dmk.sh owner=root group=root mode=0755
+  
 
 - name: Copy Jira Private Key
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/jira.pem
