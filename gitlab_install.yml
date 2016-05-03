@@ -1,0 +1,7 @@
+---
+  - hosts: gitlab
+    sudo: true
+    roles:
+      - IHTSDO.gitlab
+
+
