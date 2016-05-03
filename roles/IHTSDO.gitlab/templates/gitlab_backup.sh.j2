@@ -1,0 +1,154 @@
+#!/usr/bin/env bash
+
+
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{gitlab_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+git_user="{{gitlab_dir_owner}}"
+
+s3_backup_region_base="{{gitlab_s3_backup_region | default('')}}"
+s3_numbackups=5
+s3_bk_list=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+# The starting directory
+backup_dir="{{ gitlab_backup_dir }}"
+
+# The dir where gitlab backs up to: 
+tmp_backup_dir="{{ gitlab_backup_tmp_dir }}"
+
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$tmp_backup_dir" = "x" ]; then
+		error_exit "Please set the variable tmp_backup_dir before running this script. Exiting with error."
+	fi
+
+	if [ "x$backup_dir" = "x" ]; then
+		error_exit "Please set the variable WWW_ROOT before running this script. Exiting with error."
+	fi
+
+	if [ ! -d "$backup_dir" ]; then
+		error_exit "No directory could be found at '$backup_dir'. Exiting with error."
+	fi
+	
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi
+
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	mkbkdir
+
+	echo_date ""	
+	backup_git
+	echo_date "Creating archive..."
+	cd "$tmp_backup_dir"
+	echo_date "Finished successfully."
+        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+         then
+	  movetoaws
+	  delete_old_from_aws
+         fi
+	exit 0
+}
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+mkdir -pv $tmp_backup_dir
+
+if [ "x$git_user" != "x" ]; then
+chown -vR $git_user:$git_user $tmp_backup_dir
+fi
+
+}
+
+
+
+# Runs the gitlab backup routine
+backup_git() {	
+	cd "$tmp_backup_dir"
+	echo_date "Backing up gitlab using {{ gitlab_bin_full_backup_cmd }}"
+	{{ gitlab_bin_full_backup_cmd }}
+	echo_date "Done backing up Gitlab."
+}
+
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
+echo "Transferring backup to AWS S3";
+cd $tmp_backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
+echo "Backup transferred";
+echo "Backup process complete";
+#fi
+}
+
+delete_old_from_aws() { 
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+                
+done < $s3_bk_list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k \> $s3_numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
+echo "Deleted filename = $filename"
+fi
+
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="$backup_dir/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

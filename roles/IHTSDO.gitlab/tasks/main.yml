@@ -1,0 +1,38 @@
+---
+
+ #include system vars
+#- include: system.yml  
+
+- name: Ensure install dir exists
+  file: path="{{ gitlab_install_dir }}" state=directory
+        owner=root group=root mode=0644 
+        recurse=yes  
+
+# see if backup command exists
+
+- name: Check if {{gitlab_repo_sh_full}} exists
+  stat:
+    path: "gitlab_repo_sh_full"
+  register: repo_sh_exists
+
+
+# if not download
+
+- name: download repo set up sh script if not found
+  get_url: force=no url={{gitlab_repo_sh_url_full}} dest={{gitlab_repo_sh_full}} validate_certs=no mode=0700
+  when: repo_sh_exists.stat.exists == False
+
+
+# if not run script setting up gitlab repo
+- name: run repo set up script if not found
+  shell: "{{ gitlab_repo_sh_full }}"
+  when: repo_sh_exists.stat.exists == False
+
+# apt install gitlab
+- name: Install gitlab 
+  apt: name="{{gitlab_package}}={{ gitlab_version }}"  state=present
+
+# run reconfigure
+#- name: run reconfigure
+#  shell: "{{ gitlab_bin_full_reconf_cmd }}"
+

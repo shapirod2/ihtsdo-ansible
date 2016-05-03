@@ -1,0 +1,17 @@
+---
+
+gitlab_install_dir: "/opt/gitlab_inst"                           
+
+gitlab_package: "gitlab-ce"
+gitlab_version: "8.5.1-ce.0"
+
+gitlab_repo_sh: "script.deb.sh"
+gitlab_repo_sh_url: "https://packages.gitlab.com/install/repositories/gitlab/gitlab-ce/"
+gitlab_repo_sh_full: "{{ gitlab_install_dir }}/gitlab_repo_sh"
+
+gitlab_repo_sh_url_full: "{{ gitlab_repo_sh_url }}{{ gitlab_repo_sh }}"
+
+gitlab_bin: "/opt/gitlab/bin"
+gitlab_reconf_cmd: "gitlab-ctl reconfigure"
+gitlab_bin_full_reconf_cmd: "{{ gitlab_bin }}/{{ gitlab_reconf_cmd }}"
+
