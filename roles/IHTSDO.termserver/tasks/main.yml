@@ -77,6 +77,15 @@
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/jira.pem
         owner=root group=root mode=0644
 
+- name: Setup symbolic link between tslogs and termserver
+  file: src="{{ term_serv_dir }}/serviceability/logs"
+       dest="/tslogs"
+       state=link
+
+- name: Deploy grep-commands 
+  git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-log-grep.git
+       dest="/tslogs/grep-commands"
+
 - name: Deploy snomed drools rules
   git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
        dest="{{ term_serv_dir }}/snomed-drools-rules"
