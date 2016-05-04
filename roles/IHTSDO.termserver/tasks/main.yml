@@ -14,6 +14,12 @@
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+- name: Install unzip
+  apt: pkg=unzip state=latest update_cache=yes cache_valid_time=3600
+
+- name: Install NewRelic Monitoring Agent
+  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
+
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
   ignore_errors: yes
