@@ -2,4 +2,5 @@
   - hosts: local
     sudo: true
     roles: 
-      - IHTSDO.roletest 
+      - IHTSDO.roletest
+     # - IHTSDO.debug 
