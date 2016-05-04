@@ -49,3 +49,10 @@
        
 - name: restart nginx
   service: name=nginx state=restarted  
+
+- name: Remove UAT ribbon
+  file: path=/opt/sca/lib/images/uat_ribbon.png state=absent
+
+- name: Remove Development ribbons
+  file: path=/opt/sca/lib/images/development_ribbon.png state=absent
+

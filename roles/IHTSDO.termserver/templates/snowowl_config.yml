@@ -14,7 +14,7 @@ fileAuth:
 repository:
   host: 0.0.0.0
   port: 2036
-
+  numberOfWorkers: {{ term_serv_workers }}
   # Minutes to invalidate and close the unused indexes for tasks
   # Default is 4 hours, setting it to 0 means infinite (turns the feature off)
   # indexTimeout: 240

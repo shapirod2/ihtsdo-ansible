@@ -14,6 +14,15 @@
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+- name: Install unzip
+  apt: pkg=unzip state=latest update_cache=yes cache_valid_time=3600
+
+- name: Install git
+  apt: pkg=git state=latest update_cache=yes cache_valid_time=3600
+
+- name: Install NewRelic Monitoring Agent
+  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
+
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
   ignore_errors: yes
@@ -67,6 +76,19 @@
 - name: Copy Jira Private Key
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/jira.pem
         owner=root group=root mode=0644
+
+- name: Setup symbolic link between tslogs and termserver
+  file: src="{{ term_serv_dir }}/serviceability/logs"
+       dest="/tslogs"
+       state=link
+
+- name: Deploy grep-commands 
+  git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-log-grep.git
+       dest="/tslogs/grep-commands"
+
+- name: Deploy snomed drools rules
+  git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
+       dest="{{ term_serv_dir }}/snomed-drools-rules"
 
 - name: Start TS
   supervisorctl: name=termserver state=started
