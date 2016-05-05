@@ -1,0 +1,34 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=300
+  tags:
+    - ihtsdo-asset
+
+- include: system.yml
+
+- name: Ensure supervisor is installed
+  apt: pkg=supervisor state=latest
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_config_location }}/traceability-service.conf"
+              owner=root group=root mode=0640
+
+- name: Stop service if running
+  supervisorctl: name=traceability-service state=stopped
+  ignore_errors: yes
+
+- name: Create directory
+  file: path="{{ traceability_location }}"
+        state=directory
+
+- name: Install traceability-service
+  get_url: url={{ traceability_download }} dest={{ traceability_location }}
+
+- name: Create a new database if required
+  mysql_db: name={{ traceability_database }} state=present login_user=root login_password={{ mysql_root_pass }} encoding=utf8
+
+- name: Creates the database user if required
+  mysql_user: name={{ traceability_database_username }} password={{ traceability_database_password }} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+
+- name: (re)start traceability-service
+  supervisorctl: name=traceability-service  state=started
