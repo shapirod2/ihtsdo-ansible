@@ -6,7 +6,7 @@
     
  #include system vars
 - include: system.yml
-#- include: library/system/system.yml     
+#- include: "{{role_path}}/../tempsystem/systemchoice.yml"    
     
 #Setup the database
 - include: db.yml
@@ -20,8 +20,8 @@
 - name: Install git
   apt: pkg=git state=latest update_cache=yes cache_valid_time=3600
 
-- name: Install NewRelic Monitoring Agent
-  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
+#- name: Install NewRelic Monitoring Agent
+#  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
 
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
