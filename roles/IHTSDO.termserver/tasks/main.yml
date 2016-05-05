@@ -76,10 +76,19 @@
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/jira.pem
         owner=root group=root mode=0644
 
+- name: Ensure servicability directory exists
+  file: path="{{ term_serv_dir }}/serviceability"
+        state=directory 
+
+- name: Ensure logs directory exists
+  file: path="{{ term_serv_dir }}/serviceability/logs"
+        state=directory
+
 - name: Setup symbolic link between tslogs and termserver
   file: src="{{ term_serv_dir }}/serviceability/logs"
-       dest="/tslogs"
-       state=link
+        dest="/tslogs"
+        state=link
+        force=yes
 
 - name: Deploy grep-commands 
   git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-log-grep.git
