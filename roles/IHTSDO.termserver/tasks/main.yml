@@ -86,7 +86,7 @@
        dest="/tslogs/grep-commands"
 
 - name: make sure drools dir is gone 
-  file: path={ term_serv_dir }}/snomed-drools-rules  state=absent
+  file: path="{{ term_serv_dir }}/snomed-drools-rules"  state=absent
 
 - name: Deploy snomed drools rules
   git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
