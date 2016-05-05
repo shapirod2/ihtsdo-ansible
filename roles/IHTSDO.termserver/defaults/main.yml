@@ -33,6 +33,11 @@ backup_zip_dir: /opt/backup/termserver/zips
 #base URL for rest calls for use by hot backup
 base_url: http://localhost:8080/snowowl
 
+dl_dir: "/opt/downloads"
+new_relic_zip: "newrelic-java-3.28.0.zip"
+new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/"
+
+new_relic_zip_path: "{{dl_dir}}/{{new_relic_zip}}"
 
 #Crowd.properties basic settings. Check the termserver app info in inventory for more and/or 
 # add extra to a specific machine inventory (develop, prod etc):
