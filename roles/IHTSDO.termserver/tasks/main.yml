@@ -5,8 +5,8 @@
     - ihtsdo-asset
     
  #include system vars
-- include: system.yml
-#- include: "{{role_path}}/../tempsystem/systemchoice.yml"    
+#- include: system.yml
+- include: "{{role_path}}/../tempsystem/systemchoice.yml"    
     
 #Setup the database
 - include: db.yml
