@@ -9,14 +9,7 @@
 
 - debug: msg="sys_type  =  {{ sys_type }} "
 
-#- name: Install NewRelic Monitoring Agent
-#  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
 
-
-
-- name: download zip file if url is set
-  get_url: force=no url={{active_mq_dl_url}}/{{active_mq_dl_file}} dest={{active_mq_dl_dir}}/{{active_mq_dl_file}} validate_certs=no mode=0440
-  when: dlfile.stat.exists == False
 
 
 #- debug: msg="test_dir  =  {{ test_dir }} "
