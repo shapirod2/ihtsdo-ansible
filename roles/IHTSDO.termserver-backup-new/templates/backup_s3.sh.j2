@@ -102,7 +102,7 @@ unlock_all_repositories_and_exit() {
 lock_repository() {
 	echo_date "Locking repository $REPOSITORY..."
 	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/lock"
-	
+
 	if [ "$CURL_HTTP_STATUS" -ne "204" ]; then
 		unlock_all_repositories_and_exit "Couldn't lock repository $REPOSITORY. Exiting with error."
 	fi
@@ -125,7 +125,7 @@ main() {
 	echo_date "----------------------------"
 	#check_arguments
 	mkbkdir
-	
+
 	lock_all_repositories
 
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
@@ -138,7 +138,7 @@ main() {
     sleep $REPO_WAIT_SECONDS
     unlock_all_repositories
     wait
-    
+
     echo_date "copying from rsync folder..."
     copyfromrsyncdir
 	echo_date "Creating archive..."
@@ -146,7 +146,7 @@ main() {
 	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
 	cd "$tmp_backup_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
-	
+
 	echo_date "Finished successfully."
         if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
          then
@@ -158,7 +158,7 @@ main() {
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
 }
 
 rsyncindexes(){
@@ -193,7 +193,7 @@ echo "Backup process complete";
 #fi
 }
 
-delete_old_from_aws() { 
+delete_old_from_aws() {
 echo "Cleaning up old backups from aws"
 cd $backup_dir
 aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
@@ -207,7 +207,7 @@ while read line;do
               arr=($line)
               filename=${arr[3]}
 	fi
-                
+
 done < $s3_bk_list
 echo "Total number of lines in file: $k"
 echo "s3_numbackups: $s3_numbackups"
@@ -235,11 +235,11 @@ fi
 #	fi
 #}
 
-#delete_old() { 
+#delete_old() {
 #echo "Cleaning up old backups prior to moving them to aws"
 # if [ -d $tmp_backup_dir ] && [ "$tmp_backup_dir" != "" ] ;
-#  then   
-#   echo "Deleting old back ups backup dir = "${tmp_backup_dir}; 
+#  then
+#   echo "Deleting old back ups backup dir = "${tmp_backup_dir};
 #   find ${tmp_backup_dir}/* -mtime +5 -exec rm {} \;
 # fi
 #}
@@ -252,4 +252,3 @@ LOCKFILE="{{script_dir}}/instance.lock"
         trap "rm $LOCKFILE" EXIT
         main
 ) 200> $LOCKFILE
-
