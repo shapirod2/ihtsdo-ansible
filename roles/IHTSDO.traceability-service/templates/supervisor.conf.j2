@@ -1,0 +1,10 @@
+[program:traceability-service]
+user = root
+directory = {{ traceability_location }}
+command = /usr/bin/java -jar {{ traceability_location }}/authoring-traceability-service-{{ traceability_version }}.jar --server.port=8085 --spring.activemq.broker-url={{ orchestration_jms_url }} --spring.activemq.user={{ orchestration_jms_username }} --spring.activemq.password={{ orchestration_jms_password }} --spring.datasource.password={{ traceability_database_password }} --spring.datasource.testOnBorrow=true --spring.datasource.validationQuery="select 1"
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760
