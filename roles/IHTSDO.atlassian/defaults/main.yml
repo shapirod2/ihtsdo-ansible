@@ -1,21 +1,18 @@
-atlassian_application: confluence 
+#Accepts jira,confluence or crowd
+atlassian_application: jira
+atlassian_version: 6.4.3
+atlassian_archive: atlassian-{{ atlassian_application }}-{{ atlassian_version }}.tar.gz
+
 system_location_tmp: /tmp
 system_install_mysql_connector: true
-system_create_database: true 
+system_create_database: true
 system_create_service: true
 system_user: "{{ atlassian_application }}"
 system_group: "{{ atlassian_application }}"
 
 common_install: /opt/atlassian
 common_home: /var/atlassian/application-data
-common_download_location: http://www.atlassian.com/software/{{ atlassian_application }}/downloads/binary/ 
-
-jira_version: 7.1.2
-jira_archive: atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz
-confluence_version: 5.9.7 
-confluence_archive: atlassian-confluence-{{ confluence_version }}.tar.gz
-crowd_version: 2.8.4
-crowd_archive: atlassian-crowd-{{ crowd_version }}.tar.gz
+common_download_location: http://www.atlassian.com/software/{{ atlassian_application }}/downloads/binary/
 
 mysql_connector_version: 5.1.38
 mysql_connector_archive: mysql-connector-java-{{ mysql_connector_version }}.tar.gz

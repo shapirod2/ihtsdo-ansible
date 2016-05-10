@@ -1,0 +1,13 @@
+---
+#Update config file
+- name: Set crowd home dir in init properties
+  lineinfile:
+      dest="{{ common_install }}/crowd/crowd-webapp/WEB-INF/classes/crowd-init.properties"
+      line="crowd.home={{ common_home }}/crowd"
+
+#Use crowd  user
+#- name: Set default user for confluence
+#  lineinfile:
+#     dest="{{ common_install }}/confluence/bin/user.sh"
+#     regexp="^CONF_USER="
+#     line="CONF_USER={{ system_user }}"
