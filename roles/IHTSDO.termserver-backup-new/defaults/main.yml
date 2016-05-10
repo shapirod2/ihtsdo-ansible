@@ -3,7 +3,11 @@ system_type: local_test
 ts_backup_mode: "hot"
 ts_user: "snowowl"
 ts_pw: "snowowl"
-# Backup 
+ts_dbname: snomedstore
+ts_review_dbname: ts_review
+traceability_database: traceability
+
+# Backup
 # Dir to put scripts into
 s3_backup_dir: "none"
 
@@ -23,4 +27,3 @@ new_backup_script: backup_s3.sh
 backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
-

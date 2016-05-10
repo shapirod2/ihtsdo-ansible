@@ -1,1 +1,1 @@
-JAVA_OPTS="-javaagent:/opt/newrelic/newrelic.jar -DcrowdPropertiesFileLocation=configuration/"
+JAVA_OPTS="-DcrowdPropertiesFileLocation=configuration/"

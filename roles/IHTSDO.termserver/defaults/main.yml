@@ -25,7 +25,7 @@ term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_index
 #snowowl_reasoner_id: au.csiro.snorocket.owlapi3.snorocket.factory
 snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
 
-# Backup 
+# Backup
 # Dir to put scripts into
 backup_dir: /opt/backup/termserver
 #Dir for scripts to put final backup zips into
@@ -34,12 +34,13 @@ backup_zip_dir: /opt/backup/termserver/zips
 base_url: http://localhost:8080/snowowl
 
 dl_dir: "/opt/downloads"
+
+new_relic_active: = False
 new_relic_zip: "newrelic-java-3.28.0.zip"
 new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/"
-
 new_relic_zip_path: "{{dl_dir}}/{{new_relic_zip}}"
 
-#Crowd.properties basic settings. Check the termserver app info in inventory for more and/or 
+#Crowd.properties basic settings. Check the termserver app info in inventory for more and/or
 # add extra to a specific machine inventory (develop, prod etc):
 
 crowd_server_url: "{{ crowd_base_url }}/services/"
@@ -50,4 +51,3 @@ term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
 jira_pem_file: files/encrypted/ssl/jira.pem
 
 system_type: local_test
-

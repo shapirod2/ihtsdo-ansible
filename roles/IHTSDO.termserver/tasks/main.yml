@@ -1,35 +1,33 @@
 ---
 - name: Apt cache update
-  apt: update_cache=yes cache_valid_time=300 
+  apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
-    
+
  #include system vars
 #- include: system.yml
-- include: "{{role_path}}/../tempsystem/systemchoice.yml"    
-    
+- include: "{{role_path}}/../tempsystem/systemchoice.yml"
+
 #Setup the database
 - include: db.yml
 
 - name: Install rsync
-  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
+  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600
 
 - name: Install unzip
   apt: pkg=unzip state=latest update_cache=yes cache_valid_time=3600
 
 - name: Install git
   apt: pkg=git state=latest update_cache=yes cache_valid_time=3600
-  
-- include: newrelic.yml  
 
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
   ignore_errors: yes
-  
+
 
 #- name: Install term server
 #  apt: pkg=termserver state=latest force=yes
- 
+
 - name: Install package
   apt: name={{term_serv_app_name}} state=installed
   when: version_term_serv == 'installed'
@@ -40,13 +38,13 @@
 
 - name: Install package specific version
   apt: name={{term_serv_app_name}}={{ version_term_serv }} state=installed
-  when: version_term_serv != 'installed' and version_term_serv != 'latest' 
-  
+  when: version_term_serv != 'installed' and version_term_serv != 'latest'
+
 - name: Make sure all .sh files in bin are executable
-  shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'  
+  shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'
 
 
-#Setup the backup 
+#Setup the backup
 - include: backup.yml
 
 #If setting up the content
@@ -70,7 +68,6 @@
 
 - name: Copy dmk.sh
   template: src=dmk.sh.j2 dest={{ term_serv_dir }}/bin/dmk.sh owner=root group=root mode=0755
-  
 
 - name: Copy Jira Private Key
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/jira.pem
@@ -78,7 +75,7 @@
 
 - name: Ensure servicability directory exists
   file: path="{{ term_serv_dir }}/serviceability"
-        state=directory 
+        state=directory
 
 - name: Ensure logs directory exists
   file: path="{{ term_serv_dir }}/serviceability/logs"
@@ -90,16 +87,19 @@
         state=link
         force=yes
 
-- name: Deploy grep-commands 
+- name: Deploy grep-commands
   git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-log-grep.git
        dest="/tslogs/grep-commands"
 
-- name: make sure drools dir is gone 
+- name: make sure drools dir is gone
   file: path="{{ term_serv_dir }}/snomed-drools-rules"  state=absent
 
 - name: Deploy snomed drools rules
   git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
        dest="{{ term_serv_dir }}/snomed-drools-rules"
 
+- include: newrelic.yml
+  when: new_relic_active == True
+  
 - name: Start TS
   supervisorctl: name=termserver state=started

@@ -13,6 +13,10 @@
   template: src=supervisor.conf.j2 dest="{{ supervisor_config_location }}/traceability-service.conf"
               owner=root group=root mode=0640
 
+- name: Reload supervisor Config
+  command: /usr/bin/supervisorctl reread
+  sudo: yes 
+
 - name: Stop service if running
   supervisorctl: name=traceability-service state=stopped
   ignore_errors: yes
@@ -29,6 +33,8 @@
 
 - name: Creates the database user if required
   mysql_user: name={{ traceability_database_username }} password={{ traceability_database_password }} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+
+
 
 - name: (re)start traceability-service
   supervisorctl: name=traceability-service  state=started
