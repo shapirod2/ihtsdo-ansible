@@ -1,19 +1,15 @@
 ---
-
- #include system vars
-- include: system.yml  
-
 - name: Ensure service is stopped
   service: name={{ atlassian_application }} state=stopped enabled=yes pattern="atlassian"
 
 - name: Ensure back up dir exists
   file: path="{{ common_script_location }}/{{ atlassian_application }}" state=directory
-        owner=root group=root mode=0755 
-        recurse=yes 
+        owner=root group=root mode=0755
+        recurse=yes
 
 - name: set backup script
   template: src=backup-restore.sh.j2 dest={{ common_script_location }}/{{ atlassian_application }}/backup-restore.sh
-            owner=root group=root mode=0755    
+            owner=root group=root mode=0755
 
 - shell: "{{ common_script_location }}/{{ atlassian_application }}/backup-restore.sh"
 

@@ -1,6 +1,6 @@
 ---
 # atlassian application to restore {jira/confluence/crowd}
-atlassian_application: confluence
+atlassian_application: jira
 
 # system settings
 system_location_tmp: /tmp
@@ -16,6 +16,6 @@ mysqlport: 3306
 common_home: /var/atlassian/application-data
 common_script_location: /opt/scripts
 
-# S3 Backup locations 
-s3_backup_dir: "prod-{{ atlassian_application }}1.backup.ihtsdo"
-s3_backup_region: "us-west-2"
+# S3 Backup locations
+s3_backup_dir: "prod-{{ atlassian_application }}.backup1.ihtsdo"
+s3_backup_region: "us-east-1"
