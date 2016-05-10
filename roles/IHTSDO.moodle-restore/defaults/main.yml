@@ -1,0 +1,29 @@
+---
+# Backup 
+# Dir to put scripts into
+
+moodle_db_name: "moodle"
+moodle_user: "moodle"
+moodle_pw: "moodle"
+
+moodle_dir:  "moodle"
+moodle_html_base_dir: "/var/www/html"
+moodle_html_dir: "{{ moodle_html_base_dir }}/{{ moodle_dir }}"
+moodle_data_dir: "/var/moodledata"
+
+moodle_dir_owner: "www-data"
+moodle_s3_backup_dir: ""
+moodle_s3_backup_region: ""
+
+moodle_restore_dir: /opt/restore/moodle
+
+moodle_restore_script: moodle_restore.sh
+
+moodle_restore_cmd: "{{ moodle_restore_dir }}/{{ moodle_restore_script }}"
+
+moodle_restore_log: "{{ moodle_restore_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+moodle_full_restore_cmd: "{{ moodle_restore_cmd }} >> {{ moodle_restore_log }}"
+
+#Dir for scripts to put final backup zips into
+moodle_restore_zip_dir: /opt/restore/moodle/zips
