@@ -40,7 +40,8 @@ snomed:
     cisNumberOfPollTries : 1
     cisTimeBetweenPollTries : 1000
     enforceNamespace: INT
-  maxReasonerCount: 100000
+  maxReasonerCount: 1
+  maxReasonerRuns: 100000
 reviewManager:
   # Minutes to keep reviews in CURRENT state persisted in the index (default 15 minutes)
   keepCurrentMins: 120
