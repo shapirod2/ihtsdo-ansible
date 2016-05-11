@@ -31,7 +31,7 @@
   template: src=moodle_restore.sh.j2 dest={{moodle_restore_cmd}}
             owner=root group=root mode=0755    
 
-#- shell: "{{ moodle_full_restore_cmd }}"
+- shell: "{{ moodle_full_restore_cmd }}"
 
 - name: Ensure apache2 service is started
   service: name=apache2 state=started enabled=yes
