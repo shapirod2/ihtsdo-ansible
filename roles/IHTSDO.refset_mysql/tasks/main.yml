@@ -7,7 +7,7 @@
   apt: update_cache=yes cache_valid_time=300 
   
  #include system vars
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - name: Install unzip
   apt: name=unzip state=present update_cache=yes cache_valid_time=300 

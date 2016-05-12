@@ -1,4 +1,4 @@
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - name: make sure script_dir exists
   file: path={{script_dir}}  state=directory  

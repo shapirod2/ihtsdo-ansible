@@ -1,4 +1,4 @@
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - debug: msg="Backing up ts_backup_mode={{ts_backup_mode}}"
 

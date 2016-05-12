@@ -1,13 +1,11 @@
+# Added or re-add the users.
 ---
-
-  - hosts: useraddtest
-    sudo: true
-    tasks:
-
-    - name: Ensure group exists
-      group: name=test4 state=present system=yes 
-
-    - name: Ensure user exists
-      user: name=test4 group=test4 state=present system=yes   
+- hosts: zabbixclients
+  sudo: true
+  #remote_user: root
+  vars:
+    user_accounts_skip_sshd: true
+  roles:
+    - IHTSDO.user-accounts
 
       

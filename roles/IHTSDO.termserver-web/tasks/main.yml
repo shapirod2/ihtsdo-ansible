@@ -5,8 +5,8 @@
     - ihtsdo-asset
     
  #include system vars
-#- include: library/system/system.yml      
-- include: system.yml
+- include: "{{systemchoice}}"     
+#- include: system.yml
 
 - name: Install term server web front end
   apt: pkg=terminology-server-browser state=latest force=yes update_cache=yes cache_valid_time=300

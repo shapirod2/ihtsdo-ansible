@@ -1,4 +1,4 @@
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - debug: msg="Backing up term server traceability logs"
 

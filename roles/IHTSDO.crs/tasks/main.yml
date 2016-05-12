@@ -5,7 +5,7 @@
   sudo: yes
   
  #include system vars
-- include: system.yml  
+- include: "{{systemchoice}}" 
   
 - name: Install package
   apt: name={{crs_web_app_name}} state=installed

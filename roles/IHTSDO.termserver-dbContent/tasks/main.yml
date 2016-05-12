@@ -5,7 +5,8 @@
 #    - ihtsdo-asset
     
    #include system vars
-- include: system.yml   
+#- include: system.yml  
+- include: "{{systemchoice}}" 
  
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped

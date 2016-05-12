@@ -8,7 +8,7 @@
   include_vars: "files/encrypted/aws/s3-default.yml"    
 
  #include system vars
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600 

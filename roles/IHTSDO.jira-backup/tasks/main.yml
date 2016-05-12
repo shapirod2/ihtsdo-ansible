@@ -1,4 +1,4 @@
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 - debug: msg="back_type = {{ back_type }}"
 - debug: msg="jira_s3_backup_dir = {{ jira_s3_backup_dir }}"

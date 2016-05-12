@@ -1,6 +1,6 @@
 ---
 
-- include: system.yml 
+- include: "{{systemchoice}}"
 
 
 - name: make sure replic_backup_dir exists

@@ -4,7 +4,8 @@
   tags:
     - ihtsdo-asset
 
-- include: system.yml
+#- include: system.yml
+- include: "{{systemchoice}}"
 
 - name: Ensure supervisor is installed
   apt: pkg=supervisor state=latest

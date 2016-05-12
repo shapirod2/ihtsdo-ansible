@@ -1,7 +1,7 @@
 ---
 
  #include system vars
-- include: "{{role_path}}/../tempsystem/systemchoice.yml"  
+- include: "{{systemchoice}}" 
 
 - name: stop apache2
   service: name=apache2 state=stopped
