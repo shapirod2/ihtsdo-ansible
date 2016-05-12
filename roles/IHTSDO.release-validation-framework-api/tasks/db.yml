@@ -1,8 +1,8 @@
 #- name: Set MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_password | quote}}' vtype='password'
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass | quote}}' vtype='password'
 
 #- name: Confirm MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_password | quote}}' vtype='password'
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
 
 # Install the package "mysql-server"
 - name: Install mysql server
@@ -29,9 +29,9 @@
   mysql_user: 
     name: root 
     host: "{{ item }}" 
-    password: "{{ mysql_root_password }}"
+    password: "{{ mysql_root_pass }}"
     login_user: root
-    login_password: "{{ mysql_root_password }}"
+    login_password: "{{ mysql_root_pass }}"
     check_implicit_admin: yes
     priv: "*.*:ALL,GRANT"
   with_items:
@@ -41,11 +41,11 @@
     - localhost 
 # Create a new database with name specified per host
 - name: create db
-  mysql_db: name={{ rvf_master_schema_name }} state=present login_user=root login_password={{ mysql_root_password }}
+  mysql_db: name={{ rvf_master_schema_name }} state=present login_user=root login_password={{ mysql_root_pass }}
 
 # Creates database user 'rvf_user' with all database privileges and 'WITH GRANT OPTION'
 - name: create db user rvf_user
-  mysql_user: name={{ rvf_jdbc_username }} password={{ rvf_jdbc_password }}  login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
+  mysql_user: name={{ rvf_jdbc_username }} password={{ rvf_jdbc_password }}  login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
 
 # Configure mysql server so that table names are stored in lower case, and access is case insensitive
 - lineinfile: dest=/etc/mysql/my.cnf line="lower_case_table_names=1"
