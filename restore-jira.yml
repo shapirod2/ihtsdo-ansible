@@ -1,0 +1,7 @@
+---
+- hosts: zabbixclients
+  sudo: true
+  remote_user: root
+
+  roles:
+    - { role: IHTSDO.atlassian-restore, atlassian_application: jira, s3_backup_dir: "prod-jira.backup1.ihtsdo", s3_backup_region: "us-east-1" }

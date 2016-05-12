@@ -52,7 +52,8 @@
 
 - name: Remove UAT ribbon
   file: path=/opt/sca/lib/images/uat_ribbon.png state=absent
+  when:  ansible_hostname == "termserver"
 
 - name: Remove Development ribbons
   file: path=/opt/sca/lib/images/development_ribbon.png state=absent
-
+  when: ansible_hostname == "termserver"

@@ -87,6 +87,9 @@
         state=link
         force=yes
 
+- name: Clean away grep-comands directory
+  file: path="/tslogs/grep-commands" state=absent
+
 - name: Deploy grep-commands
   git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-log-grep.git
        dest="/tslogs/grep-commands"
