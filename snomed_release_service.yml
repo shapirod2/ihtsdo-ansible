@@ -1,13 +1,16 @@
 ---
-  - hosts: snomed_release_service_api:snomed_release_service_web
-    sudo: true
-    roles:
-      - IHTSDO.user-accounts
+#  - hosts: snomed_release_service_api:snomed_release_service_web
+#    sudo: true
+#    roles:
+#      - IHTSDO.user-accounts
 
   - hosts: snomed_release_service_api
     sudo: true
+    vars_files:
+    - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.snomed-release-service-api
+      - IHTSDO.aws
 
   - hosts: snomed_release_service_web
     sudo: true
