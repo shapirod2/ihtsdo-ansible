@@ -1,5 +1,5 @@
 ---
-- hosts: zabbixclients
+- hosts: jira
   sudo: true
   remote_user: root
 

@@ -1,5 +1,5 @@
 ---
-- hosts: zabbixclients
+- hosts: confluence 
   sudo: true
   remote_user: root
 

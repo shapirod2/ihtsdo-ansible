@@ -19,5 +19,5 @@
     - IHTSDO.aws
     - { role: IHTSDO.mysql, mysql_version: 5.5 }
     - { role: IHTSDO.oraclejava, oraclejava_version: 8 }
-    - { role: IHTSDO.atlassian, atlassian_application: jira, atlassian_version: 6.4.12 }
+    - { role: IHTSDO.atlassian, atlassian_application: jira, atlassian_version: 6.4.3 }
     - IHTSDO.nginx-std 
