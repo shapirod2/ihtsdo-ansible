@@ -1,6 +1,7 @@
 ---
 
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 
 
 - name: make sure replic_backup_dir exists

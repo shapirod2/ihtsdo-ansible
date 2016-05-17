@@ -6,6 +6,7 @@
   
  #include system vars
 - include: "{{systemchoice}}" 
+  when: systemchoice is defined
   
 - name: Install package
   apt: name={{crs_web_app_name}} state=installed

@@ -1,14 +1,18 @@
 ---
 #include system vars
+
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 #- include: "{{role_path}}/../tempsystem/systemchoice.yml"
 #- include: files/systemchoice.yml  
 
-- debug: msg="sys_type  =  {{ sys_type }} "
-- debug: msg="version_term_serv  =  {{ version_term_serv }} "
-- debug: msg="Role path  =  {{role_path}} "
+- debug: msg="Role Test running. "
 
-- debug: msg="sys_type  =  {{ sys_type }} "
+#- debug: msg="sys_type  =  {{ sys_type }} "
+#- debug: msg="version_term_serv  =  {{ version_term_serv }} "
+#- debug: msg="Role path  =  {{role_path}} "
+
+#- debug: msg="sys_type  =  {{ sys_type }} "
 
 
 

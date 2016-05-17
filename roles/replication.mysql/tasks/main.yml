@@ -9,6 +9,7 @@
 
  #include system vars
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600 

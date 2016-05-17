@@ -5,6 +5,7 @@
 
   #include system vars
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 
   
   #Setup the database

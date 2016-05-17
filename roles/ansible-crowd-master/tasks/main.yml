@@ -1,7 +1,8 @@
 ---
 
  #include system vars
-- include: "{{systemchoice}}" 
+- include: "{{systemchoice}}"
+  when: systemchoice is defined 
 
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=3600

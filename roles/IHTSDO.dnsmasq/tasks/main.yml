@@ -5,6 +5,7 @@
 
   #include system vars
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 
 - name: Ensure service is stopped
   service: name=dnsmasq state=stopped enabled=yes

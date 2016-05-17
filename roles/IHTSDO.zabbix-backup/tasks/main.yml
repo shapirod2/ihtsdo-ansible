@@ -2,6 +2,7 @@
 
  #include system vars
 - include: "{{systemchoice}}" 
+  when: systemchoice is defined
 
 - name: Ensure back up dir exists
   file: path="{{ zabbix_backup_dir }}" state=directory

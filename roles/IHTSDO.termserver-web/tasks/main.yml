@@ -5,7 +5,8 @@
     - ihtsdo-asset
     
  #include system vars
-- include: "{{systemchoice}}"     
+- include: "{{systemchoice}}"    
+  when: systemchoice is defined 
 #- include: system.yml
 
 - name: Install term server web front end

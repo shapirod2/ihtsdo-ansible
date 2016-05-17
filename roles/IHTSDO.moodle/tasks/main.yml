@@ -6,7 +6,8 @@
     - ihtsdo-asset
  
  #include system vars
-- include: "{{systemchoice}}"     
+- include: "{{systemchoice}}" 
+  when: systemchoice is defined    
     
    #Setup the database
 - include: db.yml 

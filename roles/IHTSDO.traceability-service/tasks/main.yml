@@ -6,6 +6,7 @@
 
 #- include: system.yml
 - include: "{{systemchoice}}"
+  when: systemchoice is defined
 
 - name: Ensure supervisor is installed
   apt: pkg=supervisor state=latest

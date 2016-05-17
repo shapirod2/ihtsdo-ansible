@@ -2,6 +2,7 @@
 
  #include system vars
 - include: "{{systemchoice}}" 
+  when: systemchoice is defined
 
 - name: Ensure service is stopped
   service: name=jira state=stopped enabled=yes pattern="atlassian.standalone=JIRA"

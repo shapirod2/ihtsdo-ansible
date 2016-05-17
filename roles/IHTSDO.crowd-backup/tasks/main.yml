@@ -2,6 +2,7 @@
 
  #include system vars
 - include: "{{systemchoice}}" 
+  when: systemchoice is defined
 
 - debug: msg="Running Crowd backup using script = {{ backup_cmd }}"
 
