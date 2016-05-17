@@ -1,0 +1,54 @@
+
+- name: stop apache if running
+  service:
+  
+- name: rem install dir
+  file: path={{ wp_install_dir }} state=absent
+  
+- name: Ensure install dir exists
+  file: path={{ wp_install_dir }} state=directory  
+
+- name: Get latest wp when version = latest
+   
+- name: Fetch installer
+  get_url:
+    url={{ wp_baseurl }}/{{ wp_installer }}
+    dest={{ wp_install_dir }}/{{ wp_installer }}
+
+
+- name: Extract installation
+  shell: tar xvf {{ wp_install_dir }}/{{ wp_installer }} -C {{ wp_installto }}
+
+/latest.tar.gz
+
+https://wordpress.org/wordpress-4.5.2.tar.gz
+
+
+sudo rm /var/www/html/index.html
+
+sudo mv wordpress/* /var/www/html/
+
+sudo cp /var/www/html/wp-config-sample.php /var/www/html/wp-config.php
+
+sudo vi /var/www/html/wp-config.php
+
+// ** MySQL settings – You can get this info from your web host ** //
+/** The name of the database for WordPress */
+define(‘DB_NAME’, ‘wpdb‘);
+
+/** MySQL database username */
+define(‘DB_USER’, ‘wpuser‘);
+
+/** MySQL database password */
+define(‘DB_PASSWORD’, ‘password‘);
+
+- name: Ensure moodle_html_dir dir exists
+  file: path={{ moodle_html_dir }} state=directory
+        owner={{ moodle_dir_owner }}  group={{ moodle_dir_owner }}  mode=0755 
+        recurse=yes
+  
+
+
+skynooodle
+sudo chown -R www-data:www-data /var/www/html/
+sudo chmod -R 755 /var/www/html/

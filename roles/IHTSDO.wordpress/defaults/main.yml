@@ -1,0 +1,40 @@
+---
+
+
+mysql_root_pass: rooty
+mysql_port: 3306
+mysql_service: mysql
+
+wp_db_name: wpdb 
+
+wp_db_user: wpuser 
+wp_db_pw: wpuser 
+
+
+wp_baseurl: "https://wordpress.org"
+
+
+wp_add_dbcontent: false
+wp_version: HEAD
+
+wp_init_script: "{{ wp_install_dir }}/config/db_script.sql"
+# defaults file for Angular
+
+# Should be the same as the artifactId in the pom
+wp_app_name: wordpress
+version_wp: "latest"
+#wp_install_dir: "/opt/{{ wp_app_name }}"
+#wp_lib_dir: "{{ wp_install_dir }}/lib"
+#wp_conf_dir: "{{ wp_install_dir }}/conf"
+#wp_security_file: "{{ wp_install_dir }}/blogic/Security.js"
+
+
+
+supervisor_dir: "/etc/supervisor/conf.d/"
+wp_script_name: "runCis.sh"
+wp_run_script: "{{ wp_install_dir }}/{{wp_script_name}}"
+env_file: "/etc/environment"
+
+
+
+

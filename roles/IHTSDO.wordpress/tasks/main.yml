@@ -1,0 +1,39 @@
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=300
+  sudo: yes
+
+  #include system vars
+- include: "{{systemchoice}}"
+  when: systemchoice is defined
+
+  
+  #Setup the database
+- include: db.yml
+#include dependencies
+- include: deps.yml
+ 
+
+- name: stop apache2
+  service: name=apache2 state=stppped
+  
+ #include getwp
+- include: getwp.yml 
+  
+- name: restart apache2
+  service: name=apache2 state=restarted
+
+
+  
+#- name: Install rest api from github - termmed 
+#  git: repo=https://github.com/termMed/component-identifier-service.git dest={{ wp_install_dir }}
+
+- debug: msg="wp_version = {{wp_version}}"
+
+- name: Install rest api from github 
+  git: repo=https://github.com/IHTSDO/component-identifier-service.git dest={{ wp_install_dir }} version={{wp_version}}
+ 
+  
+#- debug: msg="ansible_hostname = {{ansible_hostname}}"
+#- debug: msg="inventory_hostname = {{inventory_hostname}}"
+ 
