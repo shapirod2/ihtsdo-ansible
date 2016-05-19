@@ -13,7 +13,6 @@ wp_db_pw: wpuser
 
 wp_baseurl: "https://wordpress.org"
 
-
 wp_add_dbcontent: false
 wp_version: HEAD
 
@@ -29,11 +28,12 @@ version_wp: "latest"
 #wp_security_file: "{{ wp_install_dir }}/blogic/Security.js"
 
 
+git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins"
+theme_dir_tgt: "/var/www/html/wp-content/themes/SnomedInAction"
+theme_dir_src: "SnomedInAction"
 
-supervisor_dir: "/etc/supervisor/conf.d/"
-wp_script_name: "runCis.sh"
-wp_run_script: "{{ wp_install_dir }}/{{wp_script_name}}"
-env_file: "/etc/environment"
+wp_dir_src: wp-directory
+
 
 
 
