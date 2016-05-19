@@ -4,10 +4,10 @@ daily_build_dir: /opt/dailybuild
 force_zip_download: True
 rf2_json_conversion_enabled: True
 rf2_diff_report_enabled: True
-release_file_name: SnomedCT_RF2Release_INT_20160731.zip
-unpacked_release_file_name: SnomedCT_RF2Release_INT_20160731
-effectiveTime: 20160731
-expirationTime: 20170801
+release_file_name: SnomedCT_RF2Release_INT_20170131.zip
+unpacked_release_file_name: SnomedCT_RF2Release_INT_20170131
+effectiveTime: 20170131
+expirationTime: 20170731
 jsonOutputFolder: "{{ daily_build_dir }}/json"
 dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
 snapshotFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Snapshot"
@@ -22,6 +22,6 @@ rf2_diff_json_file_name: diffReports.tgz
 rf2_diff_json_report_folder: "{{ daily_build_dir }}/diff_reports"
 rf2_diff_root_dir: /opt/rf2-diff-generator
 # One date after the previous release
-rf2_diff_start_date: 20160201
+rf2_diff_start_date: 20160801
 rf2_diff_json_s3_upload_script: uploadRf2DiffJsonToS3.sh
 rf2_diff_report_s3_upload_cmd:  "{{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}"
