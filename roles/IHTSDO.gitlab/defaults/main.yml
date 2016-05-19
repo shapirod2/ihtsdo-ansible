@@ -1,6 +1,6 @@
 ---
 
-gitlab_install_dir: "/opt/gitlab_inst"                           
+gitlab_install_dir: "/tmp/gitlab_inst"
 
 gitlab_package: "gitlab-ce"
 gitlab_version: "8.5.1-ce.0"
@@ -14,4 +14,3 @@ gitlab_repo_sh_url_full: "{{ gitlab_repo_sh_url }}{{ gitlab_repo_sh }}"
 gitlab_bin: "/opt/gitlab/bin"
 gitlab_reconf_cmd: "gitlab-ctl reconfigure"
 gitlab_bin_full_reconf_cmd: "{{ gitlab_bin }}/{{ gitlab_reconf_cmd }}"
-
