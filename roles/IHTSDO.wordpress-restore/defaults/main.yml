@@ -1,0 +1,60 @@
+---
+
+
+mysql_root_pass: rooty
+mysql_port: 3306
+mysql_service: mysql
+
+wp_db_name: wpdb 
+
+wp_db_user: wpuser 
+wp_db_pw: wpuser 
+
+
+wp_baseurl: "https://wordpress.org"
+
+wp_add_dbcontent: false
+wp_version: HEAD
+
+wp_init_script: "{{ wp_install_dir }}/config/db_script.sql"
+# defaults file for Angular
+
+# Should be the same as the artifactId in the pom
+wp_app_name: wordpress
+version_wp: "latest"
+#wp_install_dir: "/opt/{{ wp_app_name }}"
+#wp_lib_dir: "{{ wp_install_dir }}/lib"
+#wp_conf_dir: "{{ wp_install_dir }}/conf"
+#wp_security_file: "{{ wp_install_dir }}/blogic/Security.js"
+
+
+git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins"
+theme_dir_tgt: "/var/www/html/wp-content/themes/SnomedInAction"
+theme_dir_src: "SnomedInAction"
+
+wp_dir_src: wp-directory
+
+
+---
+system_location_tmp: /tmp
+
+mysql_jira_root_password: change_me
+mysql_jira_hostname: localhost
+mysql_jira_port: 3306
+
+jira_home: /var/atlassian/application-data/jira
+jira_user: "jira"
+jira_group: "jira"
+
+# Backup 
+jira_s3_backup_dir: "prod-jira.backup1.ihtsdo"
+jira_s3_backup_region: "us-east-1"
+
+jira_restore_script_location: /opt/scripts/jira
+jira_restore_working_directory: "{{ system_location_tmp }}/jira-restore"
+jira_restore_script: jira_restore.sh
+jira_restore_cmd: "{{ jira_backup_dir }}/{{ jira_restore_script }}"
+jira_restore_log: "{{ jira_backup_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+
+
+
