@@ -1,6 +1,6 @@
 ---
 
-# Backup 
+# Backup
 # Dir to put scripts into
 
 gitlab_dir_owner: "git"
@@ -23,5 +23,3 @@ gitlab_backup_tmp_dir: "/var/opt/gitlab/backups"
 gitlab_bin: "/opt/gitlab/bin"
 gitlab_bin_backup_cmd: "gitlab-rake gitlab:backup:create"
 gitlab_bin_full_backup_cmd: "{{ gitlab_bin }}/{{ gitlab_bin_backup_cmd }}"
-
-
