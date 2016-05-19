@@ -1,0 +1,10 @@
+---
+gitlab_user: "git"
+gitlab_s3_backup_dir: "prod-gitlab.backup.ihtsdo"
+gitlab_s3_backup_region: "us-west-2"
+
+gitlab_script_dir: /opt/backup/gitlab
+gitlab_bin_dir: "/opt/gitlab/bin"
+gitlab_restore_script: gitlab_restore.sh
+gitlab_restore_location: "/var/opt/gitlab/backups"
+gitlab_restore_cmd: "gitlab-rake gitlab:backup:restore"
