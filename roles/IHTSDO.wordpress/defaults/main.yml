@@ -1,36 +1,28 @@
 ---
 
-
 mysql_root_pass: rooty
-mysql_port: 3306
-mysql_service: mysql
 
 wp_db_name: wpdb 
 
 wp_db_user: wpuser 
 wp_db_pw: wpuser 
-
+wp_version: "4.5.2"
 
 wp_baseurl: "https://wordpress.org"
+wp_installer: "wordpress-{{wp_version}}.tar.gz"
 
-wp_add_dbcontent: false
-wp_version: HEAD
+mysql_port: 3306
+mysql_service: mysql
 
-wp_init_script: "{{ wp_install_dir }}/config/db_script.sql"
-# defaults file for Angular
-
-# Should be the same as the artifactId in the pom
 wp_app_name: wordpress
-version_wp: "latest"
-#wp_install_dir: "/opt/{{ wp_app_name }}"
-#wp_lib_dir: "{{ wp_install_dir }}/lib"
-#wp_conf_dir: "{{ wp_install_dir }}/conf"
-#wp_security_file: "{{ wp_install_dir }}/blogic/Security.js"
+wp_install_dir: "/opt/{{ wp_app_name }}"
+wp_installto_dir: "{{wp_install_dir}}/wp"
+wp_apache_html_dir: "/var/www/html/"
+wp_config: "wp-config.php"
+
+wp_web_user: "www-data"
 
 
-git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins"
-theme_dir_tgt: "/var/www/html/wp-content/themes/SnomedInAction"
-theme_dir_src: "SnomedInAction"
 
 wp_dir_src: wp-directory
 

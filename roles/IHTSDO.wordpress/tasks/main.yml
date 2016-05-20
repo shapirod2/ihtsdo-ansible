@@ -7,15 +7,15 @@
 - include: "{{systemchoice}}"
   when: systemchoice is defined
 
+- debug: msg="installing wordpress wp_version = {{wp_version}}"
   
   #Setup the database
 - include: db.yml
 #include dependencies
 - include: deps.yml
  
-
 - name: stop apache2
-  service: name=apache2 state=stppped
+  service: name=apache2 state=stopped
   
  #include getwp
 - include: getwp.yml 
@@ -24,16 +24,5 @@
   service: name=apache2 state=restarted
 
 
-  
-#- name: Install rest api from github - termmed 
-#  git: repo=https://github.com/termMed/component-identifier-service.git dest={{ wp_install_dir }}
 
-- debug: msg="wp_version = {{wp_version}}"
-
-- name: Install rest api from github 
-  git: repo=https://github.com/IHTSDO/component-identifier-service.git dest={{ wp_install_dir }} version={{wp_version}}
- 
-  
-#- debug: msg="ansible_hostname = {{ansible_hostname}}"
-#- debug: msg="inventory_hostname = {{inventory_hostname}}"
  

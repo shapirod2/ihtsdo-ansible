@@ -1,0 +1,24 @@
+---
+wp_app_name: wordpress
+wp_install_dir: "/opt/{{ wp_app_name }}"
+sia_installto_dir: "{{wp_install_dir}}/sia"
+wp_apache_html_dir: "/var/www/html/"
+wp_content_dir: "{{wp_apache_html_dir}}wp-content/"
+wp_config: "wp-config.php"
+
+wp_web_user: "www-data"
+
+sia_version: HEAD
+
+git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins.git"
+theme_dir: "SnomedInAction"
+wp_dir: wp-directory
+
+
+
+theme_dir_tgt: "{{wp_content_dir}}/themes/{{theme_dir}}"
+wp_dir_tgt: "{{wp_content_dir}}/plugins/{{wp_dir}}"
+
+
+
+
