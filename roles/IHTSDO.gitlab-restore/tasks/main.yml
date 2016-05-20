@@ -1,0 +1,19 @@
+---
+- include: "{{systemchoice}}"
+  when: systemchoice is defined
+
+- name: Ensure back up dir exists
+  file: path="{{ gitlab_script_dir }}" state=directory
+        owner=www-data group=www-data mode=0644
+        recurse=yes
+
+- name: Deploy restore script
+  template: src=gitlab-restore.sh.j2 dest={{ gitlab_script_dir }}/gitlab-restore.sh
+            owner={{ gitlab_user }} group={{ gitlab_user }} mode=0755
+
+- debug: msg="Running gitlab backup using script = {{ gitlab_restore_cmd }}"
+
+- debug: msg="Restore cmd = {{ gitlab_bin_dir }}/{{ gitlab_restore_cmd }}"
+
+- name: Restore backup
+  shell: "{{ gitlab_script_dir }}/gitlab-restore.sh > /tmp/output"
