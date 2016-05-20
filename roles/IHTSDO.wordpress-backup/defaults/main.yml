@@ -6,56 +6,23 @@ system_type: local_test
 # Dir to put scripts into
 #s3_backup_dir: "s3://{{jira_backup}}"
 
-backup_dir: "/opt/backup/jira"
-jira_data_dir: "/var/atlassian"
-dump_filename: "mysqldump.sql"
+sia_s3_backup_dir: "prod-sia-backup-ihtsdo"
+sia_s3_backup_region: "us-west-2"
 
-back_type: "jira"
+sia_backup_dir: "/opt/backup/sia"
+sia_data_dir: "/var/html"
+sia_dump_filename: "sia_mysqldump.sql"
+
 
 #dataset
-script_dir: /opt/scripts/jira
-new_backup_script: backup_jira_s3.sh
+script_dir: /opt/scripts/sia
+new_backup_script: backup_sia_s3.sh
 backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
 #default to jira backup val
-mysql_root_pass_jira_backup: "{{ mysql_root_pass_jira }}"
-
-
-
-mysql_root_pass: rooty
-mysql_port: 3306
-mysql_service: mysql
-
-wp_db_name: wpdb 
-
-wp_db_user: wpuser 
-wp_db_pw: wpuser 
-
-
-wp_baseurl: "https://wordpress.org"
-
-wp_add_dbcontent: false
-wp_version: HEAD
-
-wp_init_script: "{{ wp_install_dir }}/config/db_script.sql"
-# defaults file for Angular
-
-# Should be the same as the artifactId in the pom
-wp_app_name: wordpress
-version_wp: "latest"
-#wp_install_dir: "/opt/{{ wp_app_name }}"
-#wp_lib_dir: "{{ wp_install_dir }}/lib"
-#wp_conf_dir: "{{ wp_install_dir }}/conf"
-#wp_security_file: "{{ wp_install_dir }}/blogic/Security.js"
-
-
-git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins"
-theme_dir_tgt: "/var/www/html/wp-content/themes/SnomedInAction"
-theme_dir_src: "SnomedInAction"
-
-wp_dir_src: wp-directory
+mysql_root_pass_sia_backup: "{{ mysql_root_pass }}"
 
 
 
