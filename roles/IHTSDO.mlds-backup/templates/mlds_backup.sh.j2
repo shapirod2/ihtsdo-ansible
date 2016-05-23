@@ -11,6 +11,7 @@ db_host=localhost
 db_port=5432
 db_admin={{ postgres_user }}
 db_include=mlds
+s3_numbackups=5
 
 # If Postgres and not using default postgres admin user (postgres)
 # then instead make sure there is a Postgres .pgpass file
@@ -18,10 +19,13 @@ db_include=mlds
 db_password=none
 
 s3_backup_dir={{ s3_backup_dir }}
+s3_backup_region={{ s3_backup_region }}
 
 # create backup dir
 echo "backup dir = "${backup_dir};
+rm -rf ${backup_dir}
 mkdir -p ${backup_dir}
+
 
 # then for each db in db_include
 
@@ -47,17 +51,30 @@ then
  fi
     done
 
-if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
-then
-echo "Deleting old back ups backup dir = "${backup_dir};
-find ${backup_dir}/* -mtime +5 -exec rm {} \;
-fi
-echo "s3_backup_dir = "$s3_backup_dir;
-# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-then
 echo "Transferring backup to AWS S3";
-/usr/bin/aws s3 sync ${backup_dir} $s3_backup_dir --delete;
-echo "Backup transferred";
-echo "Backup process complete";
+cd $backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir --region $s3_backup_region; done
+    echo "  Backup transferred";
+
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir --region $s3_backup_region | grep '^20' | sort -k1,2 > $backup_dir/backup.list
+k=0
+filename=""
+while read line;do
+    ((k++))
+            echo "Line # $k: $line"
+    	if [ "$k" = "1" ]; then
+                  arr=($line)
+                  filename=${arr[3]}
+    	fi
+done < $backup_dir/backup.list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k -gt $s3_numbackups ]; then
+    echo "number of backups exceeded. Deleting filename = $filename"
+    aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+    echo "Deleted filename = $filename"
 fi
