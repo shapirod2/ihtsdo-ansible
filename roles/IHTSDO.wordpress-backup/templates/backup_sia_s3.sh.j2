@@ -73,8 +73,10 @@ main() {
 }
 
 mysql_dump(){
-echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass_sia_backup }} --all-databases --add-drop-database --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ sia_dump_filename }}"
+/usr/bin/mysqldump  --quick  --single-transaction -uroot -p{{ mysql_root_pass_sia_backup }}  $db > "$ABSOLUTE_ARCHIVE_PREFIX/{{ sia_dump_filename }}"
+ 
+
 }
 
 copyfromdatadir(){

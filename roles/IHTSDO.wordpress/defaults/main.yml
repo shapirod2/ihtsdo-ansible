@@ -1,11 +1,10 @@
 ---
 
-mysql_root_pass: rooty
-
+wp_mysql_root_pass: rooty
 wp_db_name: wpdb 
-
 wp_db_user: wpuser 
 wp_db_pw: wpuser 
+
 wp_version: "4.5.2"
 
 wp_baseurl: "https://wordpress.org"

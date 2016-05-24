@@ -9,9 +9,13 @@ system_type: local_test
 sia_s3_backup_dir: "prod-sia-backup-ihtsdo"
 sia_s3_backup_region: "us-west-2"
 
+wp_apache_html_dir: "/var/www/html/"
+
 sia_backup_dir: "/opt/backup/sia"
-sia_data_dir: "/var/html"
+sia_data_dir: "{{ wp_apache_html_dir }}"
 sia_dump_filename: "sia_mysqldump.sql"
+
+
 
 
 #dataset
@@ -21,9 +25,10 @@ backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
-#default to jira backup val
-mysql_root_pass_sia_backup: "{{ mysql_root_pass }}"
+wp_mysql_root_pass: rooty
+wp_db_name: wpdb 
 
+mysql_root_pass_sia_backup: "{{ wp_mysql_root_pass }}"
 
 
 
