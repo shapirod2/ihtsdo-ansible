@@ -75,6 +75,6 @@ echo "filename = $filename"
 
 if [ $k -gt $s3_numbackups ]; then
     echo "number of backups exceeded. Deleting filename = $filename"
-    aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+    aws s3 rm $s3_backup_dir/$filename --region $s3_backup_region
     echo "Deleted filename = $filename"
 fi
