@@ -1,7 +1,4 @@
 ---
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
 - name: Ensure scripts dir exists
   file: path="{{ mlds_scripts_dir }}" state=directory
           owner=root group=root mode=0755
@@ -18,4 +15,4 @@
   shell: "{{ mlds_scripts_dir }}/{{ mlds_restore_script }}"
 
 - name: Restart mlds
-  supervisorctl: name=mlds state=restarted 
+  supervisorctl: name=mlds state=restarted
