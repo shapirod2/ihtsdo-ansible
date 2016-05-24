@@ -1,0 +1,80 @@
+#!/bin/bash
+
+backup_dir="{{ backup_dir }}"
+
+# db_type acceptable values:
+# pgsql = Postgres
+# mysql = MySql
+db_type=pgsql
+
+db_host=localhost
+db_port=5432
+db_admin={{ postgres_user }}
+db_include=mlds
+s3_numbackups=5
+
+# If Postgres and not using default postgres admin user (postgres)
+# then instead make sure there is a Postgres .pgpass file
+# ( format : localhost:5432:mydbname:postgres:mypass ) make sure chmod 600
+db_password=none
+
+s3_backup_dir={{ s3_backup_dir }}
+s3_backup_region={{ s3_backup_region }}
+
+# create backup dir
+echo "backup dir = "${backup_dir};
+rm -rf ${backup_dir}
+mkdir -p ${backup_dir}
+
+
+# then for each db in db_include
+
+        for db in $db_include;
+        do
+                echo "db = "${db}
+                ts=$(date +\%Y-\%m-%d_\%T_\%z)
+                echo "ts = "${ts}
+                backup_archive="${ts}-$(hostname -s)-${db}-${db_type}.gz"
+
+if [ "$db_type" = "pgsql" ];
+then
+                        if [ "$db_admin" = "postgres" ]; #we assume the db is locally hosted
+                        then
+                                su - postgres -c "/usr/bin/pg_dump ${db}" | gzip > ${backup_dir}/${backup_archive}
+                        else
+                                /usr/bin/pg_dump -U${db_admin} -h${db_host} -p${db_port} ${db} | gzip > ${backup_dir}/${backup_archive}
+                        fi
+ fi
+ if [ "$db_type" = "mysql" ];
+then
+      /usr/bin/mysqldump  --single-transaction --routines --triggers --user=$db_admin -p$MYSQL_PASSWORD  $db | gzip > ${backup_dir}/${backup_archive}
+ fi
+    done
+
+echo "Transferring backup to AWS S3";
+cd $backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir --region $s3_backup_region; done
+    echo "  Backup transferred";
+
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir --region $s3_backup_region | grep '^20' | sort -k1,2 > $backup_dir/backup.list
+k=0
+filename=""
+while read line;do
+    ((k++))
+            echo "Line # $k: $line"
+    	if [ "$k" = "1" ]; then
+                  arr=($line)
+                  filename=${arr[3]}
+    	fi
+done < $backup_dir/backup.list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k -gt $s3_numbackups ]; then
+    echo "number of backups exceeded. Deleting filename = $filename"
+    aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+    echo "Deleted filename = $filename"
+fi
