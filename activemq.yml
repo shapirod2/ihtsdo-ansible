@@ -1,8 +1,10 @@
 ---
   - hosts: orchestration_service
     sudo: true
+    vars:
+     activemq_force_reinstall: true
     roles:
-      - IHTSDO.activemq
+      - IHTSDO.activemq 
 
 
 
