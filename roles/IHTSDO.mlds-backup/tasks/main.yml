@@ -5,18 +5,18 @@
   when: systemchoice is defined
 
 - name: Ensure backup dir exists
-  file: path="{{ backup_dir }}" state=directory
+  file: path="{{ mlds_backup_dir }}" state=directory
         owner=root group=root mode=0755
         recurse=yes
 
 - name: Ensure scripts dir exists
-  file: path="{{ scripts_dir }}" state=directory
+  file: path="{{ mlds_scripts_dir }}" state=directory
         owner=root group=root mode=0755
         recurse=yes
 
 - name: Install backup script
-  template: src=mlds_backup.sh.j2 dest={{ scripts_dir }}/{{ backup_script }}
+  template: src=mlds_backup.sh.j2 dest={{ mlds_scripts_dir }}/{{ mlds_backup_script }}
             owner=root group=root mode=0755
 
 - name: Perform backup
-  shell: "{{ scripts_dir }}/{{ backup_script }}"
+  shell: "{{ mlds_scripts_dir }}/{{ mlds_backup_script }}"

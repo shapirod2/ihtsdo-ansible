@@ -1,7 +1,7 @@
 ---
-scripts_dir: /opt/scripts/mlds
-backup_dir: /opt/backups/mlds
-backup_script: mlds_backup.sh
 postgres_user: postgres
-s3_backup_dir: "s3://prod-mlds.new.backup.ihtsdo"
-s3_backup_region: "us-east-1"
+mlds_scripts_dir: /opt/scripts/mlds
+mlds_backup_dir: /opt/backups/mlds
+mlds_backup_script: mlds_backup.sh
+mlds_s3_backup_dir: "s3://prod-mlds.new.backup.ihtsdo"
+mlds_s3_backup_region: "us-east-1"
