@@ -1,0 +1,18 @@
+---
+- name: Ensure scripts dir exists
+  file: path="{{ mlds_scripts_dir }}" state=directory
+          owner=root group=root mode=0755
+          recurse=yes
+
+- name: Install restore script
+  template: src=mlds_restore.sh.j2 dest={{ mlds_scripts_dir }}/{{ mlds_restore_script }}
+              owner=root group=root mode=0755
+
+- name: stop mlds
+  supervisorctl: name=mlds state=stopped
+
+- name: Restore from backup
+  shell: "{{ mlds_scripts_dir }}/{{ mlds_restore_script }}"
+
+- name: Restart mlds
+  supervisorctl: name=mlds state=restarted

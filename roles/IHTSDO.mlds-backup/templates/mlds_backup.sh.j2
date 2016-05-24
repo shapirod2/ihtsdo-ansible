@@ -1,6 +1,6 @@
 #!/bin/bash
 
-backup_dir="{{ backup_dir }}"
+backup_dir="{{ mlds_backup_dir }}"
 
 # db_type acceptable values:
 # pgsql = Postgres
@@ -18,8 +18,8 @@ s3_numbackups=5
 # ( format : localhost:5432:mydbname:postgres:mypass ) make sure chmod 600
 db_password=none
 
-s3_backup_dir={{ s3_backup_dir }}
-s3_backup_region={{ s3_backup_region }}
+s3_backup_dir={{ mlds_s3_backup_dir }}
+s3_backup_region={{ mlds_s3_backup_region }}
 
 # create backup dir
 echo "backup dir = "${backup_dir};
@@ -40,7 +40,7 @@ if [ "$db_type" = "pgsql" ];
 then
                         if [ "$db_admin" = "postgres" ]; #we assume the db is locally hosted
                         then
-                                su - postgres -c "/usr/bin/pg_dump ${db}" | gzip > ${backup_dir}/${backup_archive}
+                                su - postgres -c "/usr/bin/pg_dump ${db} --clean" | gzip > ${backup_dir}/${backup_archive}
                         else
                                 /usr/bin/pg_dump -U${db_admin} -h${db_host} -p${db_port} ${db} | gzip > ${backup_dir}/${backup_archive}
                         fi
@@ -75,6 +75,6 @@ echo "filename = $filename"
 
 if [ $k -gt $s3_numbackups ]; then
     echo "number of backups exceeded. Deleting filename = $filename"
-    aws s3 rm $s3_backup_dir/$filename $s3_backup_region
+    aws s3 rm $s3_backup_dir/$filename --region $s3_backup_region
     echo "Deleted filename = $filename"
 fi

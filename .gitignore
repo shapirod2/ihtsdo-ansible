@@ -5,3 +5,4 @@
 .project
 local_data
 *.iml
+/bin/

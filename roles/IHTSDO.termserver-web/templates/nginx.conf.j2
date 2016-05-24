@@ -80,6 +80,13 @@ server {
       if ( -f {{MAINTDIR}}/{{MAINTFILE}}){
         return 503;
       }
+      
+      location ~ .*/exports/.*/archive$ {
+        rewrite ^(.$) $1;
+        proxy_pass {{ nginx_proxy_url }};
+        proxy_send_timeout 10000;
+        proxy_read_timeout 10000;
+      }
   }
   
 location /tslogs { alias /tslogs; }  
