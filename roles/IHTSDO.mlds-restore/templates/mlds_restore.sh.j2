@@ -1,0 +1,29 @@
+#!/bin/bash
+export LC_ALL=en_US.UTF-8
+
+# The S3 backup dir
+s3_backup_dir="{{ mlds_s3_backup_dir | default('')}}"
+s3_backup_region="{{ mlds_s3_backup_region | default('')}}"
+backup_dir="/tmp/mlds"
+backup="{{ mlds_backup_file }}"
+
+# create backup dir
+rm -rf ${backup_dir}
+mkdir -p ${backup_dir}
+
+if [$backup == ""]; then
+  backup=`aws s3 ls $s3_backup_dir --region $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
+fi
+
+if aws s3 cp --region $s3_backup_region $s3_backup_dir/$backup $backup_dir/$backup; then
+		echo "Downloaded $backup to $backup_dir"
+else
+    echo "$backup could not be retreved from AWS"
+		exit 1
+fi
+
+cd $backup_dir
+echo "Decompressing $backup to" $backup_dir
+gzip -cd $backup > database.sql
+echo "Restoring postgres database"
+su - {{ postgres_user }} -c "/usr/bin/psql -d mlds -f $backup_dir/database.sql"
