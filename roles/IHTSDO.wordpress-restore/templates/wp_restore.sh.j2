@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # The S3 backup dir
-s3_backup_dir="{{jira_s3_backup_dir | default('')}}"
+s3_backup_dir="{{wp_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-s3_backup_region_base="{{jira_s3_backup_region | default('')}}"
+s3_backup_region_base="{{wp_s3_backup_region | default('')}}"
 
 s3_backup_region=""
 if [ "x$s3_backup_region_base" != "x" ]; then
@@ -12,7 +12,7 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
-backup_dir="{{ jira_restore_working_directory }}"
+backup_dir="{{ wp_restore_dir }}"
 
     # Main script starts here.
 main() {
@@ -37,7 +37,7 @@ check_arguments() {
 
 mkbkdir(){
 	# first delete if there
-	echo "Creating workspace in /tmp"
+	echo "Creating workspace in $backup_dir"
 	rm -rf $backup_dir
 	mkdir -pv $backup_dir
 }
@@ -50,7 +50,7 @@ echo_date() {
 
 restore_latest_from_aws(){
 
-	echo "Retrieving the latest backup form aws";
+	echo "Retrieving the latest backup from aws";
 	LATEST=`aws s3 ls $s3_backup_dir_full  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
 	if aws s3 $s3_backup_region cp $s3_backup_dir_full/$LATEST $backup_dir/$LATEST; then
 		echo "Downloaded $LATEST to $backup_dir";
@@ -60,15 +60,24 @@ restore_latest_from_aws(){
 	cd $backup_dir
 	echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
 	unzip $backup_dir/$LATEST
-	echo "Restoring data directory to {{ jira_home }}"
-	cp -rfp $backup_dir/${LATEST%%.*}/atlassian/application-data/jira/* {{ jira_home }}/
-	chown -R {{ jira_user }}.{{ jira_group }} {{ jira_home }}/
+	echo "Restoring data directory to {{ wp_apache_html_dir }}"
+	
+	rm -rf {{ wp_apache_html_dir }}
+	mkdir {{ wp_apache_html_dir }}
+
+	cp -rfp $backup_dir/${LATEST%%.*}/html/* {{ wp_apache_html_dir }}
+
+	chown -R {{wp_web_user}}:{{wp_web_user}} {{ wp_apache_html_dir }}
+	chmod -R 0755 {{ wp_apache_html_dir }}
+    
+
 	echo "Restoring mysql database"
-	mysql -u root -p{{ mysql_jira_root_password }} < $backup_dir/${LATEST%%.*}/mysqldump.sql
+	mysql -u{{ wp_db_user }} -p{{ wp_db_pw }} {{ wp_db_name }} < $backup_dir/${LATEST%%.*}/{{ wp_dump_filename }}
 	echo "Restarting mysql to flush stale permissions"
 	service mysql restart
+	service apache2 restart
 	echo "Tidying up"
-	rm -rf $backup_dir
+	#rm -rf $backup_dir
 }
 
 error_exit() {
@@ -76,7 +85,7 @@ error_exit() {
         exit 1
 }
 # Ensures that only a single instance is running at any time
-LOCKFILE="/var/lock/jira-restore.lock"
+LOCKFILE="/var/lock/instance-restore.lock"
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
         trap "rm $LOCKFILE" EXIT

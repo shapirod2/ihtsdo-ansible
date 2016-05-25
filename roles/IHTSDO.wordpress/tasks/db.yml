@@ -43,10 +43,10 @@
   mysql_db: name=test state=absent login_user=root login_password={{ wp_mysql_root_pass }}
 
 
-# Create a new database with name wp_db_name ('idservice') if required
+# Create a new database with name wp_db_name ('wordpress') if required
 - mysql_db: name={{wp_db_name}} state=present login_user=root login_password={{ wp_mysql_root_pass }}
 
-# Creates database user 'ts_user' with all database privileges and 'WITH GRANT OPTION'
+# Creates database user 'wp_db_user' with all database privileges and 'WITH GRANT OPTION'
 - mysql_user: name={{wp_db_user}} password={{wp_db_pw}} login_user=root login_password={{ wp_mysql_root_pass }} priv=*.*:ALL,GRANT state=present
 
 - name: restart mysql

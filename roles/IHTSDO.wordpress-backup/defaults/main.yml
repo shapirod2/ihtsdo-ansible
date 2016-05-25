@@ -15,8 +15,9 @@ sia_backup_dir: "/opt/backup/sia"
 sia_data_dir: "{{ wp_apache_html_dir }}"
 sia_dump_filename: "sia_mysqldump.sql"
 
-
-
+wp_db_name: wordpress 
+wp_db_user: wordpress
+wp_db_pw: wordpress
 
 #dataset
 script_dir: /opt/scripts/sia
@@ -25,10 +26,6 @@ backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
-wp_mysql_root_pass: rooty
-wp_db_name: wpdb 
-
-mysql_root_pass_sia_backup: "{{ wp_mysql_root_pass }}"
 
 
 

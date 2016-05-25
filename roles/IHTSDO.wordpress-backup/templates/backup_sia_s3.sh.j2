@@ -74,9 +74,8 @@ main() {
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ sia_dump_filename }}"
-/usr/bin/mysqldump  --quick  --single-transaction -uroot -p{{ mysql_root_pass_sia_backup }}  $db > "$ABSOLUTE_ARCHIVE_PREFIX/{{ sia_dump_filename }}"
+/usr/bin/mysqldump  --quick  --single-transaction -u{{wp_db_user}} -p{{ wp_db_pw }}  {{wp_db_name}} > "$ABSOLUTE_ARCHIVE_PREFIX/{{ sia_dump_filename }}"
  
-
 }
 
 copyfromdatadir(){

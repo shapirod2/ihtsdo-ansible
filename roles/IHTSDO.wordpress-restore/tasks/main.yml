@@ -4,19 +4,19 @@
 - include: "{{systemchoice}}" 
   when: systemchoice is defined
 
-- name: Ensure service is stopped
-  service: name=jira state=stopped enabled=yes pattern="atlassian.standalone=JIRA"
+- name: Ensure apache service is stopped
+  service: name=apache2 state=stopped 
 
-- name: Ensure back up dir exists
-  file: path="{{ jira_restore_script_location }}" state=directory
+- name: Ensure restore dir exists
+  file: path="{{ script_dir }}" state=directory
         owner=root group=root mode=0755 
         recurse=yes 
 
-- name: set backup script
-  template: src=jira_restore.sh.j2 dest={{ jira_restore_script_location }}/jira_restore.sh
+- name: set restore script
+  template: src=wp_restore.sh.j2 dest={{ restore_cmd }}
             owner=root group=root mode=0755    
 
-- shell: "{{ jira_restore_script_location }}/{{ jira_restore_script }}"
+#- shell: "{{ full_restore_cmd }}"
 
 - name: Ensure service is started
-  service: name=jira state=started enabled=yes
+  service: name=apache2 state=started enabled=yes
