@@ -1,7 +1,7 @@
 ---
  #include system vars
- - include: "{{systemchoice}}"
-   when: systemchoice is defined
+- include: "{{systemchoice}}"
+  when: systemchoice is defined
 
 - name: Ensure back up dir exists
   file: path="{{ gitlab_backup_dir }}" state=directory
