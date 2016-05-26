@@ -1,10 +1,14 @@
 
+#- name: Allow mysql  
+#  ufw: rule=allow port={{mysql_port}} proto=any
+
 #- name: Set MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password' value='{{mysql_root_pass_refset | quote}}' vtype='password'
+- debconf: name='mysql-server' question='mysql-server/root_password' value='{{refset_mysql_root_pass | quote}}' vtype='password'
 
 #- name: Confirm MySQL root password before installing
-- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass_refset | quote}}' vtype='password'
+- debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{refset_mysql_root_pass | quote}}' vtype='password'
 
+#- debug: msg="refset_mysql_root_pass = {{refset_mysql_root_pass}}"
 
 # Install the package "mysql-server"
 - name: Install mysql server
@@ -17,14 +21,33 @@
 # Install the package "python-mysqldb"
 - name: Install mysql python helper
   apt: name=python-mysqldb state=present
+  
+#- name: Update MySQL root password for all root accounts
+#  mysql_user: name=root host={{ item }} password={{ refset_mysql_root_pass }} state=present
+#  with_items:
+#     - "{{ ansible_hostname }}"
+#     - 127.0.0.1
+#     - ::1
+#     - localhost
+     
+- name: Copy the root credentials as .my.cnf file
+  template: src=root.cnf.j2 dest=~/.my.cnf mode=0600     
+  
+- name: ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }}  login_user=root login_password={{ refset_mysql_root_pass }}  state=absent
+  with_items:
+   - localhost
+   - "{{ ansible_hostname }}"
 
+- name: remove the test database
+  mysql_db: name=test state=absent login_user=root login_password={{ refset_mysql_root_pass }}
 
-# Create a new database with name dbname  if required
-- mysql_db: name={{dbname}} state=present login_user=root login_password={{ mysql_root_pass_refset }}
+#"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
+# Create a new database with name refset_db_name ('refsetdb') if required
+- mysql_db: name={{refset_db_name}} state=present login_user=root login_password={{ refset_mysql_root_pass }} collation=utf8_unicode_ci encoding=utf8
 
-#Creates database user 'mysql_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name={{mysql_user}} password={{mysql_user_pass_refset}} login_user=root login_password={{ mysql_root_pass_refset }} priv=*.*:ALL,GRANT state=present
-
+# Creates database user 'refset_db_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name={{refset_db_user}} password={{refset_db_pw}} login_user=root login_password={{ refset_mysql_root_pass }} priv=*.*:ALL,GRANT state=present
 
 - name: restart mysql
   service: name={{ mysql_service }} state=restarted 
