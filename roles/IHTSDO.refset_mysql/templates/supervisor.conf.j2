@@ -1,6 +1,7 @@
-[program:{{app_name}}]
-user = root
-command =  {{target_dir_tom}}/tomcat/bin/catalina.sh run
+[program:{{refset_app_name}}]
+user = {{refset_user}}
+#directory = /opt/%(program_name)s/
+command = /usr/bin/java -Xms256m -Xmx3000m -XX:+UseConcMarkSweepGC -jar /opt/%(program_name)s/lib/app.jar -Drefset.config=/opt/%(program_name)s/conf/config.properties
 startsecs=5
 stopsignal=INT
 autostart = true

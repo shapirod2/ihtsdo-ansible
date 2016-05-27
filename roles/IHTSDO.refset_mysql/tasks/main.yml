@@ -26,6 +26,7 @@
        - maven
        - unzip
        - speedometer
+#tomcat7  
        
 - name: Install package
   apt: name={{refset_app_name}} state=installed
@@ -52,23 +53,9 @@
         owner={{ refset_user }} group="{{ refset_user }}" mode=755 
         recurse=yes  
   
- 
- 
- 
-- name: Install speedometer for use in seeing how downloads are going (initial testing only)
-  apt: name=speedometer state=present update_cache=yes cache_valid_time=300  
- 
-
-  
-
-
-
-#- name: Install tomcat - apt for now. should be bundled as the the std.
-#  apt: name=tomcat7 state=present update_cache=yes cache_valid_time=300 
-
-
-#- name: restart tomcat
-#  service: name=tomcat7 state=restarted 
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ refset_app_name }}.conf"
+              owner=root group=root mode=0640  
 
 
 #Get Backup sql file from S3
@@ -87,8 +74,8 @@
 #- include: setdbcontent.yml
 #  when: installdbcontent == True
 
-#- name: Start App
-#  supervisorctl: name={{app_name}} state=started
+- name: Start App
+  supervisorctl: name={{refset_app_name}} state=started
 
 
 
