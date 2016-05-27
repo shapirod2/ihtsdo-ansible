@@ -12,6 +12,7 @@
 
 - name: Stop app if running
   supervisorctl: name={{refset_app_name}} state=stopped
+  ignore_errors: yes
 
 # https://confluence.ihtsdotools.org/display/REFSET/Deploy+Instructions
 
@@ -52,10 +53,31 @@
   file: path="{{ refset_app_dir }}" state=directory
         owner={{ refset_user }} group="{{ refset_user }}" mode=755 
         recurse=yes  
+
+- name: set perms for indexes dir
+  file: path="{{ indexBase_dir }}" state=directory
+        owner={{ refset_user }} group="{{ refset_user }}" mode=755 
+        recurse=yes  
+
   
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ refset_app_name }}.conf"
               owner=root group=root mode=0640  
+
+
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="location / {" 
+     line="    location ~ ^\/$ {rewrite ^ /index.html;}"
+     state=present   
+     
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertafter="#endofLocation" 
+     line="    location /ims-api {proxy_pass {{refset_ims_url_logout}};}"
+     state=present       
 
 
 #Get Backup sql file from S3
@@ -75,7 +97,10 @@
 #  when: installdbcontent == True
 
 - name: Start App
-  supervisorctl: name={{refset_app_name}} state=started
+  supervisorctl: name={{refset_app_name}} state=restarted
+  ignore_errors: yes  
+  
+
 
 
 

@@ -3,41 +3,56 @@
 #"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
 
 refset_mysql_root_pass: rooty
-refset_db_name: refsetdb 
+refset_db_name: refset 
 refset_db_user: refset
 refset_db_pw: refset
+refset_db_host: "127.0.0.1"
 refset_user: "ihtsdo"
 
 refset_version: "latest"
 
 refset_app_name: "refset-service"
+app_name: "{{ refset_app_name }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
 refset_app_dir: "/opt/{{ refset_app_name }}"
+indexBase_dir: "{{refset_app_dir}}/indexes"
 
-mysql_port: 3306
-mysql_service: mysql
+refset_mysql_port: 3306
+refset_mysql_service: mysql
+
 
 nginx_ufw_allow_https: true
 nginx_conf: "{{app_name}}"
 nginx_fqdn: "~(?i){{app_name}}"
 nginx_default_site: true
 nginx_ufw_allow_https: true
-nginx_proxy_url: http://localhost:8080/
-
-# Import sql from S3
-#force_zip_download_sql: False
-#import_base_dir_sql: "/opt/download/sql"
-#import_file_sql: "refset.sql"
-#import_zip_file_sql: "{{ import_file_sql }}.zip"
-#import_zip_url_sql: "{{import_zip_base_url}}{{ import_zip_file_sql }}"
-#import_file_dir_sql: "{{import_base_dir_sql}}/{{import_zip_file_sql}}"
-
-# The SQL import file name
-#import_file_dir_sql_sql: "{{import_base_dir_sql}}/{{import_file_sql}}"
+nginx_proxy_url: "http://localhost:8080/refset-rest/"
 
 
-#installdbcontent: True
+refset_cis_instance: cis.ihtsdotools.org
+refset_cis_url: "http://{{refset_cis_instance}}:3000/api"
+refset_cis_username: "bob"
+refset_cis_pw: "bob"
+
+refset_term_instance: sct-rest.ihtsdotools.org
+refset_term_url: "https://{{refset_term_instance}}/api"
+
+refset_ims_instance: ims.ihtsdotools.org
+refset_ims_url: "https://{{refset_ims_instance}}"
+refset_ims_url_logout: "{{refset_ims_url}}/api"
+refset_ims_url_api: "https://{{refset_ims_instance}}"
+
+refset_admin_mojo_user: "bob"
+refset_admin_mojo_pw: "bob"
+
+refset_mail_smtp_user: "bob"
+refset_mail_smtp_pw: "bob"
+refset_mail_smtp_to: "bob@bob.com"
+
+refset_git_url: "https://git.ihtsdotools.org/ihtsdo/ihtsdo-refset-management-service.git "
+refset_git_dir: "{{refset_app_dir}}/git"
+refset_git_dir_code: "{{refset_git_dir}}/code"
 
 
 
