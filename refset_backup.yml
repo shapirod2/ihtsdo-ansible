@@ -5,5 +5,5 @@
     - files/encrypted/aws/s3-default.yml
     roles: 
       - IHTSDO.aws
-      - IHTSDO.refset-backup
+      - IHTSDO.refset_mysql_backup
       
