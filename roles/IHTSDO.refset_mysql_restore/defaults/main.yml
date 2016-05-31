@@ -1,0 +1,24 @@
+---
+system_type: local_test
+
+refset_db_name: refset
+refset_db_user: refset
+refset_db_pw: refset
+
+
+# Backup 
+# Dir to put scripts into
+refset_s3_backup_dir: "test-refset.backup.ihtsdo"
+refset_s3_backup_region: "us-west-2"
+refset_restore_dir: "/opt/restore/refset"
+#refset_data_dir: "{{ }}"
+refset_dump_filename: "mysqldump.sql"
+
+#dataset
+script_dir: /opt/scripts/refset
+new_restore_script: restore_refset_s3.sh
+restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"
+restore_log: "{{ script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
+
+refset_app_name: "refset-service"

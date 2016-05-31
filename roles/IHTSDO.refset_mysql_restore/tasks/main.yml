@@ -1,0 +1,29 @@
+---
+
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=300 
+    
+ #include system vars
+- include: "{{systemchoice}}"
+  when: systemchoice is defined
+
+- name: Stop app if running
+  supervisorctl: name={{refset_app_name}} state=stopped
+
+
+- name: Ensure restore dir exists
+  file: path="{{ script_dir }}" state=directory
+        owner=root group=root mode=0755 
+        recurse=yes 
+
+- name: set restore script
+  template: src=refset_restore.sh.j2 dest={{ restore_cmd }}
+            owner=root group=root mode=0755    
+
+- shell: "{{ full_restore_cmd }}"
+
+- name: Start App
+  supervisorctl: name={{refset_app_name}} state=started
+
+
+
