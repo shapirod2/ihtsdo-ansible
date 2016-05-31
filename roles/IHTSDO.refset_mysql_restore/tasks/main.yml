@@ -19,6 +19,18 @@
 - name: set restore script
   template: src=refset_restore.sh.j2 dest={{ restore_cmd }}
             owner=root group=root mode=0755    
+            
+- name: if present dump existing db
+  mysql_db: name={{refset_db_name}} state=absent login_user=root login_password={{refset_mysql_root_pass}}
+ 
+# Create a new database with name refset_db_name ('refsetdb') if required
+- mysql_db: name={{refset_db_name}} state=present login_user=root login_password={{ refset_mysql_root_pass }} collation=utf8_unicode_ci encoding=utf8
+
+# Creates database user 'refset_db_user' with all database privileges and 'WITH GRANT OPTION'
+- mysql_user: name={{refset_db_user}} password={{refset_db_pw}} login_user=root login_password={{ refset_mysql_root_pass }} priv=*.*:ALL,GRANT state=present  
+          
+ 
+- debug: msg="About to restore command = {{ full_restore_cmd }}"            
 
 - shell: "{{ full_restore_cmd }}"
 

@@ -4,7 +4,7 @@ system_type: local_test
 refset_db_name: refset
 refset_db_user: refset
 refset_db_pw: refset
-
+refset_mysql_root_pass: rooty
 
 # Backup 
 # Dir to put scripts into

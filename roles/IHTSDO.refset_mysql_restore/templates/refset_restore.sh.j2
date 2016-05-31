@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # The S3 backup dir
-s3_backup_dir="{{wp_s3_backup_dir | default('')}}"
+s3_backup_dir="{{refset_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-s3_backup_region_base="{{wp_s3_backup_region | default('')}}"
+s3_backup_region_base="{{refset_s3_backup_region | default('')}}"
 
 s3_backup_region=""
 if [ "x$s3_backup_region_base" != "x" ]; then
@@ -12,7 +12,7 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
-backup_dir="{{ wp_restore_dir }}"
+backup_dir="{{ refset_restore_dir }}"
 
     # Main script starts here.
 main() {
@@ -58,24 +58,12 @@ restore_latest_from_aws(){
 		error_exit
 	fi
 	cd $backup_dir
-	echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
+    echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
 	unzip $backup_dir/$LATEST
-	echo "Restoring data directory to {{ wp_apache_html_dir }}"
-	
-	rm -rf {{ wp_apache_html_dir }}
-	mkdir {{ wp_apache_html_dir }}
-
-	cp -rfp $backup_dir/${LATEST%%.*}/html/* {{ wp_apache_html_dir }}
-
-	chown -R {{wp_web_user}}:{{wp_web_user}} {{ wp_apache_html_dir }}
-	chmod -R 0755 {{ wp_apache_html_dir }}
-    
-
 	echo "Restoring mysql database"
-	mysql -u{{ wp_db_user }} -p{{ wp_db_pw }} {{ wp_db_name }} < $backup_dir/${LATEST%%.*}/{{ wp_dump_filename }}
+	mysql -u{{ refset_db_user }} -p{{ refset_db_pw }} {{ refset_db_name }} < $backup_dir/${LATEST%%.*}/{{ refset_dump_filename }}
 	echo "Restarting mysql to flush stale permissions"
 	service mysql restart
-	service apache2 restart
 	echo "Tidying up"
 	#rm -rf $backup_dir
 }
