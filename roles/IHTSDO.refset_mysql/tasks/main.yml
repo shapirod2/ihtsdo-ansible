@@ -63,6 +63,10 @@
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ refset_app_name }}.conf"
               owner=root group=root mode=0640  
+              
+- name: Configure config.properties
+  template: src=config.properties.j2 dest={{refset_app_dir}}/conf/config.properties
+            owner={{refset_user}} group={{refset_user}} mode=0640
 
 
 - name: Add config location to nginx config
@@ -78,23 +82,6 @@
      insertafter="#endofLocation" 
      line="    location /ims-api {proxy_pass {{refset_ims_url_logout}};}"
      state=present       
-
-
-#Get Backup sql file from S3
-  
-#- name: Remove datadir so as to spark complete rebuild
-#  file: path={{import_base_dir_sql}} state=absent
-#  when: "force_zip_download_sql == True" 
-
-#- name: make sure dataDir exists
-#  file: path={{import_base_dir_sql}}  state=directory
-  
-#- name: make sure zip file exists
-#  stat: path={{import_zip_file_sql}}
-#  register: repozipimportfile  
-  
-#- include: setdbcontent.yml
-#  when: installdbcontent == True
 
 - name: Start App
   supervisorctl: name={{refset_app_name}} state=restarted
