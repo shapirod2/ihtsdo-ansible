@@ -17,6 +17,8 @@ supervisor_dir: "/etc/supervisor/conf.d/"
 
 refset_app_dir: "/opt/{{ refset_app_name }}"
 indexBase_dir: "{{refset_app_dir}}/indexes"
+refset_data_dir: "{{refset_app_dir}}/data"
+refset_conf_dir: "{{refset_app_dir}}/conf"
 
 refset_mysql_port: 3306
 refset_mysql_service: mysql

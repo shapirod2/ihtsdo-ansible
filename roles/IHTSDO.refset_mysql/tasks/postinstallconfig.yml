@@ -1,0 +1,19 @@
+---
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ refset_app_name }}.conf"
+              owner=root group=root mode=0640  
+              
+
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertbefore="location / {" 
+     line="    location ~ ^\/$ {rewrite ^ /index.html;}"
+     state=present   
+     
+- name: Add config location to nginx config
+  lineinfile: 
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+     insertafter="#endofLocation" 
+     line="    location /ims-api {proxy_pass {{refset_ims_url_logout}};}"
+     state=present       

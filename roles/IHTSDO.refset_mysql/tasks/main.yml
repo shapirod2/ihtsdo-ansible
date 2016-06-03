@@ -16,10 +16,6 @@
 
 # https://confluence.ihtsdotools.org/display/REFSET/Deploy+Instructions
 
-- name: install db
-  include: db.yml  
-  
-  
 - name: Install deps
   apt: name={{item}} state=latest update_cache=yes cache_valid_time=300
   with_items:
@@ -27,61 +23,29 @@
        - maven
        - unzip
        - speedometer
-#tomcat7  
-       
-- name: Install package
-  apt: name={{refset_app_name}} state=installed
-  when: refset_version == 'installed'
 
-- name: Install latest package
-  apt: name={{refset_app_name}} state=latest
-  when: refset_version == 'latest'
-
-- name: Install package specific version
-  apt: name={{refset_app_name}}={{ refset_version }} state=installed
-  when: refset_version != 'installed' and refset_version != 'latest'
-
-
-
-- name: Ensure group exists
-  group: name={{ refset_user }} state=present
-
-- name: Ensure user exists
-  user: name={{ refset_user }} group={{ refset_user }} state=present
+#- name: install db
+#  include: db.yml  
   
-- name: set perms
+#- name: install app
+#  include: install.yml  
+  
+- name: make sure refset_app_dir exists 
   file: path="{{ refset_app_dir }}" state=directory
-        owner={{ refset_user }} group="{{ refset_user }}" mode=755 
-        recurse=yes  
-
-- name: set perms for indexes dir
-  file: path="{{ indexBase_dir }}" state=directory
-        owner={{ refset_user }} group="{{ refset_user }}" mode=755 
-        recurse=yes  
-
+    
+- name: make sure refset_conf_dir exists
+  file: path={{refset_conf_dir}}  state=directory  
   
-- name: Configure supervisor
-  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ refset_app_name }}.conf"
-              owner=root group=root mode=0640  
-              
-- name: Configure config.properties
-  template: src=config.properties.j2 dest={{refset_app_dir}}/conf/config.properties
-            owner={{refset_user}} group={{refset_user}} mode=0640
+- name: make sure refset_data_dir exists
+  file: path={{refset_data_dir}}  state=directory    
 
+- name: get from git
+  include: getFromGit.yml 
 
-- name: Add config location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="location / {" 
-     line="    location ~ ^\/$ {rewrite ^ /index.html;}"
-     state=present   
-     
-- name: Add config location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertafter="#endofLocation" 
-     line="    location /ims-api {proxy_pass {{refset_ims_url_logout}};}"
-     state=present       
+#- name: post install config
+#  include: postinstallconfig.yml
+  
+
 
 - name: Start App
   supervisorctl: name={{refset_app_name}} state=restarted
