@@ -39,14 +39,18 @@
   lineinfile: 
      dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
      insertbefore="^error_page 503 @maintenance;" 
-     line="location /sca {alias {{ lib_dir }}; 
-      if ( -f /opt/maint/maintain.html){
-        return 503;
-      }
-     }"
+     line="location /sca { alias {{ lib_dir }}; if ( -f /opt/maint/maintain.html){ return 503; } }"
      state=present
-     regexp='^location /sca'       
-       
+     regexp='^location /sca '
+
+- name: Add sca location to nginx config
+  lineinfile:
+     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+     insertbefore="^error_page 503 @maintenance;"
+     line="location /sca-mrcm-disabled { alias /opt/sca-no-mrcm/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
+     state=present
+     regexp='^location /sca-mrcm-disabled '
+
 - name: restart nginx
   service: name=nginx state=restarted  
 
