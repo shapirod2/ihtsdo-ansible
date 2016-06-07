@@ -10,9 +10,18 @@
 - name: Create {{ atlassian_application }} installation directory
   file: path={{ common_install }} state=directory owner={{ system_user }}  group={{ system_group }}
 
+- name: Set download_location
+  set_fact: 
+     package: "{{ atlassian_archive }}"
+
+- name: Overide standard download location for jira 7
+  set_fact:
+     package: "atlassian-jira-software-{{ atlassian_version }}-jira-{{ atlassian_version }}.tar.gz"
+  when: atlassian_application  == 'jira' and {{ atlassian_version | version_compare('7.0.0', '>=') }}
+
 #Download and Extract the source
 - name: Download and Extract Application
-  unarchive: src="{{ common_download_location }}/{{ atlassian_archive }}" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
+  unarchive: src="{{ common_download_location }}/{{ package }}" dest={{ common_install }} owner={{ system_user }}  group={{ system_group }} copy=no
 
 - shell: ls -d {{ common_install }}/atlassian-{{ atlassian_application }}*
   register: full_path
