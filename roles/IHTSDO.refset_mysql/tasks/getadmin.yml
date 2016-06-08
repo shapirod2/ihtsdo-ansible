@@ -1,0 +1,25 @@
+- name: Install package
+  apt: name={{refset_admin_app_name}} state=installed
+  when: refset_version == 'installed'
+
+- name: Install latest package
+  apt: name={{refset_admin_app_name}} state=latest
+  when: refset_version == 'latest'
+
+- name: Install package specific version
+  apt: name={{refset_admin_app_name}}={{ refset_version }} state=installed
+  when: refset_version != 'installed' and refset_version != 'latest'
+  
+- name: run set up script
+  shell: "{{refset_admin_setup_script}}"
+  
+- name: set perms on root m2
+  file: path="/root/.m2" state=directory
+        owner=root group=root mode=755   
+  
+- name: add settings.xml to root
+  template: src=settings.xml.j2 dest=/root/.m2/settings.xml
+            owner=root group=root mode=0640    
+  
+
+  

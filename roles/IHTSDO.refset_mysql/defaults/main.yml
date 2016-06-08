@@ -2,6 +2,11 @@
 
 #"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
 
+install_admin: true
+refset_admin_app_name: "refset-service-admin"
+refset_admin_app_dir: "/opt/{{ refset_admin_app_name }}"
+refset_admin_setup_script: "{{refset_admin_app_dir}}/setupconfdata.sh"
+
 refset_mysql_root_pass: rooty
 refset_db_name: refset 
 refset_db_user: refset
@@ -19,6 +24,9 @@ refset_app_dir: "/opt/{{ refset_app_name }}"
 indexBase_dir: "{{refset_app_dir}}/indexes"
 refset_data_dir: "{{refset_app_dir}}/data"
 refset_conf_dir: "{{refset_app_dir}}/conf"
+
+security_handler: "IMS"
+security_handler_default: "DEFAULT"
 
 refset_mysql_port: 3306
 refset_mysql_service: mysql

@@ -24,11 +24,11 @@
        - unzip
        - speedometer
 
-#- name: install db
-#  include: db.yml  
+- name: install db
+  include: db.yml  
   
-#- name: install app
-#  include: install.yml  
+- name: install app
+  include: install.yml  
   
 - name: make sure refset_app_dir exists 
   file: path="{{ refset_app_dir }}" state=directory
@@ -37,13 +37,20 @@
   file: path={{refset_conf_dir}}  state=directory  
   
 - name: make sure refset_data_dir exists
-  file: path={{refset_data_dir}}  state=directory    
+  file: path={{refset_data_dir}}  state=directory  
+ 
 
-- name: get from git
-  include: getFromGit.yml 
+- name: install admin and reference data
+  include: getadmin.yml 
+  when: install_admin == true
+  
+    
 
-#- name: post install config
-#  include: postinstallconfig.yml
+#- name: get from git
+#  include: getFromGit.yml 
+
+- name: post install config
+  include: postinstallconfig.yml
   
 
 
