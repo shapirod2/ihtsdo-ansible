@@ -1,6 +1,8 @@
 ---
-  - hosts: restart-tunnel
-    remote_user: root
+#  - hosts: restart-tunnel
+  - hosts: restarttunnelgroup
+    #remote_user: root
+    sudo: true
     tasks:
     - name: run script
       shell: /home/zabbixagent/scripts/autosshtunnel.sh
