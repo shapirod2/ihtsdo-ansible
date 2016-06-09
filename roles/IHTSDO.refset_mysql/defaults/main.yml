@@ -16,6 +16,8 @@ refset_user: "ihtsdo"
 
 refset_version: "latest"
 
+refset_host: localhost
+
 refset_app_name: "refset-service"
 app_name: "{{ refset_app_name }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
@@ -37,7 +39,7 @@ nginx_conf: "{{app_name}}"
 nginx_fqdn: "~(?i){{app_name}}"
 nginx_default_site: true
 nginx_ufw_allow_https: true
-nginx_proxy_url: "http://localhost:8080/refset-rest/"
+nginx_proxy_url: "http://localhost:8080/"
 
 
 refset_cis_instance: cis.ihtsdotools.org
