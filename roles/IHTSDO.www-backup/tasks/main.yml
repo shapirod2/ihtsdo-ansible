@@ -1,0 +1,24 @@
+---
+
+ #include system vars
+- include: "{{systemchoice}}" 
+  when: systemchoice is defined
+
+- name: Ensure back up dir exists
+  file: path="{{ www_backup_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+
+- name: set backup script
+  template: src=www_backup.sh.j2 dest={{ www_backup_dir }}/www_backup.sh
+            owner={{ www_dir_owner }} group={{ www_dir_owner }} mode=0755    
+
+- debug: msg="Running www backup using script = {{ www_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ www_full_backup_cmd }}"
+
+- shell: "{{ www_full_backup_cmd }}"
+
+
+
+#- command: "{{ full_backup_cmd }}"
