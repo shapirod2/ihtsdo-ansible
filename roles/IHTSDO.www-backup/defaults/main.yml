@@ -6,7 +6,7 @@
 www_user: "wwwtestuser"
 www_pw: "wwwtestpw"
 
-www_html_dir: "/var/www/html"
+www_html_dir: "/var/www"
 www_nginx_config_dir: "/etc/nginx/sites-enabled"
 
 

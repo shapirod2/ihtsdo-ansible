@@ -65,10 +65,6 @@ check_arguments() {
 	if [ "x$s3_backup_dir" = "x" ]; then
 		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
 	fi
-	
-	if [ "x$MYSQL_DBNAME" = "x" ]; then
-		error_exit "Please set the variable MYSQL_DBNAME before running this script. Exiting with error."
-	fi
 
 	if [ "x$MYSQL_USERNAME" = "x" ]; then
 		error_exit "Please set the variable MYSQL_USERNAME before running this script. Exiting with error."
