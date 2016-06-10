@@ -1,0 +1,24 @@
+---
+
+ #include system vars
+- include: "{{systemchoice}}" 
+  when: systemchoice is defined
+
+- name: Ensure back up dir exists
+  file: path="{{ guvnor_backup_dir }}" state=directory
+        owner={{ guvnor_dir_owner }} group={{ guvnor_dir_owner }} mode=0644 
+        recurse=yes  
+
+- name: set backup script
+  template: src=guvnor_backup.sh.j2 dest={{ guvnor_backup_dir }}/guvnor_backup.sh
+            owner={{ guvnor_dir_owner }} group={{ guvnor_dir_owner }} mode=0755    
+
+- debug: msg="Running guvnor backup using script = {{ guvnor_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ guvnor_full_backup_cmd }}"
+
+- shell: "{{ guvnor_full_backup_cmd }}"
+
+
+
+#- command: "{{ full_backup_cmd }}"

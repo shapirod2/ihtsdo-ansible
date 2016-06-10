@@ -1,0 +1,27 @@
+---
+
+# Backup 
+# Dir to put scripts into
+
+guvnor_data_dir: "/opt/drools"
+
+guvnor_dir_owner: "root"
+guvnor_s3_backup_dir: ""
+guvnor_s3_backup_region: ""
+
+guvnor_backup_dir: /opt/backup/guvnor
+
+guvnor_backup_script: guvnor_backup.sh
+
+guvnor_backup_cmd: "{{ guvnor_backup_dir }}/{{ guvnor_backup_script }}"
+
+guvnor_backup_log: "{{ guvnor_backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+guvnor_full_backup_cmd: "{{ guvnor_backup_cmd }} >> {{ guvnor_backup_log }}"
+
+#Dir for scripts to put final backup zips into
+guvnor_backup_zip_dir: /opt/backup/guvnor/zips
+
+
+
+
