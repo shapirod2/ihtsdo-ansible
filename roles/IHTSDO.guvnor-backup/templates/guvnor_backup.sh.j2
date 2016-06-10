@@ -4,10 +4,10 @@
 
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
-s3_backup_dir="{{www_s3_backup_dir | default('')}}"
+s3_backup_dir="{{guvnor_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-s3_backup_region_base="{{www_s3_backup_region | default('')}}"
+s3_backup_region_base="{{guvnor_s3_backup_region | default('')}}"
 s3_numbackups=5
 s3_bk_list=s3list.txt
 
@@ -24,13 +24,13 @@ GUVNOR_DATA="{{ guvnor_data_dir }}"
 CURRENT_DATE=`date +%Y%m%d_%H%M`
 
 # The starting directory
-backup_dir="{{ www_backup_dir }}"
+backup_dir="{{ guvnor_backup_dir }}"
 
 # The dir where zips go
 tmp_backup_dir="$backup_dir/tmp"
 
 # The working directory and the resulting archive file prefix
-ARCHIVE_PREFIX="www_$(hostname -s)_$CURRENT_DATE"
+ARCHIVE_PREFIX="guvnor_$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
@@ -48,7 +48,7 @@ check_arguments() {
 	if [ "x$s3_backup_dir" = "x" ]; then
 		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
 	fi
-
+}
 # Main script starts here.
 main() {
 	echo_date "----------------------------"
@@ -82,7 +82,7 @@ mkdir -pv $tmp_backup_dir
 }
 
 backup_GUVNOR_DATA() {
-echo_date "Backing up www root from $GUVNOR_DATA"
+echo_date "Backing up drools rules from $GUVNOR_DATA"
 cp --recursive --parents  $GUVNOR_DATA $ABSOLUTE_ARCHIVE_PREFIX
 }
 
