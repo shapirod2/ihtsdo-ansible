@@ -1,0 +1,14 @@
+---
+#Update config file
+- name: Set crowd home dir in init properties
+  lineinfile:
+      dest="{{ crowd_install_location }}/crowd/crowd-webapp/WEB-INF/classes/crowd-init.properties"
+      line="crowd.home={{ crowd_home_location }}/crowd"
+
+- name: Create default database user for application
+  mysql_user: name={{ crowd_mysql_user }} password={{ crowd_mysql_password }} login_host={{ crowd_mysql_hostname }} login_port={{ crowd_mysql_port }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
+  when: crowd_create_database
+
+- name: Create default database
+  mysql_db: name={{crowd_mysql_db}} login_host={{ crowd_mysql_hostname }} login_port={{ crowd_mysql_port }} login_user={{crowd_mysql_user}} login_password={{crowd_mysql_password}} encoding=utf8 state=present
+  when: crowd_create_database

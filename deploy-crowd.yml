@@ -1,0 +1,13 @@
+---
+- hosts: crowd
+  sudo: true
+  remote_user: root
+  vars_files:
+    - files/encrypted/aws/s3-default.yml
+  roles:
+    - ansible-swapfile-master
+    - IHTSDO.aws
+    - IHTSDO.oraclejava
+    - IHTSDO.mysql
+    - IHTSDO.crowd
+    - IHTSDO.nginx-std 

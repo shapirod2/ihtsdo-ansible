@@ -1,0 +1,17 @@
+#!/bin/bash
+
+# Atlassian Linux service controller script
+cd "{{ crowd_install_location }}/crowd/"
+
+case "$1" in
+    start)
+        ./start_crowd.sh
+        ;;
+    stop)
+       ./stop_crowd.sh
+        ;;
+    *)
+        echo "Usage: $0 {start|stop}"
+        exit 1
+        ;;
+esac
