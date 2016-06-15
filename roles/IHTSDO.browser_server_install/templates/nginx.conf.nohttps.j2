@@ -1,0 +1,64 @@
+server {
+  include    mime.types;
+  server_name {{ nginx_fqdn }};
+  listen 80 default;
+
+  add_header Strict-Transport-Security max-age=15768000;
+  
+  	root {{ front_end_dir }};
+	index index.html index.htm;
+   
+  set $cors ""; 
+  if ($http_origin ~* (.*\.ihtsdotools.org)) { set $cors "true"; }
+  
+
+  location / {
+   if ( -f /opt/maint/maintain.html){
+        return 503;
+   }   
+   
+   if ($cors = "true") { 
+   add_header 'Access-Control-Allow-Origin' "$http_origin"; 
+   add_header 'Access-Control-Allow-Methods' 'GET, POST, OPTIONS, DELETE, PUT'; 
+   add_header 'Access-Control-Allow-Credentials' 'true'; 
+   add_header 'Access-Control-Allow-Headers' 'User-Agent,Keep-Alive,Content-Type'; 
+   } if ($request_method = OPTIONS) { return 204; }
+      
+  } #endofLocation/
+  
+  location /doc/ {
+		alias /usr/share/doc/;
+		autoindex on;
+		allow 127.0.0.1;
+		deny all;
+	}
+
+	location /api/ {
+	  rewrite  ^/api/(.*)  /$1 break;
+	  proxy_pass http://localhost:3000/;
+      proxy_http_version 1.1;
+      proxy_set_header Connection "";
+      proxy_set_header Host $host;
+      proxy_set_header X-Real-IP $remote_addr;
+      proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+      proxy_connect_timeout 150;
+      proxy_send_timeout 100;
+      proxy_read_timeout 100;
+      proxy_buffers 4 32k;
+      client_max_body_size 8m;
+      client_body_buffer_size 128k;
+      proxy_busy_buffers_size    64k;
+      proxy_temp_file_write_size 64k;
+      proxy_set_header X-Forwarded-Host $host;
+	}    
+      
+  
+error_page 503 @maintenance;
+
+location @maintenance {
+                root /opt/maint;
+                rewrite ^(.*)$ /maintain.html break;
+   } 
+   
+
+} #endofhttpsServer
