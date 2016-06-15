@@ -1,9 +1,0 @@
----
-
-# Populate and install init script
-- name: Install init script
-  template: src=templates/init.j2 dest=/etc/init.d/{{ atlassian_application }} owner=root group=root mode=755
-
-# Register service
-- name: Register Service
-  service: name={{ atlassian_application }} enabled=yes state=started
