@@ -1,0 +1,13 @@
+---
+#Install Selected Application
+- include: installApplication.yml
+
+#Install apache mysql connector
+- include: installMysqlConnector.yml
+
+#Setup confluence
+- include: configConfluence.yml
+
+#Register and launch service
+- include: setupService.yml
+  when: confluence_create_service

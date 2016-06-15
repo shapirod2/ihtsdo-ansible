@@ -1,0 +1,29 @@
+---
+- name: Ensure confluence group exists
+  group: name={{ confluence_system_group }}  state=present system=yes
+
+- name: Ensure confluence user exists
+  user: name={{ confluence_system_user }} group={{ confluence_system_group }} state=present system=yes
+
+- name: Stop any running instance of confluence
+  service: name=confluence state=stopped
+  ignore_errors: yes
+
+- name: Remove any pre-existing installation
+  file: path={{ confluence_install_location }}/confluence state=absent
+
+- name: Create confluence installation directory
+  file: path={{ confluence_install_location }} state=directory owner={{ confluence_system_user }}  group={{ confluence_system_group }}
+
+- name: Download and Extract Application
+  unarchive: src="{{ confluence_download_location }}/{{ confluence_archive }}" dest={{ confluence_install_location }} owner={{ confluence_system_user }}  group={{ confluence_system_group }} copy=no
+
+- shell: ls -d {{ confluence_install_location }}/atlassian-confluence*
+  register: full_path
+
+- name: Make the installed path version neutral
+  command: mv {{ item }} {{ confluence_install_location }}/confluence
+  with_items: "{{ full_path.stdout_lines }}"
+
+- name: Create home directory
+  file: path={{ confluence_home_location }}/confluence state=directory owner={{ confluence_system_user }}  group={{ confluence_system_group }}

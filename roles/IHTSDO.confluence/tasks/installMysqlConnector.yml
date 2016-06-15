@@ -1,0 +1,6 @@
+---
+- name: Download and extract MYsql connector
+  unarchive: src="{{ confluence_mysql_connector_url }}" dest={{ confluence_system_location_tmp }} owner={{ confluence_system_user }} group={{ confluence_system_group }} copy=no
+
+- name: Copy the connector to confluence libs directory
+  command: "cp {{ confluence_system_location_tmp }}/mysql-connector-java-{{ confluence_mysql_connector_version }}/mysql-connector-java-{{ confluence_mysql_connector_version }}-bin.jar {{ confluence_install_location }}/confluence/confluence/WEB-INF/lib"
