@@ -1,0 +1,34 @@
+---
+#Update config file
+- name: Set jira_home in application
+  lineinfile:
+     dest="{{ jira_install_location }}/jira/atlassian-jira/WEB-INF/classes/jira-application.properties"
+     regexp="^jira.home ="
+     line="jira.home = {{ jira_home_location }}/jira"
+
+#Use jira user
+- name: Set default user for jira
+  lineinfile:
+     dest="{{ jira_install_location }}/jira/bin/user.sh"
+     regexp="^JIRA_USER="
+     line="JIRA_USER={{ jira_system_user }}"
+
+# Creates database user for jira  with all database privileges and 'WITH GRANT OPTION'
+- name: Create default database user for application
+  mysql_user: name={{ jira_mysql_user }} password={{ jira_mysql_password }} login_host={{ jira_mysql_hostname }} login_port={{ jira_mysql_port }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
+  when: jira_create_database
+
+# Create the database
+- name: Create default database
+  mysql_db: name={{jira_mysql_db}} login_host={{ jira_mysql_hostname }} login_port={{ jira_mysql_port }} login_user={{jira_mysql_user}} login_password={{jira_mysql_password}} encoding=utf8 state=present
+  when: jira_create_database
+
+# Configure mysql database server in jira
+- name: Configure application to use mysql
+  template: src=templates/dbconfig.xml.j2 dest={{ jira_home_location }}/jira/dbconfig.xml owner={{ jira_system_user }} group={{ jira_system_group }}
+
+#- name: Hardcode JRE_HOME for Oracle Java 8
+#  lineinfile:
+#     dest="{{ common_install }}/jira/bin/catalina.sh"
+#     insertafter="#!/bin/sh"
+#     line="JRE_HOME=\"/usr/lib/jvm/java-8-oracle/jre\"

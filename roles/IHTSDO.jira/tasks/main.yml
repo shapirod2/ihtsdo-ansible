@@ -1,25 +1,13 @@
 ---
-- name: Apt cache update
-  apt: update_cache=yes cache_valid_time=3600 
-  tags:
-    - ihtsdo-asset
+#Install Selected Application
+- include: installApplication.yml
 
-#Install jira dependancies
-- include: installDependancies.yml
-    
-#Setup mysql
-- include: installDB.yml 
-
-#Setup jira
-- include: installJira.yml
-
-#Setup mysql connector
+#Install apache mysql connector
 - include: installMysqlConnector.yml
 
-#Setup database connection
-- include: configureDB.yml
-  when: system_config_database
+#Setup jira
+- include: configJira.yml
 
 #Register and launch service
-- include: configureService.yml
-  when: system_config_init
+- include: setupService.yml
+  when: jira_create_service

@@ -1,0 +1,38 @@
+---
+- name: Ensure jira group exists
+  group: name={{ jira_system_group }}  state=present system=yes
+
+- name: Ensure jira user exists
+  user: name={{ jira_system_user }} group={{ jira_system_group }} state=present system=yes
+
+- name: Stop any running instance of jira
+  service: name=jira state=stopped
+  ignore_errors: yes
+
+- name: Remove any pre-existing installation
+  file: path={{ jira_install_location }}/jira state=absent
+
+- name: Create jira installation directory
+  file: path={{ jira_install_location }} state=directory owner={{ jira_system_user }}  group={{ jira_system_group }}
+
+- name: Set download_location
+  set_fact:
+     package: "{{ jira_archive }}"
+
+- name: Overide standard download location for jira 7
+  set_fact:
+     package: "atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz"
+  when: "{{ jira_version | version_compare('7.0.0', '>=') }}"
+
+- name: Download and Extract Application
+  unarchive: src="{{ jira_download_location }}/{{ package }}" dest={{ jira_install_location }} owner={{ jira_system_user }}  group={{ jira_system_group }} copy=no
+
+- shell: ls -d {{ jira_install_location }}/atlassian-jira*
+  register: full_path
+
+- name: Make the installed path version neutral
+  command: mv {{ item }} {{ jira_install_location }}/jira
+  with_items: "{{ full_path.stdout_lines }}"
+
+- name: Create home directory
+  file: path={{ jira_home_location }}/jira state=directory owner={{ jira_system_user }}  group={{ jira_system_group }}

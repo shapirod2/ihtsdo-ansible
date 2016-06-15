@@ -3,10 +3,10 @@
   <delegator-name>default</delegator-name>
   <database-type>mysql</database-type>
   <jdbc-datasource>
-    <url>jdbc:mysql://{{mysql_hostname}}:{{mysql_port}}/{{mysql_jira_db}}?useUnicode=true&amp;characterEncoding=UTF8&amp;sessionVariables=storage_engine=InnoDB</url>
+    <url>jdbc:mysql://{{ jira_mysql_hostname }}:{{ jira_mysql_port }}/{{ jira_mysql_db }}?useUnicode=true&amp;characterEncoding=UTF8&amp;sessionVariables=storage_engine=InnoDB</url>
     <driver-class>com.mysql.jdbc.Driver</driver-class>
-    <username>{{mysql_jira_user}}</username>
-    <password>{{mysql_jira_password}}</password>
+    <username>{{ jira_mysql_user }}</username>
+    <password>{{ jira_mysql_password }}</password>
     <pool-min-size>20</pool-min-size>
     <pool-max-size>20</pool-max-size>
     <pool-max-wait>30000</pool-max-wait>
