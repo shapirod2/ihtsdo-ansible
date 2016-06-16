@@ -12,7 +12,7 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
-backup_dir="{{ jira_restore_working_directory }}"
+backup_dir="{{ jira_system_location_tmp}}/jira"
 
     # Main script starts here.
 main() {
@@ -37,7 +37,7 @@ check_arguments() {
 
 mkbkdir(){
 	# first delete if there
-	echo "Creating workspace in /tmp"
+	echo "Creating workspace in {{ jira_system_location_tmp }}"
 	rm -rf $backup_dir
 	mkdir -pv $backup_dir
 }
@@ -60,11 +60,12 @@ restore_latest_from_aws(){
 	cd $backup_dir
 	echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
 	unzip $backup_dir/$LATEST
-	echo "Restoring data directory to {{ jira_home }}"
-	cp -rfp $backup_dir/${LATEST%%.*}/atlassian/application-data/jira/* {{ jira_home }}/
-	chown -R {{ jira_user }}.{{ jira_group }} {{ jira_home }}/
+	echo "Restoring data directory to {{ jira_home_location }}/jira"
+	rm -r {{ jira_home_location }}/jira
+        mv $backup_dir/${LATEST%%.*}/atlassian/application-data/jira {{ jira_home_location }}/
+	chown -R {{ jira_system_user }}.{{ jira_system_group }} {{ jira_home_location }}/jira
 	echo "Restoring mysql database"
-	mysql -u root -p{{ mysql_jira_root_password }} < $backup_dir/${LATEST%%.*}/mysqldump.sql
+	mysql -u root -p{{ mysql_root_password }} < $backup_dir/${LATEST%%.*}/mysqldump.sql
 	echo "Restarting mysql to flush stale permissions"
 	service mysql restart
 	echo "Tidying up"

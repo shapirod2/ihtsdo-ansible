@@ -1,7 +1,6 @@
 ---
 - hosts: jira
   sudo: true
-  remote_user: root
 
   roles:
-    - IHTSDO.atlassian-restore 
+    - IHTSDO.jira-restore
