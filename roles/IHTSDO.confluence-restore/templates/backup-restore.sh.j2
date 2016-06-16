@@ -1,10 +1,10 @@
 #!/bin/bash
 
 # The S3 backup dir
-s3_backup_dir="{{s3_backup_dir | default('')}}"
+s3_backup_dir="{{confluence_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-s3_backup_region_base="{{s3_backup_region | default('')}}"
+s3_backup_region_base="{{confluence_s3_backup_region | default('')}}"
 
 s3_backup_region=""
 if [ "x$s3_backup_region_base" != "x" ]; then

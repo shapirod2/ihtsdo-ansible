@@ -6,12 +6,12 @@ confluence_mysql_hostname: localhost
 confluence_mysql_port: 3306
 confluence_home_location: /var/atlassian/application-data
 
+# S3 Backup locations
+confluence_s3_backup_dir: "prod-confluence1.backup.ihtsdo"
+confluence_s3_backup_region: "us-west-2"
+
 # MYSQL settings
 mysql_root_password: change_me
 
 # common settings
 common_script_location: /opt/scripts
-
-# S3 Backup locations
-s3_backup_dir: "prod-confluence1.backup.ihtsdo"
-s3_backup_region: "us-west-2"
