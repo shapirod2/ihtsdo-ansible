@@ -1,1 +1,3 @@
 s3region: us-east-1
+
+aws_dir: "/opt/aws"
