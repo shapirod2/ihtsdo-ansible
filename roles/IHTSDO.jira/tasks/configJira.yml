@@ -6,6 +6,9 @@
      regexp="^jira.home ="
      line="jira.home = {{ jira_home_location }}/jira"
 
+- name: Rewrite footer.vm with Rory's customisations
+  template: src=templates/footer.vm.j2 dest={{ jira_home_location }}/jira/atlassian-jira/WEB-INF/classes/templates/plugins/footer/footer.vm owner={{ jira_system_user }} group={{ jira_system_group }}
+
 #Use jira user
 - name: Set default user for jira
   lineinfile:
