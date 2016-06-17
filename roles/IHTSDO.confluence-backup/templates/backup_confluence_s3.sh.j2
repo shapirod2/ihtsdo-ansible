@@ -8,10 +8,10 @@ CURRENT_DATE=`date +%Y%m%d_%H%M`
 
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
-s3_backup_dir="{{confluence_s3_backup_dir | default('')}}"
+s3_backup_dir="{{ confluence_s3_backup_dir | default('') }}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-s3_backup_region_base="{{confluence_s3_backup_region | default('')}}"
+s3_backup_region_base="{{ confluence_s3_backup_region | default('') }}"
 s3_numbackups=5
 s3_bk_list=s3list.txt
 
@@ -22,13 +22,13 @@ if [ "x$s3_backup_region_base" != "x" ]; then
 fi
 
 # The starting directory
-backup_dir={{ backup_dir }}
+backup_dir={{ confluence_backup_dir }}
 
 # The dir where zips go
 tmp_backup_dir=$backup_dir/tmp
 
 # The working directory and the resulting archive file prefix
-ARCHIVE_PREFIX="confluence_$(hostname -s)_$CURRENT_DATE"
+ARCHIVE_PREFIX="$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
@@ -62,7 +62,7 @@ main() {
 	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
 	cd "$tmp_backup_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
-	
+
 	echo_date "Finished successfully."
         if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
          then
@@ -73,12 +73,12 @@ main() {
 }
 
 mysql_dump(){
-echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass_confluence }} --all-databases --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ confluence_dump_filename }}"
+/usr/bin/mysqldump -uroot -p{{ mysql_root_password }} --all-databases --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ confluence_dump_filename }}
 }
 
 copyfromdatadir(){
-cp -R {{ confluence_data_dir }} $ABSOLUTE_ARCHIVE_PREFIX
+cp -R {{ confluence_home_location }} $ABSOLUTE_ARCHIVE_PREFIX
 }
 
 mkbkdir(){
@@ -102,7 +102,7 @@ echo "Backup process complete";
 #fi
 }
 
-delete_old_from_aws() { 
+delete_old_from_aws() {
 echo "Cleaning up old backups from aws"
 cd $backup_dir
 aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
@@ -116,7 +116,7 @@ while read line;do
               arr=($line)
               filename=${arr[3]}
 	fi
-                
+
 done < $s3_bk_list
 echo "Total number of lines in file: $k"
 echo "s3_numbackups: $s3_numbackups"
@@ -133,11 +133,10 @@ fi
 
 
 # Ensures that only a single instance is running at any time
-LOCKFILE="{{script_dir}}/instance.lock"
+LOCKFILE="{{ confluence_script_dir }}/instance.lock"
 
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
         trap "rm $LOCKFILE" EXIT
         main
 ) 200> $LOCKFILE
-
