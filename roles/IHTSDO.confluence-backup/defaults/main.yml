@@ -1,6 +1,5 @@
 confluence_backup_dir: "/opt/backup/confluence"
 confluence_home_location: "/var/atlassian"
-confluence_dump_filename: "confluencedump.sql"
 confluence_script_dir: /opt/scripts/confluence
 confluence_backup_script: backup_confluence_s3.sh
 confluence_backup_cmd: "{{ confluence_script_dir }}/{{ confluence_backup_script }}"

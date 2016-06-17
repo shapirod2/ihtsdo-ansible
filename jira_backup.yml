@@ -1,5 +1,5 @@
 ---
-  - hosts: jira_backup
+  - hosts: jira
     sudo: true
     vars_files:
     - files/encrypted/aws/s3-default.yml

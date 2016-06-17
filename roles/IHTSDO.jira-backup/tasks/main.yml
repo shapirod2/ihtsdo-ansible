@@ -1,35 +1,15 @@
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
-- debug: msg="back_type = {{ back_type }}"
-- debug: msg="jira_s3_backup_dir = {{ jira_s3_backup_dir }}"
-- debug: msg="jira_s3_backup_region = {{ jira_s3_backup_region }}"
-
-- name: set to confluence mysql if type set to confluence  
-  set_fact:
-   mysql_root_pass_jira_backup: "{{ mysql_root_pass_confluence }}"
-  when: back_type == "confluence"
-  
-- name: set to workflow mysql if type set to confluence  
-  set_fact:
-   mysql_root_pass_jira_backup: "{{ mysql_root_pass_jira_workflow }}"
-  when: back_type == "workflow"  
-  
-
 - name: Install zip
-  apt: name=zip state=present update_cache=yes cache_valid_time=3600  
+  apt: name=zip state=present update_cache=yes cache_valid_time=300
 
 - name: Install unzip
-  apt: name=unzip state=present update_cache=yes cache_valid_time=3600
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
 
 - name: make sure script_dir exists
-  file: path={{script_dir}}  state=directory  
-  
+  file: path={{jira_script_dir}}  state=directory
+
 - name: Configure backup script
-  template: src={{new_backup_script}}.j2 dest={{script_dir}}/{{new_backup_script}}
+  template: src={{jira_backup_script}}.j2 dest={{jira_script_dir}}/{{jira_backup_script}}
             owner=root group=root mode=0740
 
-- debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
-
 - name: run backup command
-  shell: "{{ full_backup_cmd }}"
+  shell: "{{ jira_full_backup_cmd }}"
