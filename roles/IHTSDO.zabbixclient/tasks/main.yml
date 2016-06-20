@@ -1,7 +1,7 @@
 ---
 
-#- name: Include installzabbixclient
-#  include: installzabbixclient.yml
+- name: Include installzabbixclient
+  include: installzabbixclient.yml
 
 - name: make sure scripts dir exists
   file: path={{script_dir}}  state=directory 
