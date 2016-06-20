@@ -10,7 +10,7 @@ s3_backup_dir_base="$2"
 s3_backup_region_base="$4"
 tgt_dir_base="$3"
 
-s3_backup_dir="s3://$s3_backup_dir_base"
+s3_backup_dir="$s3_backup_dir_base"
 
 s3_backup_region=""
 if [ "x$s3_backup_region_base" != "x" ]; then
@@ -64,7 +64,7 @@ copy(){
 echo "copying = "$filename " from " $s3_backup_dir " to "$tgt_dir ;
 if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 then
-echo "Transferring backup to AWS S3";
+echo "Transferring file from AWS S3";
 cd $tgt_dir
 /usr/bin/aws s3 cp $s3_backup_dir/$filename $filename $s3_backup_region;
 echo "file transferred";

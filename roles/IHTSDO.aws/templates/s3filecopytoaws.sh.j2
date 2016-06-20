@@ -10,7 +10,7 @@ s3_backup_dir_base="$2"
 s3_backup_region_base="$4"
 tgt_dir_base="$3"
 
-s3_backup_dir="s3://$s3_backup_dir_base"
+s3_backup_dir="$s3_backup_dir_base"
 
 s3_backup_region=""
 if [ "x$s3_backup_region_base" != "x" ]; then

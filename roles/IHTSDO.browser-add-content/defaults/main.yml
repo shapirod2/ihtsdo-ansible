@@ -2,17 +2,29 @@
 
 get_rel: True
 
+aws_get_script: /opt/aws/s3filecopyfromaws.sh
+
 rel_base_dir: /opt/rel
 force_zip_download: False
 
 intl_url: https://static-web.ihtsdotools.org/downloads
 intl_zip_file: SnomedCT_RF2Release_INT_20150131.zip
 
+
+
+browser_intl_url: "prod-term.backup.ihtsdo"
+browser_intl_s3_backup_region: "us-east-1"
+
+
 ext_url:  https://static-web.ihtsdotools.org/downloads
 ext_zip_file: NL_Extension.zip
 
 intl_dir: "{{rel_base_dir}}/intl"
 ext_dir: "{{rel_base_dir}}/ext"
+
+
+#SnomedCT_RF2Release_INT_20160131.zip
+
 
 normalizeTextIndex: true
 effectiveTime:
