@@ -1,6 +1,6 @@
 crowd_version: 2.9.1
 crowd_archive: atlassian-crowd-{{ crowd_version }}.tar.gz
-crowd_download_location: http://www.atlassian.com/software/crowd/downloads/binary/
+crowd_download_location: http://downloads.atlassian.com/software/crowd/downloads
 crowd_install_location: /opt/atlassian
 crowd_home_location: /var/atlassian/application-data
 crowd_create_database: true
