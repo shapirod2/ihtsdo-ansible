@@ -1,0 +1,32 @@
+- debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
+- set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
+- debug: msg="zabbix server =  {{zabbixserver1}}"
+
+- name: copy zabbix_agentd.psk
+  copy: src={{ zabbix_psk_file_ans }} dest={{ zabbix_psk_file_local }}
+        owner=zabbix group=zabbix mode=0600
+
+- name: Add zabbix_agentd.conf
+  template: src=zabbix_agentd.conf.j2 dest=/etc/zabbix/zabbix_agentd.conf
+              owner=root group=root mode=0644
+
+- name: make sure old autossh not there in rc.local
+  lineinfile: dest=/etc/rc.local  insertbefore="^exit 0" line="{{script_path}}" state="absent"
+  
+- name: Add autossh script
+  template: src=killautosshtunnel.sh.j2 dest="{{script_path_kill}}"
+              owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0700  
+  
+- name: make sure not autossh running
+  shell: "{{script_path_kill}}"
+  
+- name: resolve  zabbix server to ip
+  shell: "dig +short {{ zabbixserver1 }} | grep -v '\\.$' | head -n 1" 
+  register: resolved_hostname 
+
+- debug: msg="zabbix server ip =  {{resolved_hostname.stdout}}"
+  
+- name: open up firewall but just for zabbix server
+  ufw: rule=allow port=10050 proto=tcp from_ip={{ resolved_hostname.stdout }}
+  
+  

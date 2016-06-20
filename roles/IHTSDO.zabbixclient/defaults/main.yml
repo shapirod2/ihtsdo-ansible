@@ -21,9 +21,17 @@ ssh_dir: "/root/.ssh"
 exec_as: root
 
 script_path: "{{script_dir}}/autosshtunnel.sh"
+script_path_kill: "{{script_dir}}/killautosshtunnel.sh"
 
 ssh_keyfolder: "files/encrypted/ssh/zabbixclient/ssh"
 
+zabbix_use_ssl: true
+
+
+zabbix_psk_file: "zabbix_agentd.psk"
+
+zabbix_psk_file_local: "/home/zabbixagent/{{zabbix_psk_file}}"
+zabbix_psk_file_ans: "files/encrypted/ssl/{{zabbix_psk_file}}"
 
 
 

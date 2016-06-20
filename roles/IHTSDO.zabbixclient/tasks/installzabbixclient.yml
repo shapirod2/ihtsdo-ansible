@@ -1,0 +1,51 @@
+---
+#- name : Update apt cache
+#  apt : update_cache="yes"
+
+
+  
+- name: zabbixclient | Install pre dependency
+  apt:
+     pkg="{{item}}"
+     state=present
+     cache_valid_time=300
+  with_items:
+     - python-pip
+     - libcurl3-gnutls
+  tags: zabbixclient
+
+- name: zabbixclient| Add zabbix.com repository key
+  apt_key: 
+     url=http://repo.zabbix.com/zabbix-official-repo.key
+     state=present
+  tags: zabbixclient
+  
+- name: zabbixclient | Remove old zabbix.com repository
+  apt_repository: 
+     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major_old}}.{{zabbixserver_minor_old}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     state=absent
+  when: zabbixserver_major_old is defined   
+  tags: zabbixserver  
+
+- name: zabbixclient | Add zabbix.com repository
+  apt_repository: 
+     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     state=present
+  tags: zabbixserver
+
+- name : zabbixclient | Update apt after adding repository
+  apt :
+     update_cache="yes"
+     
+  
+- name: ensure zabbix agent is installed
+  apt: 
+     pkg=zabbix-agent
+     state=latest
+     force=yes
+  tags: zabbixclient
+
+
+
+   
+
