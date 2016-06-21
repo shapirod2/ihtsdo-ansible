@@ -1,5 +1,0 @@
----
-
-- name: add backup scripts
-  template: src=backup_xml_aws.sh.j2 dest="{{ crowd_datadir }}/backup_xml_aws.sh"
-    owner={{ crowd_user }} group={{ crowd_user }} mode=0740  

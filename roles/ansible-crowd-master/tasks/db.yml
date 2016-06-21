@@ -1,8 +1,0 @@
-
- - name: Include postgresql if defined
-   include: pgsql.yml
-   when: "db_type == 'pgsql'"
-
- - name: Include mysql if defined
-   include: mysql.yml
-   when: "db_type == 'mysql'"
