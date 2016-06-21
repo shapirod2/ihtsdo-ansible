@@ -6,13 +6,13 @@
 - name: make sure scripts dir exists
   file: path={{script_dir}}  state=directory 
 
-- name: Include ssl.yml if zabbix_use_ssl is true
+- name: Include ssl.yml if zabbix_encryption is ssl
   include: ssl.yml
-  when: "zabbix_use_ssl == true"
+  when: "zabbix_encryption == 'ssl'"
 
-- name: Include autosshtunnel.yml if zabbix_use_ssl is false
+- name: Include autosshtunnel.yml if zabbix_encryption is ssh
   include: autosshtunnel.yml
-  when: "zabbix_use_ssl == false"
+  when: "zabbix_encryption == 'ssh'"
   
 - name: Ensure service is set to run
   service: name=zabbix-agent state=restarted enabled=yes  

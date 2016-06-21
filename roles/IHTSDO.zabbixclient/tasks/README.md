@@ -7,46 +7,44 @@ tasks:       This directory contains all of the tasks that would normally be in
              respective directories without using a path.
              
              
-su tun -c 'autossh -M 0 -q -f -o "ServerAliveInterval 60" -o "ServerAliveCountMax 3" -N -R 2222:localhost:22 tun@www.softfab.co.uk'
-printf "Bringing up tunnel to www"
+This task installs a zabbix client. 
 
+If zabbix_encryption is set to "ssl" then it will install ssl encryption
+If zabbix_encryption is set to "ssh" then it will install auto-ssh encryption
 
+Note ssl encryption requires the use of Zabbix 3.0+
 
+The ssl encryption requires a psk file and should be set up in the Zabbix web UI as follows:
 
-On WWW:
+Host:
 
-ssh localhost -p 2222     
+Host Tab:
 
-To make this simple, we will use the machines root user to make the connections for us. First we need to create a SSH keypair (on the agent-machine) for the connections. Each of the agent-machines will have their own keypair.
+Agent Interfaces 
+  DNS Name insert "dns name of host being added or changed (e.g. x.y.com)" 
+  Connect To: Choose "DNS"
+  Port: "10050" (i.e. the default)
+  
+Encryption Tab:
+  Connections to Host: "PSK"
+  Connections from host: "PSK"
+  PSK identity: Retrieve from PSK file (e.g. "PSK 001")
+  PSK: Retrieve from PSK file (e.g. "af8ced32dfe8714e548694e2d29e1a14ba6fa13f216cb35c19d0feb1084b0429" )
+  
+  
+To generate a PSK 
+See: https://www.zabbix.com/documentation/3.0/manual/encryption/using_pre_shared_keys
 
+But in general : "openssl rand -hex 32"
 
-#sudo mkdir -p /root/.ssh
-#sudo ssh-keygen -t rsa -C "zabbixagent@example.com" -f /root/.ssh/zabbixagent_id_rsa -N ''
-#sudo cat /root/.ssh/zabbixagent_id_rsa.pub
+Which gives a key much like "af8ced32dfe8714e548694e2d29e1a14ba6fa13f216cb35c19d0feb1084b0429"  
 
-Once done, the public key (that is displayed on the screen) should be added to /home/zabbixagent/.ssh/authorized_keys on zabbix-srv.example.com
-
-#scp /root/.ssh/zabbixagent_id_rsa.pub zabbix-srv.example.com:/home/zabbixagent/.ssh/authorized_keys
-
-On zabbix-srv.example.com
-
-
-# chown -R zabbixagent:zabbixagent /home/zabbixagent
-# chmod 440 /home/zabbixagent/.ssh/authorized_keys
-We should now be able to make a couple of tunnels to and from zabbix-srv.example.com:
-To test it and to add zabbix-srv.example.com to the trusted list of machines, we can try to log in:
-
-#sudo ssh -i /root/.ssh/zabbixagent_id_rsa zabbixagent@zabbix-srv.example.com
-
-This should give us a welcome text, something like this:
-Linux zabbix-srv.example.com 3.10.3-x86_64 Wed Oct 23 15:24:17 EDT 2013
-
-All should be ready to go. To set up the tunnel from srv1 we need to run these two commands:
-
-#sudo autossh -i /root/.ssh/zabbixagent_id_rsa -Nf -M 20550 -R 10150:localhost:10050 -L 10051:localhost:10051 zabbixagent@zabbix-srv.example.com
-
-for srv2 it's:
-#sudo autossh -i /root/.ssh/zabbixagent_id_rsa -Nf -M 20550 -R 10250:localhost:10050 -L 10051:localhost:10051 zabbixagent@zabbix-srv.example.com
-
-and for srv3 it's:
-#sudo autossh -i /root/.ssh/zabbixagent_id_rsa -Nf -M 20550 -R 10350:localhost:10050 -L 10051:localhost:10051 zabbixagent@zabbix-srv.example.com        
+Save that in a file called zabbix_agentd.psk (or whatever you set {{zabbix_psk_file}} to in the defaults main file)
+    
+  
+  
+  
+  
+  
+  
+  

@@ -25,7 +25,9 @@ script_path_kill: "{{script_dir}}/killautosshtunnel.sh"
 
 ssh_keyfolder: "files/encrypted/ssh/zabbixclient/ssh"
 
-zabbix_use_ssl: true
+
+# values - none, ssl, ssh
+zabbix_encryption: ssl
 
 
 zabbix_psk_file: "zabbix_agentd.psk"
