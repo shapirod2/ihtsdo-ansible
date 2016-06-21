@@ -6,7 +6,6 @@
   roles:
     - ansible-swapfile-master
     - IHTSDO.aws
-    - IHTSDO.oraclejava
     - IHTSDO.mysql
     - IHTSDO.crowd
     - IHTSDO.nginx-std 
