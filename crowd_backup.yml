@@ -5,5 +5,5 @@
     - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.aws
-      - IHTSDO.crowd-new-backup
+      - IHTSDO.crowd-backup
 
