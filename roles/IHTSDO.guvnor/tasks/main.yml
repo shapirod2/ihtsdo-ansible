@@ -22,6 +22,7 @@
  
 - name: Stop guvnor if running
   supervisorctl: name={{app_name}} state=stopped
+  ignore_errors: yes
   
 
 #Get Tomcat 

@@ -35,6 +35,3 @@
 - name: Stop app if running
   supervisorctl: name={{app_name}} state=stopped  
 
-- name: Configure beans.xml (repo dir )
-  template: src=beans.xml.j2 dest="{{xml_config_dir_repo}}"
-              owner=root group=root mode=0640  

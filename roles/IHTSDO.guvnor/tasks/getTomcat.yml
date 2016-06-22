@@ -33,10 +33,14 @@
 - name: Unarchive  archive on the remote machine
   unarchive: src={{import_file_dir_tom}} dest={{target_dir_tom}}/ copy=no
   when: zipimportfile2.stat.exists == True
+  
+- name: Configure beans.xml (repo dir )
+  template: src=beans.xml.j2 dest="{{xml_config_dir_tom}}"
+              owner=root group=root mode=0640    
 
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ app_name }}.conf"
-              owner=root group=root mode=0640  
+              owner=root group=root mode=0640              
               
 - name: Start App
   supervisorctl: name={{app_name}} state=restarted              

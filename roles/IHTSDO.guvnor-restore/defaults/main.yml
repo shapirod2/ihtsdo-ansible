@@ -1,0 +1,45 @@
+---
+
+# Backup 
+# Dir to put scripts into
+
+app_name: "guvnor"
+
+guvnor_dir_owner: "root"
+guvnor_s3_backup_dir: "prod-guvnor.backup.ihtsdo"
+guvnor_s3_backup_region: "us-west-2"
+
+#guvnor_backup_dir: /opt/restore/guvnor
+
+import_zip_base_url: ""
+
+force_zip_download_repo: False
+import_base_dir_repo: "/opt/download/repo"
+import_file_suf_repo: ".zip"
+import_file_repo: "Drools_QA_Repository55"
+
+import_file_suf_repo: ".tar.gz"
+import_file_repo: "LATEST"
+
+import_zip_file_repo: "{{ import_file_repo }}{{import_file_suf_repo}}"
+import_zip_url_repo: "{{import_zip_base_url}}{{ import_zip_file_repo }}"
+import_file_dir_repo: "{{import_base_dir_repo}}/{{import_zip_file_repo}}"
+
+target_dir_repo: "/opt/drools"
+
+repo_dir: /opt/drools/Drools_QA_Repository55
+
+
+guvnor_restore_dir: /opt/restore/guvnor
+
+guvnor_restore_script: guvnor_restore.sh
+
+guvnor_restore_cmd: "{{ guvnor_restore_dir }}/{{ guvnor_restore_script }}"
+
+guvnor_restore_log: "{{ guvnor_restore_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+
+guvnor_full_restore_cmd: "{{ guvnor_restore_cmd }} >> {{ guvnor_restore_log }}"
+
+
+
+

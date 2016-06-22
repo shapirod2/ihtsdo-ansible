@@ -16,6 +16,7 @@ app_name: "guvnor"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
 target_dir_tom: "/opt/{{app_name}}"
+xml_config_dir_tom: "{{target_dir_tom}}/tomcat/webapps/guvnor/WEB-INF/beans.xml"
 
 force_zip_download_repo: False
 import_base_dir_repo: "/opt/download/repo"
@@ -23,8 +24,6 @@ import_file_repo: "Drools_QA_Repository55"
 import_zip_file_repo: "{{ import_file_repo }}.zip"
 import_zip_url_repo: "{{import_zip_base_url}}{{ import_zip_file_repo }}"
 import_file_dir_repo: "{{import_base_dir_repo}}/{{import_zip_file_repo}}"
-
-xml_config_dir_repo: "{{target_dir_tom}}/tomcat/webapps/guvnor/WEB-INF/beans.xml"
 
 target_dir_repo: "/opt/drools"
 
