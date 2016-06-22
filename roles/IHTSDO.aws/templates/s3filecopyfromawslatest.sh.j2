@@ -1,13 +1,16 @@
 #!/usr/bin/env bash
-# Copies a given file to a given bucket in a given region from a given local folder.
+# Copies the latest of a given file type (e.g. .zip) from a given bucket in a given 
+# region to a given local folder.
+# The filetype is in actuality a simple grep condition and as such could be any grep 
+# pattern
 # Requires 2 arguments with a 2 optional ones. If needing to set the region then 
 # you will need to set the local folder (if only to ".")
-# $ ./s3filecopytoaws.sh <filename> <s3BucketName> <targetDir> <s3BucketRegion>
+# $ ./s3filecopyfromawslatest.sh <fileype> <s3BucketName> <targetDir> <s3BucketRegion>
 # 
 
 # The following variables should be set by editing this script before running it:
 # The S3 backup dir
-filename="$1"
+filetype="$1"
 s3_backup_dir_base="$2"
 s3_backup_region_base="$4"
 tgt_dir_base="$3"
@@ -43,6 +46,7 @@ error_exit() {
 main() {
 	echo_date "----------------------------"
 	check_arguments
+	mktgtdir
 	copy
 	exit 0
 }
@@ -52,21 +56,23 @@ check_arguments() {
 		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
 	fi
 
-	if [ "x$filename" = "x" ]; then
-		error_exit "Please set the variable filename before running this script. Exiting with error."
+	if [ "x$filetype" = "x" ]; then
+		error_exit "Please set the variable filetype before running this script. Exiting with error."
 	fi	
 }
 
-copy(){
-echo "copying = "$filename " from " $tgt_dir " to "$s3_backup_dir ;
-if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-then
-echo "Transferring backup to AWS S3";
-cd $tgt_dir
-/usr/bin/aws s3 cp $filename $s3_backup_dir/$filename $s3_backup_region;
-echo "file transferred";
-echo "process complete";
-fi
+mktgtdir(){
+mkdir -pv $tgt_dir
+}
+
+copylatest(){
+	echo "Retrieving the latest $filetype from aws";
+	LATEST=`aws s3 ls $s3_backup_dir_full  $s3_backup_region | grep '$filetype'| sort | tail -n 1 | awk '{print $4}'`
+	if aws s3 $s3_backup_region cp $s3_backup_dir_full/$LATEST $backup_dir/$LATEST; then
+		echo "Downloaded $LATEST to $backup_dir";
+	else
+		error_exit
+	fi
 }
 
 # Ensures that only a single instance is running at any time

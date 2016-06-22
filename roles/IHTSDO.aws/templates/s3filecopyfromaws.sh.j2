@@ -1,6 +1,8 @@
 #!/usr/bin/env bash
-# Requires 2 arguments with a 2 optional ones
-# $ ./s3filecopy.sh <filename> <s3BucketName> <targetDir> <s3BucketRegion>
+# Copies a given file from a given bucket in a given region to a given local folder.
+# Requires 2 arguments with a 2 optional ones. If needing to set the region then 
+# you will need to set the local folder (if only to ".")
+# $ ./s3filecopyfromaws.sh <filename> <s3BucketName> <targetDir> <s3BucketRegion>
 # 
 
 # The following variables should be set by editing this script before running it:
