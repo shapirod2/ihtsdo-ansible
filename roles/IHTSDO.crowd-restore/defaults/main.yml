@@ -1,0 +1,17 @@
+---
+crowd_system_location_tmp: /tmp
+crowd_system_user: "crowd"
+crowd_system_group: "crowd"
+crowd_mysql_hostname: localhost
+crowd_mysql_port: 3306
+crowd_home_location: /var/atlassian/application-data
+
+# S3 Backup locations
+crowd_s3_backup_dir: "prod-crowd.backup.ihtsdo"
+crowd_s3_backup_region: "us-east-1"
+
+# MYSQL settings
+mysql_root_password: change_me
+
+# common settings
+common_script_location: /opt/scripts
