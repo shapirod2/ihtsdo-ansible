@@ -1,0 +1,9 @@
+crowd_backup_dir: "/opt/backup/crowd"
+crowd_home_location: "/var/atlassian"
+crowd_script_dir: /opt/scripts/crowd
+crowd_backup_script: backup_crowd_s3.sh
+crowd_backup_cmd: "{{ crowd_script_dir }}/{{ crowd_backup_script }}"
+crowd_backup_log: "{{ crowd_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+crowd_full_backup_cmd: "{{ crowd_backup_cmd }} >> {{ crowd_backup_log }}"
+crowd_s3_backup_dir: "dev-crowd.backup.ihtsdo"
+crowd_s3_backup_region: "us-east-1"
