@@ -30,6 +30,21 @@
 - name: Configure application to use mysql
   template: src=templates/dbconfig.xml.j2 dest={{ jira_home_location }}/jira/dbconfig.xml owner={{ jira_system_user }} group={{ jira_system_group }}
 
+- name: Install eazybi dependancies
+  apt: name={{item}} state=installed
+  with_items:
+       - phantomjs
+       - libjs-coffeescript
+
+- name: Symbolic link phantomjs location
+  shell: "ln -s  /usr/bin/phantomjs /usr/local/bin/phantomjs"
+
+- name: Create coffee-script dir
+  shell: "mkdir /usr/share/javascript/coffee-script"
+
+- name: Symbolic link libjs-coffeescript location to phantomjs expectations  
+  shell: "ln -s /usr/share/javascript/coffeescript/coffee-script.js /usr/share/javascript/coffee-script/coffee-script.js"
+
 #- name: Hardcode JRE_HOME for Oracle Java 8
 #  lineinfile:
 #     dest="{{ common_install }}/jira/bin/catalina.sh"
