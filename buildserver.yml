@@ -4,7 +4,8 @@
     roles:
       - IHTSDO.dev_env
       - IHTSDO.jenkins  
-      - IHTSDO.nginx-std  
+      - IHTSDO.nginx-std 
+ 
     tasks:
     - file: >
         dest=/var/lib/jenkins/.ssh state=directory

@@ -1,0 +1,23 @@
+---
+
+app_name: "jenkins"
+
+jenkins_dir_owner: "jenkins"
+jenkins_s3_backup_dir: "jenkins.ansible.backup.ihtsdo"
+jenkins_s3_backup_region: "us-west-2"
+
+target_dir_repo: "/var/lib/jenkins"
+
+jenkins_restore_dir: /opt/restore/jenkins
+
+jenkins_restore_script: jenkins_restore.sh
+
+jenkins_restore_cmd: "{{ jenkins_restore_dir }}/{{ jenkins_restore_script }}"
+
+jenkins_restore_log: "{{ jenkins_restore_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+
+jenkins_full_restore_cmd: "{{ jenkins_restore_cmd }} >> {{ jenkins_restore_log }}"
+
+
+
+

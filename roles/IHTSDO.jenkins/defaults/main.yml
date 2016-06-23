@@ -8,19 +8,27 @@ jenkins_context: /jenkins
 jenkins_heap_size: 256
 
 # Configuration for nginx
-jenkins_nginx: off
-jenkins_nginx_fqdn: jenkins
-jenkins_nginx_default_site: off
-jenkins_nginx_ssl: no
-jenkins_nginx_ssl_cert_file: jenkins.crt
-jenkins_nginx_ssl_key_file: jenkins.key
-jenkins_nginx_spdy: no
+#jenkins_nginx: off
+#jenkins_nginx_fqdn: jenkins
+#jenkins_nginx_default_site: off
+#jenkins_nginx_ssl: no
+#jenkins_nginx_ssl_cert_file: jenkins.crt
+#jenkins_nginx_ssl_key_file: jenkins.key
+#jenkins_nginx_spdy: no
+
+serv_name: "jenkins"
+
+nginx_ufw_allow_https: true
+nginx_conf: "jenkins"
+nginx_fqdn: "~(?i){{serv_name}}"
+nginx_default_site: true
+nginx_proxy_url: http://localhost:8080/
 
 #Move script settings
 move_scripts_dir: /opt/jenkinsmove
-jenkins_user: "root"
+jenkins_user: "jenkins"
 
-exist_jenkins: jenkins-2.ihtsdotools.org
+exist_jenkins: ""
 target_dir: "/var/lib/jenkins/"
 source_dir: "/var/lib/jenkins/"
 exclusion_file: "exist_jenkins_exclude.txt"

@@ -1,4 +1,4 @@
----
+
 
 - name: Setup apt key
   apt_key: data="{{ lookup('file', 'jenkins-ci.org.key') }}" state=present

@@ -1,0 +1,34 @@
+---
+
+ #include system vars
+#- include: "{{systemchoice}}" 
+#  when: systemchoice is defined
+  
+- name: stop jenkins
+  service: name=jenkins state=stopped
+  ignore_errors: yes
+
+- name: Remove existing jenkins dir
+  file: path={{target_dir_repo}} state=absent
+  
+- name: Remove restore dir so as to spark complete rebuild
+  file: path={{jenkins_restore_dir}} state=absent  
+
+- name: Ensure back up dir exists
+  file: path="{{ jenkins_restore_dir }}" state=directory
+        owner={{ jenkins_dir_owner }} group={{ jenkins_dir_owner }} mode=0644 
+        recurse=yes  
+
+- name: set backup script to {{jenkins_restore_cmd}}
+  template: src=jenkins_restore.sh.j2 dest={{jenkins_restore_cmd}}
+            owner=root group=root mode=0755  
+
+- debug: msg="Running jenkins restore using script = {{ jenkins_restore_cmd }}"
+
+- debug: msg="full_restore_cmd = {{ jenkins_full_restore_cmd }}"
+
+- shell: "{{ jenkins_full_restore_cmd }}"
+
+- name: restart jenkins
+  service: name=jenkins state=restarted 
+
