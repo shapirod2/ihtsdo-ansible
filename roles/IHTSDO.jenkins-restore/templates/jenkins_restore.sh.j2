@@ -14,7 +14,7 @@ fi
 
 backup_dir="{{ jenkins_restore_dir }}/current"
 
-vardir=var
+vardir=jenkins
 
 
     # Main script starts here.
@@ -68,7 +68,7 @@ restore_latest_from_aws(){
 	echo "currently in " $PWD
 	echo "Restoring data dirs"
 	chown -R {{ jenkins_dir_owner }}.{{ jenkins_dir_owner }} ./$vardir
-	cp -rfp ./$vardir/* /$vardir
+	cp -rfp ./$vardir /var/lib
 
 	#rm -rf $backup_dir
 }
