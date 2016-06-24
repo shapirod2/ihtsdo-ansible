@@ -17,18 +17,29 @@
   when: ansible_os_family == "RedHat"
   tags:
     - nginx
+
+- name: Install python-apt
+  apt: name="python-apt" state=present
     
-- name : Update apt cache
-  apt : update_cache="yes"  
+- name: Add nginx root ppa apt_key
+  apt_key: url=http://nginx.org/keys/nginx_signing.key state=present
+  when: ansible_os_family == "Debian"
+
+- name: Add nginx mainline ppa
+  apt_repository: repo='deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx' state=present 
+  when: ansible_os_family == "Debian"
+
+- name: Update apt cache
+  apt: update_cache="yes"  
   when: ansible_os_family == "Debian"  
 
-- name: Install the nginx packages
-  apt: name={{ item }} state=present update_cache=yes cache_valid_time=3600
-  with_items: ubuntu_pkg
-  #environment: env
+- name: Install python-selinux  
+  apt: name="python-selinux" state=present
   when: ansible_os_family == "Debian"
-  tags:
-    - nginx
+
+- name: Install nginx
+  apt: name="nginx={{ nginx_version }}" state=present update_cache=yes cache_valid_time=3600
+  when: ansible_os_family == "Debian"
 
 - name: Create the directories for site specific configurations
   file: path=/etc/nginx/{{ item }} state=directory owner=root group=root mode=0755
