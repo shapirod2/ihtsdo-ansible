@@ -27,7 +27,7 @@ server {
   }
   
   {% if nginx_root is defined %}root {{nginx_root}};{% endif %} 
-  {% if nginx_root_files is defined %}{{nginx_root_files}}{% endif %} 
+  {% if nginx_root_files is defined %}{{nginx_root_files}};{% endif %} 
 
   location / {
     try_files $uri $uri/ =404;
