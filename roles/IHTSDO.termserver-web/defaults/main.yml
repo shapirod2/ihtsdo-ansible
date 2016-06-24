@@ -18,4 +18,4 @@ nginx_default_site: true
 nginx_ufw_allow_https: true
 nginx_proxy_url: http://localhost:8080
 nginx_root: /opt/terminology-server-browser/lib
-nginx_root_files: index index.html test-components.html
+nginx_root_files: "index index.html test-components.html"
