@@ -1,6 +1,6 @@
 
 ---
-- hosts: browser
+- hosts: browser-ihtsdo
   sudo: true
 
   roles:

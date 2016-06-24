@@ -8,7 +8,7 @@
   remote_user: root
   vars:
     user_accounts_skip_sshd: true
-    swapfile_size: 16GB
+    swapfile_size: 4GB
   roles:
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    

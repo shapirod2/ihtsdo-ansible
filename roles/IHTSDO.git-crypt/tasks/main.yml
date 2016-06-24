@@ -1,4 +1,5 @@
 ---
+
 - name: Ensure compiler, make are installed
   apt: pkg={{ item }} state=present
   with_items:
@@ -20,3 +21,10 @@
         state=hard mode=0755
   tags:
     - git-crypt
+    
+     
+- copy: src={{gitcrypt_key_file_src}} dest={{gitcrypt_key_file_dest}}
+        owner={{gitcrypt_user}} group={{gitcrypt_user}} mode=600
+  when: gitcrypt_key_file_src is defined 
+
+       
