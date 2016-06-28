@@ -41,7 +41,7 @@
   group: name={{ activemq_user }} state=present
 
 - name: Ensure user exists
-  user: name={{ activemq_user }} group={{ activemq_user }} state=present 
+  user: name={{ activemq_user }} group={{ activemq_user }} state=present system=yes 
   
 - name: set owner to activemq_user
   file: path={{active_mq_install_dir}} owner={{ activemq_user }} group={{ activemq_user }} recurse=yes 
