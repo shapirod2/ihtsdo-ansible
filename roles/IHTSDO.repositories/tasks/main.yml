@@ -9,6 +9,8 @@
   tags:
     - ihtsdo-asset
 
+- debug: msg="Adding IHTSDO repository {{ ihtsdo_repository }}"
+
 - name: Setup apt repository
   apt_repository: repo='{{ ihtsdo_repositories[ihtsdo_repository] }}' state=present
   tags:
