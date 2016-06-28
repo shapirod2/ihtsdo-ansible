@@ -50,5 +50,7 @@ term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
 
 jira_pem_file: files/encrypted/ssl/jira.pem
 
+orchestration.validation.queueName.prefix: "queue_prefix"
+
 snomed_drools_version: master
 system_type: local_test
