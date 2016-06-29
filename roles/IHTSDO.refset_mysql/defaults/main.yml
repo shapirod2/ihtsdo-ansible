@@ -6,6 +6,8 @@ install_admin: true
 refset_admin_app_name: "refset-service-admin"
 refset_admin_app_dir: "/opt/{{ refset_admin_app_name }}"
 refset_admin_setup_script: "{{refset_admin_app_dir}}/setupconfdata.sh"
+refset_admin_pom_dir: "{{ refset_admin_app_dir }}/pom"
+refset_admin_pom_file: "refset-admin-pom.xml"
 
 refset_mysql_root_pass: rooty
 refset_db_name: refset 

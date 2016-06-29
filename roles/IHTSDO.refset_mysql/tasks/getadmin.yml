@@ -20,7 +20,12 @@
   
 - name: run admin set up script
   shell: "{{refset_admin_setup_script}} chdir={{refset_admin_app_dir}}"
- 
+  
+- name: copy the version specific pom to the std name
+  shell: "cp {{refset_admin_pom_dir}}/refset-admin*.pom   {{refset_admin_pom_dir}}/{{refset_admin_pom_file}}"
+  
+
+  
   
 
   

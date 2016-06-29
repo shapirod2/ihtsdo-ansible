@@ -8,7 +8,7 @@
     
  #include system vars
 - include: "{{systemchoice}}"
-  when: systemchoice is defined
+  when: systemchoice is defined and system_type is defined
 
 - name: Stop app if running
   supervisorctl: name={{refset_app_name}} state=stopped
