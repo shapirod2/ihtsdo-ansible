@@ -1,9 +1,8 @@
-
 ---
 
 orch_app_name: "orchestration-service"
 orchestration_server_port: 9007
-orchestration.validation.queue = "queue_name"
+orchestration.validation.queue: "queue_name"
 
 # Snow Owl Server
 orchestration_snowowl_url: http://localhost:8080/snowowl/
