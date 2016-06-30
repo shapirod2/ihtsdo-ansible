@@ -16,7 +16,13 @@
   template: src=wp_restore.sh.j2 dest={{ restore_cmd }}
             owner=root group=root mode=0755    
 
+- debug: msg="full_restore_cmd = {{ full_restore_cmd }}"
+
 - shell: "{{ full_restore_cmd }}"
+
+
+- name: make uploads writeable
+  file: path="{{wp_uploads_dir}}" state=directory mode=0777 recurse=yes
 
 - name: Ensure service is started
   service: name=apache2 state=started enabled=yes

@@ -58,10 +58,11 @@ main() {
     mysql_dump &
     copyfromdatadir
     wait
-	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
+	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX.tar.gz"
 	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
 	cd "$tmp_backup_dir"
-	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+	tar  -zcf "$ARCHIVE_PREFIX.tar.gz" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+	#zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 	
 	echo_date "Finished successfully."
         if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
@@ -97,7 +98,7 @@ echo "s3_backup_dir = "$s3_backup_dir;
 #then
 echo "Transferring backup to AWS S3";
 cd $tmp_backup_dir
-for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
+for i in *.gz; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
 echo "Backup transferred";
 echo "Backup process complete";
 #fi

@@ -59,7 +59,8 @@ restore_latest_from_aws(){
 	fi
 	cd $backup_dir
 	echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
-	unzip $backup_dir/$LATEST
+	tar  -zxvf  $backup_dir/$LATEST
+	#unzip $backup_dir/$LATEST
 	echo "Restoring data directory to {{ wp_apache_html_dir }}"
 	
 	rm -rf {{ wp_apache_html_dir }}

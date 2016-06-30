@@ -13,6 +13,7 @@ wp_s3_backup_dir: "{{ sia_s3_backup_dir }}"
 wp_s3_backup_region: "{{ sia_s3_backup_region }}"
 
 wp_apache_html_dir: "/var/www/html/"
+wp_uploads_dir: "{{wp_apache_html_dir}}wp-content/uploads"
 
 wp_restore_dir: "/opt/restore/sia"
 wp_data_dir: "{{ wp_apache_html_dir }}"
