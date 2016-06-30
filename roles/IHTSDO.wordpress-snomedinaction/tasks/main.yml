@@ -1,5 +1,7 @@
 
-
+  #include system vars
+- include: "{{systemchoice}}"
+  when: systemchoice is defined and system_type is defined
 
 - debug: msg="check out sia to = {{sia_installto_dir}}"
 - debug: msg="From git hub url of = {{git_base}}"
