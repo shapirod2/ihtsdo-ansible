@@ -16,9 +16,6 @@
 - name: Install from github 
   git: repo={{git_base}} dest={{ sia_installto_dir }} version={{sia_version}}
    
-- name: stop apache2
-  service: name=apache2 state=stopped
- 
 - name: make sure script_dir exists
   file: path={{script_dir}}  state=directory  
 
@@ -28,9 +25,11 @@
 
 - debug: msg="full_setup_cmd = {{ full_setup_cmd }}"
 
+- name: stop apache2
+  service: name=apache2 state=stopped
+
 - name: run setup command
   shell: "{{ full_setup_cmd }}"
- 
  
 - name: restart apache2
   service: name=apache2 state=restarted
