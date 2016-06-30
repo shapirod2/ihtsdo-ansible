@@ -25,7 +25,7 @@ app_name: "{{ refset_app_name }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
 refset_app_dir: "/opt/{{ refset_app_name }}"
-indexBase_dir: "{{refset_app_dir}}/indexes"
+refset_indexBase_dir: "{{refset_app_dir}}/indexes"
 refset_data_dir: "{{refset_app_dir}}/data"
 refset_conf_dir: "{{refset_app_dir}}/conf"
 

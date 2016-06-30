@@ -22,3 +22,5 @@ restore_log: "{{ script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
 
 refset_app_name: "refset-service"
+refset_app_dir: "/opt/{{ refset_app_name }}"
+refset_indexBase_dir: "{{refset_app_dir}}/indexes"

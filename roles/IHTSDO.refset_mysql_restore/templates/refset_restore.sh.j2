@@ -14,6 +14,8 @@ fi
 
 backup_dir="{{ refset_restore_dir }}"
 
+refset_index_dir={{refset_indexBase_dir}}
+
     # Main script starts here.
 main() {
 	echo_date "----------------------------"
@@ -59,7 +61,17 @@ restore_latest_from_aws(){
 	fi
 	cd $backup_dir
     echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
-	unzip $backup_dir/$LATEST
+    tar  -zxvf  $backup_dir/$LATEST
+	#unzip $backup_dir/$LATEST
+	
+	#echo "going into 1st child dir after unpacking"
+	#cd $(ls -d */|head -n 1)
+	#echo "currently in " $PWD
+	#echo "Restoring data dirs"
+	#chown -R {{ moodle_dir_owner }}.{{ moodle_dir_owner }} ./$vardir
+	#cp -rfp ./$vardir/* /$vardir
+	
+	
 	echo "Restoring mysql database"
 	mysql -u{{ refset_db_user }} -p{{ refset_db_pw }} {{ refset_db_name }} < $backup_dir/${LATEST%%.*}/{{ refset_dump_filename }}
 	echo "Restarting mysql to flush stale permissions"

@@ -21,7 +21,9 @@ backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 
-
+refset_app_name: "refset-service"
+refset_app_dir: "/opt/{{ refset_app_name }}"
+refset_indexBase_dir: "{{refset_app_dir}}/indexes"
 
 
 

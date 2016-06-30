@@ -25,7 +25,7 @@
         recurse=yes  
 
 - name: set perms for indexes dir
-  file: path="{{ indexBase_dir }}" state=directory
+  file: path="{{ refset_indexBase_dir }}" state=directory
         owner={{ refset_user }} group="{{ refset_user }}" mode=755 
         recurse=yes   
         
