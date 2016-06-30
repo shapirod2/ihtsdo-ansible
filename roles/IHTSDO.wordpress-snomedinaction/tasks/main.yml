@@ -1,4 +1,8 @@
 
+
+
+- debug: msg="check out sia to = {{sia_installto_dir}}"
+- debug: msg="From git hub url of = {{git_base}}"
 - debug: msg="sia_version = {{sia_version}}"
 
 - name: rem sia install dir
@@ -9,33 +13,21 @@
 
 - name: Install from github 
   git: repo={{git_base}} dest={{ sia_installto_dir }} version={{sia_version}}
-  
-  
-  
+   
 - name: stop apache2
   service: name=apache2 state=stopped
  
-- name: rem theme_dir_tgt
-  file: path={{ theme_dir_tgt }} state=absent 
-  
-- name: rem wp_dir_tgt
-  file: path={{ wp_dir_tgt }} state=absent  
- 
-- name: copy theme dir
-  shell: "cp -R {{ sia_installto_dir}}/{{theme_dir}} {{ theme_dir_tgt }}"         
+- name: make sure script_dir exists
+  file: path={{script_dir}}  state=directory  
 
-- name: copy wp_dir dir
-  shell: "cp -R {{ sia_installto_dir}}/{{wp_dir}} {{ wp_dir_tgt }}"  
- 
-- name: set perms
-  file: path="{{ theme_dir_tgt }}" state=directory
-        owner={{ wp_web_user }} group="{{ wp_web_user }}" mode=0755 
-        recurse=yes   
-        
-- name: set perms
-  file: path="{{ wp_dir_tgt }}" state=directory
-        owner={{ wp_web_user }} group="{{ wp_web_user }}" mode=0755 
-        recurse=yes          
+- name: Configure script
+  template: src={{new_setup_script}}.j2 dest={{script_dir}}/{{new_setup_script}}
+            owner=root group=root mode=0740
+
+- debug: msg="full_setup_cmd = {{ full_setup_cmd }}"
+
+- name: run setup command
+  shell: "{{ full_setup_cmd }}"
  
  
 - name: restart apache2

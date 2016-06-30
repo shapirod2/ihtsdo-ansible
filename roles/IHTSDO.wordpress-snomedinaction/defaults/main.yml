@@ -11,14 +11,31 @@ wp_web_user: "www-data"
 sia_version: HEAD
 
 git_base: "https://github.com/IHTSDO/snomedinaction-theme-plugins.git"
-theme_dir: "SnomedInAction"
-wp_dir: wp-directory
+
+
+plugins_dir: "plugins"
+themes_dir: "themes"
+
+plugins_dir_src: "{{ sia_installto_dir}}/{{plugins_dir}}/*"
+themes_dir_src: "{{ sia_installto_dir}}/{{themes_dir}}/*"
+
+plugins_dir_tgt: "{{wp_content_dir}}{{plugins_dir}}"
+theme_dir_tgt: "{{wp_content_dir}}{{themes_dir}}"
+
+script_dir: /opt/scripts/sia
+new_setup_script: copytotgt.sh
+setup_cmd: "{{ script_dir }}/{{ new_setup_script }}"
+setup_log: "{{ script_dir }}/setup_{{ ansible_date_time.iso8601 }}.log"
+full_setup_cmd: "{{ setup_cmd }} >> {{ setup_log }}"
 
 
 
-theme_dir_tgt: "{{wp_content_dir}}/themes/{{theme_dir}}"
-wp_dir_tgt: "{{wp_content_dir}}/plugins/{{wp_dir}}"
 
+
+#theme_dir_tgt: "{{wp_content_dir}}/{{themes_dir}}/{{theme_dir}}"
+#wp_dir_tgt: "{{plugins_dir_tgt}}/{{wp_dir}}"
+#theme_dir: "SnomedInAction"
+#wp_dir: wp-directory
 
 
 

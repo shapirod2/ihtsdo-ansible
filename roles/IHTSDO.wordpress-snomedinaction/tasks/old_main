@@ -1,0 +1,54 @@
+
+
+
+- debug: msg="check out sia to = {{sia_installto_dir}}"
+- debug: msg="From git hub url of = {{git_base}}"
+- debug: msg="sia_version = {{sia_version}}"
+
+- name: rem sia install dir
+  file: path={{ sia_installto_dir }} state=absent
+  
+- name: Ensure sia install dir exists
+  file: path={{ sia_installto_dir }} state=directory 
+
+- name: Install from github 
+  git: repo={{git_base}} dest={{ sia_installto_dir }} version={{sia_version}}
+   
+- name: stop apache2
+  service: name=apache2 state=stopped
+ 
+#- name: rem theme_dir_tgt
+#  file: path={{ theme_dir_tgt }} state=absent 
+  
+#- name: rem wp_dir_tgt
+#  file: path={{ wp_dir_tgt }} state=absent  
+ 
+#- name: copy theme dir
+#  shell: "cp -R {{ sia_installto_dir}}/{{theme_dir}} {{ theme_dir_tgt }}"         
+
+#- name: copy wp_dir dir
+#  shell: "cp -R {{ sia_installto_dir}}/{{wp_dir}} {{ wp_dir_tgt }}"  
+ 
+- name: copy theme dir
+  shell: "cp -R {{ sia_installto_dir}}/{{themes_dir}}/* {{ theme_dir_tgt }}"         
+
+- name: copy plugins dir
+  shell: "cp -R {{ sia_installto_dir}}/{{plugins_dir}}/* {{ plugins_dir_tgt }}"  
+ 
+ 
+- name: set perms
+  file: path="{{ theme_dir_tgt }}" state=directory
+        owner={{ wp_web_user }} group="{{ wp_web_user }}" mode=0755 
+        recurse=yes   
+        
+- name: set perms
+  file: path="{{ plugins_dir_tgt }}" state=directory
+        owner={{ wp_web_user }} group="{{ wp_web_user }}" mode=0755 
+        recurse=yes          
+ 
+ 
+
+- name: restart apache2
+  service: name=apache2 state=restarted
+
+ 

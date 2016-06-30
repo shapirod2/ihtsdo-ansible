@@ -1,0 +1,63 @@
+#!/bin/bash
+plugins_src={{plugins_dir_src}}
+themes_src={{themes_dir_src}}
+
+plugins_tgt={{plugins_dir_tgt}}
+themes_tgt={{theme_dir_tgt}}
+
+user={{wp_web_user}}
+
+# Main script starts here.
+main() {
+echo "main called"
+ rem_exist
+ cpnew
+ setperms
+
+}
+
+
+rem_exist(){
+
+echo "Rem Existing plugins"
+for Dir in $(find $plugins_src -maxdepth 0 -type d ); 
+do
+dname=$(basename $Dir);
+    echo "Removing " $dname " from plugins"
+    rm -rf $plugins_tgt/$dname
+done
+
+echo "Rem Existing themes"
+for Dir in $(find $themes_src -maxdepth 0 -type d ); 
+do
+dname=$(basename $Dir);
+    echo "Removing " $dname " from themes"
+    rm -rf $themes_tgt/$dname
+done
+
+
+}
+
+cpnew(){
+echo "Copy new plugins"
+cp -R $plugins_src $plugins_tgt
+echo "Copy new themes"
+cp -R $themes_src $themes_tgt
+}
+
+setperms(){
+echo "Setting perms"
+
+chown -R $user:$user $plugins_tgt
+chown -R $user:$user $themes_tgt
+
+chmod -R 755 $plugins_tgt
+chmod -R 755 $themes_tgt
+
+}
+
+
+main "$@"
+
+
+
