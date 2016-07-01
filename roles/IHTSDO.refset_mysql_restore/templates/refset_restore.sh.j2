@@ -68,7 +68,7 @@ restore_latest_from_aws(){
 	#cd $(ls -d */|head -n 1)
 	#echo "currently in " $PWD
 	#echo "Restoring data dirs"
-	#chown -R {{ moodle_dir_owner }}.{{ moodle_dir_owner }} ./$vardir
+	#chown -R moodle_dir_owner .moodle_dir_owner  ./$vardir
 	#cp -rfp ./$vardir/* /$vardir
 	
 	
