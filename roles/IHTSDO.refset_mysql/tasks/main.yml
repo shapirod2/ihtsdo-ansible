@@ -42,12 +42,11 @@
 
 - name: install admin and reference data
   include: getadmin.yml 
-  when: install_admin == true
+#  when: install_admin == true
   
-    
-
-#- name: get from git
-#  include: getFromGit.yml 
+- name: load example data
+  include: loadExampleData.yml 
+  when:  load_example_data == "true" or load_example_data == "reload"
 
 - name: post install config
   include: postinstallconfig.yml

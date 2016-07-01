@@ -2,12 +2,36 @@
 
 #"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
 
+# true false.
+load_example_data: true
+
+
+
 install_admin: true
 refset_admin_app_name: "refset-service-admin"
 refset_admin_app_dir: "/opt/{{ refset_admin_app_name }}"
 refset_admin_setup_script: "{{refset_admin_app_dir}}/setupconfdata.sh"
+
+refset_admin_setup_log: "{{ refset_admin_app_dir }}/admin_setup_{{ ansible_date_time.iso8601 }}.log"
+full_refset_admin_setup_cmd: "{{ refset_admin_setup_script }} >> {{ refset_admin_setup_log }}"
+
+
 refset_admin_pom_dir: "{{ refset_admin_app_dir }}/pom"
 refset_admin_pom_file: "refset-admin-pom.xml"
+refset_admin_pom_script_file: "setupconfdata_mvn.sh"
+refset_admin_pom_script: "{{refset_admin_pom_dir}}/{{refset_admin_pom_script_file}}"
+refset_admin_pom_log: "{{ refset_admin_pom_dir }}/admin_exampledata_{{ ansible_date_time.iso8601 }}.log"
+full_refset_admin_pom_cmd: "{{ refset_admin_pom_script }} >> {{ refset_admin_pom_log }}"
+
+
+
+script_dir: /opt/scripts/refset
+new_restore_script: restore_refset_s3.sh
+restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"
+
+
+
+refset_xmx: "1500m"
 
 refset_mysql_root_pass: rooty
 refset_db_name: refset 

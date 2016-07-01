@@ -1,6 +1,0 @@
-
-- name: make sure refset_git_dir exists
-  file: path={{refset_git_dir}}  state=directory  
-  
-- name: Install refset management code from git
-  git: repo={{refset_git_url}} dest={{refset_git_dir}}/code  

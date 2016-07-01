@@ -16,15 +16,15 @@
   
 - name: add settings.xml to root
   template: src=settings.xml.j2 dest=/root/.m2/settings.xml
-            owner=root group=root mode=0640     
+            owner=root group=root mode=0640    
+
+- debug: msg="About to admin set up script = {{ full_refset_admin_setup_cmd }}"               
   
 - name: run admin set up script
-  shell: "{{refset_admin_setup_script}} chdir={{refset_admin_app_dir}}"
+  shell: "{{full_refset_admin_setup_cmd}} chdir={{refset_admin_app_dir}}"
   
 - name: copy the version specific pom to the std name
   shell: "cp {{refset_admin_pom_dir}}/refset-admin*.pom   {{refset_admin_pom_dir}}/{{refset_admin_pom_file}}"
-  
-
   
   
 
