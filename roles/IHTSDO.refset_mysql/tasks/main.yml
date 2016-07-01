@@ -46,7 +46,7 @@
   
 - name: load example data
   include: loadExampleData.yml 
-  when:  load_example_data == "true" or load_example_data == "reload"
+  when:  load_example_data == true
 
 - name: post install config
   include: postinstallconfig.yml
