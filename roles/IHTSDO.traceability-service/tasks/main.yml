@@ -4,16 +4,16 @@
   tags:
     - ihtsdo-asset
 
-#- include: system.yml
 - include: "{{systemchoice}}"
   when: systemchoice is defined
 
-- name: Ensure supervisor is installed
-  apt: pkg=supervisor state=latest
+- name: Stop any running instances
+  supervisorctl: name=traceability-service  state=stopped  
+  failed_when: false
 
-- name: stop supervisor
-  service: name=supervisor state=stopped
-
+- name: Blow away any previous version
+  file: path={{ traceability_location }} state=absent
+  
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_config_location }}/traceability-service.conf"
               owner=root group=root mode=0640
@@ -31,8 +31,8 @@
 - name: Creates the database user if required
   mysql_user: name={{ traceability_database_username }} password={{ traceability_database_password }} login_user=root login_password={{ mysql_root_pass }} priv=*.*:ALL,GRANT state=present
 
-- name: (re)start supervisor
-  service: name=supervisor state=started
+- name: (re)load and update supervisor
+  shell: "supervisorctl reread && supervisorctl update"
 
 - name: (re)start traceability-service
   supervisorctl: name=traceability-service  state=started
