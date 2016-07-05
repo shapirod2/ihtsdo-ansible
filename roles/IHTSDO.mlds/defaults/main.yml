@@ -1,6 +1,10 @@
 ---
 mlds_version: latest
 
+mlds_appname: "mlds"
+
+mlds_dbname: "mlds"
+mlds_password: "password"
 
 mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
 

@@ -31,5 +31,5 @@
       - ihtsdo-asset
       
   - name: restart mlds
-    supervisorctl: name=mlds state=restarted 
+    supervisorctl: name={{mlds_appname}} state=restarted 
     
