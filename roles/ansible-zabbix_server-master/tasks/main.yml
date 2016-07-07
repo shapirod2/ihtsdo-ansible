@@ -29,3 +29,6 @@
  - name: SSH Tunnel management for zabbix
    include: tunnel_mgt.yml
    when: "zabbixserver_tunnel == True"
+   
+ - name: Add hipchat script
+   include: addhipchat.yml   

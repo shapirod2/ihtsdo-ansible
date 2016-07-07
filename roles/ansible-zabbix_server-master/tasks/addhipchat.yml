@@ -1,0 +1,10 @@
+---
+
+- name: make sure {{zabbixserver_hipchat_script_dir}} exists
+  file: path={{zabbixserver_hipchat_script_dir}}  state=directory
+
+- name: copy hipchat script and make exec. 
+  template:
+     src=HipchatIntegration/hipchat_room_message
+     dest={{zabbixserver_hipchat_script_dir}}
+     mode=755

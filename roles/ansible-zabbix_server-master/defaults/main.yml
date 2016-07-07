@@ -89,4 +89,6 @@ zabbixserver_apache_port: 8088
 nginx_proxy_url: http://localhost:8088/zabbix/
 
 
+zabbixserver_hipchat_script_dir: "/usr/local/bin/"
+
 
