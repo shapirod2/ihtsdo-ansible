@@ -6,6 +6,8 @@ refset_db_user: refset
 refset_db_pw: refset
 refset_mysql_root_pass: rooty
 
+refset_user: "ihtsdo"
+
 # Backup 
 # Dir to put scripts into
 refset_s3_backup_dir: "test-refset.backup.ihtsdo"

@@ -52,7 +52,9 @@
   include: postinstallconfig.yml
   
 
-
+- name: set the owner to {{refset_user}}
+  file: path={{refset_app_dir}} owner={{refset_user}} group={{refset_user}} recurse=yes
+  
 - name: Start App
   supervisorctl: name={{refset_app_name}} state=restarted
   ignore_errors: yes  

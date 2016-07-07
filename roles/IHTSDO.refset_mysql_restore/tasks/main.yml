@@ -1,5 +1,7 @@
 ---
 
+# Edit the shell script to unpack the indexes
+
 - name: Apt cache update
   apt: update_cache=yes cache_valid_time=300 
     
@@ -33,6 +35,9 @@
 - debug: msg="About to restore command = {{ full_restore_cmd }}"            
 
 - shell: "{{ full_restore_cmd }}"
+
+- name: set the owner to {{refset_user}}
+  file: path={{refset_app_dir}} owner={{refset_user}} group={{refset_user}} recurse=yes
 
 - name: Start App
   supervisorctl: name={{refset_app_name}} state=started
