@@ -45,6 +45,15 @@ mkbkdir(){
 }
 
 
+mkindexdir(){
+        # first delete if there
+        echo "Creating indexes dir in $refset_index_dir"
+        rm -rf $refset_index_dir
+        mkdir -pv $refset_index_dir
+}
+
+
+
 # Prints a message to stdout with the current date and time.
 echo_date() {
 	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
@@ -53,10 +62,13 @@ echo_date() {
 restore_latest_from_aws(){
 
 	echo "Retrieving the latest backup from aws";
+	echo "s3 url = $s3_backup_dir_full"
+	echo "s3 region = $s3_backup_region"
+	echo "latest = $LATEST"
 	LATEST=`aws s3 ls $s3_backup_dir_full  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
 	if aws s3 $s3_backup_region cp $s3_backup_dir_full/$LATEST $backup_dir/$LATEST; then
 		echo "Downloaded $LATEST to $backup_dir";
-	else
+	else cd .
 		error_exit
 	fi
 	cd $backup_dir
@@ -64,12 +76,12 @@ restore_latest_from_aws(){
     tar  -zxvf  $backup_dir/$LATEST
 	#unzip $backup_dir/$LATEST
 	
-	#echo "going into 1st child dir after unpacking"
-	#cd $(ls -d */|head -n 1)
-	#echo "currently in " $PWD
-	#echo "Restoring data dirs"
-	#chown -R moodle_dir_owner .moodle_dir_owner  ./$vardir
-	#cp -rfp ./$vardir/* /$vardir
+    echo "going into 1st child dir after unpacking"
+    cd $(ls -d */|head -n 1)
+    echo "currently in " $PWD
+    cd ./indexes/refset
+    echo "currently in " $PWD  
+    cp -r ./* $refset_index_dir
 	
 	
 	echo "Restoring mysql database"
