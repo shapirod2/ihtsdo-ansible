@@ -1,9 +1,9 @@
 ---
   - name: Create "nexus" group
-    group: name=nexus
+    group: name=nexus system=yes	
 
   - name: Create "nexus" user
-    user: name=nexus group=nexus
+    user: name=nexus group=nexus system=yes
 
   - include: download.yml
 
