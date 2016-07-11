@@ -45,10 +45,10 @@
       
 
 - name: Ensure group exists
-  group: name={{ wp_web_user }} state=present
+  group: name={{ wp_web_user }} state=present system=yes
 
 - name: Ensure user exists
-  user: name={{ wp_web_user }} group={{ wp_web_user }} state=present
+  user: name={{ wp_web_user }} group={{ wp_web_user }} state=present system=yes
   
 - name: set perms
   file: path="{{ wp_apache_html_dir }}" state=directory
