@@ -11,6 +11,9 @@
      regexp="^CONF_USER="
      line="CONF_USER={{ confluence_system_user }}"
 
+- name: Rewrite footer-content.vm with Rory's customisations
+  template: src=templates/footer-content.vm.j2 dest={{ confluence_home_location }}/confluence/confluence/decorators/includes/footer-content.vm owner={{ confluence_system_user }} group={{ confluence_system_group }}
+
 - name: Create default database user for application
   mysql_user: name={{ confluence_mysql_user }} password={{ confluence_mysql_password }} login_host={{ confluence_mysql_hostname }} login_port={{ confluence_mysql_port }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
   when: confluence_create_database
