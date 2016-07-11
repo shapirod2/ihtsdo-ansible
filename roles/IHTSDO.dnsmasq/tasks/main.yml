@@ -15,11 +15,10 @@
   apt: name=dnsmasq state=latest    
   
 - name: Ensure dnsmasq group exists
-  group: name={{ dns_masq_group }} state=present
+  group: name={{ dns_masq_group }} state=present system=yes
 
 - name: Ensure dnsmasq user exists
-  user: name={{ dns_masq_user }} group={{ dns_masq_group }} state=present 
-
+  user: name={{ dns_masq_user }} group={{ dns_masq_group }} state=present system=yes
 
 - name: Configure dnsmasq.conf
   template: src=dnsmasq.conf.j2 dest="/etc/dnsmasq.conf"
