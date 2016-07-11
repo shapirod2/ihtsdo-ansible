@@ -14,10 +14,10 @@
   when: refset_version != 'installed' and refset_version != 'latest'
   
 - name: Ensure group exists
-  group: name={{ refset_user }} state=present
+  group: name={{ refset_user }} state=present system=yes
 
 - name: Ensure user exists
-  user: name={{ refset_user }} group={{ refset_user }} state=present
+  user: name={{ refset_user }} group={{ refset_user }} state=present system=yes
   
 - name: set perms
   file: path="{{ refset_app_dir }}" state=directory
