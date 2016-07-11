@@ -1,6 +1,6 @@
 confluence_version: 6.4.3
 confluence_archive: atlassian-confluence-{{ confluence_version }}.tar.gz
-confluence_download_location: http://www.atlassian.com/software/confluence/downloads/binary/
+confluence_download_location: http://downloads.atlassian.com/software/confluence/downloads/
 confluence_system_location_tmp: /tmp
 confluence_create_database: true
 confluence_create_service: true
