@@ -38,7 +38,7 @@
   
 
 - name: Ensure group exists
-  group: name={{ activemq_user }} state=present
+  group: name={{ activemq_user }} state=present system=yes
 
 - name: Ensure user exists
   user: name={{ activemq_user }} group={{ activemq_user }} state=present system=yes 
