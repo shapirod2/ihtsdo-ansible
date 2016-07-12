@@ -4,8 +4,8 @@
 - hosts: zabbixclients
 #- hosts: www
   sudo: true
-  #remote_user: ubuntu
-  remote_user: root
+#  remote_user: ubuntu
+  #remote_user: root
   vars:
     user_accounts_skip_sshd: true
     swapfile_size: 4GB
