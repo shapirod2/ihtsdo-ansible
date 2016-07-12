@@ -3,11 +3,9 @@
 #"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
 
 # true false.
-load_example_data: true
-
-
-
+load_example_data: false
 install_admin: true
+
 refset_admin_app_name: "refset-service-admin"
 refset_admin_app_dir: "/opt/{{ refset_admin_app_name }}"
 refset_admin_setup_script: "{{refset_admin_app_dir}}/setupconfdata.sh"
@@ -84,13 +82,20 @@ refset_ims_url_api: "https://{{refset_ims_instance}}"
 refset_admin_mojo_user: "bob"
 refset_admin_mojo_pw: "bob"
 
+refset_mail_enabled: "false"
 refset_mail_smtp_user: "bob"
 refset_mail_smtp_pw: "bob"
 refset_mail_smtp_to: "bob@bob.com"
+refset_mail_smtp_host: "localhost"
+refset_mail_smtp_port: "587"
+refset_mail_smtp_starttls_enable: "false"
+refset_mail_smtp_auth: "false"
 
-refset_git_url: "https://git.ihtsdotools.org/ihtsdo/ihtsdo-refset-management-service.git "
-refset_git_dir: "{{refset_app_dir}}/git"
-refset_git_dir_code: "{{refset_git_dir}}/code"
+
+
+#refset_git_url: "https://git.ihtsdotools.org/ihtsdo/ihtsdo-refset-management-service.git "
+#refset_git_dir: "{{refset_app_dir}}/git"
+#refset_git_dir_code: "{{refset_git_dir}}/code"
 
 
 

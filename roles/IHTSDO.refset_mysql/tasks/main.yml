@@ -59,7 +59,8 @@
   supervisorctl: name={{refset_app_name}} state=restarted
   ignore_errors: yes  
   
-
+- name: restart nginx
+  service: name=nginx state=restarted
 
 
 
