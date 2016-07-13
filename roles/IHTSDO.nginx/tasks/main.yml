@@ -41,6 +41,9 @@
   apt: name="nginx={{ nginx_version }}" state=present update_cache=yes cache_valid_time=3600
   when: ansible_os_family == "Debian"
 
+- name: Pin nginx at a known version
+  shell: "sudo apt-mark hold nginx"
+
 - name: Create the directories for site specific configurations
   file: path=/etc/nginx/{{ item }} state=directory owner=root group=root mode=0755
   with_items:
