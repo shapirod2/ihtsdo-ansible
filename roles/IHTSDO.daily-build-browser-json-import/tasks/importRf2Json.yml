@@ -13,10 +13,10 @@
   template: src=rf2JsonMongoImport.sh.j2 dest={{ daily_build_import_dir }}/rf2JsonMongoImport.sh
             owner=root group=root mode=0755         
             
-- debug: msg="rf2_json_s3_copy_cmd = {{ rf2_json_s3_copy_cmd }}"
+- debug: msg="full_rf2_json_s3_copy_cmd = {{ full_rf2_json_s3_copy_cmd }}"
 
-- debug: msg="rf2json_mongo_install_cmd = {{ rf2_json_mongo_install_cmd }}"
+- debug: msg="full_rf2_json_mongo_install_cmd = {{ full_rf2_json_mongo_install_cmd }}"
 
-- shell: "{{ rf2_json_s3_copy_cmd }}"
+- shell: "{{ full_rf2_json_s3_copy_cmd }}"
 
-- shell: "{{ rf2_json_mongo_install_cmd }}"
+- shell: "{{ full_rf2_json_mongo_install_cmd }}"
