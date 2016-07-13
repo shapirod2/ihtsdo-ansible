@@ -8,3 +8,5 @@ smtp_settings: files/secrets/smtp.yml
 system_type: local_test
 
 test_dir: "/home/adamf/test/tmp"
+
+test_var: "TEST_VAR"
