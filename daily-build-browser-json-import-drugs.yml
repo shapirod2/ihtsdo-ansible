@@ -1,0 +1,8 @@
+---
+  - hosts: browser
+    sudo: true
+    vars:
+     rf2json_s3_bucket_name: s3://daily-build-rf2-json-drugs.ihtsdo
+     edition_name: en-edition-drugs
+    roles:
+      - IHTSDO.daily-build-browser-json-import
