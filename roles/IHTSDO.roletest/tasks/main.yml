@@ -1,8 +1,6 @@
 ---
-#include system vars
-
-#- include: "{{systemchoice}}"
-#  when: systemchoice is defined
+#
+#
 #- include: "{{role_path}}/../tempsystem/systemchoice.yml"
 #- include: files/systemchoice.yml  
 
@@ -15,10 +13,6 @@
 #- debug: msg="Role path  =  {{role_path}} "
 
 #- debug: msg="sys_type  =  {{ sys_type }} "
-
-
-
-
 #- debug: msg="test_dir  =  {{ test_dir }} "
 
 #- name: see if test dir exists
@@ -37,7 +31,5 @@
 #  register: f
   
 #- debug: msg="f.matched  =  {{ f.matched }} " 
-
-
 #- debug: msg="p.stat.isdir  =  {{ p.stat.isdir }} " 
 #- debug: msg="p.stat.size  =  {{ p.stat.size }} " 

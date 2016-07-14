@@ -6,9 +6,7 @@
 - name: Apt cache update
   apt: update_cache=yes cache_valid_time=300 
     
- #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined and system_type is defined
+  
 
 - name: Stop app if running
   supervisorctl: name={{refset_app_name}} state=stopped
@@ -61,6 +59,3 @@
   
 - name: restart nginx
   service: name=nginx state=restarted
-
-
-

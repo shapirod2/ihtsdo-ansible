@@ -3,9 +3,9 @@
    apt: update_cache=yes cache_valid_time=3600
    sudo: yes
    
- #include system vars
- - include: "{{systemchoice}}"
-   when: systemchoice is defined   
+
+ 
+    
  
  - name: Ensure service is stopped
    service: name=zabbix-{{zabbixserver_install_type}} state=stopped enabled=yes

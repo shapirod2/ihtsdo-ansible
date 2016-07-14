@@ -3,12 +3,6 @@
   apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
-
- #include system vars
-#- include: system.yml
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
 #Setup the database
 - include: db.yml
 
@@ -24,8 +18,6 @@
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
   ignore_errors: yes
-
-
 #- name: Install term server
 #  apt: pkg=termserver state=latest force=yes
 
@@ -43,8 +35,6 @@
 
 - name: Make sure all .sh files in bin are executable
   shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'
-
-
 #Setup the backup
 - include: backup.yml
 
@@ -105,6 +95,6 @@
 
 - include: newrelic.yml
   when: new_relic_active == True
-  
+
 - name: Start TS
   supervisorctl: name=termserver state=started

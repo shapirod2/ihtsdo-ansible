@@ -5,8 +5,6 @@
 
 #- name: Confirm MySQL root password before installing
 - debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{moodle_mysql_root_pass | quote}}' vtype='password'
-
-
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
@@ -28,8 +26,6 @@
 - name: if present dump existing db
   mysql_db: name={{moodle_db_name}} state=absent login_user=root login_password={{moodle_mysql_root_pass}}
   when: moodle_rebuild_db == True
-
-
 - name: Create a moodle database
   mysql_db: name={{moodle_db_name}}
             login_user=root
@@ -37,7 +33,5 @@
             collation=utf8_unicode_ci
             encoding=utf8
             state=present
-
-
 - name: restart mysql
   service: name={{ mysql_service }} state=restarted 

@@ -6,8 +6,6 @@ dmd_appDir: /opt/dmd
 
 set_csv_content:  True
 force_zip_download:  true
-
-
 dmd_import_file: nhsbsa_dmd_3.2.0_20150316000001.zip
 dmd_csv_dir: "{{dmd_dataDir}}/csv"
 dmd_xml_dir: "{{dmd_dataDir}}/xml"
@@ -23,10 +21,6 @@ insertdata: "{{dmd_script_dir}}/dmd_mysql_import.sql"
 #zip_base_url: "https://s3.amazonaws.com/ts-sql.ihtsdo/"
 zip_base_url: "https://va-static-web.ihtsdotools.org/zips/"
 zip_url: "{{zip_base_url}}{{ dmd_import_file }}"
-
-
-
-
 mysql_service: mysql
 
 dmd_user: dmduser
@@ -34,13 +28,7 @@ dmd_pw: dmduser
 dmd_dbname: dmd
 
 mysql_root_pass: rooty
-
-
 zip_file: nhsbsa_dmd_3.2.0_20150316000001.zip
-
-
 #csv_dir: 
 #xml_dir={{xml_dir}}
 #xsl_dir={{xsl_dir}}
-
-

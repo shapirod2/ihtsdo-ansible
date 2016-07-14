@@ -9,8 +9,6 @@ otf_user_module_security_web_nginx_ssl_cert_file_dest: {{nginx_ssl_cert_file_des
 otf_user_module_security_web_nginx_ssl_key_file_dest: {{nginx_ssl_key_file_dest}}
 
 otf_user_module_security_web_sp_props: /etc/opt/otf-user-module-security-web/stormpath.properties
-
-
 otf_user_module_security_web_sp_props_file_md1: files/encrypted/stormpath/apiKey-meticulous-dreadnaught1.key
 otf_user_module_security_web_sp_props_file_vt: files/encrypted/stormpath/apiKey-vertical-thunder.key
 otf_user_module_security_web_sp_props_file_ym: files/encrypted/stormpath/apiKey-youthful-musket.key

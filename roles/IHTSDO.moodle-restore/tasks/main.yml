@@ -1,8 +1,5 @@
 ---
-
- #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined 
+ 
 
 - name: stop apache2
   service: name=apache2 state=stopped

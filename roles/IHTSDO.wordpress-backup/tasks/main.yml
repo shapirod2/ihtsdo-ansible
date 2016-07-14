@@ -1,11 +1,9 @@
-  #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined and system_type is defined
+ 
+
+  
 
 - debug: msg="sia_s3_backup_dir = {{ sia_s3_backup_dir }}"
 - debug: msg="sia_s3_backup_region = {{ sia_s3_backup_region }}"
-
-
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=3600  
 

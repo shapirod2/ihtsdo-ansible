@@ -1,9 +1,5 @@
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
 
 - debug: msg="Backing up ts_backup_mode={{ts_backup_mode}}"
-
-
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600     
 
@@ -28,8 +24,6 @@
 
 - name: run backup command
   shell: "{{ full_backup_cmd }}"
-
-
 - name: start TS if not running
   supervisorctl: name=termserver state=started
   when: ts_backup_mode == 'cold'

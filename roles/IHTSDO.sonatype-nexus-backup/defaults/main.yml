@@ -13,5 +13,3 @@ new_backup_script: backup_nexus_s3.sh
 backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
 backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
-
-

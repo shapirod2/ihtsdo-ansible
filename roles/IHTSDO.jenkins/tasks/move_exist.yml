@@ -1,6 +1,4 @@
 ---
-
-
 - name: Ensure data dir exists
   file: path={{ move_scripts_dir }} state=directory
         owner=root group=root

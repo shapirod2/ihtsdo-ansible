@@ -7,19 +7,10 @@
 - name: create db from init sql
   mysql_db: name={{ cis_db_name }}  state=import target={{ cis_init_script }} login_user={{ cis_db_user }}  login_password={{ cis_db_pw }}
   when: sqlinitfile.stat.exists == True
-
-
-
  
  
  #- name: create db from backup
 #  mysql_db: name={{cis_db_name}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
 #  when: sqlimportfile.stat.exists == True
-
-
-
-
 # create index job_sctid_log on sctId_log (jobId );
-
-
 # create index job_schemeid_log on schemeId_log (jobId );

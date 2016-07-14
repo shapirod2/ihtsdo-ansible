@@ -3,8 +3,6 @@ oraclejava_version: 7
 oraclejava_default: yes
 
 #oraclejava_secure_path: /usr/lib/jvm/java-7-oracle/jre/lib/security/java.security
-
-
 security_file: "java.security"
 java_dir: "/usr/lib/jvm/"
 

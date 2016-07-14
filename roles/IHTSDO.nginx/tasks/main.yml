@@ -106,5 +106,3 @@
    
 #- name: Reload the firewall  
 #  ufw: state=reloaded  
-
-

@@ -1,7 +1,5 @@
 ---
 sonarqube_apt_repository: "deb http://downloads.sourceforge.net/project/sonar-pkg/deb binary/"
-
-
 sonarqube_version: 4.5.6
 sonarqube_version_name: "sonarqube-{{ sonarqube_version }}"
 sonarqube_version_zip: "{{ sonarqube_version_name }}.zip" 
@@ -29,26 +27,11 @@ nginx_fqdn: ~(?i)sonar
 nginx_default_site: true
 nginx_ufw_allow_https: true
 nginx_proxy_url: http://localhost:9000
-
-
 sonarqube_mysql_host: localhost
 sonarqube_mysql_port: "3306"
 sonarqube_mysql_database: sonar
 sonarqube_db_url: "jdbc:mysql://{{sonarqube_mysql_host}}:{{sonarqube_mysql_port}}/{{sonarqube_mysql_database}}?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useConfigs=maxPerformance"
-
-
 sonarqube_mysql_allowed_hosts:
   - 127.0.0.1
   - ::1
   - localhost
-
-
-
-
-
-
-
-
-
-
-

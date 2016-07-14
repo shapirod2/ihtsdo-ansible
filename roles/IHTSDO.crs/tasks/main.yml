@@ -4,9 +4,9 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
   
- #include system vars
-- include: "{{systemchoice}}" 
-  when: systemchoice is defined
+
+ 
+
   
 - name: Install package
   apt: name={{crs_web_app_name}} state=installed

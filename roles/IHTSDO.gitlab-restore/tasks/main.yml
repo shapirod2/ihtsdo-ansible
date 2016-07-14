@@ -1,7 +1,4 @@
 ---
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
 - name: Ensure back up dir exists
   file: path="{{ gitlab_script_dir }}" state=directory
         owner=www-data group=www-data mode=0644

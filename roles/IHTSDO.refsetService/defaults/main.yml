@@ -15,6 +15,3 @@ nginx_root: /opt/refsetFrontendAngular/lib
 nginx_fqdn: "~(?i)refset"
 nginx_default_site: true
 nginx_ufw_allow_https: true
-
-
-

@@ -10,8 +10,6 @@
 
 - name: Install openssh
   apt: pkg=openssh-server state=latest
-
-
 - name: Find openssh version
   shell: sshd -v 2>&1 | egrep '^OpenSSH' | sed -r 's/^OpenSSH_([0-9]+\.[0-9]+).*/\1/g'
   register: sshd_version

@@ -20,12 +20,4 @@ wp_apache_html_dir: "/var/www/html/"
 wp_config: "wp-config.php"
 
 wp_web_user: "www-data"
-
-
-
 wp_dir_src: wp-directory
-
-
-
-
-

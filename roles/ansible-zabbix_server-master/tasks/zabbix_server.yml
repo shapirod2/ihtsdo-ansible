@@ -63,8 +63,6 @@
      group=www-data
      mode=644
   when: "zabbixserver_front_install == True and zabbixserver_front_redirect == True" 
-
-
 - name: zabbixserver | apache ports config 
   template: 
      src=apache2/ports.conf.j2
@@ -132,8 +130,6 @@
   tags: zabbixserver  
   when: "zabbixserver_front_install == True" 
   notify: restart apache2
-
-
 - name: zabbixserver | populate postgres database is populated
   shell: 
       psql {{ zabbixserver_db_name }}  < {{item}} && sleep 3

@@ -1,8 +1,6 @@
 #
 # Replication settings
 #
-
-
 # Dumps all databases to hostname.sql
 #- mysql_db: state=dump name=all target=/tmp/{{ inventory_hostname }}.sql
 

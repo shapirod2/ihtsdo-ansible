@@ -5,8 +5,6 @@
 
 #- name: Confirm MySQL root password before installing
 - debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
-
-
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
@@ -28,8 +26,6 @@
 - name: if present dump existing db
   mysql_db: name={{db_name}} state=absent login_user=root login_password={{mysql_root_pass}}
   when: rebuild_db == True
-
-
 - name: Create a testrail database
   mysql_db: name={{db_name}}
             login_user=root
@@ -37,7 +33,5 @@
             collation=utf8_unicode_ci
             encoding=utf8
             state=present
-
-
 - name: restart mysql
   service: name={{ mysql_service }} state=restarted 

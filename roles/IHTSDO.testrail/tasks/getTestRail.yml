@@ -1,6 +1,4 @@
 ---
-
-
 - name: get testrail zip
   get_url: force=no url={{testrail_dl_url}} dest={{temp_dl_dir}}/{{testrail_file}} validate_certs=no mode=0440
 
@@ -34,6 +32,4 @@
   cron: name="testrail background" job="/usr/bin/php {{testrail_html_dir}}/testrail/task.php" user="{{testrail_dir_owner}}"
         
         
-
-
       

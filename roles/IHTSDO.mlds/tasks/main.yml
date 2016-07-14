@@ -3,9 +3,9 @@
     apt: update_cache=yes cache_valid_time=300
     sudo: yes
     
-    #include system vars
-  - include: "{{systemchoice}}"
-    when: systemchoice is defined and system_type is defined    
+   
+  
+        
     
   - include: db.yml
     when: only_rewrites is not defined or not only_rewrites == "true"

@@ -7,8 +7,6 @@
 # Install the package "activemq"
 #- name: Install activemq server
 #  apt: name=activemq  state=latest
-
-
 - name: see if install dir exists
   stat: path={{active_mq_install_dir}}
   register: p 

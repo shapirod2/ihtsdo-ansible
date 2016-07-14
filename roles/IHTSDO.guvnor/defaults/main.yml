@@ -1,10 +1,5 @@
 ---
-
-
-
 import_zip_base_url: "https://s3-us-west-2.amazonaws.com/guvnor.backup.ihtsdo/"
-
-
 force_zip_download_tom: False
 import_base_dir_tom: "/opt/download/tomcat"
 import_file_tom: "guvnor-tomcat"
@@ -28,9 +23,6 @@ import_file_dir_repo: "{{import_base_dir_repo}}/{{import_zip_file_repo}}"
 target_dir_repo: "/opt/drools"
 
 repo_dir: /opt/drools/Drools_QA_Repository55
-
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{app_name}}.crt"

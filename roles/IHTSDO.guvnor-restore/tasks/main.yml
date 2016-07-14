@@ -1,14 +1,10 @@
 ---
+ 
 
- #include system vars
-- include: "{{systemchoice}}" 
-  when: systemchoice is defined
   
 - name: Stop app if running
   supervisorctl: name={{app_name}} state=stopped 
   ignore_errors: yes 
-
-
 - name: Remove drools repo dir
   file: path={{target_dir_repo}} state=absent
   
@@ -29,8 +25,6 @@
 - debug: msg="full_restore_cmd = {{ guvnor_full_restore_cmd }}"
 
 - shell: "{{ guvnor_full_restore_cmd }}"
-
-
 - name: start app 
   supervisorctl: name={{app_name}} state=restarted
   

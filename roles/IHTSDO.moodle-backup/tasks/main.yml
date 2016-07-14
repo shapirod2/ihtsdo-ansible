@@ -1,9 +1,5 @@
 ---
-
- #include system vars
-- include: "{{systemchoice}}" 
-  when: systemchoice is defined
-
+ 
 - name: Ensure back up dir exists
   file: path="{{ moodle_backup_dir }}" state=directory
         owner=www-data group=www-data mode=0644 
@@ -18,7 +14,4 @@
 - debug: msg="full_backup_cmd = {{ moodle_full_backup_cmd }}"
 
 - shell: "{{ moodle_full_backup_cmd }}"
-
-
-
 #- command: "{{ full_backup_cmd }}"

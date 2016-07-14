@@ -8,14 +8,9 @@ zabbixserver_tunnel_user     : "zabbixagent"
 zabbixserver_major          : '3'
 zabbixserver_minor          : '0'
 zabbixserver_revision       : '1'
-
-
 ## last zabbix Server version
 zabbixserver_major_old      : '2'
 zabbixserver_minor_old      : '4'
-
-
-
 script_dir: "/home/{{zabbixserver_tunnel_user}}/scripts"
 ssh_dir: "/root/.ssh"
 exec_as: root
@@ -24,18 +19,9 @@ script_path: "{{script_dir}}/autosshtunnel.sh"
 script_path_kill: "{{script_dir}}/killautosshtunnel.sh"
 
 ssh_keyfolder: "files/encrypted/ssh/zabbixclient/ssh"
-
-
 # values - none, ssl, ssh
 zabbix_encryption: ssl
-
-
 zabbix_psk_file: "zabbix_agentd.psk"
 
 zabbix_psk_file_local: "/home/zabbixagent/{{zabbix_psk_file}}"
 zabbix_psk_file_ans: "files/encrypted/ssl/{{zabbix_psk_file}}"
-
-
-
-
-

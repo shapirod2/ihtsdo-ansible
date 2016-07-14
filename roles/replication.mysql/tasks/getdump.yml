@@ -27,5 +27,3 @@
   mysql_db: state=import name={{ item.name }} target={{ replic_backup_dir }}/{{ replic_filename }} login_user=root login_password={{ mysql_root_pass }}
   with_items: mysql_db
   when: mysql_db|lower() != 'none' and dumpfile.stat.exists == True
-
-

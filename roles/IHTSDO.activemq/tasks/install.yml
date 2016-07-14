@@ -61,8 +61,6 @@
 
 - name: jetty config
   template: src=jetty.xml.j2 dest="{{ jetty_xml }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644    
-
-
 - name: log4j config
   template: src=log4j.properties.j2 dest="{{ config_log4j }}" owner="{{ activemq_runasuser }}" group="{{ activemq_runasuser }}" mode=0644 
   
@@ -78,8 +76,6 @@
   
 - name: restart activemq
   service: name={{ activemq_app_name }} state=restarted  
-
-
 #- name: Configure supervisor
 #  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ activemq_app_name }}.conf"
 #              owner=root group=root mode=0640  

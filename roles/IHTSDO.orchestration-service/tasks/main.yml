@@ -4,8 +4,8 @@
   tags:
     - ihtsdo-asset
     
-- include: "{{systemchoice}}" 
-  when: systemchoice is defined   
+ 
+   
 
 - name: Install package
   apt: name={{orch_app_name}} state=installed
@@ -51,6 +51,3 @@
     - restart orchestration-service
   tags:
     - ihtsdo-asset
-
-
-

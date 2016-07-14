@@ -1,8 +1,6 @@
 ---
-
- #include system vars
-#- include: "{{systemchoice}}"
-#  when: systemchoice is defined
+#
+#
 
  #include mongo setup and install
 - include: mongo.yml 

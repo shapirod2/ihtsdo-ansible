@@ -46,6 +46,4 @@
   
 - name: Install moodle deps git-core
   apt: name=git-core state=latest  
-
-
                      

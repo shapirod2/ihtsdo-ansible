@@ -3,8 +3,6 @@
 - name: make sure sql file exists
   stat: path={{import_term_serv_sql}}
   register: sqlimportfile
-
-
 - debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
 - debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
 - debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"

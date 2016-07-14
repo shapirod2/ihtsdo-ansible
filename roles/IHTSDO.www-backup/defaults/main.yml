@@ -8,8 +8,6 @@ www_pw: "wwwtestpw"
 
 www_html_dir: "/var/www"
 www_nginx_config_dir: "/etc/nginx/sites-enabled"
-
-
 www_dir_owner: "www-data"
 www_s3_backup_dir: ""
 www_s3_backup_region: ""
@@ -26,7 +24,3 @@ www_full_backup_cmd: "{{ www_backup_cmd }} >> {{ www_backup_log }}"
 
 #Dir for scripts to put final backup zips into
 www_backup_zip_dir: /opt/backup/www/zips
-
-
-
-

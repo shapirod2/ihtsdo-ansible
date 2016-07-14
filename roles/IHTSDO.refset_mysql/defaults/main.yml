@@ -12,23 +12,15 @@ refset_admin_setup_script: "{{refset_admin_app_dir}}/setupconfdata.sh"
 
 refset_admin_setup_log: "{{ refset_admin_app_dir }}/admin_setup_{{ ansible_date_time.iso8601 }}.log"
 full_refset_admin_setup_cmd: "{{ refset_admin_setup_script }} >> {{ refset_admin_setup_log }}"
-
-
 refset_admin_pom_dir: "{{ refset_admin_app_dir }}/pom"
 refset_admin_pom_file: "refset-admin-pom.xml"
 refset_admin_pom_script_file: "setupconfdata_mvn.sh"
 refset_admin_pom_script: "{{refset_admin_pom_dir}}/{{refset_admin_pom_script_file}}"
 refset_admin_pom_log: "{{ refset_admin_pom_dir }}/admin_exampledata_{{ ansible_date_time.iso8601 }}.log"
 full_refset_admin_pom_cmd: "{{ refset_admin_pom_script }} >> {{ refset_admin_pom_log }}"
-
-
-
 script_dir: /opt/scripts/refset
 new_restore_script: restore_refset_s3.sh
 restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"
-
-
-
 refset_xmx: "1500m"
 
 refset_mysql_root_pass: rooty
@@ -56,16 +48,12 @@ security_handler_default: "DEFAULT"
 
 refset_mysql_port: 3306
 refset_mysql_service: mysql
-
-
 nginx_ufw_allow_https: true
 nginx_conf: "{{app_name}}"
 nginx_fqdn: "~(?i){{app_name}}"
 nginx_default_site: true
 nginx_ufw_allow_https: true
 nginx_proxy_url: "http://localhost:8080/"
-
-
 refset_cis_instance: cis.ihtsdotools.org
 refset_cis_url: "http://{{refset_cis_instance}}:3000/api"
 refset_cis_username: "bob"
@@ -90,16 +78,6 @@ refset_mail_smtp_host: "localhost"
 refset_mail_smtp_port: "587"
 refset_mail_smtp_starttls_enable: "false"
 refset_mail_smtp_auth: "false"
-
-
-
 #refset_git_url: "https://git.ihtsdotools.org/ihtsdo/ihtsdo-refset-management-service.git "
 #refset_git_dir: "{{refset_app_dir}}/git"
 #refset_git_dir_code: "{{refset_git_dir}}/code"
-
-
-
-
-
-
-

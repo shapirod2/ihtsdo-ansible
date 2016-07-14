@@ -16,8 +16,6 @@
 - set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
 - debug: msg="zabbix server =  {{zabbixserver1}}"
 - debug: msg="zabbix client port =  {{zabbix_client_port}}"
-
-
 - name: Copy .ssh folder
   action: copy src={{ssh_keyfolder}}/ dest=/home/{{zabbixserver_tunnel_user}}/.ssh owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
   

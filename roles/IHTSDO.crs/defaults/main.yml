@@ -22,8 +22,6 @@ crs_web_conf_snowowl_url: "https://{{ crs_web_host }}/snowowl/"
 crs_web_conf_ims_url: "https://{{ crs_web_ims_host }}/"
 crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
 crs_web_conf_ims_api_url: "https://{{ crs_web_snowowl_host }}/ims-api/"
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ crs_web_app_name}}.crt"
@@ -34,9 +32,3 @@ nginx_fqdn: "~(?i)crs"
 nginx_default_site: true
 nginx_root: "{{ crs_web_lib_dir }}"
 #nginx_proxy_url: http://localhost:8080/
-
-
-
-
-
-

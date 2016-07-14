@@ -1,8 +1,6 @@
 ---
 report_dist: True
 report_serv: True
-
-
 std_dist: 'Ubuntu'
 std_version: '14.04'
 

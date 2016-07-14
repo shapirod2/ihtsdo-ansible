@@ -37,11 +37,7 @@
       
 
 - set_fact: security_handler="{{security_handler_default}}"
-
-
 - debug: msg="security_handler = {{security_handler}}"
-
-
               
 - name: Configure configload.properties
   template: src=config.properties.j2 dest={{refset_app_dir}}/conf/configload.properties

@@ -1,9 +1,4 @@
 ---
-
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
-
 - name: make sure replic_backup_dir exists
   file: path={{replic_backup_dir}}  state=directory
   
@@ -18,26 +13,13 @@
   supervisorctl: name=termserver state=stopped
 
 - debug: msg="about tostart dump time now = {{ ansible_date_time.iso8601_micro }}"
-
-
 - name: Dump all MySQL databases to a single file
   shell: /usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} --master-data | gzip -9 > {{ replic_backup_dir }}/{{ replic_filename }}
 
 - debug: msg="full_backup_cmd = {{ full_backup_cmd }}"
-
-
 # make zip inc resources folder + gzip
-
-
 - name: Run aws script
   shell: "{{ full_backup_cmd }}"
-
-
-
-
-
 # put to s3
-
-
 #- name: start TS if not running
 #  supervisorctl: name=termserver state=started

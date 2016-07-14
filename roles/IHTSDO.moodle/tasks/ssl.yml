@@ -13,8 +13,6 @@
 
 - name: add default-ssl virtual host
   command: /usr/sbin/a2ensite default-ssl
-
-
 - name: add ssl module
   command: /usr/sbin/a2enmod ssl
       

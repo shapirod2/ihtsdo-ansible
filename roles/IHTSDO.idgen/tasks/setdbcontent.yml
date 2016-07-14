@@ -3,8 +3,6 @@
 # delete zip /unzipped content
 # drop and rebuild db.
 # rebuild flag which does both
-
-
 #- name: Install unzip
 #  apt: name=unzip state=present
 
@@ -66,13 +64,6 @@
 #- name: Run the SQL file -OLD
 #  shell: cat {{ import_term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
 #  when: sqlimportfile.stat.exists == True  
-
-
 - name: create db from backup
   mysql_db: name={{dbname}}  state=import target={{import_file_dir_sql_sql}} login_user=root  login_password={{mysql_root_pass}}
   when: sqlimportfile.stat.exists == True
-
-
-
-
-

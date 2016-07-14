@@ -6,8 +6,6 @@ mysql_service: mysql
 
 moodle_db_name: moodle
 moodle_rebuild_db: False
-
-
 moodle_dir_owner: "www-data"
 moodle_dir:  "moodle"
 moodle_git_dir: "/opt/{{ moodle_dir }}"
@@ -34,8 +32,6 @@ ssl_key_file: "{{nginx_ssl_key_file}}"
 ssl_cert_file: "{{nginx_ssl_cert_file}}"
 ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"
 ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: /etc/ssl/certs/moodle.crt

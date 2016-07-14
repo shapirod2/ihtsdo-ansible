@@ -8,8 +8,6 @@
 #- name: Update kernel, kernel extras, Xorg pkgs, and related tasks
 #  include: kernel_check_and_update.yml
 #  when: kernel_update_and_reboot_permitted or install_kernel_extras
-
-
 - name: Add Docker repository key
   apt_key:
     id: "{{ apt_key_sig }}"

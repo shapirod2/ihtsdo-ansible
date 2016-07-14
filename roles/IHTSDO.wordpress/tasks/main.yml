@@ -3,9 +3,9 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
-  #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined and system_type is defined
+ 
+
+  
 
 - debug: msg="installing wordpress wp_version = {{wp_version}}"
   
@@ -22,7 +22,4 @@
   
 - name: restart apache2
   service: name=apache2 state=restarted
-
-
-
  

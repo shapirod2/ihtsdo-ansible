@@ -2,8 +2,6 @@
 - name: Install adduser.conf to make sure no uid/gid number collisions
   template: src=adduser.conf.j2 dest=/etc/adduser.conf
             owner=root group=root mode=0644
-
-
 - name: Group creation
   group: gid={{ item.value.gid }} name={{ item.key }} state=present
   with_dict: user_groups

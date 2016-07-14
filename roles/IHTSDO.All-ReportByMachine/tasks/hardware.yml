@@ -4,8 +4,6 @@
               
   - name: Print Server H/w
     debug: msg="Processor = {{ ansible_processor }}  Num Cores = {{ ansible_processor_cores }}  Num processors = {{ ansible_processor_count }}"
-
-
          
 
     

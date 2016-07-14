@@ -3,9 +3,6 @@
 # delete zip /unzipped content
 # drop and rebuild db.
 # rebuild flag which does both
-
-
-
 #- name: Install unzip
 #  apt: name=unzip state=present
   
@@ -64,8 +61,6 @@
 #- name: Run the SQL file -OLD
 #  shell: cat {{ import_term_serv_sql }} | mysql -u {{ ts_user }} -p{{ ts_pw }};
 #  when: sqlimportfile.stat.exists == True  
-
-
 - name: create db from backup
   mysql_db: name={{ts_dbname}}  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
   when: sqlimportfile.stat.exists == True
@@ -83,5 +78,3 @@
 - name: Copy the dataset/indexes folder to termserv/resources
   command: cp -r {{import_term_serv_indexes}} {{term_serv_dir_resources}}
   when: sqlimportfile.stat.exists == True
-
-

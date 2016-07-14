@@ -13,8 +13,6 @@ s3_backup_dir: "none"
 
 #base URL for rest calls for use by hot backup
 base_url: http://localhost:8080/snowowl
-
-
 backup_dir: "/opt/backup/termserver"
 dump_filename: "snomedStore.sql"
 ts_res_dir: "/opt/termserver/resources"

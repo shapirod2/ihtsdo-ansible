@@ -2,8 +2,6 @@
 
 # Backup 
 # Dir to put scripts into
-
-
 mapping_dump_filename: "mappingbk.sql"
 mapping_db_name: "mappingservicedb"
 
@@ -11,8 +9,6 @@ mapping_db_user: "ihtsdo"
 mapping_db_pass: "mapping"
 
 mapping_data_dir: "/home/ihtsdo/data"
-
-
 mapping_dir_owner: "ihtsdo"
 mapping_s3_backup_dir: ""
 mapping_s3_backup_region: ""
@@ -29,6 +25,3 @@ mapping_full_backup_cmd: "{{ mapping_backup_cmd }} >> {{ mapping_backup_log }}"
 
 #Dir for scripts to put final backup zips into
 mapping_backup_zip_dir: /opt/backup/mapping/zips
-
-
-

@@ -74,7 +74,3 @@
 - name: run xml2csv
   command: "{{ xml2csv }}"
   when: dmdimportfile.stat.exists == True
-
-
-
-

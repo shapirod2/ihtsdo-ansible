@@ -49,8 +49,6 @@ zabbixserver_db_pass        : "READRdXxc&2zgvgzs_blaaaaaa" ##TODO: Change to by 
 zabbixserver_db_host        : "localhost" ##by default same server
 zabbixserver_db_port        : "5432"
 zabbixserver_db_intial_dir  : "/usr/share/zabbix-server-{{zabbixserver_db_type}}"
-
-
 ##
 ## SSH tunnel management
 ##
@@ -67,14 +65,10 @@ zabbixserver_tunnel_name     : "tunnelMgt"
 #zabbixserver_tunnel_etc      : "{{zabbixserver_tunnel_basedir}}/etc/autossh"
 #zabbixserver_tunnel_identity : "~/.ssh/id_rsa"
 zabbixserver_tunnel_basePort : 11000 ## if you will use auto port assigning
-
-
 ## Compilation of variables (No need to change them unless you have issues)
 zabbixserver_version       : "{{zabbixserver_major}}.{{zabbixserver_minor}}.{{zabbixserver_revision}}"
 zabbixserver_ubuntu        : "1:{{zabbixserver_version}}-1+trusty"
 zabbix_php_db               : "{%if zabbixserver_db_type == 'pgsql' %}POSTGRESQL{% elif zabbixserver_db_type == 'mysql' %}MYSQL{% else %}ERROR_UNKNOWN_DB{% endif %}"
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: /etc/ssl/certs/zabbixserver.crt
@@ -87,8 +81,4 @@ nginx_ufw_allow_https: true
 
 zabbixserver_apache_port: 8088
 nginx_proxy_url: http://localhost:8088/zabbix/
-
-
 zabbixserver_hipchat_script_dir: "/usr/local/bin/"
-
-

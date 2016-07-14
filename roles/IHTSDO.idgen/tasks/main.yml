@@ -7,8 +7,6 @@
 # if force repo d/l then rm repo dir
 # make a dir to d/l repo
 # if no zip then d/l etc
-
-
 - name: include secret settings
   include_vars: "{{ secret_settings }}"
 
@@ -62,6 +60,3 @@
 
 - name: Start App
   supervisorctl: name={{app_name}} state=started
-
-
-

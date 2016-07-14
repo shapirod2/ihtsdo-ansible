@@ -21,7 +21,3 @@ guvnor_full_backup_cmd: "{{ guvnor_backup_cmd }} >> {{ guvnor_backup_log }}"
 
 #Dir for scripts to put final backup zips into
 guvnor_backup_zip_dir: /opt/backup/guvnor/zips
-
-
-
-

@@ -32,8 +32,6 @@ supervisor_dir: "/etc/supervisor/conf.d/"
 cis_script_name: "runCis.sh"
 cis_run_script: "{{ cis_install_dir }}/{{cis_script_name}}"
 env_file: "/etc/environment"
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ cis_app_name }}.crt"
@@ -47,5 +45,3 @@ nginx_proxy_url: http://localhost:3000/
 cis_crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
 cis_crowd_app_name: "component-id-service"
 cis_crowd_pw: "snomedid"
-
-

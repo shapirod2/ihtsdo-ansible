@@ -47,6 +47,3 @@
   when: csvdirexists.stat.exists == True  
   
   
-
-
-

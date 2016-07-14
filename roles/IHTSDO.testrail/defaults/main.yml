@@ -19,15 +19,10 @@ ioncube_url: "http://downloads3.ioncube.com/loader_downloads"
 ioncube_so: "ioncube_loader_lin_5.5.so"
 ioncube_so_path: "{{ioncube_dir}}/{{ioncube_so}}"
 ioncube_line: "zend_extension={{ioncube_so_path}}"
-
-
-
 testrail_file: "testrail-latest-ion53.zip"
 testrail_url: "http://www.gurock.com/downloads/testrail"
 
 testrail_dl_url: "{{testrail_url}}/{{testrail_file}}"
-
-
 testrail_dir_owner: "www-data"
 testrail_dir:  "testrail"
 #testrail_git_dir: "/opt/{{ testrail_dir }}"
@@ -54,8 +49,6 @@ ssl_key_file: "{{nginx_ssl_key_file}}"
 ssl_cert_file: "{{nginx_ssl_cert_file}}"
 ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"
 ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
-
-
 #nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
 #nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
 #nginx_ssl_cert_file_dest: /etc/ssl/certs/testrail.crt

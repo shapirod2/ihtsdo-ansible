@@ -15,8 +15,6 @@ app_name: "idgen"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
 target_dir_tom: "/opt/{{app_name}}"
-
-
 force_zip_download_sql: False
 import_base_dir_sql: "/opt/download/sql"
 import_file_sql: "idserv.sql"
@@ -27,8 +25,6 @@ import_file_dir_sql: "{{import_base_dir_sql}}/{{import_zip_file_sql}}"
 # The SQL import file name
 
 import_file_dir_sql_sql: "{{import_base_dir_sql}}/{{import_file_sql}}"
-
-
 installdbcontent: True
 mysql_service: mysql
 mysql_root_pass: 

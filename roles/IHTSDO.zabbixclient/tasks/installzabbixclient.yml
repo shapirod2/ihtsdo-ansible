@@ -1,8 +1,6 @@
 ---
 #- name : Update apt cache
 #  apt : update_cache="yes"
-
-
   
 - name: zabbixclient | Install pre dependency
   apt:
@@ -44,8 +42,5 @@
      state=latest
      force=yes
   tags: zabbixclient
-
-
-
    
 

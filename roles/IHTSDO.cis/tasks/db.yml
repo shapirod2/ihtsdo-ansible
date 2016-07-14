@@ -41,8 +41,6 @@
 
 - name: remove the test database
   mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }}
-
-
 # Create a new database with name cis_db_name ('idservice') if required
 - mysql_db: name={{cis_db_name}} state=present login_user=root login_password={{ mysql_root_pass }}
 

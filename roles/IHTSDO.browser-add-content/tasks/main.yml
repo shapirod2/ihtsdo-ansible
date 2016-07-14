@@ -18,8 +18,6 @@
 # then rewrite zipAndUpload.sh to that 
 
 # then run zip and upload.
-
-
 ---
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=300

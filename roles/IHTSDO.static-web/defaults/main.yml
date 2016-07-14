@@ -1,7 +1,3 @@
 ---
 static_web_version: latest
-
-
-
-
 #static_web_folder: /etc/opt/{{static_web_fqdn}}

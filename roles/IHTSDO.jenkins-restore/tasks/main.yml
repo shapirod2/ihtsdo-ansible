@@ -1,8 +1,6 @@
 ---
-
- #include system vars
-#- include: "{{systemchoice}}" 
-#  when: systemchoice is defined
+# 
+#
   
 - name: stop jenkins
   service: name=jenkins state=stopped

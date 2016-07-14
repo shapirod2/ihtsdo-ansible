@@ -1,8 +1,8 @@
 ---
 
-  #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined and system_type is defined
+ 
+
+  
 
 - name: Ensure apache service is stopped
   service: name=apache2 state=stopped 
@@ -19,8 +19,6 @@
 - debug: msg="full_restore_cmd = {{ full_restore_cmd }}"
 
 - shell: "{{ full_restore_cmd }}"
-
-
 - name: make uploads writeable
   file: path="{{wp_uploads_dir}}" state=directory mode=0777 recurse=yes
 

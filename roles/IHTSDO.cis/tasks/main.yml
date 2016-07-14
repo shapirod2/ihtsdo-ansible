@@ -3,10 +3,7 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
-  #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
+ 
   
   #Setup the database
 - include: db.yml
@@ -51,8 +48,6 @@
 - debug: msg="inventory_hostname = {{inventory_hostname}}"
 
 - replace: dest={{ cis_install_dir }}/api/swagger-ids.json regexp='localhost' replace='{{inventory_hostname}}'
-
-
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ cis_app_name }}.conf"
               owner=root group=root mode=0640  

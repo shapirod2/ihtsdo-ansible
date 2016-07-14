@@ -1,5 +1,3 @@
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
 
 - name: make sure script_dir exists
   file: path={{script_dir}}  state=directory  

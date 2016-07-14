@@ -18,20 +18,13 @@ AuthType: Basic
 AuthUserFile: "{{ install_dir }}/.svn-auth-file"
 
 use_ssl_only: True
-
-
 ssl_key_file: "{{nginx_ssl_key_file}}"
 ssl_cert_file: "{{nginx_ssl_cert_file}}"
 ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"
 ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
-
-
 nginx_ufw_allow_https: true
 nginx_conf: "{{ app_name }}"
 nginx_fqdn: '*.ihtsdotools.org "" '
 nginx_default_site: true
 #nginx_root: "{{ lib_dir }}"
 nginx_proxy_url: "http://localhost:{{ apache_port }}/"
-
-
-

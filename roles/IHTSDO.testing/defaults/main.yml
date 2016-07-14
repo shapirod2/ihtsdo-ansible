@@ -4,6 +4,3 @@ docker_images:
   - { name: "selenium-hub", image: "selenium/hub" }
   - { name: "selenium-firefox", image: "selenium/node-firefox" }
   - { name: "selenium-chrome", image: "selenium/node-chrome" }
-
-
-

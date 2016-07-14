@@ -19,8 +19,6 @@ crs_dbname: "crs"
 crs_user: "root"
 crs_mysql_root_pass: "defaultpw"
 crs_pw: "{{crs_mysql_root_pass}}"
-
-
 crs_log_dir: "{{ crs_ws_install_dir }}/log"
 
 crs_ims_host: "dev-ims.ihtsdotools.org" 
@@ -35,8 +33,6 @@ crs_ims_token_key: "dev-ims.ihtsdo"
 
 crs_host: "{{ inventory_hostname }}"
 crs_url: "https://{{ crs_host }}"
-
-
 #crs_jira_host: "dev-jira.ihtsdotools.org"
 crs_jira_url: "https://dev-jira.ihtsdotools.org"
 crs_jira_customField_extId: "customfield_10110"
@@ -53,10 +49,4 @@ crs_snomect_authorization: "Basic c25vd293bDpzbm93b3ds"
 crs_snomect_method_browser: "browser"
 crs_snomect_method_mrcm: "mrcm"
 crs_snomect_branch: "MAIN"
-
-
-
-
 supervisor_dir: "/etc/supervisor/conf.d/"
-
-

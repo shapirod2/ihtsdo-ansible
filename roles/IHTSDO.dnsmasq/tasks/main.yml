@@ -3,10 +3,7 @@
   apt: update_cache=yes cache_valid_time=3600
   sudo: yes
 
-  #include system vars
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
+ 
 - name: Ensure service is stopped
   service: name=dnsmasq state=stopped enabled=yes
   ignore_errors: yes  

@@ -42,8 +42,6 @@
 
 - name: remove the test database
   mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }}
-
-
 # Create a new database with name ts_dbname ('snomedStore') if required
 - mysql_db: name={{ts_dbname}} state=present login_user=root login_password={{ mysql_root_pass }} encoding=utf8
 

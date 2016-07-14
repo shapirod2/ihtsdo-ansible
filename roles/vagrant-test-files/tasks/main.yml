@@ -14,8 +14,6 @@
 #- name: Insert text from files/hosts_contents
 #  lineinfile: dest="/etc/hosts"  insertafter="EOF" line="{{hosts_contents}}" state="present"
 #  when: grep.stdout   
-
-
 - name: Insert text from files/hosts_contents
   lineinfile: dest="/etc/hosts"  insertafter="EOF"  state="present" line="{{ item }}"
   with_items:
@@ -34,9 +32,6 @@
      - 192.168.0.62    ims va-ims.ihtsdotools.org
      - 192.168.0.63    jenkins va-jenkins.ihtsdotools.org
      - 192.168.0.63    sonar va-sonar.ihtsdotools.org
-
-
-
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300  
 

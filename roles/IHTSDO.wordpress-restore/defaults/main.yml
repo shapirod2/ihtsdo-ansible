@@ -30,5 +30,3 @@ new_restore_script: wp_restore_s3.sh
 restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"
 restore_log: "{{ script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
-
-

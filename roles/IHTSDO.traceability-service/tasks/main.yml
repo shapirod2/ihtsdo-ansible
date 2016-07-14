@@ -3,10 +3,6 @@
   apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
-
-- include: "{{systemchoice}}"
-  when: systemchoice is defined
-
 - name: Stop any running instances
   supervisorctl: name=traceability-service  state=stopped  
   failed_when: false

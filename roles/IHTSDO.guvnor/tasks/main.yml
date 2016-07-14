@@ -7,10 +7,6 @@
 # if force repo d/l then rm repo dir
 # make a dir to d/l repo
 # if no zip then d/l etc
-
-
-
-
 #- name: Apt cache update
 #  apt: update_cache=yes cache_valid_time=3600 
 #  tags:
@@ -59,6 +55,3 @@
 
 - name: Start App
   supervisorctl: name={{app_name}} state=started
-
-
-

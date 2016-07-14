@@ -4,18 +4,16 @@
 #  tags:
 #    - ihtsdo-asset
     
-   #include system vars
-#- include: system.yml  
-- include: "{{systemchoice}}" 
-  when: systemchoice is defined
+  
+  
+ 
+
  
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
 
 - debug: msg="set_db_content = {{set_db_content}}"
 - debug: msg="force_zip_download = {{force_zip_download}}"
-
-
 #get zip content
 - include: getzipcontent.yml
   when: "set_db_content == True"  
@@ -30,6 +28,3 @@
 
 - name: Start TS
   supervisorctl: name=termserver state=started
-
-
-

@@ -4,8 +4,6 @@ system_type: local_test
 refset_db_name: refset
 refset_db_user: refset
 refset_db_pw: refset
-
-
 # Backup 
 # Dir to put scripts into
 refset_s3_backup_dir: "test-refset.backup.ihtsdo"
@@ -24,14 +22,3 @@ full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 refset_app_name: "refset-service"
 refset_app_dir: "/opt/{{ refset_app_name }}"
 refset_indexBase_dir: "{{refset_app_dir}}/indexes"
-
-
-
-
-
-
-
-
-
-
-

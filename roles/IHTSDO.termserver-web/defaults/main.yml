@@ -2,8 +2,6 @@
 
 ts_browse_app_name: "terminology-server-browser"
 ts_auth_app_name: "template-based-authoring-frontend"
-
-
 version_term_serv_browser: "latest"
 version_template_authoring: "latest"
 

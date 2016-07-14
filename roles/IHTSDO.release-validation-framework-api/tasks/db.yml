@@ -51,11 +51,6 @@
 - lineinfile: dest=/etc/mysql/my.cnf line="lower_case_table_names=1"
 # turn on the scheduler
 - lineinfile: dest=/etc/mysql/my.cnf line="event_scheduler=1"
-
-
-
-
-
 - name: Restart MySQL
   action: service name=mysql state=restarted
   tags: common

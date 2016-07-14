@@ -10,8 +10,6 @@
 
 #- name: Confirm MySQL root password before installing
 - debconf: name='mysql-server' question='mysql-server/root_password_again' value='{{mysql_root_pass | quote}}' vtype='password'
-
-
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server state=present
@@ -32,9 +30,6 @@
 
 - name: remove the test database
   mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_pass }} 
-
-
-
 #- name: touch the mysql-slow.log file
 #  file: path={{ mysql_slow_log }} owner=mysql mode=0644 state=touch
 

@@ -12,7 +12,3 @@
   when: "set_csv_content == True"
 
 - include: setdbcontent.yml
-
-
-
-

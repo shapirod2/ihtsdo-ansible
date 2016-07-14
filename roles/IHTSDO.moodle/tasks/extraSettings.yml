@@ -4,8 +4,6 @@
   file: path=/var/quarantine state=directory
         owner=www-data group=www-data mode=0644 
         recurse=yes  
-
-
 #Zend OpCache 
 
 # copy /etc/php5/mods-available/opcache.ini 

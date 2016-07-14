@@ -17,7 +17,3 @@ jenkins_restore_cmd: "{{ jenkins_restore_dir }}/{{ jenkins_restore_script }}"
 jenkins_restore_log: "{{ jenkins_restore_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 
 jenkins_full_restore_cmd: "{{ jenkins_restore_cmd }} >> {{ jenkins_restore_log }}"
-
-
-
-

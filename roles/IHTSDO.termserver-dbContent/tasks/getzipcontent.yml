@@ -3,9 +3,6 @@
 # delete zip /unzipped content
 # drop and rebuild db.
 # rebuild flag which does both
-
-
-
 #- name: Install unzip
 #  apt: name=unzip state=present
   

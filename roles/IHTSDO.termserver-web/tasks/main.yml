@@ -4,11 +4,9 @@
   tags:
     - ihtsdo-asset
     
- #include system vars
-- include: "{{systemchoice}}"    
-  when: systemchoice is defined 
-#- include: system.yml
 
+    
+ 
 - name: Install term server web front end
   apt: pkg=terminology-server-browser state=latest force=yes update_cache=yes cache_valid_time=300
   
@@ -38,9 +36,6 @@
 #- name: Install package specific version
 #  apt: name={{ts_auth_app_name}}={{ version_template_authoring }} state=installed
 #  when: version_template_authoring != 'installed' and version_template_authoring != 'latest'
-
-
-
 - name: Install SSL cert
   copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_cert_file_dest }}
           owner=root group=root mode=0644
@@ -71,8 +66,3 @@
 
 - name: restart nginx
   service: name=nginx state=restarted  
-
-
-
-
-

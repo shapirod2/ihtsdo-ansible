@@ -12,8 +12,3 @@
 - name: run example data load script
   shell: "{{full_refset_admin_pom_cmd}} chdir={{refset_admin_pom_dir}}"
   when:  load_example_data
-
-
-
-
-

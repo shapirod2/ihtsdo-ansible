@@ -10,8 +10,6 @@
    
  - name: Allow HTTP (for now)  
    ufw: rule=allow port=80 proto=any   
-
-
 # - name: debug
 #   debug: msg="extraport not defined"
 #   when: extra_ports is undefined 
@@ -24,8 +22,6 @@
 #   ufw: rule=allow port={{ item }} proto=any 
 #   with_items: "{{ extra_ports }}"
 #   when:  extra_ports.0 is defined
-
-
  - name: Enable firewall
    ufw: state=enabled policy=deny
 

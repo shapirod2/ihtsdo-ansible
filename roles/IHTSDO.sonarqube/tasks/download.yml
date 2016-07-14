@@ -41,5 +41,3 @@
 
 - name: Repoint symlink
   file: src=/opt/{{ sonarqube_base }} dest={{ sonarqube_root_dir }} state=link
-
-
