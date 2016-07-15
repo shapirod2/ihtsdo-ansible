@@ -3,13 +3,11 @@
 #    sudo: true
 #    roles:
 #      - IHTSDO.user-accounts
-
   - hosts: termserver
     sudo: true
     roles:
       - IHTSDO.aws
       - IHTSDO.termserver
-      - IHTSDO.nginx-std 
+      - IHTSDO.nginx-std
       - IHTSDO.termserver-web
       - IHTSDO.sca
-

@@ -1,9 +1,7 @@
 - name: Install MySQL with replication
   hosts: test
   sudo: True
-  vars_files:
-    - files/encrypted/aws/s3-default.yml
-  roles:
+    roles:
     - IHTSDO.aws
     - replication.mysql
 

@@ -1,8 +1,6 @@
 ---
   - hosts: jenkins_master
     sudo: true
-    vars_files:
-    - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.aws
       - IHTSDO.jenkins-restore

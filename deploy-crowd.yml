@@ -1,9 +1,7 @@
 ---
 - hosts: crowd
   sudo: true
-  vars_files:
-    - files/encrypted/aws/s3-default.yml
-  roles:
+    roles:
     - ansible-swapfile-master
     - IHTSDO.aws
     - IHTSDO.mysql

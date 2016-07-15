@@ -3,10 +3,7 @@
 #    sudo: true
 #    roles:
 #      - IHTSDO.user-accounts
-
   - hosts: dm+d
     sudo: true
     roles:
       - IHTSDO.DMD
-
-

@@ -4,9 +4,7 @@
 - hosts: jira
   sudo: true
   remote_user: root
-  vars_files:
-    - files/encrypted/aws/s3-default.yml
-  roles:
+    roles:
     - { role: IHTSDO.user-accounts, user_accounts_skip_sshd: true }
     - IHTSDO.apt-upgrade
     - knopki.timezone

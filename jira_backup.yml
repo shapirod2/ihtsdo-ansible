@@ -1,8 +1,6 @@
 ---
   - hosts: jira
     sudo: true
-    vars_files:
-    - files/encrypted/aws/s3-default.yml
     roles:
       - IHTSDO.aws
       - IHTSDO.jira-backup

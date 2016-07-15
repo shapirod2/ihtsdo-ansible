@@ -5,8 +5,6 @@
      rf2json_s3_bucket_name: s3://daily-build-rf2-json-drugs.ihtsdo
      edition_name: en-edition-drugs
      daily_build_import_dir: "/home/dailybuild-drugs"
-    vars_files:
-    - files/encrypted/aws/s3-default.yml 
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-import

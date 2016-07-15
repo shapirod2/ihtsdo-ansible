@@ -2,9 +2,9 @@
   - hosts: mlds
     sudo: true
     roles:
-      - { role: IHTSDO.mlds , 
+      - { role: IHTSDO.mlds ,
           mlds_webauth_url: 'https://localhost.ihtsdotools.org:8443/security-web/query/',
           mlds_drop_db: 'true' }
-      - { role: IHTSDO.otf-user-module-security-web , 
-          otf_user_module_security_standalone: false,  
-          otf_user_module_security_web_sp_props_state: ym   }      
+      - { role: IHTSDO.otf-user-module-security-web ,
+          otf_user_module_security_standalone: false,
+          otf_user_module_security_web_sp_props_state: ym   }

@@ -1,7 +1,5 @@
 ---
   - hosts: angular
     sudo: true
-    roles: 
+    roles:
       - IHTSDO.angular-template
-
-

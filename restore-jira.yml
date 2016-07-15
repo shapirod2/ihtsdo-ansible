@@ -1,6 +1,5 @@
 ---
 - hosts: jira
   sudo: true
-
   roles:
     - IHTSDO.jira-restore

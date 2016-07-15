@@ -3,7 +3,6 @@
 #    sudo: true
 #    roles:
 #      - IHTSDO.user-accounts
-
   - hosts: otf_mapping_service_rest
     sudo: true
     roles:
