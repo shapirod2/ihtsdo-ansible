@@ -25,3 +25,4 @@ rf2_diff_root_dir: /opt/rf2-diff-generator
 rf2_diff_start_date: 20160801
 rf2_diff_json_s3_upload_script: uploadRf2DiffJsonToS3.sh
 rf2_diff_report_s3_upload_cmd:  "{{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}"
+config_xml: "enConfig.xml.j2"
