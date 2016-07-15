@@ -2,6 +2,6 @@
 snomed_interaction_components_version: latest
 snomed_interaction_components_api_url: http://localhost:10004/api
 snomed_interaction_components_nginx_servername: snomed_interaction_components
-snomed_interaction_components_nginx_ssl_cert_file_dest: {{nginx_ssl_cert_file_dest}}
-snomed_interaction_components_nginx_ssl_key_file_dest: {{nginx_ssl_key_file_dest}}
+snomed_interaction_components_nginx_ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}
+snomed_interaction_components_nginx_ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}
 snomed_interaction_components_nginx_default_site: false

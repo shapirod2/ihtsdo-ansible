@@ -1,7 +1,7 @@
 # {{ ansible_managed }}
 {
         "db": {
-                "port": {{ mongod_port }},
+                "port": "{{ mongod_port }},
                 "host": "{{ mongod_server }}"
         },
         "server": {

@@ -1,6 +1,6 @@
 
  
-- set_fact:  system_dir="files/encrypted/system"
+- set_fact:  system_dir="{{ inventory_dir }}/../files/system"
 
 - set_fact:  system_dev="{{ system_dir }}/dev.yml"
 - set_fact:  system_prod="{{ system_dir }}/prod.yml"

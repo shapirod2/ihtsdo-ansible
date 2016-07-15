@@ -8,13 +8,13 @@ authentication:
 fileAuth:
   users:
     -
-      username: {{ ts_user }}
-      password: {{ ts_pw }}
+      username: "{{ ts_user }}
+      password: "{{ ts_pw }}
 
 repository:
   host: 0.0.0.0
   port: 2036
-  numberOfWorkers: {{ term_serv_workers }}
+  numberOfWorkers: "{{ term_serv_workers }}
   # Minutes to invalidate and close the unused indexes for tasks
   # Default is 4 hours, setting it to 0 means infinite (turns the feature off)
   # indexTimeout: 240
@@ -26,17 +26,17 @@ repository:
     scheme: jdbc:mysql://
     location: localhost:3306/
     settings: ?useServerPrepStmts=true&useCursorFetch=true
-    username: {{ snowowl_db_user }}
-    password: {{ snowowl_db_password }}
+    username: "{{ snowowl_db_user }}
+    password: "{{ snowowl_db_password }}
 
 snomed:
   ids:
     strategy : CIS
-    cisBaseUrl : {{ cis_url }}
+    cisBaseUrl : "{{ cis_url }}
     cisContextRoot : api
-    cisUserName : {{ cis_username }}
-    cisPassword : {{ cis_password }}
-    cisClientSoftwareKey : {{ cis_client_name }}
+    cisUserName : "{{ cis_username }}
+    cisPassword : "{{ cis_password }}
+    cisClientSoftwareKey : "{{ cis_client_name }}
     cisNumberOfPollTries : 1
     cisTimeBetweenPollTries : 1000
     enforceNamespace: INT

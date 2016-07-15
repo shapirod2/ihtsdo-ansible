@@ -113,7 +113,7 @@ ihtsdo_im_service_base_url: "https://{{ims_instance}}"
 
 #Jira.properties
 jira_url: "https://{{jira_instance}}/"
-jira_pem_file: "files/encrypted/ssl/{{jira_privateKeyName}}"
+jira_pem_file: "{{ inventory_dir }}/../files/ssl/{{jira_privateKeyName}}"
 securityServiceStubMode: "false"
 
 #IMS

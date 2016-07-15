@@ -1,5 +1,5 @@
 
- #system_dir: "files/encrypted/system"
+ #system_dir: "{{ inventory_dir }}/../files/system"
 
  #system_dev: "{{ system_dir }}/dev.yml"
  #system_prod: "{{ system_dir }}/prod.yml"
@@ -7,7 +7,7 @@
  #system_local_test: "{{ system_dir }}/local_test.yml"
  #system_sit: "{{ system_dir }}/sit.yml"
  
-- set_fact:  system_dir="files/encrypted/system"
+- set_fact:  system_dir="{{ inventory_dir }}/../files/system"
 
 - set_fact:  system_dev="{{ system_dir }}/dev.yml"
 - set_fact:  system_prod="{{ system_dir }}/prod.yml"

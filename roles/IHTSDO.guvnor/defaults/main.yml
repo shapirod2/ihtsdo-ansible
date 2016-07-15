@@ -23,8 +23,8 @@ import_file_dir_repo: "{{import_base_dir_repo}}/{{import_zip_file_repo}}"
 target_dir_repo: "/opt/drools"
 
 repo_dir: /opt/drools/Drools_QA_Repository55
-#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
+#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{app_name}}.crt"
 #nginx_ssl_key_file_dest: "/etc/ssl/private/{{app_name}}.key"
 nginx_ufw_allow_https: true

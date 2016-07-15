@@ -7,8 +7,8 @@ install_dir: "/opt/{{ app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 
-#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
+#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ app_name }}.crt"
 #nginx_ssl_key_file_dest: "/etc/ssl/private/{{ app_name }}.key"
 nginx_ufw_allow_https: true
@@ -22,4 +22,3 @@ nginx_root: "{{ lib_dir }}"
 authoringEndpoint: "/snowowl/ihtsdo-authoring/"
 snowOwlEndpoint: "/snowowl/snomed-ct/"
 imsEndpoint: "https://dev-ims.ihtsdotools.org/#/"
-

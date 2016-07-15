@@ -23,7 +23,7 @@ zabbixserver_front_install  : True  ## Install frontend and dependency True or F
 zabbixserver_front_root     : "/var/www"
 zabbixserver_front_redirect : True  ## Deploys an html to root of apache to redirect to /zabbix
 zabbixserver_front_apache_conf       : "/etc/zabbix/apache.conf"
-##Zabbix Server PHP 
+##Zabbix Server PHP
 zabbixserver_php_date_timezone       : "Europe/London" ## check http://php.net/manual/en/timezones.php
 zabbixserver_php_max_input_time      : 300
 zabbixserver_php_upload_max_filesize : "2M"
@@ -31,7 +31,7 @@ zabbixserver_php_post_max_size       : "16M"
 zabbixserver_php_memory_limit        : "128M"
 zabbixserver_php_max_execution_time  : 300
 ##Zabbix API Connection (optional)
-zabbixserver_url            : "http://{{zabbixserver_host}}/zabbix" 
+zabbixserver_url            : "http://{{zabbixserver_host}}/zabbix"
 zabbixserver_front_user     : "Admin"   ## fresh installation default 'Admin' (dont change unless you changed the user)
 zabbixserver_front_pass     : "zabbix"  ## fresh installation default 'Zabbix' (dont change unless you changed the password)
 
@@ -52,7 +52,7 @@ zabbixserver_db_intial_dir  : "/usr/share/zabbix-server-{{zabbixserver_db_type}}
 ##
 ## SSH tunnel management
 ##
-##   Zabbix by default does not have authentication and encryption 
+##   Zabbix by default does not have authentication and encryption
 ##   if your using zabbix to monitor hosts in a non private network you can use ssh tunnel
 zabbixserver_tunnel          : True
 zabbixserver_tunnel_user     : "zabbixagent"
@@ -69,8 +69,8 @@ zabbixserver_tunnel_basePort : 11000 ## if you will use auto port assigning
 zabbixserver_version       : "{{zabbixserver_major}}.{{zabbixserver_minor}}.{{zabbixserver_revision}}"
 zabbixserver_ubuntu        : "1:{{zabbixserver_version}}-1+trusty"
 zabbix_php_db               : "{%if zabbixserver_db_type == 'pgsql' %}POSTGRESQL{% elif zabbixserver_db_type == 'mysql' %}MYSQL{% else %}ERROR_UNKNOWN_DB{% endif %}"
-#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
+#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
 #nginx_ssl_cert_file_dest: /etc/ssl/certs/zabbixserver.crt
 #nginx_ssl_key_file_dest: /etc/ssl/private/zabbixserver.key
 nginx_ufw_allow_https: true

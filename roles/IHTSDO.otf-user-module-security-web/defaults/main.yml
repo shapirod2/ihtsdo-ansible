@@ -1,17 +1,17 @@
 ---
-otf_user_module_security_web_sp_props_state: wa 
+otf_user_module_security_web_sp_props_state: wa
 
 otf_user_module_security_web_version: latest
 otf_user_module_security_web_fqdn: otf-user-module-security-web
 otf_user_module_security_web_default_site: true
 otf_user_module_security_web_url: http://localhost:10001
-otf_user_module_security_web_nginx_ssl_cert_file_dest: {{nginx_ssl_cert_file_dest}}
-otf_user_module_security_web_nginx_ssl_key_file_dest: {{nginx_ssl_key_file_dest}}
+otf_user_module_security_web_nginx_ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}
+otf_user_module_security_web_nginx_ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}
 
 otf_user_module_security_web_sp_props: /etc/opt/otf-user-module-security-web/stormpath.properties
-otf_user_module_security_web_sp_props_file_md1: files/encrypted/stormpath/apiKey-meticulous-dreadnaught1.key
-otf_user_module_security_web_sp_props_file_vt: files/encrypted/stormpath/apiKey-vertical-thunder.key
-otf_user_module_security_web_sp_props_file_ym: files/encrypted/stormpath/apiKey-youthful-musket.key
-otf_user_module_security_web_sp_props_file_wa: files/encrypted/stormpath/wise-atom.key
+otf_user_module_security_web_sp_props_file_md1: "{{ inventory_dir }}/../files/stormpath/apiKey-meticulous-dreadnaught1.key"
+otf_user_module_security_web_sp_props_file_vt: "{{ inventory_dir }}/../files/stormpath/apiKey-vertical-thunder.key"
+otf_user_module_security_web_sp_props_file_ym: "{{ inventory_dir }}/../files/stormpath/apiKey-youthful-musket.key"
+otf_user_module_security_web_sp_props_file_wa: "{{ inventory_dir }}/../files/stormpath/wise-atom.key"
 
 otf_user_module_security_standalone: true

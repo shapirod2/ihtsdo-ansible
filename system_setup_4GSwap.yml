@@ -1,7 +1,7 @@
 # Added the install java and super visor roles as it is common and means it does not have to be 
 # included everytime.
 ---
-- hosts: zabbixclients
+- hosts: all
 #- hosts: www
   sudo: true
 #  remote_user: ubuntu
@@ -9,6 +9,8 @@
   vars:
     user_accounts_skip_sshd: true
     swapfile_size: 4GB
+  vars_files:
+     - "{{ inventory_dir }}/../users.yml"
   roles:
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    

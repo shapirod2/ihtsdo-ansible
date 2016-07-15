@@ -3,32 +3,32 @@
   sudo: true
   roles:
     - IHTSDO.dev_env
-    - IHTSDO.jenkins  
-    - IHTSDO.nginx-std 
- 
+    - IHTSDO.jenkins
+    - IHTSDO.nginx-std
+
   tasks:
   - file: >
       dest=/var/lib/jenkins/.ssh state=directory
       owner=jenkins group=nogroup mode=0700
   - copy: >
-      src=files/encrypted/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
+      src={{ inventory_dir }}/../files/ssh/jenkins.key dest=/var/lib/jenkins/.ssh/id_rsa
       owner=jenkins group=nogroup mode=0600
   - copy: >
-      src=files/encrypted/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
+      src={{ inventory_dir }}/../files/ssh/jenkins_authorized_keys dest=/var/lib/jenkins/.ssh/authorized_keys
       owner=jenkins group=nogroup mode=0600
   - copy: >
-      src=files/NOT-Encrypted/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
+      src={{ inventory_dir }}/../files/jenkins/ssh_config dest=/var/lib/jenkins/.ssh/config
       owner=jenkins group=nogroup mode=0600
   - copy: >
-      src=files/NOT-Encrypted/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
+      src={{ inventory_dir }}/../files/jenkins/launch_slave dest=/var/lib/jenkins/launch_slave
       owner=jenkins group=nogroup mode=0700
 
 
 #  - hosts: sonarqube
 #    sudo: true
 #    roles:
-#      - IHTSDO.sonarqube 
-#      - IHTSDO.nginx-std 
+#      - IHTSDO.sonarqube
+#      - IHTSDO.nginx-std
 
 # add ansible as both jenkins and jenkins-ansible use it
 
@@ -37,16 +37,16 @@
   vars:
    gitcrypt_user: "jenkins"
    gitcrypt_key_file_src: "{{jenkins_gitcrypt_key_file_src}}"
-   gitcrypt_key_file_dest: "{{jenkins_gitcrypt_key_file_dest}}" 
+   gitcrypt_key_file_dest: "{{jenkins_gitcrypt_key_file_dest}}"
   roles:
     - IHTSDO.ansible
     - IHTSDO.git-crypt
   tasks:
     - copy: >
-        src=files/encrypted/ssh/ansible.key dest=/var/lib/jenkins/.ssh/ansible.key
+        src={{ inventory_dir }}/../files/ssh/ansible.key dest=/var/lib/jenkins/.ssh/ansible.key
         owner=jenkins group=nogroup mode=0400
     - copy: >
-        src=files/NOT-Encrypted/ansible/ssh_config dest=/var/lib/jenkins/.ssh/config
+        src={{ inventory_dir }}/../files/ansible/ssh_config dest=/var/lib/jenkins/.ssh/config
         owner=jenkins group=nogroup mode=0600
     - file: >
         dest=/home/ansible/workspace owner=jenkins group=ansible mode=0750

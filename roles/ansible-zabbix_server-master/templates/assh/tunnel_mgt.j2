@@ -1,5 +1,5 @@
 {% if item.0 is number %}
-{{ item.0|pprint }} 
+{{ item.0|pprint }}
 {% set tunnelPort = item.0 + zabbixserver_tunnel_basePort %}
 {% set tunnelHost = item.1 %}
 {% set tunnelMethod = "Dynamic Ports" %}
@@ -13,7 +13,7 @@
 {% set usePort=hostvars[tunnelHost]["ansible_ssh_port"]|default("22") %}
 {% set useHost=hostvars[tunnelHost]["ansible_ssh_host"]|default(inventory_hostname) %}
 ## Ansible port method {{tunnelMethod}}
-## Host: {{useHost}}
+## Host: "{{useHost}}
 
 ServerAliveInterval="30"
 ServerAliveCountMax="3"

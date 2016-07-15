@@ -32,8 +32,8 @@ ssl_key_file: "{{nginx_ssl_key_file}}"
 ssl_cert_file: "{{nginx_ssl_cert_file}}"
 ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"
 ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
-#nginx_ssl_key_file: files/encrypted/ssl/ihtsdotools.org.key
-#nginx_ssl_cert_file: files/encrypted/ssl/ihtsdotools.org.chained.crt
+#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
+#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
 #nginx_ssl_cert_file_dest: /etc/ssl/certs/moodle.crt
 #nginx_ssl_key_file_dest: /etc/ssl/private/moodle.key
 #nginx_ufw_allow_https: true
