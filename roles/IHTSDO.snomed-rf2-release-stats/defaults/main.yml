@@ -12,4 +12,4 @@ release_full_file_dir: "{{release_file_name/Full}}"
 #previous_release_date:
 #extension_dependency_release_full_dir:
 #previous_extension_release_full_dir:
-isExtensionRelease:false
+isExtensionRelease: False

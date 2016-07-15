@@ -1,6 +1,6 @@
 ---
 
-- name: Install latest release stats generation jar
+#- name: Install latest release stats generation jar
 - maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url=https://maven.ihtsdotools.org/content/repositories/snapshots dest=/tmp/stats-gen.jar
 
 
