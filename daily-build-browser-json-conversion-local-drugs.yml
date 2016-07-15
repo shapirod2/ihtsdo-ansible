@@ -6,5 +6,6 @@
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_drugs_product_hierarchy_modeling_tech_preview/builds/
      unpacked_release_file_name: SnomedCT_DrugsProductHierarchyModelingTechPreview_INT_20170131
      release_file_name: SnomedCT_DrugsProductHierarchyModelingTechPreview_INT_20170131.zip
+     config_xml: enConfig-drugs.xml.j2
     roles:
       - IHTSDO.daily-build-browser-json-conversion
