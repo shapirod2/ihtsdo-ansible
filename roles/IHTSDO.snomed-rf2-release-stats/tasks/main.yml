@@ -1,0 +1,17 @@
+---
+
+- name: Install latest release stats generation jar
+- maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url=https://maven.ihtsdotools.org/content/repositories/snapshots dest=/tmp/stats-gen.jar
+
+
+
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
+
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
+ 
+- include: downloadRelease.yml
+  when: "get_release == True"  
+  
+- include: rf2ReleaseStatsReport.yml

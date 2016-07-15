@@ -1,0 +1,15 @@
+#!/bin/bash
+s3_bukcet_name="{{ stats_json_s3_bucket_name }}"
+filename="{{ release_stats_json_file_name }}"
+report_dir="{{ release_stats_json_report_folder }}"
+
+echo "Uploading release stats json to AWS S3";
+echo $report_dir
+cd $report_dir
+echo "start tar diff report json file"
+tar -czf $filename *.json
+echo "end of tar release stats report json file"
+
+echo "start s3 uploading for release stats report json..."
+aws s3 cp $filename $s3_bukcet_name/ 
+echo "s3 uploading process is completed for release stats report json"

@@ -1,0 +1,6 @@
+#!/bin/bash
+runScriptDir="{{ rf2_release_stats_root_dir }}"
+echo "root dir $runScriptDir"
+cd $runScriptDir
+
+java -Xms3G -Xmx7G -jar stats-gen.jar intConfig.xml -clean
