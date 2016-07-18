@@ -1,12 +1,5 @@
 ---
   - hosts: wordpress
     sudo: true
-    vars_files:
-    - files/encrypted/aws/s3-default.yml
     roles: 
-      - IHTSDO.aws
-      - IHTSDO.wordpress
       - IHTSDO.wordpress-snomedinaction
-      #- IHTSDO.wordpress-backup
-      #- IHTSDO.wordpress-restore
-      
