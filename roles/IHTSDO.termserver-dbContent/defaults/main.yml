@@ -33,7 +33,7 @@ import_term_serv_base_dir: /opt/data/termserver
 import_zip_base_url: "https://s3.amazonaws.com/prod-term.backup.ihtsdo/"
 
 #The import file filname (also the folder name when zip is unzipped)
-import_term_serv_filename:  "snowowl_termserver_20160509_0200"
+import_term_serv_filename:  "snowowl_termserver_20160720_0201"
 
 #The import filname with file ending
 import_term_serv_file: "{{ import_term_serv_filename }}.zip"

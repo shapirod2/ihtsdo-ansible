@@ -7,7 +7,7 @@
    #include system vars
 #- include: system.yml  
 - include: "{{systemchoice}}" 
-  when: systemchoice is defined
+  when: systemchoice is defined and system_type is defined 
  
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
