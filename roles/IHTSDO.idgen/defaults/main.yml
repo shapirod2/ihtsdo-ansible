@@ -1,7 +1,4 @@
 ---
-
-secret_settings: "{{ inventory_dir }}/../files/groups/idgen.yml"
-
 import_zip_base_url: "https://s3-us-west-2.amazonaws.com/idgen.backup/"
 
 force_zip_download_tom: False
@@ -27,7 +24,7 @@ import_file_dir_sql: "{{import_base_dir_sql}}/{{import_zip_file_sql}}"
 import_file_dir_sql_sql: "{{import_base_dir_sql}}/{{import_file_sql}}"
 installdbcontent: True
 mysql_service: mysql
-mysql_root_pass: 
+mysql_root_pass: change_me 
 dbname: id_gen
 
 #nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
