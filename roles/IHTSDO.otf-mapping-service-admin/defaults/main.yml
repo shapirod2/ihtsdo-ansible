@@ -2,4 +2,3 @@
 otf_mapping_service_admin_version: master
 #otf_mapping_service_data_repo: Set to the URL of data repository, including authentication information
 otf_mapping_service_data_version: master
-otf_mapping_service_data_secure: "{{ inventory_dir }}/../files/groups/otf_mapping_service_admin"
