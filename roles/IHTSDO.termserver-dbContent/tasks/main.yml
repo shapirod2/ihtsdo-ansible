@@ -4,11 +4,6 @@
 #  tags:
 #    - ihtsdo-asset
     
-  
-  
- 
-
- 
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
 

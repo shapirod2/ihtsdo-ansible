@@ -1,6 +1,6 @@
 ---
 - name: set config.xml
-  template: src=enConfig.xml.j2 dest={{ rf2_conversion_root_dir }}/config.xml
+  template: src={{config_xml}} dest={{ rf2_conversion_root_dir }}/config.xml
             owner=root group=root mode=0755    
             
 - name: set the run.sh

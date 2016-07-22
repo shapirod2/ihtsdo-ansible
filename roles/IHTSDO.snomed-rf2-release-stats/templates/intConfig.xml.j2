@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<releaseFullFolder>{{release_full_file_dir}}</releaseFullFolder>
+	<releaseDate>{{current_release_date}}</releaseDate>
+	<previousReleaseDate>{{previous_release_date}}</previousReleaseDate>
+	<reports>
+		<reportDescriptor><filename>general.xml</filename><execute>true</execute></reportDescriptor>
+		<reportDescriptor><filename>new_concepts.xml</filename><execute>true</execute></reportDescriptor>
+		<reportDescriptor><filename>retired_concepts.xml</filename><execute>true</execute></reportDescriptor>
+		<reportDescriptor><filename>changed_concepts.xml</filename><execute>true</execute></reportDescriptor>
+		<reportDescriptor><filename>localized_concepts.xml</filename><execute>false</execute></reportDescriptor>
+	</reports>
+	<sp_params>
+		<param><name>releaseDate</name><value>{{ current_release_date}}</value></param>
+	</sp_params>
+	<createDetailReports>true</createDetailReports>
+	<patternExecutions>
+		<runControlPatterns>true</runControlPatterns>
+		<exclusions>
+		</exclusions>
+	</patternExecutions>
+</config>

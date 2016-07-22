@@ -1,0 +1,15 @@
+---
+get_release: True
+
+#release_file_name: SnomedCT_RF2Release_INT_20170131.zip
+#unpacked_release_file_name: SnomedCT_RF2Release_INT_20170131
+#release_build_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
+release_stats_json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
+release_stats_json_file_name: rf2ReleaseStats.tgz
+release_stats_dir: /opt/sct-stats-generator/
+release_full_file_dir: "{{release_file_name/Full}}"
+#current_release_date:
+#previous_release_date:
+#extension_dependency_release_full_dir:
+#previous_extension_release_full_dir:
+isExtensionRelease: False
