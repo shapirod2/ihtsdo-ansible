@@ -6,7 +6,7 @@
   vars:
     user_accounts_skip_sshd: true
   vars_files:
-     - "{{ inventory_dir }}/../users.yml"
+     - "{{ inventory_dir }}/../files/users/users.yml"
   roles:
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    
