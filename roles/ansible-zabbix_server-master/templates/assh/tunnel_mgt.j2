@@ -13,7 +13,7 @@
 {% set usePort=hostvars[tunnelHost]["ansible_ssh_port"]|default("22") %}
 {% set useHost=hostvars[tunnelHost]["ansible_ssh_host"]|default(inventory_hostname) %}
 ## Ansible port method {{tunnelMethod}}
-## Host: "{{useHost}}
+## Host: "{{useHost}}""
 
 ServerAliveInterval="30"
 ServerAliveCountMax="3"
