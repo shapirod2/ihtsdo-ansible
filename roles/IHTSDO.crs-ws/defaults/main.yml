@@ -38,9 +38,13 @@ crs_url: "https://{{ crs_host }}"
 
 
 #crs_jira_host: "dev-jira.ihtsdotools.org"
+crs_jira_comment_internalGroup: "crs-administrator"
 crs_jira_url: "https://dev-jira.ihtsdotools.org"
 crs_jira_customField_extId: "customfield_10110"
 crs_jira_customField_reasonForChange: "customfield_10111"
+crs_jira_ticket_customField_semanticTag: "customfield_10201"
+crs_jira_ticket_customField_crs_id_id: "customfield_10203"
+
 #Jira SSO
 crs_jira_privateKeyName: "jira.pem"
 crs_jira_pem_file: files/encrypted/ssl/jira.pem
@@ -56,7 +60,19 @@ crs_snomect_branch: "MAIN"
 
 
 
-
 supervisor_dir: "/etc/supervisor/conf.d/"
+
+
+#Email 
+crs_crs_root_url: "http://local.ihtsdotools.org/#/"
+crs_crs_email_test_receive: "bob@bob.com"
+crs_mail_smtp_host: "smtp.gmail.com"
+crs_mail_smtp_port: "587"
+crs_mail_smtp_auth: "true"
+crs_mail_smtp_starttls.enable: "true"
+crs_mail_smtp_user: "bob@gmail.com"
+crs_mail_smtp_password: "bobbob"
+crs_mail_transport_protocol: "smtp"
+crs_mail_smtp_userName: "IHTSDO Notification"
 
 
