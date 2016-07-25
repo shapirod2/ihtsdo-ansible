@@ -1,0 +1,31 @@
+---
+
+# Backup 
+# Dir to put scripts into
+
+crs_db_name: "crs"
+crs_user: "crs"
+crs_pw: "crs"
+
+crs_dir:  "crs"
+crs_html_base_dir: "/var/www/html"
+crs_html_dir: "{{ crs_html_base_dir }}/{{ crs_dir }}"
+crs_data_dir: "/var/crsdata"
+
+crs_dir_owner: "www-data"
+crs_s3_backup_dir: ""
+crs_s3_backup_region: ""
+
+crs_backup_dir: /opt/backup/crs
+
+crs_backup_script: crs_backup.sh
+
+crs_backup_cmd: "{{ crs_backup_dir }}/{{ crs_backup_script }}"
+
+crs_backup_log: "{{ crs_backup_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+
+crs_full_backup_cmd: "{{ crs_backup_cmd }} >> {{ crs_backup_log }}"
+
+#Dir for scripts to put final backup zips into
+crs_backup_zip_dir: /opt/backup/crs/zips
+

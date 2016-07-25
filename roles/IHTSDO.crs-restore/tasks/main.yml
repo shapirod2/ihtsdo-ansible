@@ -1,0 +1,38 @@
+---
+
+ #include system vars
+- include: "{{systemchoice}}"
+  when: systemchoice is defined 
+
+- name: stop apache2
+  service: name=apache2 state=stopped
+
+- name: Delete crs_data_dir
+  file: path={{ crs_data_dir }} state=absent
+
+- name: Delete crs_html_dir
+  file: path={{ crs_html_dir }} state=absent
+
+- name: Ensure restore dir exists
+  file: path="{{ crs_restore_dir }}" state=directory
+        owner=root group=root mode=0755 
+        recurse=yes 
+        
+- name: Ensure crs_data_dir dir exists
+  file: path={{ crs_data_dir }} state=directory
+        owner={{ crs_dir_owner }} group={{ crs_dir_owner }}  mode=0777 
+        recurse=yes
+  
+- name: Ensure crs_html_dir dir exists
+  file: path={{ crs_html_dir }} state=directory
+        owner={{ crs_dir_owner }}  group={{ crs_dir_owner }}  mode=0755 
+        recurse=yes        
+        
+- name: set backup script to {{crs_restore_cmd}}
+  template: src=crs_restore.sh.j2 dest={{crs_restore_cmd}}
+            owner=root group=root mode=0755    
+
+- shell: "{{ crs_full_restore_cmd }}"
+
+- name: Ensure apache2 service is started
+  service: name=apache2 state=started enabled=yes
