@@ -1,0 +1,10 @@
+---
+  - hosts: crs
+    sudo: true
+    vars_files:
+    - files/encrypted/aws/s3-default.yml
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.crs-restore
+
+
