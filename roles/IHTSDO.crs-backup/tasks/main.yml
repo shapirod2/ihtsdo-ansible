@@ -2,7 +2,7 @@
 
  #include system vars
 - include: "{{systemchoice}}" 
-  when: systemchoice is defined
+  when: systemchoice is defined and system_type is defined
 
 - name: Ensure back up dir exists
   file: path="{{ crs_backup_dir }}" state=directory

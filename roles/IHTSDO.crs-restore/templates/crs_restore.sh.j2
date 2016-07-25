@@ -13,8 +13,6 @@ if [ "x$s3_backup_region_base" != "x" ]; then
 fi
 
 backup_dir="{{ crs_restore_dir }}/current"
-crs_data_dir="{{ crs_data_dir }}"
-crs_html_dir="{{ crs_html_dir }}"
 vardir=var
 
 
@@ -66,10 +64,10 @@ restore_latest_from_aws(){
 	tar  -zxvf  $backup_dir/$LATEST
 	echo "going into 1st child dir after unpacking"
 	cd $(ls -d */|head -n 1)
-	echo "currently in " $PWD
-	echo "Restoring data dirs"
-	chown -R {{ crs_dir_owner }}.{{ crs_dir_owner }} ./$vardir
-	cp -rfp ./$vardir/* /$vardir
+#	echo "currently in " $PWD
+#	echo "Restoring data dirs"
+#	chown -R {{ crs_dir_owner }}.{{ crs_dir_owner }} ./$vardir
+#	cp -rfp ./$vardir/* /$vardir
 
 	echo "Restoring mysql database"
 	mysql -u {{ crs_user }} -p{{ crs_pw }} crs < ./crs.sql

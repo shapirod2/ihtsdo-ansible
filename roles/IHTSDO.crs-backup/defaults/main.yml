@@ -3,18 +3,21 @@
 # Backup 
 # Dir to put scripts into
 
-crs_db_name: "crs"
-crs_user: "crs"
-crs_pw: "crs"
+crs_dbname: "crs"
+crs_user: "root"
+crs_mysql_root_pass: "defaultpw"
+crs_pw: "{{crs_mysql_root_pass}}"
 
 crs_dir:  "crs"
-crs_html_base_dir: "/var/www/html"
-crs_html_dir: "{{ crs_html_base_dir }}/{{ crs_dir }}"
-crs_data_dir: "/var/crsdata"
 
-crs_dir_owner: "www-data"
-crs_s3_backup_dir: ""
-crs_s3_backup_region: ""
+
+#crs_html_base_dir: "/var/www/html"
+#crs_html_dir: "{{ crs_html_base_dir }}/{{ crs_dir }}"
+#crs_data_dir: "/var/crsdata"
+
+crs_dir_owner: "root"
+crs_s3_backup_dir: "prod-crs.backup.ihtsdo"
+crs_s3_backup_region: "us-west-2"
 
 crs_backup_dir: /opt/backup/crs
 
