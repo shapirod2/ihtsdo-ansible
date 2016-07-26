@@ -1,0 +1,24 @@
+---
+
+ #include system vars
+- include: "{{systemchoice}}" 
+  when: systemchoice is defined and system_type is defined
+
+- name: Ensure back up dir exists
+  file: path="{{ crs_backup_dir }}" state=directory
+        owner=www-data group=www-data mode=0644 
+        recurse=yes  
+
+- name: set backup script
+  template: src=crs_backup.sh.j2 dest={{ crs_backup_dir }}/crs_backup.sh
+            owner={{ crs_dir_owner }} group={{ crs_dir_owner }} mode=0755    
+
+- debug: msg="Running crs backup using script = {{ crs_backup_cmd }}"
+
+- debug: msg="full_backup_cmd = {{ crs_full_backup_cmd }}"
+
+- shell: "{{ crs_full_backup_cmd }}"
+
+
+
+#- command: "{{ full_backup_cmd }}"

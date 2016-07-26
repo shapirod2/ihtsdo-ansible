@@ -1,0 +1,91 @@
+#!/bin/bash
+
+# The S3 backup dir
+s3_backup_dir="{{crs_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+s3_backup_region_base="{{crs_s3_backup_region | default('')}}"
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+backup_dir="{{ crs_restore_dir }}/current"
+vardir=var
+
+
+    # Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	mkbkdir
+	restore_latest_from_aws
+        echo "finished"
+	echo_date "----------------------------"
+}
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+        if [ "x$backup_dir" = "x" ]; then
+                error_exit "Please set the variable backup_dir before running this script. Exiting with error."
+        fi
+                if [ "x$s3_backup_dir" = "x" ]; then
+                error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+        fi
+}
+
+
+mkbkdir(){
+	# first delete if there
+	echo "Creating workspace in $backup_dir"
+	rm -rf $backup_dir
+	mkdir -pv $backup_dir
+}
+
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+restore_latest_from_aws(){
+
+	echo "Retrieving the latest backup from aws";
+	LATEST=`aws s3 ls $s3_backup_dir_full  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
+	if aws s3 $s3_backup_region cp $s3_backup_dir_full/$LATEST $backup_dir/$LATEST; then
+		echo "Downloaded $LATEST to $backup_dir";
+	else
+		error_exit
+	fi
+	cd $backup_dir
+	echo "Decompressing $LATEST to $backup_dir/${LATEST%%.*}"
+	tar  -zxvf  $backup_dir/$LATEST
+	echo "going into 1st child dir after unpacking"
+	cd $(ls -d */|head -n 1)
+#	echo "currently in " $PWD
+#	echo "Restoring data dirs"
+#	chown -R {{ crs_dir_owner }}.{{ crs_dir_owner }} ./$vardir
+#	cp -rfp ./$vardir/* /$vardir
+
+	echo "Restoring mysql database"
+	mysql -u {{ crs_user }} -p{{ crs_pw }} crs < ./crs.sql
+	echo "Restarting mysql to flush stale permissions"
+	service mysql restart
+	echo "Tidying up"
+
+	#rm -rf $backup_dir
+}
+
+error_exit() {
+        echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+        exit 1
+}
+# Ensures that only a single instance is running at any time
+LOCKFILE="/var/lock/crs-restore.lock"
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

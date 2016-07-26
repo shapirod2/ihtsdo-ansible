@@ -20,10 +20,13 @@ jira.ticket.scaAuthoringTask=SCA Authoring Task
 jira.ticket.batch.linkType=Relates
 jira.crs.issueKey=CRT
 jira.ticket.requestAttachment.name=request.json
+jira.comment.internalGroup={{crs_jira_comment_internalGroup}}
 
 #Custom fields on JIRA. To get the custom fields IDs, use JIRA REST API to retrieve custom field ID: {jira.url}/rest/api/2/field
 jira.ticket.customField.externalId.id={{crs_jira_customField_extId}}
 jira.ticket.customField.reasonForChange.id={{crs_jira_customField_reasonForChange}}
+jira.ticket.customField.semanticTag.id={{crs_jira_ticket_customField_semanticTag}}
+jira.ticket.customField.crs_id.id={{crs_jira_ticket_customField_crs_id_id}}
 
 #Status mapping between CRS and JIRA
 jira.ticket.statusMapping.new=New
@@ -38,6 +41,9 @@ jira.ticket.statusMapping.appeal=In Appeal
 jira.ticket.statusMapping.appealRejected=Rejected
 jira.ticket.statusMapping.released=Released
 jira.ticket.statusMapping.forwarded=Forwarded
+jira.ticket.statusMapping.deleted=Deleted
+jira.ticket.statusMapping.inInceptionElaboration=In Inception/Elaboration
+jira.ticket.statusMapping.readyforRelease=Ready For Release
 
 #Keys for JIRA SSO
 jira.credential.consumerKey={{crs_jira_consumerKey}}
@@ -45,6 +51,7 @@ jira.credential.privateKey={{crs_jira_privKey}}
 
 #Label to be added to authoring tasks
 jira.authoringTask.label.crs=CRS
+
 
 #SNOMEDCT Configurations
 snomect.host={{crs_snomect_host}}
@@ -54,3 +61,15 @@ snomect.branch={{crs_snomect_branch}}
 
 snomect.method.browser={{crs_snomect_method_browser}}
 snomect.method.mrcm={{crs_snomect_method_mrcm}}
+
+#Email configuration
+crs.root.url=http://local.ihtsdotools.org/#/
+crs.email.test.receive=Huy.Le@HunterMacdonald.com,Son.Truong@HunterMacdonald.com
+mail.smtp.host=smtp.gmail.com
+mail.smtp.port=587
+mail.smtp.auth=true
+mail.smtp.starttls.enable=true
+mail.smtp.user=sontest85@gmail.com
+mail.smtp.password=Qwertyuiop[]
+mail.transport.protocol=smtp
+mail.smtp.userName=IHTSDO Notification
