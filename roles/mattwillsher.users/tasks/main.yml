@@ -1,7 +1,6 @@
 ---
-
 - name: include users file
-  include_vars: "files/users/users.yml"
+  include_vars: "{{ inventory_dir }}/../files/users/users.yml"
 
 - name: Install adduser.conf to make sure no uid/gid number collisions
   template: src=adduser.conf.j2 dest=/etc/adduser.conf
