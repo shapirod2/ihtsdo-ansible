@@ -1,0 +1,7 @@
+---
+  - hosts: local
+    sudo: true
+    roles: 
+      - IHTSDO.aws
+      - IHTSDO.s3permsreport
+
