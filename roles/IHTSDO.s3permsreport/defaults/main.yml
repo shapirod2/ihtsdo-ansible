@@ -1,0 +1,5 @@
+s3_app_name: s3report
+install_dir: "/opt/{{ s3_app_name }}"
+scriptname: "s3permtest.sh"
+
+s3_full_report_cmd: "{{install_dir}}/{{scriptname}}"

@@ -17,12 +17,25 @@ then
 bucketloc="us-east-1"
 fi
 
+temp="${bucketloc%\"}"
+temp="${temp#\"}"
+bucketloc=$temp
+
 echo " "
 echo "-----START---- BucketName= $bucket ***** BucketRegion= $bucketloc"
 
-filerep="$(aws s3 ls --region $bucketloc s3://$bucket --recursive --human-readable --summarize)"
+filelist="$(aws s3 ls --region $bucketloc s3://$bucket --recursive  | awk '{ print $4 }')"
+for file in $filelist
+do
+echo "file = $file"
+acl="$(aws s3api get-object-acl --region "$bucketloc" --bucket "$bucket" --key "$file")"
+if [[ $acl == *"http://acs.amazonaws.com/groups/global/AllUsers"* ]]
+ then
+  echo "public share found!!!"
+  echo "acl = $acl"
+ fi
+done
 
-echo "FILES = \n $filerep"
 echo "----END---- BucketName= $bucket ***** BucketRegion= $bucketloc "
 echo " "
 done
