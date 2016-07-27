@@ -6,7 +6,25 @@ CURRENT_DATE=`date +%Y%m%d_%H%M`
 ts_log_dir={{trac_ts_log_dir}}
 
 # The S3 backup dir
-s3_backup_dir={{trac_s3_backup_dir | default('')}}
+#s3_backup_dir={{trac_s3_backup_dir | default('')}}
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{trac_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+s3_backup_region_base="{{trac_s3_backup_region | default('')}}"
+s3_numbackups=5
+s3_bk_list=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+
+
 
 # The backup directory
 backup_dir={{ trac_backup_dir }}
@@ -33,8 +51,8 @@ main() {
 	echo_date "Starting backup."
     copyfromlogdir
 	echo_date "Finished successfully."
-	#delete_old
 	movetoaws
+	delete_old_from_aws
 	exit 0
 }
 
@@ -44,27 +62,69 @@ cp {{ trac_ts_log_dir }}/{{trac_pattern}} {{ trac_backup_dir }}
 }
 
 movetoaws(){
-	echo "s3_backup_dir = "$s3_backup_dir;
-	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
-	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-	then
-		echo "Transferring backup to AWS S3";
-		/usr/bin/aws s3 sync ${backup_dir} s3://$s3_backup_dir;
-		echo "Backup transferred";
-		echo "Backup process complete";
-	else
-		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
-	fi
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
+echo "Transferring backup to AWS S3";
+cd $tmp_backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
+echo "Backup transferred";
+echo "Backup process complete";
+#fi
 }
 
-delete_old() { 
-echo "Cleaning up old backups prior to moving them to aws"
- if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
-  then   
-   echo "Deleting old back ups backup dir = "${backup_dir}; 
-   find ${backup_dir}/* -mtime +5 -exec rm {} \;
- fi
+delete_old_from_aws() {
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+
+done < $s3_bk_list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k \> $s3_numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
+echo "Deleted filename = $filename"
+fi
+
 }
+
+
+#movetoaws(){
+#	echo "s3_backup_dir = "$s3_backup_dir;
+	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#	then
+#		echo "Transferring backup to AWS S3";
+#		/usr/bin/aws s3 sync ${backup_dir} s3://$s3_backup_dir;
+#		echo "Backup transferred";
+#		echo "Backup process complete";
+#	else
+#		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
+#	fi
+#}
+
+#delete_old() { 
+#echo "Cleaning up old backups prior to moving them to aws"
+# if [ -d $backup_dir ] && [ "$backup_dir" != "" ] ;
+#  then   
+#   echo "Deleting old back ups backup dir = "${backup_dir}; 
+#   find ${backup_dir}/* -mtime +5 -exec rm {} \;
+# fi
+#}
 
 # Ensures that only a single instance is running at any time
 LOCKFILE="{{trac_script_dir}}/instance.lock"
