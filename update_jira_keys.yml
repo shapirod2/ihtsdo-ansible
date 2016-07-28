@@ -1,0 +1,13 @@
+---
+#SHOULD BE RUN USING TAG OF: updatekey 
+# e.g. :
+# ansible-playbook update_jira_keys.yml --tags "updatekey"
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.termserver
+      
+  - hosts: crs
+    sudo: true
+    roles:
+      - IHTSDO.crs-ws
