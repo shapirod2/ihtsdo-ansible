@@ -36,7 +36,7 @@
 - name: Copy Jira Private Key to crsPropertiesFolderLocation
   copy: src={{ crs_jira_pem_file }} dest={{ crs_jira_privKey }}
         owner=root group=root mode=0644  
-  
+  tags: updatekey
   
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ crs_ws_app_name }}.conf"
@@ -66,4 +66,5 @@
 # crs-application.properties? crs-application.properties
 
 - name: (re)start app
-  supervisorctl: name={{ crs_ws_app_name }} state=restarted               
+  supervisorctl: name={{ crs_ws_app_name }} state=restarted 
+  tags: updatekey              
