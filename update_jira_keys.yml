@@ -5,9 +5,9 @@
   - hosts: termserver
     sudo: true
     roles:
-      - IHTSDO.termserver
+      - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
       
   - hosts: crs
     sudo: true
     roles:
-      - IHTSDO.crs-ws
+      - { role: IHTSDO.crs-ws, tags: [ 'updatekey' ] }
