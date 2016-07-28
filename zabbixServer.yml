@@ -5,3 +5,4 @@
       - ansible-zabbix_server-master   
       - IHTSDO.nginx-std  
       - IHTSDO.dnsmasq
+      - IHTSDO.zabbix-java-gateway

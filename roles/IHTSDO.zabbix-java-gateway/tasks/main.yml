@@ -1,0 +1,24 @@
+---
+- name: Install zabbix-java-gateway package
+  apt: pkg="zabbix-java-gateway" state=present
+
+- name: Set gateway hostname in zabbix server config
+  lineinfile:
+     dest="/etc/zabbix/zabbix_server.conf"
+     regexp="^# JavaGateway=$"
+     line="JavaGateway={{ zabbix_java_gateway.host }}"
+
+- name: Set gateway port in zabbix server config
+  lineinfile:
+     dest="/etc/zabbix/zabbix_server.conf"
+     regexp="^# JavaGatewayPort=10052$"
+     line="JavaGatewayPort={{ zabbix_java_gateway.port }}"
+
+- name: Set number of pollers in zabbix server config
+  lineinfile:
+     dest="/etc/zabbix/zabbix_server.conf"
+     regexp="^# StartJavaPollers=0$"
+     line="StartJavaPollers={{ zabbix_java_gateway.pollers }}"
+
+- name: Restart zabbix server
+   service: name=zabbix-server state=restarted
