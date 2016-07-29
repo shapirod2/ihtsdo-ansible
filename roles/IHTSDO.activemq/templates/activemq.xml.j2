@@ -77,7 +77,7 @@
             http://activemq.apache.org/jmx.html
         -->
         <managementContext>
-            <managementContext createConnector="false"/>
+            <managementContext createConnector="true" rmiServerPort="2000"/>
         </managementContext>
 
         <!--
@@ -90,7 +90,7 @@
         <persistenceAdapter>
             <kahaDB directory="${activemq.data}/kahadb"/>
         </persistenceAdapter>
-        
+
         <plugins>
 			<simpleAuthenticationPlugin>
 				<users>

@@ -1,25 +1,25 @@
 ---
 
 #- name: Apt cache update
-#  apt: update_cache=yes cache_valid_time=3600 
+#  apt: update_cache=yes cache_valid_time=3600
 
-    
+
 # Install the package "activemq"
 #- name: Install activemq server
 #  apt: name=activemq  state=latest
 - name: see if install dir exists
   stat: path={{active_mq_install_dir}}
-  register: p 
-  
-- debug: msg="active_mq_install_dir_exists  =  {{ p.stat.exists }} " 
+  register: p
+
+- debug: msg="active_mq_install_dir_exists  =  {{ p.stat.exists }} "
 - debug: msg="activemq_force_reinstall = {{ activemq_force_reinstall }}"
 
 - debug: msg="active_mq_install_dir_exists and is a directory"
-  when: p.stat.isdir is defined and p.stat.isdir  
-  
+  when: p.stat.isdir is defined and p.stat.isdir
+
 - name: Install if active_mq_install_dir doesn't exist or if activemq_force_reinstall == true
   include: install.yml
   when: "activemq_force_reinstall == true or p.stat.isdir is not defined"
-  
-  
-  
+
+- name: Firewall rules to allow JMX monitoring by Zabbix
+  include: firewall.yml

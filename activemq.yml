@@ -4,4 +4,5 @@
     vars:
      activemq_force_reinstall: true
     roles:
+      - ansible-swapfile-master
       - IHTSDO.activemq
