@@ -1,8 +1,7 @@
 ---
 - hosts: jira
   sudo: true
-    roles:
-    - ansible-swapfile-master
+  roles:
     - IHTSDO.aws
     - IHTSDO.oraclejava
     - IHTSDO.mysql

@@ -13,7 +13,7 @@ jira_mysql_connector_archive: mysql-connector-java-{{ jira_mysql_connector_versi
 jira_mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ jira_mysql_connector_archive }}
 jira_mysql_user: "{{ jira_system_user }}"
 jira_mysql_password: change_me
-jira_mysql_db: "jira"
+jira_mysql_db: "jiradb"
 jira_mysql_hostname: localhost
 jira_mysql_port: 3306
 

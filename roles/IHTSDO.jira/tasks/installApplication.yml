@@ -1,4 +1,6 @@
 ---
+- apt: name=wget state=present update_cache=yes
+
 - name: Ensure jira group exists
   group: name={{ jira_system_group }}  state=present system=yes
 
@@ -25,7 +27,15 @@
   when: "{{ jira_version | version_compare('7.0.0', '>=') }}"
 
 - name: Download and Extract Application
-  unarchive: src="{{ jira_download_location }}/{{ package }}" dest={{ jira_install_location }} owner={{ jira_system_user }}  group={{ jira_system_group }} copy=no
+  shell: "wget {{ jira_download_location }}/{{ package }} && tar xvzf {{ package }} && rm {{ package }}"
+  args:
+     chdir: "{{ jira_install_location }}"
+
+- name: Set ownership
+  file: dest={{ jira_install_location }} owner={{ jira_system_user }}  group={{ jira_system_group }} recurse=yes
+
+#- name: Download and Extract Application
+#  unarchive: src="{{ jira_download_location }}/{{ package }}" dest={{ jira_install_location }} owner={{ jira_system_user }}  group={{ jira_system_group }} copy=no
 
 - shell: ls -d {{ jira_install_location }}/atlassian-jira*
   register: full_path
