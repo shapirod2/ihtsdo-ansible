@@ -1,10 +1,16 @@
 ---
+# MUST be called via update_jira_keys.yml --tags "updatekey"
+# as setting it in the role does not appear to work i.e.:
+# - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
+
   - hosts: termserver
     sudo: true
     roles:
-      - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
+    #  - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
+     - IHTSDO.termserver
       
   - hosts: crs
     sudo: true
     roles:
-      - { role: IHTSDO.crs-ws, tags: [ 'updatekey' ] }
+    #  - { role: IHTSDO.crs-ws, tags: [ 'updatekey' ] }
+     - IHTSDO.crs-ws

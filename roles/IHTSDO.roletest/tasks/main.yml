@@ -33,3 +33,7 @@
 #- debug: msg="f.matched  =  {{ f.matched }} " 
 #- debug: msg="p.stat.isdir  =  {{ p.stat.isdir }} " 
 #- debug: msg="p.stat.size  =  {{ p.stat.size }} " 
+
+- debug: msg="update key  =  {{ test_var }} "
+  tags: 
+   - updatekey
