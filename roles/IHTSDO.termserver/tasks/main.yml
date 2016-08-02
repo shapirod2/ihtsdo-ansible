@@ -54,6 +54,7 @@
 
 - name: Copy single_authoring.properties
   template: src=single_authoring.properties.j2 dest={{ term_serv_conf_dir }}/single_authoring.properties owner=root group=root mode=0644
+  tags: updatekey 
 
 - name: Copy setenv.sh
   template: src=setenv.sh dest={{ term_serv_dir }}/bin/setenv.sh owner=root group=root mode=0755
