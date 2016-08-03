@@ -11,9 +11,3 @@
     roles:
     #  - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
      - IHTSDO.termserver
-      
-  - hosts: crs
-    sudo: true
-    roles:
-    #  - { role: IHTSDO.crs-ws, tags: [ 'updatekey' ] }
-     - IHTSDO.crs-ws

@@ -4,14 +4,8 @@
 #e.g. :
 #ansible-playbook update_jira_keys.yml --tags "updatekey"
 # as setting it in the role does not appear to work i.e.:
-# - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
-
-  - hosts: termserver
-    sudo: true
-    roles:
-    #  - { role: IHTSDO.termserver, tags: [ 'updatekey' ] }
-     - IHTSDO.termserver
-      
+# - { role: IHTSDO.crs-ws, tags: [ 'updatekey' ] }
+     
   - hosts: crs
     sudo: true
     roles:
