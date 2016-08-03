@@ -3,18 +3,27 @@
 #    sudo: true
 #    roles:
 #      - IHTSDO.user-accounts
-  - hosts: otf_mapping_service_rest
-    sudo: true
-    roles:
-      - bennojoy.mysql
-      - IHTSDO.otf-mapping-service-rest
+#  - hosts: otf_mapping_service_rest
+#    sudo: true
+#    roles:
+#      - bennojoy.mysql
+#      - IHTSDO.otf-mapping-service-rest
 
-  - hosts: otf_mapping_service_webapp
-    sudo: true
-    roles:
-      - IHTSDO.otf-mapping-service-webapp
+#  - hosts: otf_mapping_service_webapp
+#    sudo: true
+#    roles:
+#      - IHTSDO.otf-mapping-service-webapp
 
-  - hosts: otf_mapping_service_admin
+#  - hosts: otf_mapping_service_admin
+#    sudo: true
+#    roles:
+#      - IHTSDO.otf-mapping-service-admin
+      
+      
+  - hosts: mapping
     sudo: true
     roles:
-      - IHTSDO.otf-mapping-service-admin
+     # - bennojoy.mysql
+      - IHTSDO.otf-mapping-service-rest  
+      - IHTSDO.otf-mapping-service-webapp 
+      - IHTSDO.otf-mapping-service-admin   

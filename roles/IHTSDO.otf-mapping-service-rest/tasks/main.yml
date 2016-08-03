@@ -8,7 +8,7 @@
   apt: name=otf-mapping-service-rest state=installed
   notify:
     - restart otf-mapping-service-rest
-  when: otf_mapping_service_rest_version == 'installed'
+  when: mapping_version == 'installed'
   tags:
     - ihtsdo-asset
 
@@ -16,15 +16,15 @@
   apt: name=otf-mapping-service-rest state=latest
   notify:
     - restart otf-mapping-service-rest
-  when: otf_mapping_service_rest_version == 'latest'
+  when: mapping_version == 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Install otf-mapping-service-rest package specific version
-  apt: name=otf-mapping-service-rest={{ otf_mapping_service_rest_version }} state=installed
+  apt: name=otf-mapping-service-rest={{ mapping_version }} state=installed
   notify:
     - restart otf-mapping-service-rest
-  when: otf_mapping_service_rest_version != 'installed' and otf_mapping_service_rest_version != 'latest'
+  when: mapping_version != 'installed' and mapping_version != 'latest'
   tags:
     - ihtsdo-asset
 

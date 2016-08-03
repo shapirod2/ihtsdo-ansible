@@ -1,21 +1,50 @@
 ---
-otf_mapping_service_rest_version: latest
-otf_mapping_service_rest_jdbc_url: jdbc:mysql://127.0.0.1:3306/otf_mapping_service?autoReconnect=true
-otf_mapping_service_rest_user: otf
-otf_mapping_service_rest_password: CHANGE_ME
-otf_mapping_service_rest_batch_size: 500
-otf_mapping_service_rest_default_batch_fetch_size: 500
-otf_mapping_service_rest_default_indexBase: /var/opt/otf-mapping-service-rest/indexes
-otf_mapping_service_rest_data_path: /var/opt/otf-mapping-service-rest/data
-otf_mapping_service_rest_defaultPreferredNames_typeId: 900000000000013009
-otf_mapping_service_rest_defaultPreferredNames_refSetId: 900000000000509007
-otf_mapping_service_rest_defaultPreferredNames_acceptabilityId: 900000000000548007
-otf_mapping_service_rest_snomedct_input_data: "{{ otf_mapping_service_rest_data_path }}/snomedct-20140131-snapshot"
-otf_mapping_service_rest_icpc_input_data: "{{ otf_mapping_service_rest_data_path }}/icpc-2.xml"
-otf_mapping_service_rest_complexmap_input_data: "{{ otf_mapping_service_rest_data_path }}/der2_iisssccRefset_ExtendedMapSnapshotMini_INT_20140131.txt"
-otf_mapping_service_rest_icd9cm_input_data: "{{ otf_mapping_service_rest_data_path }}/icd9cm-2013.xml"
-otf_mapping_service_rest_icd10cm_input_data: "{{ otf_mapping_service_rest_data_path }}/icd10-2010.xml"
-otf_mapping_service_rest_mapnotes_input_data: "{{ otf_mapping_service_rest_data_path }}/der2_sRefset_MapNotesSnapshotMini_INT_20140131.txt"
-otf_mapping_service_rest_import_input_data: "{{ otf_mapping_service_rest_data_path }}/ihtsdo-project-data/"
-otf_mapping_service_rest_export_input_data: "{{ otf_mapping_service_rest_data_path }}/ihtsdo-project-data/"
-otf_mapping_service_rest_base_url: ''
+
+
+mapping_app_name: "mapping-service"
+app_name: "{{ mapping_app_name }}"
+supervisor_dir: "/etc/supervisor/conf.d/"
+
+
+mapping_mysql_root_pass: rooty
+mapping_db_name: mapping 
+mapping_db_user: mapping
+mapping_db_pw: mapping
+mapping_db_host: "127.0.0.1"
+mapping_user: "ihtsdo"
+mapping_mysql_port: 3306
+mapping_mysql_service: mysql
+
+
+nginx_ufw_allow_https: true
+nginx_conf: "{{app_name}}"
+nginx_fqdn: "~(?i){{app_name}}"
+nginx_default_site: true
+nginx_ufw_allow_https: true
+nginx_proxy_url: "http://localhost:8080/"
+
+mapping_app_dir: "/opt/{{ mapping_app_name }}"
+mapping_indexBase_dir: "{{mapping_app_dir}}/indexes"
+mapping_data_dir: "{{mapping_app_dir}}/data"
+mapping_conf_dir: "{{mapping_app_dir}}/conf"
+
+mapping_version: latest
+mapping_jdbc_url: "jdbc:mysql://{{mapping_db_host}}:{{mapping_mysql_port}}/{{mapping_db_name}}?autoReconnect=true"
+#mapping_db_user: otf
+#mapping_db_pw: CHANGE_ME
+mapping_batch_size: 500
+mapping_default_batch_fetch_size: 500
+#mapping_indexBase_dir: /var/opt/otf-mapping-service-rest/indexes
+#mapping_data_dir: /var/opt/otf-mapping-service-rest/data
+mapping_defaultPreferredNames_typeId: 900000000000013009
+mapping_defaultPreferredNames_refSetId: 900000000000509007
+mapping_defaultPreferredNames_acceptabilityId: 900000000000548007
+mapping_snomedct_input_data: "{{ mapping_data_dir }}/snomedct-20140131-snapshot"
+mapping_icpc_input_data: "{{ mapping_data_dir }}/icpc-2.xml"
+mapping_complexmap_input_data: "{{ mapping_data_dir }}/der2_iisssccRefset_ExtendedMapSnapshotMini_INT_20140131.txt"
+mapping_icd9cm_input_data: "{{ mapping_data_dir }}/icd9cm-2013.xml"
+mapping_icd10cm_input_data: "{{ mapping_data_dir }}/icd10-2010.xml"
+mapping_mapnotes_input_data: "{{ mapping_data_dir }}/der2_sRefset_MapNotesSnapshotMini_INT_20140131.txt"
+mapping_import_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
+mapping_export_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
+mapping_base_url: ''

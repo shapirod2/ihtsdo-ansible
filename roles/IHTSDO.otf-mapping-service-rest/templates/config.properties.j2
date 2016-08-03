@@ -5,9 +5,9 @@
 hibernate.dialect=org.hibernate.dialect.MySQLDialect
 javax.persistence.jdbc.driver=com.mysql.jdbc.Driver
 # For testing use mappingservicedbtest
-javax.persistence.jdbc.url={{ otf_mapping_service_rest_jdbc_url }}
-javax.persistence.jdbc.user={{ otf_mapping_service_rest_user }}
-javax.persistence.jdbc.password={{ otf_mapping_service_rest_password }}
+javax.persistence.jdbc.url={{ mapping_jdbc_url }}
+javax.persistence.jdbc.user={{ mapping_db_user }}
+javax.persistence.jdbc.password={{ mapping_db_pw }}
 
 #
 # JPA debugging settings
@@ -19,63 +19,63 @@ hibernate.use_sql_comments=true
 #
 # Lucene index base (default is ${user.home}/mapping/lucene/indexes
 #
-hibernate.search.default.indexBase={{ otf_mapping_service_rest_default_indexBase }}
+hibernate.search.default.indexBase={{ mapping_indexBase_dir }}
 hibernate.search.lucene_version=LUCENE_36
 hibernate.search.default.directory_provider=filesystem
 
 #
 # Optimizations
 #
-hibernate.jdbc.batch_size={{ otf_mapping_service_rest_batch_size }}
-hibernate.jdbc.default_batch_fetch_size={{ otf_mapping_service_rest_default_batch_fetch_size }}
+hibernate.jdbc.batch_size={{ mapping_batch_size }}
+hibernate.jdbc.default_batch_fetch_size={{ mapping_default_batch_fetch_size }}
 
 
 #
 # SNOMEDCT data location
 #
-loader.SNOMEDCT.input.data={{ otf_mapping_service_rest_snomedct_input_data }}
+loader.SNOMEDCT.input.data={{ mapping_snomedct_input_data }}
 # SNOMED CT RF2 SCTID for "Synonym"
-loader.defaultPreferredNames.typeId={{ otf_mapping_service_rest_defaultPreferredNames_typeId }}
+loader.defaultPreferredNames.typeId={{ mapping_defaultPreferredNames_typeId }}
 # SNOMED CT RF2 SCTID for the US English language refset
-loader.defaultPreferredNames.refSetId={{ otf_mapping_service_rest_defaultPreferredNames_refSetId }}
+loader.defaultPreferredNames.refSetId={{ mapping_defaultPreferredNames_refSetId }}
 # SNOMED CT RF2 SCTID for "Preferred"
-loader.defaultPreferredNames.acceptabilityId={{ otf_mapping_service_rest_defaultPreferredNames_acceptabilityId }}
+loader.defaultPreferredNames.acceptabilityId={{ mapping_defaultPreferredNames_acceptabilityId }}
 
 #
 # ICPC data location
 #
-loader.ICPC.input.data= {{ otf_mapping_service_rest_icpc_input_data }}
+loader.ICPC.input.data= {{ mapping_icpc_input_data }}
 #
 # ICPC Map Records data
 #
-loader.complexmap.input.data={{ otf_mapping_service_rest_complexmap_input_data }}
+loader.complexmap.input.data={{ mapping_complexmap_input_data }}
 #
 # ICD9CM data location
 #
-loader.ICD9CM.input.data={{ otf_mapping_service_rest_icd9cm_input_data }}
+loader.ICD9CM.input.data={{ mapping_icd9cm_input_data }}
 
 #
 # ICD10 data location
 #
-loader.ICD10.input.data={{ otf_mapping_service_rest_icd10cm_input_data }}
+loader.ICD10.input.data={{ mapping_icd10cm_input_data }}
 
 #
 # Map Notes data location
 #
-loader.mapnotes.input.data={{ otf_mapping_service_rest_mapnotes_input_data }}
+loader.mapnotes.input.data={{ mapping_mapnotes_input_data }}
 
 #
 # Input directory for data to import
 #
-import.input.dir={{ otf_mapping_service_rest_import_input_data }}
+import.input.dir={{ mapping_import_input_data }}
 
 #
 # Destination directory for exported data
 #
-export.output.dir={{ otf_mapping_service_rest_export_input_data }}
+export.output.dir={{ mapping_export_input_data }}
 
 #
 # Webapp base URL (currently unused)
 #
-base.url={{ otf_mapping_service_rest_base_url }}
+base.url={{ mapping_base_url }}
 
