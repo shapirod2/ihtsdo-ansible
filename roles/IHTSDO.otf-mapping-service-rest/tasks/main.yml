@@ -3,6 +3,9 @@
   apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
+    
+- name: install db
+  include: db.yml      
 
 - name: Install otf-mapping-service-rest package
   apt: name=otf-mapping-service-rest state=installed
