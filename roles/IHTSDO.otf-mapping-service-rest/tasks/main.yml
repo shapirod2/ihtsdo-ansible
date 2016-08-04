@@ -1,40 +1,57 @@
 ---
+
 - name: Apt cache update
-  apt: update_cache=yes cache_valid_time=300
-  tags:
-    - ihtsdo-asset
+  apt: update_cache=yes cache_valid_time=300 
     
+- name: Stop app if running
+  supervisorctl: name={{mapping_app_name}} state=stopped
+  ignore_errors: yes
+
+# https://confluence.ihtsdotools.org/display/REFSET/Deploy+Instructions
+
+- name: Install deps
+  apt: name={{item}} state=latest update_cache=yes cache_valid_time=300
+  with_items:
+       - git
+       - maven
+       - unzip
+       - speedometer
+
 - name: install db
-  include: db.yml      
+  include: db.yml  
+  
+- name: install app
+  include: install.yml  
+  
+- name: make sure mapping_app_dir exists 
+  file: path="{{ mapping_app_dir }}" state=directory
+    
+- name: make sure mapping_conf_dir exists
+  file: path={{mapping_conf_dir}}  state=directory  
+  
+- name: make sure mapping_data_dir exists
+  file: path={{mapping_data_dir}}  state=directory  
+ 
 
-- name: Install otf-mapping-service-rest package
-  apt: name=otf-mapping-service-rest state=installed
-  notify:
-    - restart otf-mapping-service-rest
-  when: mapping_version == 'installed'
-  tags:
-    - ihtsdo-asset
+#- name: install admin and reference data
+#  include: getadmin.yml 
+#  when: install_admin == true
+  
+#- name: load example data
+#  include: loadExampleData.yml 
+#  when:  load_example_data == true
 
-- name: Install latest otf-mapping-service-rest package
-  apt: name=otf-mapping-service-rest state=latest
-  notify:
-    - restart otf-mapping-service-rest
-  when: mapping_version == 'latest'
-  tags:
-    - ihtsdo-asset
+- name: post install config
+  include: postinstallconfig.yml
+  
 
-- name: Install otf-mapping-service-rest package specific version
-  apt: name=otf-mapping-service-rest={{ mapping_version }} state=installed
-  notify:
-    - restart otf-mapping-service-rest
-  when: mapping_version != 'installed' and mapping_version != 'latest'
-  tags:
-    - ihtsdo-asset
-
-- name: Configure
-  template: src=config.properties.j2 dest=/etc/opt/otf-mapping-service-rest/config.properties
-            owner=root group=otf-mapping-service-rest mode=0640
-  notify:
-    - restart otf-mapping-service-rest
-  tags:
-    - ihtsdo-asset
+- name: set the owner to {{mapping_user}}
+  file: path={{mapping_app_dir}} owner={{mapping_user}} group={{mapping_user}} recurse=yes
+  
+- name: Start App
+  supervisorctl: name={{mapping_app_name}} state=restarted
+  ignore_errors: yes  
+  
+- name: restart nginx
+  service: name=nginx state=restarted
+  

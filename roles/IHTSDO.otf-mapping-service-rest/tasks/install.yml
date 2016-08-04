@@ -1,0 +1,44 @@
+---
+#tomcat7  
+       
+- name: Install package
+  apt: name={{mapping_app_name}} state=installed
+  when: mapping_version == 'installed'
+
+- name: Install latest package
+  apt: name={{mapping_app_name}} state=latest
+  when: mapping_version == 'latest'
+
+- name: Install package specific version
+  apt: name={{mapping_app_name}}={{ mapping_version }} state=installed
+  when: mapping_version != 'installed' and mapping_version != 'latest'
+  
+- name: Ensure group exists
+  group: name={{ mapping_user }} state=present system=yes
+
+- name: Ensure user exists
+  user: name={{ mapping_user }} group={{ mapping_user }} state=present system=yes
+  
+- name: set perms
+  file: path="{{ mapping_app_dir }}" state=directory
+        owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
+        recurse=yes  
+
+- name: set perms for indexes dir
+  file: path="{{ mapping_indexBase_dir }}" state=directory
+        owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
+        recurse=yes   
+        
+#- debug: msg="security_handler = {{security_handler}}"
+              
+- name: Configure config.properties
+  template: src=config.properties.j2 dest={{mapping_app_dir}}/conf/config.properties
+            owner={{mapping_user}} group={{mapping_user}} mode=0640  
+      
+
+#- set_fact: security_handler="{{security_handler_default}}"
+#- debug: msg="security_handler = {{security_handler}}"
+              
+#- name: Configure configload.properties
+#  template: src=config.properties.j2 dest={{mapping_app_dir}}/conf/configload.properties
+#            owner={{mapping_user}} group={{mapping_user}} mode=0640                         

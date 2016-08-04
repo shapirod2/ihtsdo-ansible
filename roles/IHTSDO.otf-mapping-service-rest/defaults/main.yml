@@ -1,7 +1,7 @@
 ---
 
 
-mapping_app_name: "mapping-service"
+mapping_app_name: "mapping-rest"
 app_name: "{{ mapping_app_name }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
