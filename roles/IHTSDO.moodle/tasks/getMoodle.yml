@@ -1,5 +1,11 @@
 ---
 
+- name: remove git dir
+  file: path={{moodle_git_dir}} state=absent
+  
+- name: remove existing moodle html dir
+  file: path={{moodle_html_dir}} state=absent
+
 - name: Ensure moodle_git_dir dir exists
   file: path={{ moodle_git_dir }} state=directory
         owner=root group=root mode=0644 

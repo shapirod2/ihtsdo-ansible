@@ -4,10 +4,6 @@
   apt: update_cache=yes cache_valid_time=3600 
   tags:
     - ihtsdo-asset
- 
-
- 
-    
     
    #Setup the database
 - include: db.yml 
@@ -15,16 +11,12 @@
    #Add the deps
 - include: deps.yml 
 
- 
    #Get moodle
 - include: getMoodle.yml   
 
    #Extra Settings as directed by 
    # https://docs.moodle.org/28/en/Step-by-step_Installation_Guide_for_Ubuntu
 - include: extraSettings.yml
-
-# Include backup scripts etc. - moved to separate role
-#- include: backup.yml
 
 - name: if ssl then set up ssl
   include: ssl.yml

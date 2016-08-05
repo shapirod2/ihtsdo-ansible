@@ -2,7 +2,7 @@
 #ClamAV
 - name: Ensure /var/quarantine dir exists
   file: path=/var/quarantine state=directory
-        owner=www-data group=www-data mode=0644 
+        owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0644 
         recurse=yes  
 #Zend OpCache 
 
@@ -23,4 +23,13 @@
   template: src=config.php.j2 dest={{ moodle_html_dir }}/config.php
             owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0755            
   
-  
+- name: make sure moodle html dir owned
+  file: path={{ moodle_html_dir }} state=directory
+        owner={{ moodle_dir_owner }} group={{ moodle_dir_owner }} mode=0644 
+        recurse=yes    
+        
+- name: apply perms
+  file:
+    path: "{{ moodle_html_dir }}"
+    mode: u=rwX,g=rX,o=rX
+    recurse: yes   
