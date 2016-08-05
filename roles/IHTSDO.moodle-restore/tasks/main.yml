@@ -25,11 +25,13 @@
         owner={{ moodle_dir_owner }}  group={{ moodle_dir_owner }}  mode=0755 
         recurse=yes        
         
-- name: set backup script to {{moodle_restore_cmd}}
+- name: set restore script to {{moodle_restore_cmd}}
   template: src=moodle_restore.sh.j2 dest={{moodle_restore_cmd}}
             owner=root group=root mode=0755    
 
-- shell: "{{ moodle_full_restore_cmd }}"
+
+- name:  running restore script as {{moodle_full_restore_cmd}}
+  shell: "{{ moodle_full_restore_cmd }}"
 
 - name: Ensure apache2 service is started
   service: name=apache2 state=started enabled=yes

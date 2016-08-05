@@ -21,7 +21,7 @@ moodle_restore_script: moodle_restore.sh
 
 moodle_restore_cmd: "{{ moodle_restore_dir }}/{{ moodle_restore_script }}"
 
-moodle_restore_log: "{{ moodle_restore_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+moodle_restore_log: "{{ moodle_restore_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 
 moodle_full_restore_cmd: "{{ moodle_restore_cmd }} >> {{ moodle_restore_log }}"
 
