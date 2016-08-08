@@ -78,7 +78,7 @@ echo "s3_backup_dir = "$s3_backup_dir;
 #if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 #then
 echo "Transferring backup to AWS S3";
-cd $tmp_backup_dir
+cd $zip_dir
 for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
 echo "Backup transferred";
 echo "Backup process complete";

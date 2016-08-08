@@ -2,7 +2,8 @@ system_type: local_test
 
 # Backup 
 # Dir to put scripts into
-s3_backup_dir: "s3://{{cis_backup}}"
+cis_s3_backup_dir: bucket.name
+cis_s3_backup_region: us-east-1
 
 backup_dir: "/opt/backup/cis"
 dump_filename: "cisdump.sql"
