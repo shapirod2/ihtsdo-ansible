@@ -1,7 +1,4 @@
-- debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
-- set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
-- debug: msg="zabbix server =  {{zabbixserver1}}"
-
+---
 - name: copy zabbix_agentd.psk
   copy: src={{ zabbix_psk_file_ans }} dest={{ zabbix_psk_file_local }}
         owner=zabbix group=zabbix mode=0600
@@ -23,7 +20,7 @@
   ignore_errors: yes
 
 - name: resolve  zabbix server to ip
-  shell: "dig +short {{ zabbixserver1 }} | grep -v '\\.$' | head -n 1"
+  shell: "dig +short {{ monitoring_server }} | grep -v '\\.$' | head -n 1"
   register: resolved_hostname
 
 - debug: msg="zabbix server ip =  {{resolved_hostname.stdout}}"

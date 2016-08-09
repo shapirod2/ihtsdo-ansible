@@ -4,10 +4,10 @@ printf "Bringing up tunnel to ZabbixServer \n"
 
 #First kill any existing autoshh instances
 printf "Killing any existing tunnels \n"
-sudo pkill -f '10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{zabbixserver1}}'
+sudo pkill -f '10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{ monitoring_server }}'
 #Then start
 printf "Starting tunnel \n"
-sudo autossh -i /home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -R {{zabbix_client_port}}:localhost:10050 -L 10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{zabbixserver1}}
+sudo autossh -i /home/{{zabbixserver_tunnel_user}}/.ssh/id_rsa -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -R {{zabbix_client_port}}:localhost:10050 -L 10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{ monitoring_server }}
 
 printf "Tunnel should be up...exiting \n"
 exit 0

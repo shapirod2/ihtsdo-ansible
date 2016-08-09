@@ -1,7 +1,7 @@
 #!/bin/sh
 
 printf "Killing any existing tunnels \n"
-sudo pkill -f '10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{zabbixserver1}}'
+sudo pkill -f '10051:localhost:10051 {{zabbixserver_tunnel_user}}@{{ monitoring_server }}'
 exit 0
 
 

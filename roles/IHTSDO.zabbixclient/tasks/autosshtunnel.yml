@@ -13,8 +13,6 @@
   #shell="/bin/false"
   
 - debug: msg="inventory_hostname  =  {{ inventory_hostname }} "
-- set_fact: zabbixserver1={{ hostvars[groups['zabbixserver'][0]]['inventory_hostname'] }}
-- debug: msg="zabbix server =  {{zabbixserver1}}"
 - debug: msg="zabbix client port =  {{zabbix_client_port}}"
 - name: Copy .ssh folder
   action: copy src={{ssh_keyfolder}}/ dest=/home/{{zabbixserver_tunnel_user}}/.ssh owner={{zabbixserver_tunnel_user}} group={{zabbixserver_tunnel_user}} mode=0600
@@ -34,14 +32,14 @@
   file: path={{ssh_dir}}/known_hosts state=touch owner={{exec_as}} group={{exec_as}}  mode="644"    
   
 - name: SSH | Find Zabbix Server SSH host key
-  shell: ssh-keyscan {{ zabbixserver1}}
+  shell: ssh-keyscan {{ monitoring_server }}
   register: zabbix_host_key          
      
 #- debug: msg="zabbix_host_key =  {{zabbix_host_key}}"   
 - debug: msg="ssh_dir =  {{ssh_dir}}"          
 
-- name: ensure zabbixserver1 is a known host
-  known_hosts: path={{ssh_dir}}/known_hosts host="{{zabbixserver1}}" state=present key="{{zabbix_host_key.stdout}}"
+- name: ensure {{ monitoring_server }} is a known host
+  known_hosts: path={{ssh_dir}}/known_hosts host="{{ monitoring_server }}" state=present key="{{zabbix_host_key.stdout}}"
   
 
 - name: add command into rc.local

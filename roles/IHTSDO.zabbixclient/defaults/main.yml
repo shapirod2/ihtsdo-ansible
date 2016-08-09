@@ -25,3 +25,5 @@ zabbix_psk_file: "zabbix_agentd.psk"
 
 zabbix_psk_file_local: "/home/zabbixagent/{{zabbix_psk_file}}"
 zabbix_psk_file_ans: "{{ inventory_dir }}/../files/ssl/{{zabbix_psk_file}}"
+
+monitoring_server: zabbix.ihtsdotools.org
