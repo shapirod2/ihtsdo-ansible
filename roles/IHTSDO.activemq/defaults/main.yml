@@ -30,4 +30,5 @@ active_mq_bin_dir: "{{ active_mq_std_dir }}/bin"
 start_command: "{{ active_mq_bin_dir }}/activemq"
 initd_command: "/etc/init.d/activemq"
 
+monitoring_server: zabbix.ihtsdotools.org
 #supervisor_dir: "/etc/supervisor/conf.d/"
