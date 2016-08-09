@@ -4,7 +4,6 @@
     roles:
       #- IHTSDO.user-accounts
       - IHTSDO.orchestration-service
-      - IHTSDO.activemq
 
 #  - hosts: orchestration_service
 #    sudo: true
