@@ -1,7 +1,7 @@
 # Basic System hardening and setup check - users, network security
 # included everytime.
 ---
-- hosts: securityCheck
+- hosts: all 
 #  serial: 1
   sudo: true
   vars:
