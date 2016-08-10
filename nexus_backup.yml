@@ -1,5 +1,5 @@
 ---
-  - hosts: nexus_backup
+  - hosts: nexus
     sudo: true
     roles:
       - IHTSDO.aws
