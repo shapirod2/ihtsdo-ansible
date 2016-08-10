@@ -1,10 +1,10 @@
 ---
-  - hosts: securityCheck
+  - hosts: all
     sudo: true
     roles:
       - IHTSDO.All-Report
       
-  - hosts: securityCheck
+  - hosts: all
     serial: 1
     sudo: true
     roles:
