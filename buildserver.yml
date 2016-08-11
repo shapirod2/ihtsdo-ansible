@@ -36,8 +36,9 @@
   sudo: true
   vars:
    gitcrypt_user: "jenkins"
-   gitcrypt_key_file_src: "{{jenkins_gitcrypt_key_file_src}}"
-   gitcrypt_key_file_dest: "{{jenkins_gitcrypt_key_file_dest}}"
+   gitcrypt_key_filename: "ihtsdo-inventory.key"
+   gitcrypt_key_file_src: "{{ inventory_dir }}/../files/git-crypt/{{gitcrypt_key_filename}}"
+   gitcrypt_key_file_dest: "/home/ansible/{{gitcrypt_key_filename}}"
   roles:
     - IHTSDO.ansible
     - IHTSDO.git-crypt
