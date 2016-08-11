@@ -52,6 +52,7 @@ jira_pem_file: "{{ inventory_dir }}/../files/ssl/jira.pem"
 jira_proj_filter_pc: "Int"
 
 orchestration_name: "int"
+orchestration_server_port: 9007
 
 securityServiceStubMode: "false"
 snomed_drools_version: master
