@@ -53,5 +53,6 @@ jira_proj_filter_pc: "Int"
 
 orchestration_name: "int"
 
+securityServiceStubMode: "false"
 snomed_drools_version: master
 system_type: local_test
