@@ -9,7 +9,7 @@ sshd_server_key_bits: 1024
 sshd_syslog_facility: AUTH
 sshd_log_level: INFO
 sshd_login_grace_time: 2m
-sshd_permit_root_login: "yes"
+sshd_permit_root_login: "no"
 sshd_strict_modes: "yes"
 sshd_max_auth_tries: 6
 sshd_max_sessions: 10
@@ -23,7 +23,7 @@ sshd_rhosts_rsa_authentication: "no"
 sshd_hostbased_authentication: "no"
 sshd_ignore_user_known_hosts: "no"
 sshd_ignore_rhosts: "yes"
-sshd_password_authentication: "yes"
+sshd_password_authentication: "no"
 sshd_permit_empty_passwords: "no"
 sshd_challenge_response_authentication: "no"
 sshd_kerberos_authentication: "no"
@@ -47,7 +47,7 @@ sshd_permit_user_environment: "no"
 sshd_compression: delayed
 sshd_client_alive_interval: 0
 sshd_client_alive_count_max: 3
-sshd_use_dns: "yes"
+sshd_use_dns: "no"
 sshd_pid_file: /run/sshd.pid
 sshd_max_startups: 10:30:100
 sshd_permit_tunnel: "no"
