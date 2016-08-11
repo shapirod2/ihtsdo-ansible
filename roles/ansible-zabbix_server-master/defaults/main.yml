@@ -78,7 +78,7 @@ nginx_conf: zabbixserver
 nginx_fqdn: ~(?i)zabbixserver
 nginx_default_site: false
 nginx_ufw_allow_https: true
-
+zabbix_user_dir: /opt/zab
 zabbixserver_apache_port: 8088
 nginx_proxy_url: http://localhost:8088/zabbix/
 zabbixserver_hipchat_script_dir: "/usr/local/bin/"
