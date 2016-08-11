@@ -22,6 +22,7 @@ orchestration_jira_url: http://uat-jira.ihtsdotools.org:8080/
 orchestration_jira_username:
 orchestration_jira_password:
 orchestration_jira_contentProjectKey: TIDD
+orchestration_jira_dailyExportProjectKey: TSED
 
 # AWS 'dev-ts-sync' user
 orchestration_aws_key:
