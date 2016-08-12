@@ -55,7 +55,7 @@ crs_snomect_method_mrcm: "mrcm"
 crs_snomect_branch: "MAIN"
 
 supervisor_dir: "/etc/supervisor/conf.d/"
-
+mysql_port: 3306
 
 #Email 
 crs_crs_root_url: "http://local.ihtsdotools.org/#/"
