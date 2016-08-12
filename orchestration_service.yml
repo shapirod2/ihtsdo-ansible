@@ -1,5 +1,5 @@
 ---
-  - hosts: orchestration_service
+  - hosts: termserver
     sudo: true
     roles:
       #- IHTSDO.user-accounts
