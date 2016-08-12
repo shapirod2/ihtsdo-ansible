@@ -50,9 +50,9 @@ application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
 term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
 
 jira_pem_file: "{{ inventory_dir }}/../files/ssl/jira.pem"
-jira_proj_filter_pc: "Int"
+jira_proj_filter_pc: "changeme"
 
-orchestration_name: "int"
+orchestration_name: "changeme"
 orchestration_server_port: 9007
 
 securityServiceStubMode: "false"
