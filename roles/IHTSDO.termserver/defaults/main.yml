@@ -24,6 +24,7 @@ term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_index
 
 #snowowl_reasoner_id: au.csiro.snorocket.owlapi3.snorocket.factory
 snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
+snowowl_url: http://localhost:8080/snowowl/
 
 # Backup
 # Dir to put scripts into
