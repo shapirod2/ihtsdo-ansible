@@ -12,3 +12,4 @@ mysql_root_pass: change_me
 orchestration_jms_url: change_me
 orchestration_jms_username: change_me
 orchestration_jms_password: change_me
+orchestration_name: change_me
