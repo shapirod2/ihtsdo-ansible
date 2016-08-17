@@ -1,7 +1,7 @@
 ---
 
 
-mapping_app_name: "mapping-rest"
+mapping_app_name: "mapping-service"
 app_name: "{{ mapping_app_name }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
 
@@ -14,7 +14,7 @@ mapping_db_host: "127.0.0.1"
 mapping_user: "ihtsdo"
 mapping_mysql_port: 3306
 mapping_mysql_service: mysql
-
+mapping_xmx: "1500m"
 
 nginx_ufw_allow_https: true
 nginx_conf: "{{app_name}}"
@@ -48,3 +48,24 @@ mapping_mapnotes_input_data: "{{ mapping_data_dir }}/der2_sRefset_MapNotesSnapsh
 mapping_import_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
 mapping_export_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
 mapping_base_url: ''
+
+
+# true false.
+load_example_data: false
+install_admin: true
+
+mapping_admin_app_name: "mapping-service-admin"
+mapping_admin_app_dir: "/opt/{{ mapping_admin_app_name }}"
+mapping_admin_setup_script: "{{mapping_admin_app_dir}}/setupconfdata.sh"
+
+mapping_admin_setup_log: "{{ mapping_admin_app_dir }}/admin_setup_{{ ansible_date_time.iso8601 }}.log"
+full_mapping_admin_setup_cmd: "{{ mapping_admin_setup_script }} >> {{ mapping_admin_setup_log }}"
+mapping_admin_pom_dir: "{{ mapping_admin_app_dir }}/pom"
+mapping_admin_pom_file: "mapping-admin-pom.xml"
+mapping_admin_pom_script_file: "setupconfdata_mvn.sh"
+mapping_admin_pom_script: "{{mapping_admin_pom_dir}}/{{mapping_admin_pom_script_file}}"
+mapping_admin_pom_log: "{{ mapping_admin_pom_dir }}/admin_exampledata_{{ ansible_date_time.iso8601 }}.log"
+full_mapping_admin_pom_cmd: "{{ mapping_admin_pom_script }} >> {{ mapping_admin_pom_log }}"
+script_dir: /opt/scripts/mapping
+new_restore_script: restore_mapping_s3.sh
+restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"

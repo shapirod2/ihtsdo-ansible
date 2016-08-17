@@ -1,0 +1,31 @@
+- name: Install admin package
+  apt: name={{mapping_admin_app_name}} state=installed
+  when: mapping_version == 'installed'
+
+- name: Install latest admin package
+  apt: name={{mapping_admin_app_name}} state=latest
+  when: mapping_version == 'latest'
+
+- name: Install admin package specific version
+  apt: name={{mapping_admin_app_name}}={{ mapping_version }} state=installed
+  when: mapping_version != 'installed' and mapping_version != 'latest'
+  
+- name: set perms on root m2
+  file: path="/root/.m2" state=directory
+        owner=root group=root mode=755   
+  
+- name: add settings.xml to root
+  template: src=settings.xml.j2 dest=/root/.m2/settings.xml
+            owner=root group=root mode=0640    
+
+- debug: msg="About to admin set up script = {{ full_mapping_admin_setup_cmd }}"               
+  
+- name: run admin set up script
+  shell: "{{full_mapping_admin_setup_cmd}} chdir={{mapping_admin_app_dir}}"
+  
+- name: copy the version specific pom to the std name
+  shell: "cp {{mapping_admin_pom_dir}}/mapping-admin*.pom   {{mapping_admin_pom_dir}}/{{mapping_admin_pom_file}}"
+  
+  
+
+  

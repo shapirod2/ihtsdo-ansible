@@ -33,9 +33,9 @@
   file: path={{mapping_data_dir}}  state=directory  
  
 
-#- name: install admin and reference data
-#  include: getadmin.yml 
-#  when: install_admin == true
+- name: install admin and reference data
+  include: getadmin.yml 
+  when: install_admin == true
   
 #- name: load example data
 #  include: loadExampleData.yml 

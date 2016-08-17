@@ -1,0 +1,14 @@
+# run the mvn install script in the pom dir if loadTest Data = true or..? signal file? add to dir if run ist time?
+#/opt/mapping-service-admin/pom/  ./setupconfdata_mvn.sh  
+
+- name: remove the {{mapping_db_name}}  database
+  mysql_db: name={{mapping_db_name}} state=absent login_user=root login_password={{ mapping_mysql_root_pass }}
+
+- name: create db
+  include: createdb.yml   
+
+- debug: msg="About to load example data command = {{ full_mapping_admin_pom_cmd }}"      
+
+- name: run example data load script
+  shell: "{{full_mapping_admin_pom_cmd}} chdir={{mapping_admin_pom_dir}}"
+  when:  load_example_data

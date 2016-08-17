@@ -25,5 +25,5 @@
     roles:
      # - bennojoy.mysql
       - IHTSDO.otf-mapping-service-rest  
-      - IHTSDO.otf-mapping-service-webapp 
-      - IHTSDO.otf-mapping-service-admin   
+ #     - IHTSDO.otf-mapping-service-webapp 
+ #     - IHTSDO.otf-mapping-service-admin   
