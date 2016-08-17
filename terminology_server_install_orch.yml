@@ -2,10 +2,10 @@
   - hosts: termserver
     sudo: true
     roles:
-#      - IHTSDO.user-accounts
-      - IHTSDO.awsa
-      - IHTSDO.orchestration-service
+      - IHTSDO.aws
       - IHTSDO.termserver
       - IHTSDO.nginx-std 
       - IHTSDO.termserver-web
+      - IHTSDO.traceability-service
       - IHTSDO.sca
+      - IHTSDO.orchestration-service
