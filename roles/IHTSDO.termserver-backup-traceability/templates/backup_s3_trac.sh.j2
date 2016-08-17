@@ -23,8 +23,10 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
-# The backup directory
+# The starting directory
 backup_dir={{ trac_backup_dir }}
+# The dir where zips go
+tmp_backup_dir=$backup_dir/tmp
 # the pattern to use
 backup_pattern={{trac_pattern}}
 
