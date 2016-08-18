@@ -1,0 +1,9 @@
+---
+#  - hosts: termserver
+#    sudo: true
+#    roles:
+#      - IHTSDO.user-accounts
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.nginx-tmp-ms
