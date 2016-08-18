@@ -1,0 +1,12 @@
+---
+  - name: Configure nginx
+    template: src=termserver.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+              owner=root group=root mode=0640
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx
+
+  - name: restart nginx
+    service: name=nginx state=restarted
