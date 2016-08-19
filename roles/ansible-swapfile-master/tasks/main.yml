@@ -1,4 +1,10 @@
 ---
+
+# consider adding a reset ie. 
+# swapoff /swapfile
+# rm -rf /swapfile 
+# if swapfile exists or if looking to change.
+
 - name: Write swapfile
   command: |
     {% if swapfile_use_dd %}
