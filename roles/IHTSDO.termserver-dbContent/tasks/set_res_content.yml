@@ -24,9 +24,27 @@
   file: path={{target_term_serv_indexes}} state=absent
   when: sqlimportfile.stat.exists == True  
 
-- name: Copy the termserver_indexes dir to opt/termserver_indexes
+- name: make sure termserver_indexes dir exists
+  stat: path={{import_term_serv_indexes}}
+  register: import_term_serv_indexes_dir
+
+- debug: msg="import_term_serv_indexes_dir = {{import_term_serv_indexes_dir}}"
+
+- name: Move the termserver_indexes {{import_term_serv_indexes}} dir to opt/termserver_indexes
   command: cp -r {{import_term_serv_indexes}} /opt
-  when: sqlimportfile.stat.exists == True
+  when: sqlimportfile.stat.exists == True and import_term_serv_indexes_dir.stat.exists == True
+
+- name: If import_term_serv_indexes_dir is false make sure {{term_serv_dir_resources_indexes}} dir exists
+  stat: path={{term_serv_dir_resources_indexes}}
+  register: term_serv_dir_resources_indexes_dir
+  when: import_term_serv_indexes_dir.stat.exists == false
   
+- debug: msg="term_serv_dir_resources_indexes_dir = {{term_serv_dir_resources_indexes_dir}}"  
+   
+- name: move the existing term_serv_dir_resources_indexes {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}
+  command: mv {{term_serv_dir_resources_indexes}} {{target_term_serv_indexes}}
+  when: sqlimportfile.stat.exists == True and term_serv_dir_resources_indexes_dir.stat.exists == True   
+  
+   
 - name: Link {{target_term_serv_indexes}} to {{term_serv_dir_resources}}
   file: path={{term_serv_dir_resources_indexes}} src={{target_term_serv_indexes}} state=link
