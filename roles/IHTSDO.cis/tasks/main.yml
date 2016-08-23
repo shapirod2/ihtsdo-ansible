@@ -21,6 +21,7 @@
 
 - name: stop app
   supervisorctl: name={{ cis_app_name }} state=stopped 
+  ignore_errors: yes
   
 - name: rem install dir
   file: path={{ cis_install_dir }} state=absent
