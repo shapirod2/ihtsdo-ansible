@@ -41,6 +41,12 @@ crs_jira_customField_reasonForChange: "customfield_10111"
 crs_jira_ticket_customField_semanticTag: "customfield_10201"
 crs_jira_ticket_customField_crs_id_id: "customfield_10203"
 
+#JMS Details
+crs_jms_url: "failover:tcp://dev-queues:61616"
+crs_jms_user: changeMe
+crs_jms_password: changeMe
+crs_jms_queue: "changeMe-authoring.task-state-change"
+
 #Jira SSO
 crs_jira_privateKeyName: "jira.pem"
 crs_jira_pem_file: "{{ inventory_dir }}/../files/ssl/jira.pem"
@@ -57,7 +63,7 @@ crs_snomect_branch: "MAIN"
 supervisor_dir: "/etc/supervisor/conf.d/"
 mysql_port: 3306
 
-#Email 
+#Email
 crs_crs_root_url: "http://local.ihtsdotools.org/#/"
 crs_crs_email_test_receive: "bob@bob.com"
 crs_mail_smtp_host: "smtp.gmail.com"
