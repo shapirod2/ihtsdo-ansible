@@ -44,9 +44,9 @@ error_exit() {
 # Main script starts here.
 main() {
 	echo_date "----------------------------"
-
-	echo_date "Create backup destination directory '$backup_dir'."
-	mkdir -pv "$backup_dir" || error_exit "Couldn't create directory '$backup_dir'. Exiting with error."
+    mkbkdir
+	#echo_date "Create backup destination directory '$backup_dir'."
+	#mkdir -pv "$backup_dir" || error_exit "Couldn't create directory '$backup_dir'. Exiting with error."
 	echo_date "Starting backup."
     copyfromlogdir
 	echo_date "Finished successfully."
@@ -56,8 +56,17 @@ main() {
 }
 
 
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+mkdir -pv $tmp_backup_dir
+
+}
+
 copyfromlogdir(){
-cp {{ trac_ts_log_dir }}/{{trac_pattern}} {{ trac_backup_dir }}
+#only copy files changed in the last 24 hours to tmp
+find  {{ trac_ts_log_dir }}/{{trac_pattern}}  -type f -mtime -1 -exec cp -a "{}" $tmp_backup_dir \;
 }
 
 movetoaws(){
@@ -66,7 +75,7 @@ echo "s3_backup_dir = "$s3_backup_dir;
 #if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
 #then
 echo "Transferring backup to AWS S3";
-cd {{ trac_backup_dir }}
+cd $tmp_backup_dir
 for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
 echo "Backup transferred";
 echo "Backup process complete";
