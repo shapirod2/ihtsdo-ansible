@@ -108,5 +108,8 @@ action = %({{service.action}})s
 {% if service.banaction is defined %}
 banaction = {{service.banaction}}
 {% endif %}
+{% if service.findtime is defined %}
+findtime = {{service.findtime}}
+{% endif %}
 
 {% endfor %}
