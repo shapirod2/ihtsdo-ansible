@@ -33,6 +33,7 @@ jira.ticket.customField.externalId.id={{crs_jira_customField_extId}}
 jira.ticket.customField.reasonForChange.id={{crs_jira_customField_reasonForChange}}
 jira.ticket.customField.semanticTag.id={{crs_jira_ticket_customField_semanticTag}}
 jira.ticket.customField.crs_id.id={{crs_jira_ticket_customField_crs_id_id}}
+jira.ticket.customField.topic.id={{crs_jira_ticket_customField_topic_id}}
 
 #Status mapping between CRS and JIRA
 jira.ticket.statusMapping.new=New
@@ -40,16 +41,17 @@ jira.ticket.statusMapping.accepted=Accepted
 jira.ticket.statusMapping.underAuthoring=In Progress
 jira.ticket.statusMapping.pendingClarification=Clarification Needed
 jira.ticket.onHold=
-jira.ticket.statusMapping.approved=Ready For Release
+jira.ticket.statusMapping.approved=
 jira.ticket.statusMapping.rejected=Rejected
 jira.ticket.statusMapping.withdrawn=Withdrawn
 jira.ticket.statusMapping.appeal=In Appeal
 jira.ticket.statusMapping.appealRejected=Rejected
-jira.ticket.statusMapping.released=Released
+jira.ticket.statusMapping.released=Completed
 jira.ticket.statusMapping.forwarded=Forwarded
 jira.ticket.statusMapping.deleted=Deleted
 jira.ticket.statusMapping.inInceptionElaboration=In Inception/Elaboration
 jira.ticket.statusMapping.readyforRelease=Ready For Release
+
 
 #Keys for JIRA SSO
 jira.credential.consumerKey={{crs_jira_consumerKey}}
@@ -69,15 +71,15 @@ snomect.method.browser={{crs_snomect_method_browser}}
 snomect.method.mrcm={{crs_snomect_method_mrcm}}
 
 #Email configuration
-crs.root.url=http://local.ihtsdotools.org/#/
-crs.email.test.receive=Huy.Le@HunterMacdonald.com,Son.Truong@HunterMacdonald.com
-mail.smtp.host=smtp.gmail.com
-mail.smtp.port=587
-mail.smtp.auth=true
-mail.smtp.starttls.enable=true
-mail.smtp.user=sontest85@gmail.com
-mail.smtp.password=Qwertyuiop[]
-mail.transport.protocol=smtp
-mail.smtp.userName=IHTSDO Notification
+crs.root.url={{crs_mail_root_url}}
+crs.notification.email.enable={{crs_mail_enable}}
+crs.email.test.receive={{crs_mail_test_receive}}
+mail.smtp.host={{crs_mail_smtp_host}}
+mail.smtp.user={{crs_mail_smtp_user}}
+mail.smtp.password={{crs_mail_smtp_password}}
+mail.smtp.port={{crs_mail_smtp_port}}
+mail.smtp.auth={{crs_mail_smtp_auth}}
+mail.smtp.starttls.enable={{crs_mail_smtp_starttls_enable}}
+mail.transport.protocol={{crs_mail_transport_protocol}}
+mail.smtp.userName={{crs_mail_smtp_userName}}
 
-crs.notification.email.enable=true
