@@ -1,5 +1,0 @@
----
-  - hosts: wordpress
-    sudo: true
-    roles: 
-      - IHTSDO.wordpress-snomedinaction
