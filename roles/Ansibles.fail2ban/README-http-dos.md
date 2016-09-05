@@ -10,15 +10,16 @@ Other http command words/verbs could be added if required (e.g. POST or PUT).
 
 The settings are in the default/mail.yml and are a descendant of fail2ban_services:
 
-name: "http(s)"
-enabled: "true"
-port: "http,https"
-filter: "http-get-dos"
-logpath: "/var/log/nginx/access.log"
-action: "iptables[name=HTTP, port=http, protocol=tcp]"
-maxretry: 300
-findtime: 300
-    
+    name: "http(s)"
+    enabled: "true"
+    port: "http,https"
+    filter: "http-get-dos"
+    logpath: "/var/log/nginx/access.log"
+    action: "iptables[name=HTTP, port=http, protocol=tcp]"
+    maxretry: 300
+    findtime: 300
+    bantime: 300
+
 You might wish to change the logpath if using apache rather than nginx else the only 3 settings you may want to play with are:
 
     maxretry: 300
@@ -40,13 +41,13 @@ At the moment it is set to 300 during the period being looked at.
 
 ####Defaults to 10 minutes (600 Seconds) if not set  
 
-The time window (in seconds) where the maxretry times should occur, for the IP to get blocked 
+The time window (in seconds) where the maxretry times should occur, for the IP to get blocked. 
     
 ###bantime: 
 
 ####Defaults to 10 minutes (600 Seconds) if not set    
 
-This option is used to set the time (in seconds) an IP will be banned, maybe a good option could be 5 minutes so, 300 seconds, this will slow automated systems while also letting legitimate users to try again after the ban time ends
+This option is used to set the time (in seconds) an IP will be banned, set to 300 seconds/5 minutes as this will slow automated systems while also letting legitimate users to try again after the ban time ends.
 
 So the standard setting:
 
