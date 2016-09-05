@@ -34,5 +34,6 @@ fail2ban_services:
     action: "iptables[name=HTTP, port=http, protocol=tcp]"
     maxretry: 300
     findtime: 300
+    bantime: 300
     
     
