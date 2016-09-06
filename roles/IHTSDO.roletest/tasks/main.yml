@@ -8,6 +8,9 @@
 
 - debug: msg="test_var  =  {{ test_var }} "
 
+- include: addTestResources.yml
+  when: not((term_serv_test_res_S3_bucket is undefined) or (term_serv_test_res_S3_bucket is none) or (term_serv_test_res_S3_bucket|trim == ''))
+ 
 #- debug: msg="sys_type  =  {{ sys_type }} "
 #- debug: msg="version_term_serv  =  {{ version_term_serv }} "
 #- debug: msg="Role path  =  {{role_path}} "

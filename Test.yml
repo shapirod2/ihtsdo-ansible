@@ -1,8 +1,8 @@
 ---
-  - hosts: local
+  - hosts: all
     sudo: true
     roles: 
-     # - IHTSDO.roletest
+      - IHTSDO.roletest
      # - IHTSDO.debug 
-     - { role: IHTSDO_roletest }
+     #- { role: IHTSDO_roletest }
      #- { role: IHTSDO.roletest }

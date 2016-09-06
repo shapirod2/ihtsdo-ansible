@@ -1,10 +1,15 @@
 
-aws_settings: files/aws/srs.yml
-srs_settings: files/secrets/srs.yml 
-orch_settings: files/secrets/orch.yml
-smtp_settings: files/secrets/smtp.yml
 system_type: local_test
 
 test_dir: "/home/adamf/test/tmp"
 
 test_var: "TEST_VAR"
+
+term_serv_dir_resources: "/opt/termserver/resources"
+
+
+term_serv_test_res_dir: "{{term_serv_dir_resources}}/test-resources"
+#term_serv_test_res_S3_bucket: "validation-resources.ihtsdo"
+#term_serv_test_res_S3_bucket: 
+#term_serv_test_res_S3_dir: "prod/SnomedCT_RF2Release_INT_20170131/"
+#term_serv_test_res_S3_region: "us-east-1"

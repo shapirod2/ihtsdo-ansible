@@ -1,0 +1,12 @@
+# Basic System hardening and setup check - users, network security
+# included everytime.
+---
+- hosts: all 
+#  serial: 1
+  sudo: true
+  vars:
+    user_accounts_skip_sshd: true
+  roles:
+    - Ansibles.fail2ban
+
+    
