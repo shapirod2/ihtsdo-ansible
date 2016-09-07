@@ -11,5 +11,5 @@ tar -czf $filename *.json
 echo "end of tar release stats report json file"
 
 echo "start s3 uploading for release stats report json..."
-aws s3 cp $filename $s3_bukcet_name/ 
+aws s3 cp $filename $s3_bucket_name/ 
 echo "s3 uploading process is completed for release stats report json"
