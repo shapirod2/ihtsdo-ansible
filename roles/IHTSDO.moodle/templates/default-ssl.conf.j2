@@ -30,6 +30,7 @@
 		#   SSLCertificateFile directive is needed.
 		SSLCertificateFile	{{ ssl_cert_file_dest }}
 		SSLCertificateKeyFile {{ ssl_key_file_dest }}
+		SSLCertificateChainFile {{ ssl_intermediate_cert_file_dest }} 
 
 		#   Server Certificate Chain:
 		#   Point SSLCertificateChainFile at a file containing the

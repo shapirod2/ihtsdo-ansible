@@ -2,6 +2,10 @@
 - name: Install SSL cert
   copy: src={{ ssl_cert_file }} dest={{ ssl_cert_file_dest }}
           owner=root group=root mode=0644
+          
+- name: Install Intermediate SSL cert
+  copy: src={{ ssl_intermediate_cert_file }} dest={{ ssl_intermediate_cert_file_dest }}
+          owner=root group=root mode=0644          
 
 - name: Install SSL key
   copy: src={{ ssl_key_file }} dest={{ ssl_key_file_dest }}
