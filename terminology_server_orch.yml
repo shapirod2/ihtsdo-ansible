@@ -13,4 +13,5 @@
       - IHTSDO.nginx-std 
       - IHTSDO.termserver-web
      # - IHTSDO.termserver-dbContent
+      - IHTSDO.traceability-service
       - IHTSDO.sca
