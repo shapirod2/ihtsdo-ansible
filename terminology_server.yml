@@ -7,6 +7,7 @@
     sudo: true
     roles:
       - IHTSDO.aws
+      - IHTSDO.orchestration-service
       - IHTSDO.termserver
       - IHTSDO.nginx-std
       - IHTSDO.termserver-web
