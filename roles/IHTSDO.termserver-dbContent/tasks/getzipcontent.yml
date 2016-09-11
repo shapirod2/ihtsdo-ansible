@@ -38,7 +38,7 @@
 - debug: msg="import_term_serv_base_dir path = {{import_term_serv_base_dir}}"
 - debug: msg="import_term_serv_file path = {{import_term_serv_file}}"
 
-- name: make sure unzipped dir does not exist exists
+- name: make sure unzipped dir does not exist exists path = {{import_term_serv_base_dir}}/{{import_term_serv_filename}}
   file: path={{import_term_serv_base_dir}}/{{import_term_serv_filename}}  state=absent
 
 #- name: Unarchive termserv archive on the remote machine

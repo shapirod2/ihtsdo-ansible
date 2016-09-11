@@ -3,6 +3,7 @@
 - name: make sure sql file exists
   stat: path={{import_term_serv_sql}}
   register: sqlimportfile
+- debug: msg="sqlimportfile  = {{import_term_serv_sql}}"  
 - debug: msg="sqlimportfile exists = {{sqlimportfile.stat.exists}}"
 - debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
 - debug: msg="term_serv_dir_resources = {{term_serv_dir_resources}}"
@@ -41,10 +42,11 @@
   
 - debug: msg="term_serv_dir_resources_indexes_dir = {{term_serv_dir_resources_indexes_dir}}"  
    
-- name: move the existing term_serv_dir_resources_indexes {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}
+- name: move the existing term_serv_dir_resources_indexes "{{term_serv_dir_resources_indexes}}" dir to "{{target_term_serv_indexes}}"
   command: mv {{term_serv_dir_resources_indexes}} {{target_term_serv_indexes}}
   when: sqlimportfile.stat.exists == True and term_serv_dir_resources_indexes_dir.stat.exists == True   
+ 
   
    
 - name: Link {{target_term_serv_indexes}} to {{term_serv_dir_resources}}
-  file: path={{term_serv_dir_resources_indexes}} src={{target_term_serv_indexes}} state=link
+  file: path={{term_serv_dir_resources_indexes}} src={{target_term_serv_indexes}} state=link force=yes
