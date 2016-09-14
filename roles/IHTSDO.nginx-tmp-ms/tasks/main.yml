@@ -8,7 +8,7 @@
       - ihtsdo-asset
       - nginx
 
-   - name: Configure test
+  - name: Configure test
     template: src=test.j2 dest="{{nginx_conf_dir}}/test.conf"
               owner=root group=root mode=0640
     notify:

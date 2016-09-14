@@ -1,14 +1,14 @@
 #{{ ansible_managed }}
 server {
   server_name {{ inventory_hostname }};
-  listen 80 default;
+  listen 80;
   rewrite ^ https://$host$request_uri permanent;
   #endofhttpServer
 }
 
 server {
-  server_name _;
-  listen 443 ssl default;
+  server_name {{ inventory_hostname }};
+  listen 443 ssl;
 
   ssl_certificate     /etc/ssl/certs/ihtsdotools2016.chained.crt;
   ssl_certificate_key /etc/ssl/private/ihtsdotools2016.key;
