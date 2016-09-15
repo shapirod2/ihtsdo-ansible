@@ -56,3 +56,10 @@ import_term_serv_resources: "{{import_term_serv_dataset}}/{{ term_serv_resources
 target_term_serv_indexes: "/opt/{{ term_serv_index_dir }}"
 
 traceability_database: traceability
+
+script_dir: /opt/scripts/restore_term
+new_restore_script: term_mysql_restore.sh
+restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"
+restore_log: "{{ script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
+full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
+

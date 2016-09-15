@@ -4,8 +4,11 @@
 #  tags:
 #    - ihtsdo-asset
     
+- name: Stop Traceability service if running
+  supervisorctl: name=traceability-service state=stopped
+  
 - name: Stop TS if running
-  supervisorctl: name=termserver state=stopped
+  supervisorctl: name=termserver state=stopped  
 
 - debug: msg="set_db_content = {{set_db_content}}"
 - debug: msg="force_zip_download = {{force_zip_download}}"
@@ -13,13 +16,18 @@
 - include: getzipcontent.yml
   when: "set_db_content == True"  
 
-#If setting up the content
+#db content
 - include: setdbcontent.yml
   when: "set_db_content == True"
   
-#If setting up the content
+#If resouces inc indexes
 - include: set_res_content.yml
   when: "set_db_content == True"  
 
+- name: Start Traceability service
+  supervisorctl: name=traceability-service state=started
+
 - name: Start TS
   supervisorctl: name=termserver state=started
+  
+  

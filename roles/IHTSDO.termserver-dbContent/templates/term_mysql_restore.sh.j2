@@ -1,0 +1,44 @@
+#!/bin/bash
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	echo_date "restoring mysql..."
+	echo_date "restoring mysql.. using {{ import_term_serv_sql }}"
+    mysql_restore 
+
+	echo_date "Finished successfully."
+	exit 0
+}
+
+mysql_restore(){
+
+/usr/bin/mysql -uroot -p{{ mysql_root_pass }} < {{ import_term_serv_sql }}
+#echo_date "restoring mysql...DB: {{ ts_dbname }} using {{ import_term_serv_sql }}"
+#/usr/bin/mysql -uroot -p{{ mysql_root_pass }} {{ ts_dbname }} < {{ import_term_serv_sql }}
+#echo_date "restoring mysql...DB: {{ ts_review_dbname }} using {{ import_term_serv_sql }}"
+#/usr/bin/mysql -uroot -p{{ mysql_root_pass }} {{ ts_review_dbname }} < {{ import_term_serv_sql }}
+#echo_date "restoring mysql...DB: {{ traceability_database }} using {{ import_term_serv_sql }}"
+#/usr/bin/mysql -uroot -p{{ mysql_root_pass }} {{ traceability_database }} < {{ import_term_serv_sql }}
+}
+
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{script_dir}}/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

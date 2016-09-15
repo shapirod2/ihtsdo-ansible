@@ -87,7 +87,11 @@
 #  mysql_db: name=all  state=import target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
 #  when: sqlimportfile.stat.exists == True
 
-- name: create db from backup
-  mysql_db: state=import name={{ item.name }} target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
-  with_items: mysql_db
-  when: mysql_db|lower() != 'none' and sqlimportfile.stat.exists == True
+#- name: create db from backup
+#  mysql_db: state=import name={{ item.name }} target={{import_term_serv_sql}} login_user={{ ts_user }}  login_password={{ts_pw}}
+#  with_items: mysql_db
+#  when: mysql_db|lower() != 'none' and sqlimportfile.stat.exists == True
+
+
+- include: restorescript.yml
+  when: sqlimportfile.stat.exists == True
