@@ -1,20 +1,15 @@
 ---
-
 cis_add_dbcontent: false
 
 mysql_root_pass: rooty
 mysql_port: 3306
 mysql_service: mysql
 
-cis_db_name: idservice 
-
-cis_db_user: idservice 
-cis_db_pw: idservice 
-
+cis_db_name: idservice
+cis_db_user: idservice
+cis_db_pw: idservice
 cis_version: HEAD
-
 cis_init_script: "{{ cis_install_dir }}/config/db_script.sql"
-# defaults file for Angular
 
 # Should be the same as the artifactId in the pom
 cis_app_name: cis
@@ -22,20 +17,11 @@ version_cis: "latest"
 cis_install_dir: "/opt/{{ cis_app_name }}"
 cis_lib_dir: "{{ cis_install_dir }}/lib"
 cis_conf_dir: "{{ cis_install_dir }}/conf"
-cis_security_file: "{{ cis_install_dir }}/blogic/Security.js"
-
 cis_install_js: True
 cis_node_dir: "/usr/bin/node"
 cis_rest_app: "{{ cis_install_dir }}/app.js"
 
 supervisor_dir: "/etc/supervisor/conf.d/"
-cis_script_name: "runCis.sh"
-cis_run_script: "{{ cis_install_dir }}/{{cis_script_name}}"
-env_file: "/etc/environment"
-#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
-#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
-#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ cis_app_name }}.crt"
-#nginx_ssl_key_file_dest: "/etc/ssl/private/{{ cis_app_name }}.key"
 nginx_ufw_allow_https: true
 nginx_conf: "cis"
 nginx_fqdn: "~(?i)cis"
@@ -44,4 +30,4 @@ nginx_proxy_url: http://localhost:3000/
 
 cis_crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
 cis_crowd_app_name: "component-id-service"
-cis_crowd_pw: "snomedid"
+cis_crowd_pw: "change_me"
