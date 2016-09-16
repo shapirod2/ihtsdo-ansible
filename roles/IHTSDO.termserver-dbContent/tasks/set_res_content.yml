@@ -42,8 +42,8 @@
   
 - debug: msg="term_serv_dir_resources_indexes_dir = {{term_serv_dir_resources_indexes_dir}}"  
    
-- debug: "move the existing term_serv_dir_resources_indexes {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}"
-  when: sqlimportfile.stat.exists == True and term_serv_dir_resources_indexes_dir.stat.exists == True  
+#- debug: "move the existing term_serv resources indexes dir {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}"
+#  when: sqlimportfile.stat.exists == True and term_serv_dir_resources_indexes_dir.stat.exists == True  
    
 #- name: move the existing term_serv_dir_resources_indexes dir to target_term_serv_indexes
 #  command: mv {{term_serv_dir_resources_indexes}} {{target_term_serv_indexes}}
