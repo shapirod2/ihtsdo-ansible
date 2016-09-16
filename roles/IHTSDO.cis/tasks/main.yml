@@ -34,7 +34,7 @@
 - debug: msg="ansible_hostname = {{ansible_hostname}}"
 - debug: msg="inventory_hostname = {{inventory_hostname}}"
 
-- replace: dest={{ cis_install_dir }}/api/swagger-ids.json regexp='localhost' replace='{{inventory_hostname}}'
+- replace: dest={{ cis_install_dir }}/api/swagger-ids.json regexp='localhost:3000' replace='{{inventory_hostname}}'
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ cis_app_name }}.conf"
               owner=root group=root mode=0640
