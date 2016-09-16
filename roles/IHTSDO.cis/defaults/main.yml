@@ -26,7 +26,7 @@ nginx_ufw_allow_https: true
 nginx_conf: "cis"
 nginx_fqdn: "~(?i)cis"
 nginx_default_site: true
-nginx_proxy_url: http://localhost:3000/
+nginx_proxy_url: http://localhost:3000
 
 cis_crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
 cis_crowd_app_name: "component-id-service"
