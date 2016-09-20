@@ -1,10 +1,9 @@
-# Added or re-add the users.
 ---
-- hosts: zabbixclients
+- hosts: all
   sudo: true
-  #remote_user: root
   vars:
     user_accounts_skip_sshd: true
+  vars_files:
+     - "{{ inventory_dir }}/../files/users/users.yml"
   roles:
     - IHTSDO.user-accounts
-
