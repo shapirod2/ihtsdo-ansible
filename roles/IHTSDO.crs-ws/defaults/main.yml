@@ -66,7 +66,7 @@ mysql_port: 3306
 
 #Email
 crs_mail_root_url: "http://local.ihtsdotools.org/#/"
-crs_mail_test_receive: "bob@bob.com"
+crs_mail_test_receive: ~
 crs_mail_enable: "true"
 crs_mail_smtp_host: "smtp.gmail.com"
 crs_mail_smtp_port: "587"
