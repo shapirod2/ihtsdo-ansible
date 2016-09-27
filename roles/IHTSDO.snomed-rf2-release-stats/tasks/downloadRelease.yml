@@ -9,10 +9,10 @@
 - debug: msg="release_stats_dir= {{release_stats_dir}}"   
 
 #- name: Get build list and save to buildList.txt
-#  get_url: url={{ dailybuild_url }} dest={{release_stats_dir}}/buildList.txt validate_certs=no timeout=30
+#  get_url: url={{ build_url }} dest={{release_stats_dir}}/buildList.txt validate_certs=no timeout=30
   
 - name: Get build list and save to buildList.txt
-  shell: "/usr/bin/curl -s {{ dailybuild_url }} > {{release_stats_dir}}/buildList.txt"
+  shell: "/usr/bin/curl -s {{ build_url }} > {{release_stats_dir}}/buildList.txt"
 
 - name: Get latest build status
   shell: "cat {{release_stats_dir}}/buildList.txt | grep 'status' | head -1 | cut -d ':' -f2 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
