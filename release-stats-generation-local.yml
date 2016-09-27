@@ -2,6 +2,7 @@
   - hosts: local
     sudo: true
     vars:
+     ansible_python_interpreter: python2
      release_file_name: "{{ releaseFileName }}"
      release_build_url: "{{ releaseBuildUrl }}"
      current_release_date: "{{ currentReleaseDate }}"
