@@ -13,3 +13,4 @@ release_full_file_dir: "{{release_file_name/Full}}"
 #extension_dependency_release_full_dir:
 #previous_extension_release_full_dir:
 isExtensionRelease: False
+force_zip_download: False
