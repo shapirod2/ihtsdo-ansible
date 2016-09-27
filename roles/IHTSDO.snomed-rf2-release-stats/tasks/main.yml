@@ -5,10 +5,12 @@
 
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300  
-
+  when: ansible_os_family == "Debian"
+  
 - name: Install unzip
   apt: name=unzip state=present update_cache=yes cache_valid_time=300
- 
+  when: ansible_os_family == "Debian"
+  
 - include: downloadRelease.yml
   when: "get_release == True"  
   
