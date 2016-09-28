@@ -1,0 +1,11 @@
+letsencrypt:
+    email: "devops@ihtsdo.org"
+    bin: /usr/local/sbin
+    posthook: updateIPsec.sh
+    domains:
+       - { domain: 'gateway.ihtsdotools.org' }
+    
+vpn:
+   hostname: gateway.ihtsdotools.org
+   users:
+       - { user: 'test', password: 'change_me' }

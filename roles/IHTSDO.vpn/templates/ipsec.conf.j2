@@ -1,0 +1,25 @@
+config setup
+        charondebug="cfg 2"  # log proposals
+        uniqueids=no  # allow multiple connections from a given user
+
+conn ihtsdovpn
+        keyexchange=ikev2
+        auto=add
+        left=%any
+        leftid={{ vpn.hostname }}
+        leftsubnet=0.0.0.0/0
+        leftauth=pubkey
+        leftcert=fullchain.pem
+        leftsendcert=always
+        right=%any
+        rightsourceip=192.168.0.0/24
+        rightauth=eap-mschapv2
+        rightsendcert=never
+        rightdns=8.8.8.8,8.8.4.4
+        eap_identity=%any
+        dpdaction=clear
+        dpddelay=2400s
+        rekey=no
+        fragmentation=yes
+        ike=aes256-aes192-aes128-sha384-sha256-sha1-modp3072-modp2048-modp1536-modp1024!
+        esp=aes256-aes192-aes128-sha384-sha256-sha1!

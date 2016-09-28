@@ -1,0 +1,9 @@
+#!/bin/bash
+
+cp -f /etc/letsencrypt/live/{{ vpn.hostname }}/fullchain.pem /etc/ipsec.d/certs/fullchain.pem
+cp -f /etc/letsencrypt/live/{{ vpn.hostname }}/privkey.pem /etc/ipsec.d/private/privkey.pem
+#ipsec rereadsecret
+#ipsec update
+#pkill -HUP charon
+
+service strongswan restart

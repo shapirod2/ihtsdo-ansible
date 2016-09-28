@@ -1,0 +1,19 @@
+---
+ - name: Open port 500/udp for inbound vpn connections
+   ufw: rule=allow port=500 proto=udp
+
+ - name: Open port 4500/udp for inbound vpn connections
+   ufw: rule=allow port=4500 proto=udp 
+
+ - name: Enable ip_forwarding for ufw
+   lineinfile: dest="/etc/default/ufw"
+               regexp='^DEFAULT_FORWARD_POLICY='
+               line='DEFAULT_FORWARD_POLICY="ACCEPT"'
+
+ - name: Enable ip_forwarding for low level ethernet interfaces
+   lineinfile: dest="/etc/ufw/sysctl.conf"
+               regexp='^#net/ipv4/ip_forward=1'
+               line='net/ipv4/ip_forward=1'
+
+ - name: Add masquerading to ufw packet filter (before.rules)
+   template: src=before.rules.j2  dest=/etc/ufw/before.rules

@@ -1,0 +1,33 @@
+---
+- name: Install certbot dependencies
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - build-essential
+    - libssl-dev
+    - libffi-dev
+    - python-dev
+    - git
+    - python-pip
+    - python-virtualenv
+    - dialog
+    - libaugeas0
+    - ca-certificates
+
+- name: Install Python cryptography module
+  pip: name=cryptography
+
+- name: Download certbot
+  get_url: >
+    url=https://dl.eff.org/certbot-auto
+    dest={{ letsencrypt.bin }}/certbot-auto
+
+- name: Make executable
+  file: path={{ letsencrypt.bin }}/certbot-auto mode=755
+
+- name: Generate cert
+  shell: "certbot-auto certonly --standalone --email {{ item.email|default(letsencrypt.email)|quote }} -d {{ item.domain|quote }}{% if item.auto_www|default(false) %} -d www.{{ item.domain|quote }}{% endif %}{% for altname in item.altnames|default([]) %} -d {{ altname|quote }}{% if item.auto_www|default(false) %} -d www.{{ altname|quote }}{% endif %}{% endfor %} --non-interactive --agree-tos"
+  register: output
+  with_items: letsencrypt.domains
+
+- name: Automate renewel
+  cron: name="Renew cert" minute="46" hour="*/12" job="certbot-auto renew --post-hook {{ letsencrypt.posthook }}"

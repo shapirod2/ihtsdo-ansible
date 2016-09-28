@@ -1,0 +1,20 @@
+---
+- name: Install strongswan and dependancies
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - strongswan
+    - strongswan-plugin-eap-mschapv2
+    - strongswan-plugin-eap-md5
+    - strongswan-ikev2
+
+- name: Configure VPN
+  template: src=ipsec.conf.j2 dest=/etc/ipsec.conf
+
+- name: Configure VPN user accounts 
+  template: src=ipsec.secrets.j2 dest=/etc/ipsec.secrets
+
+- name: Install update script
+  template: src=updateIPsec.sh.j2 dest=/usr/sbin/updateIPsec.sh  mode=755 
+
+- name: Update certs
+  command: updateIPsec.sh
