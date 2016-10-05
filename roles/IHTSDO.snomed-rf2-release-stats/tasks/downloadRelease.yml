@@ -32,17 +32,17 @@
 - debug: msg="buildOutputUrl= {{ buildOutputUrl.stdout }}"
   
 #- name: download release zip file if daily build is successful
-#  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{release_stats_dir}}/{{release_file_name}} validate_certs=no mode=0440 timeout=30
+#  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_base_name}} dest={{release_stats_dir}}/{{release_file_base_name}}.zip validate_certs=no mode=0440 timeout=30
 #  when: buildStatus.stdout == "BUILT"
 
 - name: download release zip file if daily build is successful
-  shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_name}} > {{release_stats_dir}}/{{release_file_name}}"
+  shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip > {{release_stats_dir}}/{{release_file_base_name}}.zip"
   when: buildStatus.stdout == "BUILT"  
 
 - name: make sure release zip file exists
-  stat: path={{release_stats_dir}}/{{release_file_name}}
+  stat: path={{release_stats_dir}}/{{release_file_base_name}}.zip
   register: releaseZipfile
    
 - name: Unarchive release zip file on the remote machine
-  unarchive: src={{release_stats_dir}}/{{release_file_name}}  dest={{release_stats_dir}} copy=no
+  unarchive: src={{release_stats_dir}}/{{release_file_base_name}}.zip  dest={{release_stats_dir}} copy=no
   when: releaseZipfile.stat.exists == True

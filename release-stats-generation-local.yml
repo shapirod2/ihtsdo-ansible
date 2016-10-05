@@ -3,9 +3,5 @@
     sudo: true
     vars:
      ansible_python_interpreter: python2
-     release_file_name: "{{ releaseFileName }}"
-     release_build_url: "{{ releaseBuildUrl }}"
-     current_release_date: "{{ currentReleaseDate }}"
-     previous_release_date: "{{ previousReleaseDate }}"
     roles:
       - IHTSDO.snomed-rf2-release-stats

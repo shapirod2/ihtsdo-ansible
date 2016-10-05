@@ -1,5 +1,15 @@
 ---
 
+- name: set group for root user
+  set_fact:
+    root_group: "root"
+  when: ansible_os_family == "Debian"
+  
+- name: set group for root user when running on a mac
+  set_fact:
+    root_group: "wheel"
+  when: ansible_os_family == "Darwin"
+
 - name: set config.xml using extConfig template
   template: src=extConfig.xml.j2 dest={{ release_stats_root_dir }}/config.xml
             owner=root group=root mode=0755
@@ -7,35 +17,40 @@
   
 - name: set config.xml using intConfig template
   template: src=intConfig.xml.j2 dest={{ release_stats_root_dir }}/config.xml
-            owner=root group=root mode=0755
+            owner=root group={{ root_group }} mode=0755
   when: isExtensionRelease == False      
             
 - name: set the runStats.sh
   template: src=runStats.sh.j2 dest={{ release_stats_root_dir }}/runStats.sh
-            owner=root group=root mode=0755    
+            owner=root group={{ root_group }} mode=0755    
  
 - name:  Check whether the release zip file is downloaded successfully
-  stat: path={{daily_build_dir}}/{{release_file_name}}
+  stat: path={{release_stats_root_dir}}/{{release_file_base_name}}
   register: zipFileDownloaded
+  
+- debug: msg="zipFileDownloaded= {{ zipFileDownloaded.stat }}"
                       
 - name: run the rf2 release stats report command
   shell: "{{  release_stats_root_dir }}/runStats.sh"
+  register: script_results
   when: zipFileDownloaded.stat.exists == True
+  
+- debug: var=script_results.stdout_lines
+  when: zipFileDownloaded.stat.exists == True  
   
 - name: Check release stats report json files generated
   stat: path={{release_stats_json_report_folder}}/diff_index.json
   register: statsCreated
   
-- debug: msg="statsCreated= {{ statsCreated }}"
- 
 - name: set the rf2 diff report json s3 upload script
   template: src=uploadReleaseStatsJsonToS3.sh.j2 dest={{ release_stats_json_report_folder }}/{{ release_stats_json_s3_upload_script }}
-            owner=root group=root mode=0755    
+            owner=root group={{ root_group }} mode=0755    
   when: statsCreated == True
   
-- debug: msg="rf2 release stats upload cmd = {{ release_stats_report_s3_upload_cmd }}"
-
 - name: Run rf2 release report s3 upload script
-  shell: "{{ rf2_release_stats_report_s3_upload_cmd }}"
+  shell: "{{  release_stats_root_dir }}/uploadReleaseStatsJsonToS3.sh"
+  register: upload_results
   when: statsCreated == True
   
+- debug: var=upload_results.stdout_lines
+  when: statsCreated == True
