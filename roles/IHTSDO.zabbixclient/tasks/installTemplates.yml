@@ -1,0 +1,14 @@
+---
+- name: Install userParameters for monitoring
+  copy:
+    src="{{ item }}"
+    dest=/etc/zabbix/zabbix_agentd.d/{{ item }}
+  with_items:
+     - userparameter_diskstats.conf
+     - userparameter_ihtsdo_packages.conf
+
+- name: Install lld discovery for enumerating available disks
+  copy:
+    src=lld-disks.py
+    dest=/usr/local/bin/lld-disks.py
+    mode=755 

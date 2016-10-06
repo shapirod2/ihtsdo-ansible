@@ -3,6 +3,9 @@
 - name: Include installzabbixclient
   include: installzabbixclient.yml
 
+- name: Include customTemplates
+  include: installTemplates.yml
+
 - name: make sure scripts dir exists
   file: path={{script_dir}}  state=directory 
 
