@@ -96,13 +96,20 @@
        dest="{{ term_serv_dir }}/snomed-drools-rules"
        version="{{ snomed_drools_version }}"
 
+- name: make sure mrcm dir is gone
+  file: path="{{ term_serv_dir }}/mrcm"  state=absent
+
+- name: Deploy MRCM
+  git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-mrcm.git
+       dest="{{ term_serv_dir }}/mrcm"
+       version="{{ mrcm_version }}"
+
 - include: newrelic.yml
   when: new_relic_active == True
   
 - include: addTestResources.yml
   when: not((term_serv_test_res_S3_bucket is undefined) or (term_serv_test_res_S3_bucket is none) or (term_serv_test_res_S3_bucket|trim == ''))
  
-
 - name: Start TS
   supervisorctl: name=termserver state=started
   tags: updatekey 

@@ -58,6 +58,7 @@ orchestration_server_port: 9007
 
 securityServiceStubMode: "false"
 snomed_drools_version: master
+mrcm_version: master
 system_type: local_test
 
 term_serv_test_res_dir: "{{term_serv_dir_resources}}/test-resources"
