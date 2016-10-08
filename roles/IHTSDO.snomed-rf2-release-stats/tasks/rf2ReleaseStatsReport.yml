@@ -39,18 +39,21 @@
   when: zipFileDownloaded.stat.exists == True  
   
 - name: Check release stats report json files generated
-  stat: path={{release_stats_json_report_folder}}/diff_index.json
+  stat: path={{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   register: statsCreated
   
 - name: set the rf2 diff report json s3 upload script
-  template: src=uploadReleaseStatsJsonToS3.sh.j2 dest={{ release_stats_json_report_folder }}/{{ release_stats_json_s3_upload_script }}
+  template: src=uploadReleaseStatsJsonToS3.sh.j2 dest={{ release_stats_root_dir }}/uploadReleaseStatsJsonToS3.sh
             owner=root group={{ root_group }} mode=0755    
-  when: statsCreated == True
+  when: statsCreated.stat.exists == True
   
 - name: Run rf2 release report s3 upload script
   shell: "{{  release_stats_root_dir }}/uploadReleaseStatsJsonToS3.sh"
   register: upload_results
-  when: statsCreated == True
+  when: statsCreated.stat.exists == True
   
 - debug: var=upload_results.stdout_lines
-  when: statsCreated == True
+  when: statsCreated.stat.exists == True
+
+- debug: var=upload_results.stderr_lines  
+  when: statsCreated.stat.exists == True
