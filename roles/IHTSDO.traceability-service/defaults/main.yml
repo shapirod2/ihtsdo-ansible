@@ -1,12 +1,11 @@
 ---
+traceability_name: "authoring-traceability-service"
+traceability_port: 8085
 traceability_version: 1.0.2
-traceability_location: /opt/traceability-service
-traceability_download: https://maven.ihtsdotools.org/content/repositories/releases/org/ihtsdo/otf/authoring-traceability-service/{{ traceability_version }}/authoring-traceability-service-{{ traceability_version }}.jar
 traceability_database: traceability
 traceability_database_username: traceability
 traceability_database_password: change_me
 
-supervisor_config_location: /etc/supervisor/conf.d/
 mysql_root_pass: change_me
 
 orchestration_jms_url: change_me
