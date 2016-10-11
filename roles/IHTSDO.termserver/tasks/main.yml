@@ -95,6 +95,9 @@
   git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
        dest="{{ term_serv_dir }}/snomed-drools-rules"
        version="{{ snomed_drools_version }}"
+       
+- name: Copy Script to check concept relationships for extensions
+  template: src=checkconrels.sh.j2 dest={{ term_serv_dir }}/checkconrels.sh owner=root group=root mode=0774       
 
 - include: newrelic.yml
   when: new_relic_active == True
