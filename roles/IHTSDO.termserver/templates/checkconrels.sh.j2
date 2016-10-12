@@ -1,0 +1,63 @@
+#!/bin/bash
+#Path to international release to the parent of Delta,Full and Snapshot
+INT="/home/adamf/int-2016-07/SnomedCT_RF2Release_INT_20160731"
+#The name of the International delta file
+INTDELTA="sct2_Concept_Delta_INT_20160731.txt"
+#Path to extension release to the parent of Refset and Terminology
+EXT="/home/adamf/dkexport/SnomedCT_Release_DK1000005/RF2Release"
+#EXT="/home/adamf/se2016/SnomedCT_SE_1000052_20160531_fix/Full"
+
+
+    # Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	analyse
+        echo "finished"
+	echo_date "----------------------------"
+}
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+        if [ "x$INT" = "x" ]; then
+                error_exit "Please set the variable INT to the base dir of the international release before running this script. Exiting with error."
+        fi
+        if [ "x$INTDELTA" = "x" ]; then
+                error_exit "Please set the variable INTDELTA to the International release delta filebefore running this script. Exiting with error."
+        fi
+        if [ "x$EXT" = "x" ]; then
+                error_exit "Please set the variable EXT to the base dir of the extension before running this script. Exiting with error."
+        fi
+}
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+analyse(){
+
+for retiredConcept in `grep -P '\t0\t' $INT/Delta/Terminology/$INTDELTA | cut -f1`;
+do
+#echo $retiredConcept;
+grep $retiredConcept $EXT/Terminology/sct2_*Relationship_*.txt | cut -f1,2,3,4,5,6 | grep -P '\t1\t'  \
+&& echo "Relationship(s) above reference newly retired concept $retiredConcept";
+done
+
+}
+
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="/var/lock/conrel.lock"
+(
+        flock -n 200 || error_exit "Another Check Concept relationships script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
+
