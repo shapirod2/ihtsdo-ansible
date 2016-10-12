@@ -12,7 +12,7 @@ conn ihtsdovpn
         leftcert=fullchain.pem
         leftsendcert=always
         right=%any
-        rightsourceip=192.168.0.0/24
+        rightsourceip={{ vpn.internal_subnet }}
         rightauth=eap-mschapv2
         rightsendcert=never
         rightdns=8.8.8.8,8.8.4.4
@@ -21,5 +21,5 @@ conn ihtsdovpn
         dpddelay=2400s
         rekey=no
         fragmentation=yes
-        ike=aes256-aes192-aes128-sha384-sha256-sha1-modp3072-modp2048-modp1536-modp1024!
-        esp=aes256-aes192-aes128-sha384-sha256-sha1!
+        ike=aes256-sha1-modp1024,aes128-sha1-modp1024,3des-sha1-modp1024!
+        esp=aes256-sha256,aes256-sha1,3des-sha1!

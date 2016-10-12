@@ -2,6 +2,7 @@
 
 cp -f /etc/letsencrypt/live/{{ vpn.hostname }}/fullchain.pem /etc/ipsec.d/certs/fullchain.pem
 cp -f /etc/letsencrypt/live/{{ vpn.hostname }}/privkey.pem /etc/ipsec.d/private/privkey.pem
+cp -f /etc/letsencrypt/live/{{ vpn.hostname }}/chain.pem /etc/ipsec.d/cacerts/chain.pem
 #ipsec rereadsecret
 #ipsec update
 #pkill -HUP charon

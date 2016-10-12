@@ -1,0 +1,6 @@
+---
+  - hosts: vpn
+    sudo: true
+    roles:
+      - IHTSDO.vpn
+
