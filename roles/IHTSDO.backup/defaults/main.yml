@@ -1,9 +1,43 @@
-crowd_backup_dir: "/opt/backup/crowd"
-crowd_home_location: "/var/atlassian"
-crowd_script_dir: /opt/scripts/crowd
-crowd_backup_script: backup_crowd_s3.sh
-crowd_backup_cmd: "{{ crowd_script_dir }}/{{ crowd_backup_script }}"
-crowd_backup_log: "{{ crowd_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
-crowd_full_backup_cmd: "{{ crowd_backup_cmd }} >> {{ crowd_backup_log }}"
-crowd_s3_backup_dir: "dev-crowd.backup.ihtsdo"
-crowd_s3_backup_region: "us-east-1"
+
+#A list of directories to copy:
+backup_dirs_to_copy: 
+  - "/home/adamf"
+  - "/home/ansible"
+  - "/home/ianb"
+  - "/home/kaik"
+
+#Database info  
+#mysql, postgresql or none
+#backup_db_type: "none"
+#backup_db_type: "mysql"
+backup_db_type: "pgsql"
+# names of db'es to back up. if not set will back up all
+backup_db_names: 
+  - "db1"
+  - "db2"
+  - "db3"
+
+backup_db_host: "localhost"
+backup_db_port: "3306"
+backup_db_user: "dbuser"
+backup_db_password: "password"
+
+
+#the backup level : t1 t2 or t3
+backup_level: "t3"
+
+backup_app_name: "test"
+
+#backup_app_name: ""
+backup_dir: "/opt/backup/{{backup_app_name}}"
+backup_s3_backup_dir: "backup-ihtsdo-{{backup_level}}"
+backup_s3_backup_region: "us-east-1"
+backup_hostname: "{{inventory_hostname}}"
+
+backup_script_dir: "/opt/scripts/{{backup_app_name}}"
+backup_script: backup_s3.sh
+backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
+backup_log: "{{ backup_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+
