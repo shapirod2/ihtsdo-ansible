@@ -9,13 +9,16 @@ backup_dirs_to_copy:
 #Database info  
 #mysql, postgresql or none
 #backup_db_type: "none"
-#backup_db_type: "mysql"
-backup_db_type: "pgsql"
+backup_db_type: "mysql"
+#backup_db_type: "pgsql"
 # names of db'es to back up. if not set will back up all
 backup_db_names: 
   - "db1"
   - "db2"
   - "db3"
+  
+#backup_db_names: 
+#  - "all"
 
 backup_db_host: "localhost"
 backup_db_port: "3306"

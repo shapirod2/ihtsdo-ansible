@@ -2,5 +2,6 @@
   - hosts: test
     sudo: true
     roles:
+      #- IHTSDO.aws
       - IHTSDO.backup
       

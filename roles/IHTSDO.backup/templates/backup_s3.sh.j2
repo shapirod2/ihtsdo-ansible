@@ -1,5 +1,7 @@
 #!/bin/bash
 
+cp_cmd="/usr/bin/aws s3 cp "
+
 #dirs to back up:
 dirs_to_backup=({% for backup_dir in backup_dirs_to_copy %}"{{backup_dir}}" {% endfor %})
 
@@ -23,13 +25,28 @@ WEEKLY="weekly"
 MONTHLY="monthly"
 YEARLY="yearly"
 
+DAY_OF_WEEK="Saturday"
+DAY_OF_MONTH="01"
+DAY_OF_YEAR="001"
+
+#DAY_OF_WEEK="Friday"
+#DAY_OF_MONTH="14"
+#DAY_OF_YEAR="288"
+
 HOST_NAME="{{backup_hostname}}"
+APP_NAME="{{backup_app_name}}"
 
 # The timestamp suffix for the top-level directory, eg. 20120904_1021
 CURRENT_DATE=`date +%Y%m%d_%H%M`
 # The S3 backup dir
 s3_backup_dir="{{ backup_s3_backup_dir | default('') }}"
-s3_backup_dir_full="s3://$s3_backup_dir"
+s3_backup_dir_prefix="s3://$s3_backup_dir"
+s3_backup_dir_suffix="$HOST_NAME/$APP_NAME/"
+
+s3_backup_dir_daily="$s3_backup_dir_prefix/$DAILY/$s3_backup_dir_suffix"
+s3_backup_dir_weekly="$s3_backup_dir_prefix/$WEEKLY/$s3_backup_dir_suffix"
+s3_backup_dir_monthly="$s3_backup_dir_prefix/$MONTHLY/$s3_backup_dir_suffix"
+s3_backup_dir_yearly="$s3_backup_dir_prefix/$YEARLY/$s3_backup_dir_suffix"
 
 s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
 
@@ -51,6 +68,8 @@ ARCHIVE_PREFIX="$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
+# Archive
+ARCHIVE_FILE="$ARCHIVE_PREFIX.zip"
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -112,6 +131,7 @@ main() {
 	copyfiles
 	#rsyncfiles
 	compresstozip
+	movetoaws
 	
 }
 
@@ -142,10 +162,9 @@ mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$
 }
 
 compresstozip(){
-	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
-	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
+	echo_date "ARCHIVE_FILE = $ARCHIVE_FILE"
 	cd "$tmp_backup_dir"
-	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 }
 
 backup_db() {	
@@ -168,13 +187,61 @@ echo "dbtype = postgres : " $db_type
                       #  fi
  fi      
  if [ "$db_type" = "mysql" ];
+  then 
+   DB_STR="--databases "$db
+ if [ "$db" = "all" ];
 then 
-  echo "dbtype = mysql : " $db_type   
-     # /usr/bin/mysqldump  --quick --single-transaction --routines --triggers --user=$db_user -p$MYSQL_PASSWORD  $db > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+  DB_STR="--all-databases"
+ fi
+echo "DB_STR = "$DB_STR;
+echo "dbtype = mysql : " $db_type   
+     # /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
  fi               
     done 
 	echo_date "Done backing up DB."
 	
+}
+
+movetoaws(){
+echo "s3_backup_dir_prefix = "$s3_backup_dir_prefix;
+echo "s3_backup_dir_daily = "$s3_backup_dir_daily;
+echo "s3_backup_dir_weekly = "$s3_backup_dir_weekly;
+echo "s3_backup_dir_monthly = "$s3_backup_dir_monthly;
+echo "s3_backup_dir_yearly = "$s3_backup_dir_yearly;
+
+LANG=C DOW=$(date +"%A")
+echo "Day of Week ="$DOW
+DOM=$(date +"%d")
+echo "Day of Month ="$DOM
+DOY=$(date +"%j")
+echo "Day of Year ="$DOY
+
+echo "temp dir = $tmp_backup_dir"
+echo "ARCHIVE_FILE = $ARCHIVE_FILE"
+
+#Always copy to daily
+
+# /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
+ 
+$cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
+
+#Copy from daily to weekly
+if [ "$DOW" = "$DAY_OF_WEEK" ];
+then
+echo "Making a weekly back up"
+fi
+#Copy from daily to monthly
+if [ "$DOM" = "$DAY_OF_MONTH" ];
+then
+echo "Making a Monthly back up"
+fi
+#Copy from daily to yearly
+#if 1st of year copy to yearly.
+if [ "$DOY" = "$DAY_OF_YEAR" ];
+then
+echo "Making a yearly back up"
+fi
+
 }
 
 # Ensures that only a single instance is running at any time
