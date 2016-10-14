@@ -28,8 +28,13 @@ backup_db_password: "password"
 
 #the backup level : t1 t2 or t3
 backup_level: "t3"
-
 backup_app_name: "test"
+
+# days of the week/month etc for weekly, monthly etc
+backup_DAY_OF_WEEK: "Saturday"
+backup_DAY_OF_MONTH: "01"
+backup_DAY_OF_YEAR: "001"
+
 
 #backup_app_name: ""
 backup_dir: "/opt/backup/{{backup_app_name}}"

@@ -25,13 +25,13 @@ WEEKLY="weekly"
 MONTHLY="monthly"
 YEARLY="yearly"
 
-DAY_OF_WEEK="Saturday"
-DAY_OF_MONTH="01"
-DAY_OF_YEAR="001"
+#DAY_OF_WEEK="Saturday"
+#DAY_OF_MONTH="01"
+#DAY_OF_YEAR="001"
 
-#DAY_OF_WEEK="Friday"
-#DAY_OF_MONTH="14"
-#DAY_OF_YEAR="288"
+DAY_OF_WEEK="{{backup_DAY_OF_WEEK}}"
+DAY_OF_MONTH="{{backup_DAY_OF_MONTH}}"
+DAY_OF_YEAR="{{backup_DAY_OF_YEAR}}"
 
 HOST_NAME="{{backup_hostname}}"
 APP_NAME="{{backup_app_name}}"
@@ -87,14 +87,27 @@ check_arguments() {
 	if [ "x$backup_dir" = "x" ]; then
 		error_exit "Please set the variable backup_dir before running this script. Exiting with error."
 	fi
-		if [ "x$s3_backup_dir" = "x" ]; then
+	if [ "x$s3_backup_dir" = "x" ]; then
 		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
 	fi	
-	
+	if [ "x$DAY_OF_WEEK" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_WEEK before running this script. Exiting with error."
+	fi
+	if [ "x$DAY_OF_MONTH" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_MONTH before running this script. Exiting with error."
+	fi	
+	if [ "x$DAY_OF_YEAR" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_YEAR before running this script. Exiting with error."
+	fi	
+	if [ "x$HOST_NAME" = "x" ]; then
+		error_exit "Please set the variable HOST_NAME before running this script. Exiting with error."
+	fi	
+	if [ "x$APP_NAME" = "x" ]; then
+		error_exit "Please set the variable APP_NAME before running this script. Exiting with error."
+	fi	
 	if [ "x$db_type" = "x" ]; then
 		error_exit "Please set the variable db_type before running this script. Exiting with error."
 	fi
-	
 	if [ "$db_type" != "none" ]; then
 	# If not none check db vars are set
 	if [ "x$db_host" = "x" ]; then
@@ -179,12 +192,12 @@ backup_db() {
 if [ "$db_type" = "pgsql" ];
 then
 echo "dbtype = postgres : " $db_type
-                      #  if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
-                      #  then
-                      #          su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                      #  else    
-                      #          /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                      #  fi
+                        if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
+                        then
+                                su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                        else    
+                                /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                        fi
  fi      
  if [ "$db_type" = "mysql" ];
   then 
@@ -195,7 +208,7 @@ then
  fi
 echo "DB_STR = "$DB_STR;
 echo "dbtype = mysql : " $db_type   
-     # /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+     /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
  fi               
     done 
 	echo_date "Done backing up DB."
@@ -229,17 +242,20 @@ $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
 if [ "$DOW" = "$DAY_OF_WEEK" ];
 then
 echo "Making a weekly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
 fi
 #Copy from daily to monthly
 if [ "$DOM" = "$DAY_OF_MONTH" ];
 then
 echo "Making a Monthly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
 fi
 #Copy from daily to yearly
 #if 1st of year copy to yearly.
 if [ "$DOY" = "$DAY_OF_YEAR" ];
 then
 echo "Making a yearly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
 fi
 
 }
