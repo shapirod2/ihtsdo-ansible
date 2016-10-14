@@ -194,9 +194,20 @@ then
 echo "dbtype = postgres : " $db_type
                         if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
                         then
+                          if [ "$db" = "all" ];
+                             then 
+                                su - postgres -c "/usr/bin/pg_dumpall -i -c -o -f '$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE'"
+                             else
                                 su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                        else    
+                             fi   
+                                
+                        else 
+                        if [ "$db" = "all" ];
+                             then
+                                /usr/bin/pg_dumpall -i -U${db_user} -h${db_host} -p${db_port} -c -o -f "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                             else   
                                 /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                             fi                                  
                         fi
  fi      
  if [ "$db_type" = "mysql" ];
