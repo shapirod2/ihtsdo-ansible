@@ -152,7 +152,7 @@ copyfiles(){
 for dir in ${dirs_to_backup[*]};
         do  
         echo "Copying dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
-        cp --recursive ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        cp --recursive --parents ${dir} $ABSOLUTE_ARCHIVE_PREFIX
         done 
 	echo_date "Done Copying files."
 }

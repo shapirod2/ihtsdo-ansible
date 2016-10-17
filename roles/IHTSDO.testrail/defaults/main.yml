@@ -39,12 +39,11 @@ testrail_URL: "https://{{ inventory_hostname }}"
 testrail_port: 80
 
 # Dir to put scripts into
-backup_dir: /opt/backup/testrail
+#backup_dir: /opt/backup/testrail
 #Dir for scripts to put final backup zips into
-backup_zip_dir: /opt/backup/testrail/zips
+#backup_zip_dir: /opt/backup/testrail/zips
 
 use_ssl_only: "True"
-
 ssl_key_file: "{{nginx_ssl_key_file}}"
 ssl_cert_file: "{{nginx_ssl_cert_file}}"
 ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"

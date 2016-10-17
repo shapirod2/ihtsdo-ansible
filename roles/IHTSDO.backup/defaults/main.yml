@@ -7,7 +7,7 @@ backup_dirs_to_copy:
   - "/home/kaik"
 
 #Database info  
-#mysql, postgresql or none
+#mysql, postgresql or none. Default to mysql on localhost as most are
 #backup_db_type: "none"
 backup_db_type: "mysql"
 #backup_db_type: "pgsql"
@@ -22,7 +22,7 @@ backup_db_names:
 
 backup_db_host: "localhost"
 backup_db_port: "3306"
-backup_db_user: "dbuser"
+backup_db_user: "root"
 backup_db_password: "password"
 
 
