@@ -1,5 +1,9 @@
 ---
 
+- name: Install lxml which is needed for maven_artifact 
+  pip: name=lxml
+  when: ansible_os_family == "Debian"
+  
 - name: Install latest release stats generation jar
   maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url=https://maven.ihtsdotools.org/content/repositories/snapshots dest={{release_stats_dir}}/stats-gen.jar
 
