@@ -1,0 +1,7 @@
+---
+  - hosts: cis
+    sudo: true
+    tasks: 
+      - shell: mysqldump -u root -p{{ mysql_root_pass}} idservice --ignore-table=idservice.permissionsNamespace --ignore-table=idservice.permissionsScheme | gzip > /tmp/cis_transfer.sql.gz
+
+      - synchronize: mode=pull src=/tmp/cis_transfer.sql.gz dest=/tmp/cis_transfer.sql.gz

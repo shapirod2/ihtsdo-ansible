@@ -1,0 +1,6 @@
+---
+  - hosts: cis
+    sudo: true
+    tasks: 
+       - synchronize: mode=push src=/tmp/cis_transfer.sql.gz dest=/tmp/cis_transfer.sql.gz
+       - shell: gzip -dc < /tmp/cis_transfer.sql.gz | mysql-u root -p{{ mysql_root_pass}} idservice 
