@@ -1,0 +1,10 @@
+
+- name: Install pip which is needed for lxml
+  easy_install: name=pip state=latest
+  when: ansible_os_family == "Debian"
+
+- name: Install lxml which is needed for maven_artifact 
+  pip: name=lxml
+  when: ansible_os_family == "Debian"
+  
+  
