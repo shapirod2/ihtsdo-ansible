@@ -146,16 +146,16 @@ check_arguments() {
 # Main script starts here.
 main() {
 	echo_date "----------------------------"
-	#check_arguments
+	check_arguments
 	pre_cmd
-	#mkbkdir
-	#if [ "$db_type" != "none" ]; then
-	#backup_db
-	#fi
-	#copyfiles
+	mkbkdir
+	if [ "$db_type" != "none" ]; then
+	backup_db
+	fi
+	copyfiles
 	#rsyncfiles
-	#compresstozip
-	#movetoaws
+	compresstozip
+	movetoaws
 	post_cmd
 	
 }
