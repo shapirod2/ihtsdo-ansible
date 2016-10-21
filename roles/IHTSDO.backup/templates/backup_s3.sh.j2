@@ -3,7 +3,17 @@
 cp_cmd="/usr/bin/aws s3 cp "
 
 #dirs to back up:
-dirs_to_backup=({% for backup_dir in backup_dirs_to_copy %}"{{backup_dir}}" {% endfor %})
+dirs_to_backup=({% for backup_dir_to_copy in backup_dirs_to_copy %}"{{backup_dir_to_copy}}" {% endfor %})
+#pre back up commands
+precmds=({% for precmd in backup_precmds %}"{{precmd}}" {% endfor %})
+#post back up commands
+postcmds=({% for postcmd in backup_postcmds %}"{{postcmd}}" {% endfor %})
+
+
+
+
+#backup_precmd="{{ backup_precmd | default('') }}"
+#backup_postcmd="{{ backup_postcmd | default('') }}"
 
 # db_type acceptable values:
 # pgsql = Postgres
@@ -136,16 +146,41 @@ check_arguments() {
 # Main script starts here.
 main() {
 	echo_date "----------------------------"
-	check_arguments
-	mkbkdir
-	if [ "$db_type" != "none" ]; then
-	backup_db
-	fi
-	copyfiles
+	#check_arguments
+	pre_cmd
+	#mkbkdir
+	#if [ "$db_type" != "none" ]; then
+	#backup_db
+	#fi
+	#copyfiles
 	#rsyncfiles
-	compresstozip
-	movetoaws
+	#compresstozip
+	#movetoaws
+	post_cmd
 	
+}
+
+pre_cmd(){
+if [ "x$precmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${precmds[*]};
+        do
+        echo_date "Pre cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
+post_cmd(){
+if [ "x$postcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${postcmds[*]};
+        do
+        echo_date "Post cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+
 }
 
 copyfiles(){

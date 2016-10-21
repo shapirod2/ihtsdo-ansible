@@ -35,6 +35,13 @@ backup_DAY_OF_WEEK: "Saturday"
 backup_DAY_OF_MONTH: "01"
 backup_DAY_OF_YEAR: "001"
 
+backup_precmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+backup_postcmds: ""
+#  - "/bin/echo \"postcmd1!\""
+#  - "/bin/echo \"postcmd2!\""
 
 #backup_app_name: ""
 backup_dir: "/opt/backup/{{backup_app_name}}"
