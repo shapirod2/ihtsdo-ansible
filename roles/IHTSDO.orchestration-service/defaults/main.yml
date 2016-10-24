@@ -28,3 +28,14 @@ orchestration_srs_password:
 #Release Validation Framework settings
 orchestration_rvf_pollPeriod: 60
 orchestration_rvf_timeout: 120
+
+#Following parameters are no longer in use from 1.32 onwards so please remove them
+
+orchestration_snowowl_projectBranch:
+orchestration_snowowl_export_from_date:
+orchestration_srs_product:
+orchestration_srs_next_release:
+ts_srs_readmeEndDate:
+ts_srs_previousPublishedPackageName:
+ts_rvf_previousInternationalRelease:
+ts_rvf_assertionGroupNames:
