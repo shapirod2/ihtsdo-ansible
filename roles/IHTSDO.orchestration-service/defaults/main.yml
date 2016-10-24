@@ -8,47 +8,23 @@ orchestration_ihtsdo_log_level: info
 orchestration_snowowl_url: http://localhost:8080/snowowl/
 orchestration_snowowl_username:
 orchestration_snowowl_password:
-orchestration_snowowl_projectBranch: workbench-import
 orchestration_snowowl_reasonerId: au.csiro.snorocket.owlapi3.snorocket.factory
 orchestration_snowowl_log_path: /opt/termserver/serviceability/logs/log.log
 orchestration_snowowl_rollover_log_path: /opt/termserver/serviceability/logs/log_1.log
-orchestration_snowowl_export_from_date: 20150201
 orchestration_snowowl_import_timeout: 90
 orchestration_snowowl_classification_timeout: 10
-
-# Jira
-orchestration_jira_url: http://uat-jira.ihtsdotools.org:8080/
-orchestration_jira_username:
-orchestration_jira_password:
-orchestration_jira_contentProjectKey: TIDD
-orchestration_jira_dailyExportProjectKey: TSED
+orchestration_rvf_failureExportMax: 100
 
 # AWS 'dev-ts-sync' user
 orchestration_aws_key:
 orchestration_aws_secretKey:
-# All environments should use production as the source of workbench files. Ids from the test ID gen are not much use.
-orchestration_aws_bucket_archives: prod.workbench-output.ihtsdo
-orchestration_aws_bucket_filter: dev.workbench-output-filter.ihtsdo
 orchestration_aws_bucket_refsets: dev.externally-maintained-refsets.ihtsdo
 
 #SNOMED Release Service settings
 orchestration_srs_root_url: https://dev-release.ihtsdotools.org/api/v1/
-orchestration_srs_product: NO_LONGER_USED
 orchestration_srs_username: 
 orchestration_srs_password: 
-orchestration_srs_next_release: 
 
 #Release Validation Framework settings
 orchestration_rvf_pollPeriod: 60
 orchestration_rvf_timeout: 120
-
-orchestration_google_docs_concept_blacklist_url: https://docs.google.com/spreadsheets/d/1pUTPmJQAs0s9Iba-NWQrFRgvdSdhEs-BFEs-XDbDyoQ/pubhtml?gid=0&single=true
-
-orchestration_import_archive_prefix: WBRP_INT_EXTRACTION_DELTA_20
-orchestration_import_archive_ignore: WBRP_INT_EXTRACTION_DELTA_20150131
-
-# Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
-orchestration_schedule_startDailyImport_cron: "0 0 5 * * *"
-orchestration_schedule_startDailyExport_cron: "0 0 15 * * *"
-orchestration_schedule_pollJiraTickets_cron: "*/30 * * * * *"
-orchestration_schedule_startDailyImport_importEverything: true

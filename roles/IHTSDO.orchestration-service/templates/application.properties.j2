@@ -5,27 +5,17 @@ server.port = {{ orchestration_server_port }}
 snowowl.url = {{ orchestration_snowowl_url }}
 snowowl.username = {{ orchestration_snowowl_username }}
 snowowl.password = {{ orchestration_snowowl_password }}
-snowowl.projectBranch = {{ orchestration_snowowl_projectBranch }}
 snowowl.reasonerId = {{ orchestration_snowowl_reasonerId }}
-snowowl.export.fromDate = {{ orchestration_snowowl_export_from_date }}
 snowowl.log.path = {{ orchestration_snowowl_log_path }}
 snowowl.rolloverLog.path = {{ orchestration_snowowl_rollover_log_path }}
 snowowl.import.timeout = {{ orchestration_snowowl_import_timeout }}
 snowowl.classification.timeout = {{ orchestration_snowowl_classification_timeout }}
 ts.reportsBucket = {{ orchestration_ts_reportsBucket }}
-
-# Jira
-jira.url = {{ orchestration_jira_url }}
-jira.username = {{ orchestration_jira_username }}
-jira.password = {{ orchestration_jira_password }}
-jira.contentProjectKey = {{ orchestration_jira_contentProjectKey }}
-jira.dailyExportProjectKey = {{ orchestration_jira_dailyExportProjectKey }}
+ts.rvf.failureExportMax = {{ orchestration_rvf_failureExportMax }}
 
 # AWS 'dev-ts-sync' user
 aws.key = {{ orchestration_aws_key }}
 aws.secretKey = {{ orchestration_aws_secretKey }}
-aws.bucket.archives = {{ orchestration_aws_bucket_archives }}
-aws.bucket.filter = {{ orchestration_aws_bucket_filter }}
 aws.bucket.refsets = {{ orchestration_aws_bucket_refsets }}
 
 #SNOMED Release Service settings
@@ -33,28 +23,11 @@ srs.root.url = {{ orchestration_srs_root_url }}
 srs.product = {{ orchestration_srs_product }}
 srs.username = {{ orchestration_srs_username }}
 srs.password = {{ orchestration_srs_password }}
-srs.next.release = {{ orchestration_srs_next_release }}
 
 #Release Validation Framework settings
 rvf.pollPeriod = {{ orchestration_rvf_pollPeriod }}
 rvf.timeout = {{ orchestration_rvf_timeout }}
 rvf.root.url = {{ orchestration_rvf_root_url }}
-
-google.docs.concept.blacklist.url = {{ orchestration_google_docs_concept_blacklist_url }}
-
-import.archive.prefix = {{ orchestration_import_archive_prefix }}
-import.archive.ignore = {{ orchestration_import_archive_ignore }}
-
-# Cron expression format: seconds minutes hours daysOfWeek daysOfMonth months
-schedule.startDailyImport.cron = {{ orchestration_schedule_startDailyImport_cron }}
-schedule.startDailyImport.importEverything = {{ orchestration_schedule_startDailyImport_importEverything }}
-schedule.startDailyExport.cron = {{ orchestration_schedule_startDailyExport_cron }}
-schedule.pollJiraTickets.cron = {{ orchestration_schedule_pollJiraTickets_cron }}
-
-ts.srs.readmeEndDate = {{ ts_srs_readmeEndDate }}
-ts.srs.previousPublishedPackageName = {{ ts_srs_previousPublishedPackageName }}
-ts.rvf.previousInternationalRelease =  {{ ts_rvf_previousInternationalRelease }}
-ts.rvf.assertionGroupNames =  {{ ts_rvf_assertionGroupNames }}
 
 orchestration.jms.url = {{ orchestration_jms_url }}
 orchestration.jms.username = {{ orchestration_jms_username }}
