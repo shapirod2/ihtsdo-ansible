@@ -1,10 +1,10 @@
 
-#A list of directories to copy:
-backup_dirs_to_copy: 
-  - "/home/adamf"
-  - "/home/ansible"
-  - "/home/ianb"
-  - "/home/kaik"
+#A list of directories to copy default to none:
+backup_dirs_to_copy: ""
+
+# backup_dirs_to_copy (for testing/example): 
+#  - "/home/adamf"
+#  - "/home/ansible"
 
 #Database info  
 #mysql, postgresql or none. Default to mysql on localhost as most are
@@ -12,13 +12,13 @@ backup_dirs_to_copy:
 backup_db_type: "mysql"
 #backup_db_type: "pgsql"
 # names of db'es to back up. if not set will back up all
-backup_db_names: 
-  - "db1"
-  - "db2"
-  - "db3"
-  
 #backup_db_names: 
-#  - "all"
+#  - "db1"
+#  - "db2"
+#  - "db3"
+  
+backup_db_names: 
+  - "all"
 
 backup_db_host: "localhost"
 backup_db_port: "3306"
