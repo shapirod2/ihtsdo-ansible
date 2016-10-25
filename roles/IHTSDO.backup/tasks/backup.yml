@@ -9,3 +9,5 @@
 
 - name: run backup command
   shell: "{{ backup_full_backup_cmd }}"
+  async: 1800
+  poll:  10

@@ -145,7 +145,7 @@ check_arguments() {
 
 # Main script starts here.
 main() {
-	echo_date "----------------------------"
+	echo_date "-----------START-----------------"
 	check_arguments
 	pre_cmd
 	mkbkdir
@@ -157,7 +157,7 @@ main() {
 	compresstozip
 	movetoaws
 	post_cmd
-	
+	echo_date "----------FINISHED------------------"
 }
 
 pre_cmd(){
@@ -172,6 +172,7 @@ fi
 }
 
 post_cmd(){
+echo "Starting post_cmd"
 if [ "x$postcmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${postcmds[*]};
@@ -180,7 +181,7 @@ for cmd in ${postcmds[*]};
         eval $cmd
         done
 fi
-
+echo "Finished post_cmd"
 }
 
 copyfiles(){
@@ -281,9 +282,9 @@ echo "ARCHIVE_FILE = $ARCHIVE_FILE"
 #Always copy to daily
 
 # /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
- 
+echo "Making a daily back up" 
 $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
-
+echo "Made a daily back up"
 #Copy from daily to weekly
 if [ "$DOW" = "$DAY_OF_WEEK" ];
 then
@@ -303,6 +304,8 @@ then
 echo "Making a yearly back up"
 $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
 fi
+
+echo "Finished copying to AWS"
 
 }
 

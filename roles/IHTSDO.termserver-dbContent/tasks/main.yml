@@ -6,9 +6,11 @@
     
 - name: Stop Traceability service if running
   supervisorctl: name=traceability-service state=stopped
+  ignore_errors: yes
   
 - name: Stop TS if running
-  supervisorctl: name=termserver state=stopped  
+  supervisorctl: name=termserver state=stopped 
+  ignore_errors: yes 
 
 - debug: msg="set_db_content = {{set_db_content}}"
 - debug: msg="force_zip_download = {{force_zip_download}}"
