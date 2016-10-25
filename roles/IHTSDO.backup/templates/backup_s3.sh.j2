@@ -217,6 +217,7 @@ compresstozip(){
 }
 
 backup_db() {	
+EXITCODE=99
 	cd "$tmp_backup_dir"	
 	echo_date "Creating db dump file in dir $ABSOLUTE_ARCHIVE_PREFIX"
 	
@@ -224,6 +225,7 @@ backup_db() {
         for db in ${db_include[*]};
         do  
                 echo "db = "${db}
+                EXITCODE=99
                 DATABASE_DUMP_FILE="${db}.sql"
 if [ "$db_type" = "pgsql" ];
 then
@@ -233,16 +235,20 @@ echo "dbtype = postgres : " $db_type
                           if [ "$db" = "all" ];
                              then 
                                 su - postgres -c "/usr/bin/pg_dumpall -i -c -o -f '$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE'"
+                                EXITCODE=$?
                              else
                                 su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
                              fi   
                                 
                         else 
                         if [ "$db" = "all" ];
                              then
                                 /usr/bin/pg_dumpall -i -U${db_user} -h${db_host} -p${db_port} -c -o -f "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
                              else   
                                 /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
                              fi                                  
                         fi
  fi      
@@ -256,7 +262,14 @@ then
 echo "DB_STR = "$DB_STR;
 echo "dbtype = mysql : " $db_type   
      /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
- fi               
+    EXITCODE=$?
+ fi 
+if [ $EXITCODE -ne 0 ] ; then 
+      echo "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type"
+      error_exit "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type. Exiting with error."
+ else
+      echo "DB Backup finished ok for DB : $db"
+ fi              
     done 
 	echo_date "Done backing up DB."
 	
