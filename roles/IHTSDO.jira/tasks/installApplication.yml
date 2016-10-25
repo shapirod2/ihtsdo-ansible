@@ -23,7 +23,7 @@
 
 - name: Overide standard download location for jira 7
   set_fact:
-     package: "atlassian-jira-software-{{ jira_version }}-jira-{{ jira_version }}.tar.gz"
+     package: "atlassian-jira-software-{{ jira_version }}.tar.gz"
   when: "{{ jira_version | version_compare('7.0.0', '>=') }}"
 
 - name: Download and Extract Application
