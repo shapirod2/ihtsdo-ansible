@@ -12,6 +12,7 @@
   vars_files:
      - "{{ inventory_dir }}/../files/users/users.yml"
   roles:
+    - IHTSDO.basicpackages  
     - IHTSDO.user-accounts
 # Commented out as AWS does not let you reset the host name    
 #    - laggyluke.hostname
