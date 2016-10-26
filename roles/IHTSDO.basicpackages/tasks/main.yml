@@ -1,0 +1,10 @@
+---
+- name: Install ufw
+  apt: name=ufw update_cache=yes cache_valid_time=300
+
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300  
+
+- name: Install unzip
+  apt: name=unzip state=present update_cache=yes cache_valid_time=300
+
