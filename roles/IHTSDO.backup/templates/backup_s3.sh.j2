@@ -6,6 +6,8 @@ cp_cmd="/usr/bin/aws s3 cp "
 dirs_to_backup=({% for backup_dir_to_copy in backup_dirs_to_copy %}"{{backup_dir_to_copy}}" {% endfor %})
 #pre back up commands
 precmds=({% for precmd in backup_precmds %}"{{precmd}}" {% endfor %})
+#commands prior to zipping up
+prezipcmds=({% for prezipcmd in backup_prezipcmds %}"{{prezipcmd}}" {% endfor %})
 #post back up commands
 postcmds=({% for postcmd in backup_postcmds %}"{{postcmd}}" {% endfor %})
 
@@ -47,7 +49,7 @@ HOST_NAME="{{backup_hostname}}"
 APP_NAME="{{backup_app_name}}"
 
 # The timestamp suffix for the top-level directory, eg. 20120904_1021
-CURRENT_DATE=`date +%Y%m%d_%H%M`
+#CURRENT_DATE=`date +%Y%m%d_%H%M`
 # The S3 backup dir
 s3_backup_dir="{{ backup_s3_backup_dir | default('') }}"
 s3_backup_dir_prefix="s3://$s3_backup_dir"
@@ -68,18 +70,18 @@ if [ "x$s3_backup_region_base" != "x" ]; then
 fi
 
 # The starting directory
-backup_dir={{ backup_dir }}
+#backup_dir={{ backup_dir }}
 
 # The dir where zips go
-tmp_backup_dir=$backup_dir/tmp
+tmp_backup_dir="{{backup_dir_tmp}}"
 
 # The working directory and the resulting archive file prefix
-ARCHIVE_PREFIX="$(hostname -s)_$CURRENT_DATE"
+ARCHIVE_PREFIX="{{backup_archive_prefix}}"
 
 # The absolute path to the above
-ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX"
+ABSOLUTE_ARCHIVE_PREFIX="{{backup_archive_dir}}"
 # Archive
-ARCHIVE_FILE="$ARCHIVE_PREFIX.zip"
+ARCHIVE_FILE="{{backup_archive_file}}"
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -94,7 +96,7 @@ error_exit() {
 
 # Checks input arguments and test whether the script is ready to be executed.
 check_arguments() {
-	if [ "x$backup_dir" = "x" ]; then
+	if [ "x$tmp_backup_dir" = "x" ]; then
 		error_exit "Please set the variable backup_dir before running this script. Exiting with error."
 	fi
 	if [ "x$s3_backup_dir" = "x" ]; then
@@ -154,6 +156,7 @@ main() {
 	fi
 	copyfiles
 	#rsyncfiles
+	pre_zipcmd
 	compresstozip
 	movetoaws
 	post_cmd
@@ -171,8 +174,20 @@ for cmd in ${precmds[*]};
 fi
 }
 
+pre_zipcmd(){
+#echo "Starting pre_zipcmd"
+if [ "x$prezipcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${prezipcmds[*]};
+        do
+        echo_date "Pre zip cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
 post_cmd(){
-echo "Starting post_cmd"
+#echo "Starting post_cmd"
 if [ "x$postcmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${postcmds[*]};
@@ -212,6 +227,7 @@ mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$
 
 compresstozip(){
 	echo_date "ARCHIVE_FILE = $ARCHIVE_FILE"
+	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
 	cd "$tmp_backup_dir"
 	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 }

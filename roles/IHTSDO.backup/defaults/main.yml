@@ -39,12 +39,24 @@ backup_precmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
+backup_prezipcmds: 
+   - "/bin/echo \"prezipcmd1!\""
+   - "/bin/echo \"prezipcmd2!\""
+
 backup_postcmds: ""
 #  - "/bin/echo \"postcmd1!\""
 #  - "/bin/echo \"postcmd2!\""
 
 #backup_app_name: ""
 backup_dir: "/opt/backup/{{backup_app_name}}"
+backup_dir_tmp: "{{backup_dir}}/tmp"
+
+backup_safedate: "{{ ansible_date_time.iso8601 | replace(':', '')}}"
+backup_archive_prefix: "{{inventory_hostname}}_{{backup_safedate}}"
+backup_archive_suffix: ".zip"
+backup_archive_dir: "{{backup_dir_tmp}}/{{backup_archive_prefix}}"
+backup_archive_file: "{{backup_archive_prefix}}{{backup_archive_suffix}}" 
+
 backup_s3_backup_dir: "backup-ihtsdo-{{backup_level}}"
 backup_s3_backup_region: "us-east-1"
 backup_hostname: "{{inventory_hostname}}"
@@ -52,7 +64,6 @@ backup_hostname: "{{inventory_hostname}}"
 backup_script_dir: "/opt/scripts/{{backup_app_name}}"
 backup_script: backup_s3.sh
 backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
-backup_log: "{{ backup_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+backup_log: "{{ backup_script_dir }}/backup_{{ backup_safedate }}.log"
 backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 backup_async_time: 1800
-

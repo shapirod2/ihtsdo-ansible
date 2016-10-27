@@ -7,6 +7,10 @@
 #- name: Install rsync
 #  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+#- debug: msg="backup_archive_dir = {{backup_archive_dir}}"
+#- debug: msg="backup_archive_file = {{backup_archive_file}}"
+
+
 
 - name: include backup yml when app name is defined and not empty
   include: backup.yml
