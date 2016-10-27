@@ -154,9 +154,9 @@ main() {
 	if [ "$db_type" != "none" ]; then
 	backup_db
 	fi
+	pre_zipcmd
 	copyfiles
 	#rsyncfiles
-	pre_zipcmd
 	compresstozip
 	movetoaws
 	post_cmd
@@ -311,27 +311,27 @@ echo "ARCHIVE_FILE = $ARCHIVE_FILE"
 #Always copy to daily
 
 # /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
-echo "Making a daily back up" 
-$cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
+echo "Making a daily back up using $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region" 
+eval $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
 echo "Made a daily back up"
 #Copy from daily to weekly
 if [ "$DOW" = "$DAY_OF_WEEK" ];
 then
 echo "Making a weekly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
 fi
 #Copy from daily to monthly
 if [ "$DOM" = "$DAY_OF_MONTH" ];
 then
 echo "Making a Monthly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
 fi
 #Copy from daily to yearly
 #if 1st of year copy to yearly.
 if [ "$DOY" = "$DAY_OF_YEAR" ];
 then
 echo "Making a yearly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
 fi
 
 echo "Finished copying to AWS"

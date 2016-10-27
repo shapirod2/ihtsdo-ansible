@@ -39,9 +39,9 @@ backup_precmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
-backup_prezipcmds: 
-   - "/bin/echo \"prezipcmd1!\""
-   - "/bin/echo \"prezipcmd2!\""
+backup_prezipcmds: ""
+#   - "/bin/echo \"prezipcmd1!\""
+#   - "/bin/echo \"prezipcmd2!\""
 
 backup_postcmds: ""
 #  - "/bin/echo \"postcmd1!\""
