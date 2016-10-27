@@ -9,5 +9,5 @@
 
 - name: run backup command
   shell: "{{ backup_full_backup_cmd }}"
-  async: 1800
+  async: "{{backup_async_time}}"
   poll:  10

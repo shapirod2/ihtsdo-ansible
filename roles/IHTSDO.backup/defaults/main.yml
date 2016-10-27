@@ -54,5 +54,5 @@ backup_script: backup_s3.sh
 backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
 backup_log: "{{ backup_script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
 backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
-
+backup_async_time: 1800
 
