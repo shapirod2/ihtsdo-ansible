@@ -7,15 +7,9 @@ dirs_to_backup=({% for backup_dir_to_copy in backup_dirs_to_copy %}"{{backup_dir
 #pre back up commands
 precmds=({% for precmd in backup_precmds %}"{{precmd}}" {% endfor %})
 #commands prior to zipping up
-prezipcmds=({% for prezipcmd in backup_prezipcmds %}"{{prezipcmd}}" {% endfor %})
+precopycmds=({% for precopycmd in backup_precopycmds %}"{{precopycmd}}" {% endfor %})
 #post back up commands
 postcmds=({% for postcmd in backup_postcmds %}"{{postcmd}}" {% endfor %})
-
-
-
-
-#backup_precmd="{{ backup_precmd | default('') }}"
-#backup_postcmd="{{ backup_postcmd | default('') }}"
 
 # db_type acceptable values:
 # pgsql = Postgres
@@ -82,6 +76,8 @@ ARCHIVE_PREFIX="{{backup_archive_prefix}}"
 ABSOLUTE_ARCHIVE_PREFIX="{{backup_archive_dir}}"
 # Archive
 ARCHIVE_FILE="{{backup_archive_file}}"
+
+backup_owner="{{backup_owner}}"
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -154,7 +150,7 @@ main() {
 	if [ "$db_type" != "none" ]; then
 	backup_db
 	fi
-	pre_zipcmd
+	pre_copycmd
 	copyfiles
 	#rsyncfiles
 	compresstozip
@@ -174,11 +170,11 @@ for cmd in ${precmds[*]};
 fi
 }
 
-pre_zipcmd(){
-#echo "Starting pre_zipcmd"
-if [ "x$prezipcmds" != "x" ]; then
+pre_copycmd(){
+#echo "Starting pre_copycmd"
+if [ "x$precopycmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
-for cmd in ${prezipcmds[*]};
+for cmd in ${precopycmds[*]};
         do
         echo_date "Pre zip cmd About to do cmd : $cmd"
         eval $cmd
@@ -223,6 +219,9 @@ echo "should be deleting and recreating $tmp_backup_dir"
 rm -rf $tmp_backup_dir
 echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error.";
+if [ "x$backup_owner" != "x" ]; then
+chown -vR $backup_owner:$backup_owner $tmp_backup_dir
+fi
 }
 
 compresstozip(){

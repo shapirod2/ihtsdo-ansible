@@ -25,6 +25,8 @@ backup_db_port: "3306"
 backup_db_user: "root"
 backup_db_password: "password"
 
+# the owner of the backup dir if not the same as root
+backup_owner: ""
 
 #the backup level : t1 t2 or t3
 backup_level: "t3"
@@ -39,9 +41,9 @@ backup_precmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
-backup_prezipcmds: ""
-#   - "/bin/echo \"prezipcmd1!\""
-#   - "/bin/echo \"prezipcmd2!\""
+backup_precopycmds: ""
+#   - "/bin/echo \"precopycmd1!\""
+#   - "/bin/echo \"precopycmd2!\""
 
 backup_postcmds: ""
 #  - "/bin/echo \"postcmd1!\""
