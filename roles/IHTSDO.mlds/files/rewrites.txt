@@ -9,3 +9,7 @@ rewrite ^/mt /#/landing/MT permanent;
 rewrite ^/be /#/landing/BE permanent;
 rewrite ^/dk /#/landing/DK permanent;
 rewrite ^/ee /#/landing/EE permanent;
+rewrite ^/ch /#/landing/CH?lang=de permanent;
+rewrite ^/hk /#/landing/HK permanent;
+rewrite ^/is /#/landing/IS permanent;
+rewrite ^/ie /#/landing/IE?lang=en permanent;
