@@ -1,0 +1,17 @@
+#Specific to termserver
+- name: make sure rsync_dir exists
+  file: path={{rsync_dir}}  state=directory
+
+- name: make sure script_dir exists
+  file: path={{ backup_script_dir }}  state=directory
+
+- name: Configure backup script
+  template: src={{ backup_script }}.j2 dest={{ backup_cmd }}
+            owner=root group=root mode=0740
+
+- debug: msg="full_backup_cmd = {{ backup_full_backup_cmd }}"
+
+- name: run backup command
+  shell: "{{ backup_full_backup_cmd }}"
+  async: "{{backup_async_time}}"
+  poll:  10

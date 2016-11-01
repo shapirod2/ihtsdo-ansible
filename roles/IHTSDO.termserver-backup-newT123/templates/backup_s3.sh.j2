@@ -427,6 +427,17 @@ unlock_repository_and_exit() {
 	unlock_repository
 	unlock_all_repositories_and_exit "$1"
 }
+
+rsyncindexes(){
+mkdir -pv {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress $ts_indexes_dir {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir }}
+}
+
+copyfromrsyncdir(){
+cp -R {{ rsync_dir }}/* $ABSOLUTE_ARCHIVE_PREFIX
+}
+
 #Specific to termserver - END
 
 
