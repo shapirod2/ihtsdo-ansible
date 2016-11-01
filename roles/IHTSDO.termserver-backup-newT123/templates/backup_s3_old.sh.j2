@@ -1,0 +1,253 @@
+#!/bin/bash
+
+# The S3 backup dir
+#s3_backup_dir={{s3_backup_dir | default('')}}
+
+# The following variables should be set by editing this script before running it:
+# The S3 backup dir
+s3_backup_dir="{{termserv_s3_backup_dir | default('')}}"
+s3_backup_dir_full="s3://$s3_backup_dir"
+
+s3_backup_region_base="{{termserv_s3_backup_region | default('')}}"
+s3_numbackups=5
+s3_bk_list=s3list.txt
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+
+indexes=indexes
+ts_indexes_dir={{ts_dir}}
+ts_resources_dir={{ts_res_dir}}
+
+
+# The starting directory
+backup_dir={{ backup_dir }}
+
+# The dir where zips go
+tmp_backup_dir=$backup_dir/tmp
+
+# The working directory and the resulting archive file prefix
+ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
+
+# The absolute path to the above
+ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX/dataset"
+
+# The connection timeout for HTTP requests in seconds.
+CONNECTION_TIMEOUT_SECONDS=5
+
+# The time to wait in seconds after start mysql dump before unlocking repo.
+REPO_WAIT_SECONDS=5
+
+# The username used for creating hot backups (should be a valid Snow Owl user)
+SNOWOWL_USERNAME="{{ ts_user }}"
+
+# The password for the user given above
+SNOWOWL_PASSWORD="{{ ts_pw }}"
+
+# The base URL of the REST services to use
+BASE_URL="{{ base_url }}"
+
+# The base URL for administrative services
+ADMIN_BASE_URL="$BASE_URL/admin"
+
+# The number of milliseconds to wait before giving up trying to lock the complete repository.
+LOCK_TIMEOUT_MILLIS=30000
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Invokes curl to make an HTTP request to the server; stores returned message and HTTP status code in output variables.
+rest_call() {
+	CURL_OUTPUT=`curl -q --fail --silent --show-error --connect-timeout "$CONNECTION_TIMEOUT_SECONDS" --user "$SNOWOWL_USERNAME:$SNOWOWL_PASSWORD" --write-out "\n%{http_code}" "$@"`
+	CURL_MESSAGE=`echo "$CURL_OUTPUT" | head -n-1`
+	CURL_HTTP_STATUS=`echo "$CURL_OUTPUT" | tail -n1`
+}
+
+# Tries to acquire a global lock that prevents writing to any of the terminology stores on any available branch.
+lock_all_repositories() {
+	echo_date "Locking repositories..."
+	rest_call --data-urlencode "timeoutMillis=$LOCK_TIMEOUT_MILLIS" "$ADMIN_BASE_URL/repositories/lock"
+}
+
+# Removes the lock from all repositories.
+unlock_all_repositories() {
+	echo_date "Unlocking repositories..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/unlock"
+}
+
+# Cleans up the global repository lock and exits with an error.
+unlock_all_repositories_and_exit() {
+	unlock_all_repositories
+	error_exit "$1"
+}
+
+# Locks the specified repository, preventing write access to all of its branches.
+lock_repository() {
+	echo_date "Locking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/lock"
+
+	if [ "$CURL_HTTP_STATUS" -ne "204" ]; then
+		unlock_all_repositories_and_exit "Couldn't lock repository $REPOSITORY. Exiting with error."
+	fi
+}
+
+# Unlocks the specified repository if it was already locked.
+unlock_repository() {
+	echo_date "Unlocking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/unlock"
+}
+
+# Unlocks the specified repository, cleans up the global repository lock and exits with an error.
+unlock_repository_and_exit() {
+	unlock_repository
+	unlock_all_repositories_and_exit "$1"
+}
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	#check_arguments
+	mkbkdir
+
+	lock_all_repositories
+
+	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
+	echo_date "Starting backup; sending message to connected users."
+	#echo_date "Rsync'ing indexes..."
+	rsyncindexes
+	echo_date "dumping mysql..."
+    mysql_dump &
+    sleep $REPO_WAIT_SECONDS
+    unlock_all_repositories
+    wait
+
+    echo_date "copying from rsync folder..."
+    copyfromrsyncdir
+	echo_date "Creating archive..."
+	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
+	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
+	cd "$tmp_backup_dir"
+	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+
+	echo_date "Finished successfully."
+        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+         then
+	      movetoaws
+	      delete_old_from_aws
+         fi
+	exit 0
+}
+
+mysql_dump(){
+echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
+/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+}
+
+rsyncindexes(){
+mkdir -pv {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress $ts_indexes_dir {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir }}
+}
+
+copyfromrsyncdir(){
+cp -R {{ rsync_dir }}/* $ABSOLUTE_ARCHIVE_PREFIX
+}
+
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+mkdir -pv $tmp_backup_dir
+
+}
+
+movetoaws(){
+echo "s3_backup_dir = "$s3_backup_dir;
+# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#then
+echo "Transferring backup to AWS S3";
+cd $tmp_backup_dir
+for i in *; do /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region; done
+echo "Backup transferred";
+echo "Backup process complete";
+#fi
+}
+
+delete_old_from_aws() {
+echo "Cleaning up old backups from aws"
+cd $backup_dir
+aws s3 ls $s3_backup_dir_full $s3_backup_region | grep '^20' | sort -k1,2 > $s3_bk_list
+
+k=0
+filename=""
+while read line;do
+((k++))
+        echo "Line # $k: $line"
+	if [ "$k" = "1" ]; then
+              arr=($line)
+              filename=${arr[3]}
+	fi
+
+done < $s3_bk_list
+echo "Total number of lines in file: $k"
+echo "s3_numbackups: $s3_numbackups"
+echo "filename = $filename"
+
+if [ $k \> $s3_numbackups ]; then
+echo "number of backups exceeded. Deleting filename = $filename"
+aws s3 rm $s3_backup_dir_full/$filename $s3_backup_region
+echo "Deleted filename = $filename"
+fi
+
+}
+
+#movetoaws(){
+#	echo "s3_backup_dir = "$s3_backup_dir;
+	# sync to amazon if s3 dest is defined & the ~/.aws/config file exists
+#	if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+#	then
+#		echo "Transferring backup to AWS S3";
+#		/usr/bin/aws s3 sync ${tmp_backup_dir} $s3_backup_dir --delete;
+#		echo "Backup transferred";
+#		echo "Backup process complete";
+#	else
+#		echo "Skipping backup to S3 due to lack of configuration.  Check ~/.aws/config file exists and s3_backup_dir defined."
+#	fi
+#}
+
+#delete_old() {
+#echo "Cleaning up old backups prior to moving them to aws"
+# if [ -d $tmp_backup_dir ] && [ "$tmp_backup_dir" != "" ] ;
+#  then
+#   echo "Deleting old back ups backup dir = "${tmp_backup_dir};
+#   find ${tmp_backup_dir}/* -mtime +5 -exec rm {} \;
+# fi
+#}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{script_dir}}/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE

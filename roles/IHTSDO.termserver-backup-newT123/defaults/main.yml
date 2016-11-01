@@ -1,0 +1,112 @@
+
+
+#ts_backup_mode: "hot"
+ts_user: "snowowl"
+ts_pw: "snowowl"
+ts_dbname: snomedstore
+ts_review_dbname: ts_review
+traceability_database: traceability
+
+# Backup
+# Dir to put scripts into
+#s3_backup_dir: "none"
+
+#base URL for rest calls for use by hot backup
+base_url: http://localhost:8080/snowowl
+backup_dir: "/opt/backup/termserver"
+dump_filename: "snomedStore.sql"
+ts_res_dir: "/opt/termserver/resources"
+ts_dir: "/opt/termserver_indexes"
+rsync_dir: "/opt/backup/rsync/termserver"
+
+#dataset
+#script_dir: /opt/scripts/termbackup
+#new_backup_script: backup_s3.sh
+#backup_cmd: "{{ script_dir }}/{{ new_backup_script }}"
+#backup_log: "{{ script_dir }}/backup_{{ ansible_date_time.iso8601 }}.log"
+#full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+
+
+#backup
+backup_app_name: "termserver" 
+#backup_dirs_to_copy: 
+#  - "{{refset_indexBase_dir}}" 
+backup_db_names: 
+  - "{{ ts_dbname }}" 
+  - "{{ ts_review_dbname }}" 
+  - "{{ traceability_database }}"
+
+backup_db_password: "{{mysql_root_pass}}"
+backup_level: "t3"
+
+
+#A list of directories to copy default to none:
+backup_dirs_to_copy: ""
+
+# backup_dirs_to_copy (for testing/example): 
+#  - "/home/adamf"
+#  - "/home/ansible"
+
+#Database info  
+#mysql, postgresql or none. Default to mysql on localhost as most are
+#backup_db_type: "none"
+backup_db_type: "mysql"
+#backup_db_type: "pgsql"
+# names of db'es to back up. if not set will back up all
+#backup_db_names: 
+#  - "db1"
+#  - "db2"
+#  - "db3"
+  
+#backup_db_names: 
+#  - "all"
+
+backup_db_host: "localhost"
+backup_db_port: "3306"
+backup_db_user: "root"
+#backup_db_password: "password"
+
+# the owner of the backup dir if not the same as root
+backup_owner: ""
+
+#the backup level : t1 t2 or t3
+#backup_level: "t3"
+#backup_app_name: "test"
+
+# days of the week/month etc for weekly, monthly etc
+backup_DAY_OF_WEEK: "Saturday"
+backup_DAY_OF_MONTH: "01"
+backup_DAY_OF_YEAR: "001"
+
+backup_precmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+backup_precopycmds: ""
+#   - "/bin/echo \"precopycmd1!\""
+#   - "/bin/echo \"precopycmd2!\""
+
+backup_postcmds: ""
+#  - "/bin/echo \"postcmd1!\""
+#  - "/bin/echo \"postcmd2!\""
+
+#backup_app_name: ""
+backup_dir: "/opt/backup/{{backup_app_name}}"
+backup_dir_tmp: "{{backup_dir}}/tmp"
+
+backup_safedate: "{{ ansible_date_time.iso8601 | replace(':', '')}}"
+backup_archive_prefix: "{{inventory_hostname}}_{{backup_safedate}}"
+backup_archive_suffix: ".zip"
+backup_archive_dir: "{{backup_dir_tmp}}/{{backup_archive_prefix}}"
+backup_archive_file: "{{backup_archive_prefix}}{{backup_archive_suffix}}" 
+
+backup_s3_backup_dir: "backup-ihtsdo-{{backup_level}}"
+backup_s3_backup_region: "us-east-1"
+backup_hostname: "{{inventory_hostname}}"
+
+backup_script_dir: "/opt/scripts/{{backup_app_name}}"
+backup_script: backup_s3.sh
+backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
+backup_log: "{{ backup_script_dir }}/backup_{{ backup_safedate }}.log"
+backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
+backup_async_time: 1800

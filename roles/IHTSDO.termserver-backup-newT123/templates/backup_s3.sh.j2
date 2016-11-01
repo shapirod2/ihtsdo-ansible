@@ -1,0 +1,440 @@
+#!/bin/bash
+#Specific to termserver - START
+indexes=indexes
+ts_indexes_dir={{ts_dir}}
+ts_resources_dir={{ts_res_dir}}
+# The connection timeout for HTTP requests in seconds.
+CONNECTION_TIMEOUT_SECONDS=5
+
+# The time to wait in seconds after start mysql dump before unlocking repo.
+REPO_WAIT_SECONDS=5
+
+# The username used for creating hot backups (should be a valid Snow Owl user)
+SNOWOWL_USERNAME="{{ ts_user }}"
+
+# The password for the user given above
+SNOWOWL_PASSWORD="{{ ts_pw }}"
+
+# The base URL of the REST services to use
+BASE_URL="{{ base_url }}"
+
+# The base URL for administrative services
+ADMIN_BASE_URL="$BASE_URL/admin"
+
+# The number of milliseconds to wait before giving up trying to lock the complete repository.
+LOCK_TIMEOUT_MILLIS=30000
+#Specific to termserver - END
+
+cp_cmd="/usr/bin/aws s3 cp "
+
+#dirs to back up:
+dirs_to_backup=({% for backup_dir_to_copy in backup_dirs_to_copy %}"{{backup_dir_to_copy}}" {% endfor %})
+#pre back up commands
+precmds=({% for precmd in backup_precmds %}"{{precmd}}" {% endfor %})
+#commands prior to zipping up
+precopycmds=({% for precopycmd in backup_precopycmds %}"{{precopycmd}}" {% endfor %})
+#post back up commands
+postcmds=({% for postcmd in backup_postcmds %}"{{postcmd}}" {% endfor %})
+
+# db_type acceptable values:
+# pgsql = Postgres
+# mysql = MySql
+# none = no db just files to back up.
+db_type={{backup_db_type}}
+db_host={{backup_db_host}}
+db_port={{backup_db_port}}
+db_include=({% for db in backup_db_names %}"{{db}}" {% endfor %})
+
+# If Postgres and not using default postgres admin user (postgres) 
+# then instead make sure there is a Postgres .pgpass file
+# ( format : localhost:5432:mydbname:postgres:mypass ) make sure chmod 600 
+db_user={{backup_db_user}}
+db_password={{backup_db_password}} 
+
+DAILY="daily"
+WEEKLY="weekly"
+MONTHLY="monthly"
+YEARLY="yearly"
+
+#DAY_OF_WEEK="Saturday"
+#DAY_OF_MONTH="01"
+#DAY_OF_YEAR="001"
+
+DAY_OF_WEEK="{{backup_DAY_OF_WEEK}}"
+DAY_OF_MONTH="{{backup_DAY_OF_MONTH}}"
+DAY_OF_YEAR="{{backup_DAY_OF_YEAR}}"
+
+HOST_NAME="{{backup_hostname}}"
+APP_NAME="{{backup_app_name}}"
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+#CURRENT_DATE=`date +%Y%m%d_%H%M`
+# The S3 backup dir
+s3_backup_dir="{{ backup_s3_backup_dir | default('') }}"
+s3_backup_dir_prefix="s3://$s3_backup_dir"
+s3_backup_dir_suffix="$HOST_NAME/$APP_NAME/"
+
+s3_backup_dir_daily="$s3_backup_dir_prefix/$DAILY/$s3_backup_dir_suffix"
+s3_backup_dir_weekly="$s3_backup_dir_prefix/$WEEKLY/$s3_backup_dir_suffix"
+s3_backup_dir_monthly="$s3_backup_dir_prefix/$MONTHLY/$s3_backup_dir_suffix"
+s3_backup_dir_yearly="$s3_backup_dir_prefix/$YEARLY/$s3_backup_dir_suffix"
+
+s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
+
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+# The starting directory
+#backup_dir={{ backup_dir }}
+
+# The dir where zips go
+tmp_backup_dir="{{backup_dir_tmp}}"
+
+# The working directory and the resulting archive file prefix
+ARCHIVE_PREFIX="{{backup_archive_prefix}}"
+
+# The absolute path to the above
+ABSOLUTE_ARCHIVE_PREFIX="{{backup_archive_dir}}"
+# Archive
+ARCHIVE_FILE="{{backup_archive_file}}"
+
+backup_owner="{{backup_owner}}"
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$tmp_backup_dir" = "x" ]; then
+		error_exit "Please set the variable backup_dir before running this script. Exiting with error."
+	fi
+	if [ "x$s3_backup_dir" = "x" ]; then
+		error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+	fi	
+	if [ "x$DAY_OF_WEEK" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_WEEK before running this script. Exiting with error."
+	fi
+	if [ "x$DAY_OF_MONTH" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_MONTH before running this script. Exiting with error."
+	fi	
+	if [ "x$DAY_OF_YEAR" = "x" ]; then
+		error_exit "Please set the variable DAY_OF_YEAR before running this script. Exiting with error."
+	fi	
+	if [ "x$HOST_NAME" = "x" ]; then
+		error_exit "Please set the variable HOST_NAME before running this script. Exiting with error."
+	fi	
+	if [ "x$APP_NAME" = "x" ]; then
+		error_exit "Please set the variable APP_NAME before running this script. Exiting with error."
+	fi	
+	if [ "x$db_type" = "x" ]; then
+		error_exit "Please set the variable db_type before running this script. Exiting with error."
+	fi
+	if [ "$db_type" != "none" ]; then
+	# If not none check db vars are set
+	if [ "x$db_host" = "x" ]; then
+		error_exit "Please set the variable db_host before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_port" = "x" ]; then
+		error_exit "Please set the variable db_port before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_include" = "x" ]; then
+		error_exit "Please set the variable db_include before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_user" = "x" ]; then
+		error_exit "Please set the variable db_user before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_password" = "x" ]; then
+		error_exit "Please set the variable db_password before running this script. Exiting with error."
+	fi
+	fi
+}
+
+
+# Main script starts here.
+main() {
+	echo_date "-----------START-----------------"
+	check_arguments
+	pre_cmd
+	#Specific to termserver
+	lock_all_repositories
+	
+	mkbkdir
+	
+	#Specific to termserver
+	rsyncindexes
+	
+	if [ "$db_type" != "none" ]; then
+	#backup_db
+	#Specific to termserver
+	backup_db &
+
+	fi
+	
+	pre_copycmd
+	#Specific to termserver
+	sleep $REPO_WAIT_SECONDS
+    unlock_all_repositories
+    wait
+	echo_date "copying from rsync folder..."
+    copyfromrsyncdir
+	
+	copyfiles
+	compresstozip
+	movetoaws
+	post_cmd
+	echo_date "----------FINISHED------------------"
+}
+
+pre_cmd(){
+if [ "x$precmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${precmds[*]};
+        do
+        echo_date "Pre cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
+pre_copycmd(){
+#echo "Starting pre_copycmd"
+if [ "x$precopycmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${precopycmds[*]};
+        do
+        echo_date "Pre zip cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
+post_cmd(){
+#echo "Starting post_cmd"
+if [ "x$postcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${postcmds[*]};
+        do
+        echo_date "Post cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+echo "Finished post_cmd"
+}
+
+copyfiles(){
+for dir in ${dirs_to_backup[*]};
+        do  
+        echo "Copying dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
+        cp --recursive --parents ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        done 
+	echo_date "Done Copying files."
+}
+
+rsyncfiles(){
+for dir in ${dirs_to_backup[*]};
+        do  
+        echo "rsyncing dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
+        /usr/bin/rsync  -av --delete --no-compress ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        done 
+	echo_date "Done rsync'ing files."
+}
+
+mkbkdir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_backup_dir"
+rm -rf $tmp_backup_dir
+echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error.";
+if [ "x$backup_owner" != "x" ]; then
+chown -vR $backup_owner:$backup_owner $tmp_backup_dir
+fi
+}
+
+compresstozip(){
+	echo_date "ARCHIVE_FILE = $ARCHIVE_FILE"
+	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
+	cd "$tmp_backup_dir"
+	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+}
+
+backup_db() {	
+EXITCODE=99
+	cd "$tmp_backup_dir"	
+	echo_date "Creating db dump file in dir $ABSOLUTE_ARCHIVE_PREFIX"
+	
+# then for each db in db_include
+        for db in ${db_include[*]};
+        do  
+                echo "db = "${db}
+                EXITCODE=99
+                DATABASE_DUMP_FILE="${db}.sql"
+if [ "$db_type" = "pgsql" ];
+then
+echo "dbtype = postgres : " $db_type
+                        if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
+                        then
+                          if [ "$db" = "all" ];
+                             then 
+                                su - postgres -c "/usr/bin/pg_dumpall -i -c -o -f '$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE'"
+                                EXITCODE=$?
+                             else
+                                su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
+                             fi   
+                                
+                        else 
+                        if [ "$db" = "all" ];
+                             then
+                                /usr/bin/pg_dumpall -i -U${db_user} -h${db_host} -p${db_port} -c -o -f "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
+                             else   
+                                /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                                EXITCODE=$?
+                             fi                                  
+                        fi
+ fi      
+ if [ "$db_type" = "mysql" ];
+  then 
+   DB_STR="--databases "$db
+ if [ "$db" = "all" ];
+then 
+  DB_STR="--all-databases"
+ fi
+echo "DB_STR = "$DB_STR;
+echo "dbtype = mysql : " $db_type   
+     /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+    EXITCODE=$?
+ fi 
+if [ $EXITCODE -ne 0 ] ; then 
+      echo "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type"
+      error_exit "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type. Exiting with error."
+ else
+      echo "DB Backup finished ok for DB : $db"
+ fi              
+    done 
+	echo_date "Done backing up DB."
+	
+}
+
+movetoaws(){
+echo "s3_backup_dir_prefix = "$s3_backup_dir_prefix;
+echo "s3_backup_dir_daily = "$s3_backup_dir_daily;
+echo "s3_backup_dir_weekly = "$s3_backup_dir_weekly;
+echo "s3_backup_dir_monthly = "$s3_backup_dir_monthly;
+echo "s3_backup_dir_yearly = "$s3_backup_dir_yearly;
+
+LANG=C DOW=$(date +"%A")
+echo "Day of Week ="$DOW
+DOM=$(date +"%d")
+echo "Day of Month ="$DOM
+DOY=$(date +"%j")
+echo "Day of Year ="$DOY
+
+echo "temp dir = $tmp_backup_dir"
+echo "ARCHIVE_FILE = $ARCHIVE_FILE"
+
+#Always copy to daily
+
+# /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
+echo "Making a daily back up using $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region" 
+eval $cp_cmd $tmp_backup_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
+echo "Made a daily back up"
+#Copy from daily to weekly
+if [ "$DOW" = "$DAY_OF_WEEK" ];
+then
+echo "Making a weekly back up"
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
+fi
+#Copy from daily to monthly
+if [ "$DOM" = "$DAY_OF_MONTH" ];
+then
+echo "Making a Monthly back up"
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
+fi
+#Copy from daily to yearly
+#if 1st of year copy to yearly.
+if [ "$DOY" = "$DAY_OF_YEAR" ];
+then
+echo "Making a yearly back up"
+eval $cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
+fi
+
+echo "Finished copying to AWS"
+
+}
+
+#Specific to termserver - START
+
+# Invokes curl to make an HTTP request to the server; stores returned message and HTTP status code in output variables.
+rest_call() {
+	CURL_OUTPUT=`curl -q --fail --silent --show-error --connect-timeout "$CONNECTION_TIMEOUT_SECONDS" --user "$SNOWOWL_USERNAME:$SNOWOWL_PASSWORD" --write-out "\n%{http_code}" "$@"`
+	CURL_MESSAGE=`echo "$CURL_OUTPUT" | head -n-1`
+	CURL_HTTP_STATUS=`echo "$CURL_OUTPUT" | tail -n1`
+}
+
+# Tries to acquire a global lock that prevents writing to any of the terminology stores on any available branch.
+lock_all_repositories() {
+	echo_date "Locking repositories..."
+	rest_call --data-urlencode "timeoutMillis=$LOCK_TIMEOUT_MILLIS" "$ADMIN_BASE_URL/repositories/lock"
+}
+
+# Removes the lock from all repositories.
+unlock_all_repositories() {
+	echo_date "Unlocking repositories..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/unlock"
+}
+
+# Cleans up the global repository lock and exits with an error.
+unlock_all_repositories_and_exit() {
+	unlock_all_repositories
+	error_exit "$1"
+}
+
+# Locks the specified repository, preventing write access to all of its branches.
+lock_repository() {
+	echo_date "Locking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/lock"
+
+	if [ "$CURL_HTTP_STATUS" -ne "204" ]; then
+		unlock_all_repositories_and_exit "Couldn't lock repository $REPOSITORY. Exiting with error."
+	fi
+}
+
+# Unlocks the specified repository if it was already locked.
+unlock_repository() {
+	echo_date "Unlocking repository $REPOSITORY..."
+	rest_call --data-urlencode "" "$ADMIN_BASE_URL/repositories/$REPOSITORY/unlock"
+}
+
+# Unlocks the specified repository, cleans up the global repository lock and exits with an error.
+unlock_repository_and_exit() {
+	unlock_repository
+	unlock_all_repositories_and_exit "$1"
+}
+#Specific to termserver - END
+
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{ backup_script_dir }}/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
