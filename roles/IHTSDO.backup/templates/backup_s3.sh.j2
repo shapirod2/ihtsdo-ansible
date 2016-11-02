@@ -6,6 +6,8 @@ cp_cmd="/usr/bin/aws s3 cp "
 dirs_to_backup=({% for backup_dir_to_copy in backup_dirs_to_copy %}"{{backup_dir_to_copy}}" {% endfor %})
 #pre back up commands
 precmds=({% for precmd in backup_precmds %}"{{precmd}}" {% endfor %})
+#commands which can run in parallel to the db backup
+dbcmds=({% for dbcmd in backup_dbcmds %}"{{dbcmd}}" {% endfor %})
 #commands prior to zipping up
 precopycmds=({% for precopycmd in backup_precopycmds %}"{{precopycmd}}" {% endfor %})
 #post back up commands
@@ -148,11 +150,12 @@ main() {
 	pre_cmd
 	mkbkdir
 	if [ "$db_type" != "none" ]; then
-	backup_db
+	backup_db &
+	db_cmd
+	wait
 	fi
 	pre_copycmd
 	copyfiles
-	#rsyncfiles
 	compresstozip
 	movetoaws
 	post_cmd
@@ -169,6 +172,18 @@ for cmd in ${precmds[*]};
         done
 fi
 }
+
+db_cmd(){
+if [ "x$dbcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${dbcmds[*]};
+        do
+        echo_date "db cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
 
 pre_copycmd(){
 #echo "Starting pre_copycmd"
@@ -231,6 +246,14 @@ compresstozip(){
 	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
 }
 
+# Invokes curl to make an HTTP request to the server; stores returned message and HTTP status code in output variables.
+rest_call() {
+	CURL_OUTPUT=`curl -q --fail --silent --show-error --connect-timeout "{{backup_rest_conn_timeout_seconds}}" --user "{{backup_rest_user}}:{{backup_rest_password}}" --write-out "\n%{http_code}" "$@"`
+	CURL_MESSAGE=`echo "$CURL_OUTPUT" | head -n-1`
+	CURL_HTTP_STATUS=`echo "$CURL_OUTPUT" | tail -n1`
+}
+
+
 backup_db() {	
 EXITCODE=99
 	cd "$tmp_backup_dir"	
@@ -269,7 +292,8 @@ echo "dbtype = postgres : " $db_type
  fi      
  if [ "$db_type" = "mysql" ];
   then 
-   DB_STR="--databases "$db
+   #DB_STR="--databases "$db
+   DB_STR=$db
  if [ "$db" = "all" ];
 then 
   DB_STR="--all-databases"

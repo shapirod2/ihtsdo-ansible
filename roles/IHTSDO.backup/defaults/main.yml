@@ -41,6 +41,10 @@ backup_precmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
+backup_dbcmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
 backup_precopycmds: ""
 #   - "/bin/echo \"precopycmd1!\""
 #   - "/bin/echo \"precopycmd2!\""
@@ -69,3 +73,9 @@ backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
 backup_log: "{{ backup_script_dir }}/backup_{{ backup_safedate }}.log"
 backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
 backup_async_time: 1800
+
+# The connection timeout for HTTP requests in seconds. if using the Rest Call
+backup_rest_conn_timeout_seconds: "5"
+backup_rest_user: "anonymous"
+backup_rest_password: ""
+
