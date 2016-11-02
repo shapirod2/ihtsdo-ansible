@@ -1,7 +1,0 @@
----
-MAINTFILE: maintain.html
-MAINTURL: https://static-web.ihtsdotools.org/html/maint.html
-
-MAINTDIR: /opt/maint
-
-nginx_cors_regex: ".*\\.ihtsdotools.org"
