@@ -1,8 +1,0 @@
----
-  - hosts: termserver
-    sudo: true
-    roles:
-      - IHTSDO.aws
-      - IHTSDO.termserver-setup_repli
-
-
