@@ -1,0 +1,21 @@
+---
+  - name: Create directory
+    file: path={{ nginx_ssl_location }} state=directory
+
+  - name: Install SSL cert
+    copy: src={{ nginx_ssl_cert_file }} dest={{ nginx_ssl_location }}/cert.pem
+          owner=root group=root mode=0644
+    notify:
+      - restart nginx
+
+  - name: Install SSL key
+    copy: src={{ nginx_ssl_key_file }} dest={{ nginx_ssl_location }}/privkey.pem
+          owner=root group=root mode=0600
+    notify:
+      - restart nginx
+
+  - name: Install SSL Intermediate chained
+    copy: src={{ nginx_ssl_chain_file }} dest={{ nginx_ssl_location }}/chain.pem
+    notify:
+      - restart nginx
+  

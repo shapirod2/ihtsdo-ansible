@@ -1,0 +1,9 @@
+---
+#Install NGINX Application
+- include: install.yml
+
+#Install ssl certificates
+- include: ssl.yml
+
+#Setup maintenance screen
+- include: maintenance.yml
