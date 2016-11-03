@@ -1,5 +1,5 @@
 ---
-nginx_version: 1.4.6-1ubuntu3.5
+nginx_version: "1.4.6*"
 nginx_max_clients: 512
 nginx_ufw_allow_https: false
 nginx_ufw_allow_http: false
