@@ -11,7 +11,7 @@ nginx_maint_location: /opt/maint
 nginx_maint_page_url: "https://static-web.ihtsdotools.org/html/maint.html"
 nginx_maint_filename: "maintain.html"
 
-nginx_http_params:
+nginx_http_parameters:
   sendfile: "on"
   tcp_nopush: "on"
   tcp_nodelay: "on"
@@ -27,7 +27,7 @@ nginx_http_params:
 
 nginx_sites_available:
  - "blank"
- - "termserver-int"
+ - "default"
 
 #template parameters
 nginx_cors_regex: ".*\\.ihtsdotools.org"
