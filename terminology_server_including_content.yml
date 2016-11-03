@@ -9,5 +9,5 @@
       - IHTSDO.termserver-browser
       - IHTSDO.termserver-dbContent
       - IHTSDO.sca
-      - IHTSDO.authoring-UI
+      - IHTSDO.authoring-ui
       - IHTSDO.nginx-standard

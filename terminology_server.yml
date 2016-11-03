@@ -8,5 +8,5 @@
       - IHTSDO.traceability-service
       - IHTSDO.termserver-browser
       - IHTSDO.sca
-#      - IHTSDO.authoring-UI
+      - IHTSDO.authoring-ui
       - IHTSDO.nginx-standard
