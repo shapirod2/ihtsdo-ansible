@@ -1,64 +1,27 @@
 ---
-
-- name: Update apt cache
-  apt: update_cache=yes cache_valid_time=300
-  sudo: yes
-  
-#- name: Install angular  package
-#  apt: name={{ sca_app_name }} state=latest 
-  
 - name: Install package
-  apt: name={{sca_app_name}} state=installed
+  apt: name={{sca_app_name}} state=installed update_cache=yes cache_valid_time=3600
   when: version_sca == 'installed'
 
 - name: Install latest package
-  apt: name={{sca_app_name}} state=latest
+  apt: name={{sca_app_name}} state=latest update_cache=yes cache_valid_time=3600
   when: version_sca == 'latest'
 
 - name: Install package specific version
-  apt: name={{sca_app_name}}={{ version_sca }} state=installed
+  apt: name={{sca_app_name}}={{ version_sca }} state=installed update_cache=yes cache_valid_time=3600
   when: version_sca != 'installed' and version_sca != 'latest'
- 
-  
+
 - name: Creates conf directory
   file: path={{ conf_dir }} state=directory
-  
+
 - name: Configure endpointConfig.json
   template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
-              owner=root group=root mode=0644   
-  
-- name: Add config location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^error_page 503 @maintenance;" 
-     line="location /config {alias {{ conf_dir }};}"
-     state=present
-     regexp='^location /config'    
-     
-- name: Add sca location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^error_page 503 @maintenance;" 
-     line="location /sca { alias {{ lib_dir }}; if ( -f /opt/maint/maintain.html){ return 503; } }"
-     state=present
-     regexp='^location /sca '
-
-- name: Add sca-mrcm-disabled location to nginx config
-  lineinfile:
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-     insertbefore="^error_page 503 @maintenance;"
-     line="location /sca-mrcm-disabled { alias /opt/sca-no-mrcm/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
-     state=present
-     regexp='^location /sca-mrcm-disabled '
-  when: ansible_hostname == "uat-term"
-
-- name: restart nginx
-  service: name=nginx state=restarted  
+              owner=root group=root mode=0644
 
 - name: Remove UAT ribbon
   file: path=/opt/sca/lib/images/uat_ribbon.png state=absent
-  when:  ansible_hostname == "prod-term"
+  when: ansible_hostname | search("prod") 
 
 - name: Remove Development ribbons
   file: path=/opt/sca/lib/images/development_ribbon.png state=absent
-  when: ansible_hostname == "prod-term"
+  when: ansible_hostname | search("prod")

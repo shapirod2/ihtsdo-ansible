@@ -1,26 +1,11 @@
 ---
-# defaults file for Angular
-
-# Should be the same as the artifactId in the pom
 sca_app_name: sca
 version_sca: "latest"
 install_dir: "/opt/{{ sca_app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 
-#nginx_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.key"
-#nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
-#nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{ sca_app_name }}.crt"
-#nginx_ssl_key_file_dest: "/etc/ssl/private/{{ sca_app_name }}.key"
-nginx_ufw_allow_https: true
-nginx_conf: "termserver"
-nginx_fqdn: "~(?i)angular"
-nginx_default_site: true
-nginx_root: "{{ lib_dir }}"
-#nginx_proxy_url: http://localhost:8080/
-
 #Endpoints:
 authoringEndpoint: "/snowowl/ihtsdo-authoring/"
 snowOwlEndpoint: "/snowowl/snomed-ct/"
 imsEndpoint: "https://dev-ims.ihtsdotools.org/#/"
-
