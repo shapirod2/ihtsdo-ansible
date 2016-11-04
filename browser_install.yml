@@ -1,5 +1,5 @@
 ---
-- hosts: browser-ihtsdo
+- hosts: all
   sudo: true
   roles:
     - IHTSDO.nginx-std
