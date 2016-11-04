@@ -29,6 +29,10 @@
   apt_repository: repo='deb http://nginx.org/packages/mainline/ubuntu/ trusty nginx' state=present 
   when: ansible_os_family == "Debian"
 
+- name: unPin nginx
+  shell: "sudo apt-mark unhold nginx"
+  ignore_errors: yes
+
 - name: Update apt cache
   apt: update_cache="yes"  
   when: ansible_os_family == "Debian"  
@@ -40,9 +44,6 @@
 - name: Install nginx
   apt: name="nginx={{ nginx_version }}" state=present update_cache=yes cache_valid_time=3600
   when: ansible_os_family == "Debian"
-
-- name: Pin nginx at a known version
-  shell: "sudo apt-mark hold nginx"
 
 - name: Create the directories for site specific configurations
   file: path=/etc/nginx/{{ item }} state=directory owner=root group=root mode=0755
