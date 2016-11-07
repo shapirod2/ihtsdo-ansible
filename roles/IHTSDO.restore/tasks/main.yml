@@ -1,0 +1,17 @@
+#- name: Install zip
+#  apt: name=zip state=present update_cache=yes cache_valid_time=300
+
+#- name: Install unzip
+#  apt: name=unzip state=present update_cache=yes cache_valid_time=300
+
+#- name: Install rsync
+#  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
+
+
+- name: include restore yml when app name is defined and not empty
+  include: restore.yml
+  when: not (restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == '')
+
+- debug: msg="Please set a restore_app_name. Exiting now"
+  when: restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == ''
+  

@@ -1,0 +1,309 @@
+#!/bin/bash
+
+cp_cmd="/usr/bin/aws s3 cp "
+
+#dirs to restore :
+dirs_to_restore=({% for restore_dir in restore_dirs_to_copy %}"{{restore_dir}}" {% endfor %})
+#pre back up commands
+precmds=({% for precmd in restore_precmds %}"{{precmd}}" {% endfor %})
+#post back up commands
+postcmds=({% for postcmd in restore_postcmds %}"{{postcmd}}" {% endfor %})
+# db_type acceptable values:
+# pgsql = Postgres
+# mysql = MySql
+# none = no db just files to back up.
+db_type={{restore_db_type}}
+db_host={{restore_db_host}}
+db_port={{restore_db_port}}
+db_include=({% for db in restore_db_names %}"{{db}}" {% endfor %})
+
+# If Postgres and not using default postgres admin user (postgres) 
+# then instead make sure there is a Postgres .pgpass file
+# ( format : localhost:5432:mydbname:postgres:mypass ) make sure chmod 600 
+db_user={{restore_db_user}}
+db_password={{restore_db_password}} 
+
+DAILY="daily"
+
+HOST_NAME="{{restore_hostname}}"
+APP_NAME="{{restore_app_name}}"
+
+# The timestamp suffix for the top-level directory, eg. 20120904_1021
+CURRENT_DATE=`date +%Y%m%d_%H%M`
+# The S3 backup dir
+s3_backup_dir="{{ backup_s3_backup_dir | default('') }}"
+s3_backup_dir_prefix="s3://$s3_backup_dir"
+s3_backup_dir_suffix="$HOST_NAME/$APP_NAME/"
+
+s3_backup_dir_daily="$s3_backup_dir_prefix/$DAILY/$s3_backup_dir_suffix"
+s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
+
+
+s3_restore_dir="{ restore_s3_restore_dir | default('') }"
+s3_restore_region_base="{{ restore_s3_restore_region | default('') }}"
+s3_restore_filename="{{ restore_s3_restore_filename | default('') }}"
+
+if [ "x$s3_restore_dir" != "x" ]; then
+s3_restore_dir = "s3://$s3_restore_dir"
+echo "s3 added and now: "$s3_restore_dir
+else
+## use the daily dir
+      s3_restore_dir="$s3_backup_dir_daily"
+      s3_restore_region_base="$s3_backup_region_base"
+      echo "using daily setting s3_restore_dir to $s3_restore_dir"
+fi
+
+s3_restore_region=""
+if [ "x$s3_restore_region_base" != "x" ]; then
+      s3_restore_region="--region $s3_restore_region_base"
+      echo "setting restore region to $s3_restore_region"
+fi
+
+
+# The starting directory
+restore_dir={{ restore_dir }}
+
+# The dir where zips go
+tmp_restore_dir=$restore_dir/tmp
+
+# Prints a message to stdout with the current date and time.
+echo_date() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@"
+}
+
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	exit 1
+}
+
+# Checks input arguments and test whether the script is ready to be executed.
+check_arguments() {
+	if [ "x$restore_dir" = "x" ]; then
+		error_exit "Please set the variable restore_dir before running this script. Exiting with error."
+	fi
+	
+	if [ "x$s3_restore_dir" = "x" ]; then	
+		if [ "x$s3_backup_dir" = "x" ]; then
+			error_exit "Please set the variable s3_backup_dir before running this script. Exiting with error."
+		fi	
+		if [ "x$HOST_NAME" = "x" ]; then
+			error_exit "Please set the variable HOST_NAME before running this script. Exiting with error."
+		fi	
+		if [ "x$APP_NAME" = "x" ]; then
+			error_exit "Please set the variable APP_NAME before running this script. Exiting with error."
+		fi			
+	fi
+	if [ "x$db_type" = "x" ]; then
+		error_exit "Please set the variable db_type before running this script. Exiting with error."
+	fi
+	if [ "$db_type" != "none" ]; then
+	# If not none check db vars are set
+	if [ "x$db_host" = "x" ]; then
+		error_exit "Please set the variable db_host before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_port" = "x" ]; then
+		error_exit "Please set the variable db_port before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_include" = "x" ]; then
+		error_exit "Please set the variable db_include before running this script. Exiting with error."
+	fi
+
+	if [ "x$db_user" = "x" ]; then
+		error_exit "Please set the variable db_user before running this script. Exiting with error."
+	fi
+	
+	if [ "x$db_password" = "x" ]; then
+		error_exit "Please set the variable db_password before running this script. Exiting with error."
+	fi
+	fi
+}
+
+
+# Main script starts here.
+main() {
+	echo_date "----------------------------"
+	check_arguments
+	pre_cmd
+#	mkbkdir
+#	if [ "$db_type" != "none" ]; then
+#	backup_db
+#	fi
+#	copyfiles
+	#rsyncfiles
+#	compresstozip
+#	movetoaws
+    post_cmd
+	
+}
+
+pre_cmd(){
+if [ "x$precmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${precmds[*]};
+        do
+        echo_date "Pre cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+}
+
+post_cmd(){
+if [ "x$postcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${postcmds[*]};
+        do
+        echo_date "Post cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+
+}
+
+copyfiles(){
+for dir in ${dirs_to_restore[*]};
+        do  
+        echo "Copying dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
+        cp --recursive --parents ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        done 
+	echo_date "Done Copying files."
+}
+
+rsyncfiles(){
+for dir in ${dirs_to_backup[*]};
+        do  
+        echo "rsyncing dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
+        /usr/bin/rsync  -av --delete --no-compress ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        done 
+	echo_date "Done rsync'ing files."
+}
+
+findfiletorestore(){
+
+# get file name and s3 path
+# if set check exists
+
+
+
+#if not get latest from daily
+
+
+
+}
+
+
+mkrestoredir(){
+# first delete if there
+echo "should be deleting and recreating $tmp_restore_dir"
+rm -rf $tmp_restore_dir
+echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
+mkdir -pv "$tmp_restore_dir" || error_exit "Couldn't create directory '$tmp_restore_dir'. Exiting with error.";
+}
+
+compresstozip(){
+	echo_date "ARCHIVE_FILE = $ARCHIVE_FILE"
+	cd "$tmp_restore_dir"
+	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+}
+
+backup_db() {	
+	cd "$tmp_restore_dir"	
+	echo_date "Creating db dump file in dir $ABSOLUTE_ARCHIVE_PREFIX"
+	
+# then for each db in db_include
+        for db in ${db_include[*]};
+        do  
+                echo "db = "${db}
+                DATABASE_DUMP_FILE="${db}.sql"
+if [ "$db_type" = "pgsql" ];
+then
+echo "dbtype = postgres : " $db_type
+                        if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
+                        then
+                          if [ "$db" = "all" ];
+                             then 
+                                su - postgres -c "/usr/bin/pg_dumpall -i -c -o -f '$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE'"
+                             else
+                                su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                             fi   
+                                
+                        else 
+                        if [ "$db" = "all" ];
+                             then
+                                /usr/bin/pg_dumpall -i -U${db_user} -h${db_host} -p${db_port} -c -o -f "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                             else   
+                                /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+                             fi                                  
+                        fi
+ fi      
+ if [ "$db_type" = "mysql" ];
+  then 
+   DB_STR="--databases "$db
+ if [ "$db" = "all" ];
+then 
+  DB_STR="--all-databases"
+ fi
+echo "DB_STR = "$DB_STR;
+echo "dbtype = mysql : " $db_type   
+     /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
+ fi               
+    done 
+	echo_date "Done backing up DB."
+	
+}
+
+movetoaws(){
+echo "s3_backup_dir_prefix = "$s3_backup_dir_prefix;
+echo "s3_backup_dir_daily = "$s3_backup_dir_daily;
+echo "s3_backup_dir_weekly = "$s3_backup_dir_weekly;
+echo "s3_backup_dir_monthly = "$s3_backup_dir_monthly;
+echo "s3_backup_dir_yearly = "$s3_backup_dir_yearly;
+
+LANG=C DOW=$(date +"%A")
+echo "Day of Week ="$DOW
+DOM=$(date +"%d")
+echo "Day of Month ="$DOM
+DOY=$(date +"%j")
+echo "Day of Year ="$DOY
+
+echo "temp dir = $tmp_restore_dir"
+echo "ARCHIVE_FILE = $ARCHIVE_FILE"
+
+#Always copy to daily
+
+# /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
+ 
+$cp_cmd $tmp_restore_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
+
+#Copy from daily to weekly
+if [ "$DOW" = "$DAY_OF_WEEK" ];
+then
+echo "Making a weekly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
+fi
+#Copy from daily to monthly
+if [ "$DOM" = "$DAY_OF_MONTH" ];
+then
+echo "Making a Monthly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
+fi
+#Copy from daily to yearly
+#if 1st of year copy to yearly.
+if [ "$DOY" = "$DAY_OF_YEAR" ];
+then
+echo "Making a yearly back up"
+$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
+fi
+
+}
+
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{ backup_script_dir }}/instance.lock"
+
+(
+        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE
