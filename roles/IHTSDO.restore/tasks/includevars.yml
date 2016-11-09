@@ -1,0 +1,7 @@
+
+- debug: msg="restore_fromhostname = {{restore_fromhostname}}"
+
+- set_fact: 
+   example_var: "{{ hostvars[item]['restore_test'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  

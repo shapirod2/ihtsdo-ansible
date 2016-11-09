@@ -5,10 +5,10 @@ restore_dirs_to_copy: "{{backup_dirs_to_copy}}"
 #Database info  
 #mysql, postgresql or none. Default to mysql on localhost as most are
 #backup_db_type: "none"
-backup_db_type: "{{backup_db_type}}"
+restore_db_type: "{{backup_db_type}}"
 #backup_db_type: "pgsql"
 # names of db'es to back up. if not set will back up all
-backup_db_names: "{{backup_db_names}}"
+restore_db_names: "{{backup_db_names}}"
 
   
 #backup_db_names: 
@@ -25,11 +25,15 @@ backup_level: "t3"
 backup_app_name: "test"
 #backup_app_name: ""
 
+restore_fromhostname: "va-mlds.ihtsdotools.org"
+
+abc: "hostvars[{{restore_fromhostname}}]['restore_test']"
+
 restore_app_name: "{{backup_app_name}}"
 
 restore_dir: "/opt/backup/{{restore_app_name}}"
-restore_s3_restore_dir: ""
-restore_s3_restore_region: ""
+restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
+restore_s3_restore_region: "{{backup_s3_backup_region}}"
 restore_hostname: "{{inventory_hostname}}"
 
 restore_script_dir: "/opt/scripts/{{restore_app_name}}"
@@ -38,4 +42,4 @@ restore_cmd: "{{ restore_script_dir }}/{{ restore_script }}"
 restore_log: "{{ restore_script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 restore_full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
 
-
+example_var: ""

@@ -1,11 +1,11 @@
 - name: make sure script_dir exists
-  file: path={{ backup_script_dir }}  state=directory
+  file: path={{ restore_script_dir }}  state=directory
 
-- name: Configure backup script
-  template: src={{ backup_script }}.j2 dest={{ backup_cmd }}
+- name: Configure restore script
+  template: src={{ restore_script }}.j2 dest={{ restore_cmd }}
             owner=root group=root mode=0740
 
-- debug: msg="full_backup_cmd = {{ backup_full_backup_cmd }}"
+- debug: msg="full_restore_cmd = {{ restore_full_restore_cmd }}"
 
-- name: run backup command
-  shell: "{{ backup_full_backup_cmd }}"
+- name: run restore command
+  shell: "{{ restore_full_restore_cmd }}"
