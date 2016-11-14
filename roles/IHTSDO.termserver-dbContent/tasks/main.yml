@@ -8,6 +8,10 @@
   supervisorctl: name=authoring-traceability-service state=stopped
   ignore_errors: yes
   
+- name: Stop Orchestration service if running
+  supervisorctl: name=orchestration-service state=stopped
+  ignore_errors: yes  
+  
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped 
   ignore_errors: yes 
@@ -28,6 +32,9 @@
 
 - name: Start Traceability service
   supervisorctl: name=authoring-traceability-service state=started
+  
+- name: Start Orchestration service 
+  supervisorctl: name=orchestration-service state=started   
 
 - name: Start TS
   supervisorctl: name=termserver state=started
