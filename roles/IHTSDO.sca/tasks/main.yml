@@ -27,30 +27,30 @@
   template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
               owner=root group=root mode=0644   
   
-- name: Add config location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^error_page 503 @maintenance;" 
-     line="location /config {alias {{ conf_dir }};}"
-     state=present
-     regexp='^location /config'    
+#- name: Add config location to nginx config
+#  lineinfile: 
+#     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+#     insertbefore="^error_page 503 @maintenance;" 
+#     line="location /config {alias {{ conf_dir }};}"
+#     state=present
+#     regexp='^location /config'    
      
-- name: Add sca location to nginx config
-  lineinfile: 
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
-     insertbefore="^error_page 503 @maintenance;" 
-     line="location /sca { alias {{ lib_dir }}; if ( -f /opt/maint/maintain.html){ return 503; } }"
-     state=present
-     regexp='^location /sca '
+#- name: Add sca location to nginx config
+#  lineinfile: 
+#     dest={{nginx_conf_dir}}{{nginx_conf}}.conf 
+#     insertbefore="^error_page 503 @maintenance;" 
+#     line="location /sca { alias {{ lib_dir }}; if ( -f /opt/maint/maintain.html){ return 503; } }"
+#     state=present
+#     regexp='^location /sca '
 
-- name: Add sca-mrcm-disabled location to nginx config
-  lineinfile:
-     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-     insertbefore="^error_page 503 @maintenance;"
-     line="location /sca-mrcm-disabled { alias /opt/sca-no-mrcm/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
-     state=present
-     regexp='^location /sca-mrcm-disabled '
-  when: ansible_hostname == "uat-term"
+#- name: Add sca-mrcm-disabled location to nginx config
+#  lineinfile:
+#     dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+#     insertbefore="^error_page 503 @maintenance;"
+#     line="location /sca-mrcm-disabled { alias /opt/sca-no-mrcm/lib; if ( -f /opt/maint/maintain.html){ return 503; } }"
+#     state=present
+#     regexp='^location /sca-mrcm-disabled '
+#  when: ansible_hostname == "uat-term"
 
 - name: restart nginx
   service: name=nginx state=restarted  
