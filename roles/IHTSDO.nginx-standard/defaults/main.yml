@@ -26,13 +26,11 @@ nginx_http_parameters:
   default_type: "application/octet-stream"
 
 nginx_sites_available:
- - "blank"
- - "default"
-
-#template parameters
-nginx_cors_regex: ".*\\.ihtsdotools.org"
-nginx_proxy_url: "http://localhost:8080"
-nginx_root_files: index index.html test-components.html
-nginx_root: /opt/change_me
-nginx_default_site: true
-nginx_fqdn: _
+ - server:
+    template: "default"
+    root: "/blah/change_me"
+    root_files: "index.htm index.html"
+    proxy_pass: "http://localhost:8080"
+    cors_location: ".*\\.ihtsdotools.org"
+ - server:
+    template: "blank"

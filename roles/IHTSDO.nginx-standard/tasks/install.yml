@@ -23,9 +23,6 @@
   apt: name=nginx={{ nginx_version }} state=installed update_cache=yes cache_valid_time=3600
   when: nginx_version != 'installed' and nginx_version != 'latest'
 
-- name: Pin nginx at a known version
-  shell: "sudo apt-mark hold nginx"
-
 - name: Remove any existing configuration
   file: path=/etc/nginx/conf.d/ state=absent
   notify:
@@ -42,8 +39,9 @@
   command: openssl dhparam -out /etc/nginx/dhparam.pem 2048 creates=/etc/nginx/dhparam.pem
 
 - name: Create the configurations for sites
-  template: src={{ inventory_dir }}/../files/nginx-sites/{{ item }} dest=/etc/nginx/conf.d/{{ item }}.conf
+  template: src={{ inventory_dir }}/../files/nginx-sites/{{ item['server']['template'] }} dest=/etc/nginx/conf.d/{{ item['server']['template'] }}.conf
   with_items: "{{ nginx_sites_available }}"
+  when: nginx_sites_available|lower != 'none'
   notify:
     - reload nginx
 
