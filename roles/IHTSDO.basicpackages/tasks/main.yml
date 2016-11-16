@@ -7,4 +7,7 @@
 
 - name: Install unzip
   apt: name=unzip state=present update_cache=yes cache_valid_time=300
+  
+- name: Install ncdu
+  apt: name=ncdu state=present update_cache=yes cache_valid_time=300  
 
