@@ -1,0 +1,5 @@
+---
+template_name: "snomed-template-service"
+template_port: 8086
+template_version: latest
+template_contextPath: "/template-store"
