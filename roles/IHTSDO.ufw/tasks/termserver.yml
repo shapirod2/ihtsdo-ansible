@@ -1,0 +1,24 @@
+---
+
+- debug: msg="termserver ufw rules"  
+
+# get jenkins ip to allow into orch service
+
+- shell: "getent hosts {{jenkins_hostname}} | awk '{ print $1 }'"
+  register: ip_addr
+  ignore_errors: True
+
+-  debug: msg="ip addr for {{jenkins_hostname}} = {{ip_addr}}"
+
+- debug: msg="ip addr for {{jenkins_hostname}} = {{ip_addr.stdout_lines[0]}}"
+  when: not (ip_addr.stdout_lines[0] is undefined or ip_addr.stdout_lines[0] is none or ip_addr.stdout_lines[0] | trim == '')
+
+- name: Number of lines
+  debug: var=ip_addr.stdout_lines|length
+
+# Allow port 9007 from jenkins_ip
+
+- name: Allow from jenkins   
+  ufw: rule=allow port=9007 proto=any from_ip="{{ip_addr.stdout_lines[0]}}"
+  when: ip_addr.stdout_lines|length > 0
+
