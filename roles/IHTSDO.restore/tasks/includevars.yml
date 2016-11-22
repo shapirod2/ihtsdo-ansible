@@ -2,6 +2,6 @@
 - debug: msg="restore_fromhostname = {{restore_fromhostname}}"
 
 - set_fact: 
-   example_var: "{{ hostvars[item]['restore_test'] }}"
+   example_var: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
   with_items: "{{restore_fromhostname}}" 
   

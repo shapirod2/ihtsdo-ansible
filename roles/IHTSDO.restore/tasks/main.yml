@@ -12,6 +12,8 @@
 #  when: system_type =="prod"  
 
 
+- debug: msg="restore_fromhostname = {{restore_fromhostname}}"
+
 - name: include includevars yml when restore_fromhostname is defined and not empty
   include: includevars.yml
   when: not (restore_fromhostname is undefined or restore_fromhostname is none or restore_fromhostname | trim == '')

@@ -25,9 +25,8 @@ backup_level: "t3"
 backup_app_name: "test"
 #backup_app_name: ""
 
-restore_fromhostname: "va-mlds.ihtsdotools.org"
-
-abc: "hostvars[{{restore_fromhostname}}]['restore_test']"
+# If this is set will get vars from hostname. MUST be in the same inventory.
+#restore_fromhostname: "va-mlds.ihtsdotools.org"
 
 restore_app_name: "{{backup_app_name}}"
 
