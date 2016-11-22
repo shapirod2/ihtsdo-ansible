@@ -1,7 +1,7 @@
 ---
 authoringui_app_name: authoring-ui
 version_authoringui: "latest"
-install_dir: "/opt/{{ sca_app_name }}"
+install_dir: "/opt/{{ authoringui_app_name }}"
 lib_dir: "{{ install_dir }}/lib"
 conf_dir: "{{ install_dir }}/conf"
 
