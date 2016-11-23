@@ -23,6 +23,9 @@
   apt: name=nginx={{ nginx_version }} state=installed update_cache=yes cache_valid_time=3600
   when: nginx_version != 'installed' and nginx_version != 'latest'
 
+- name: Ensure the presence and ownership of cache directory
+  file: dest=/var/cache/nginx state=directory owner={{ nginx_user }} group=root recurse=yes
+
 - name: Remove any existing configuration
   file: path=/etc/nginx/conf.d/ state=absent
   notify:
