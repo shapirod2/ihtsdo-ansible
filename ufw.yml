@@ -1,0 +1,11 @@
+# Basic System hardening and setup check - users, network security
+# included everytime.
+---
+- hosts: all 
+  sudo: true
+  roles:
+    - IHTSDO.ufw
+
+    
+
+    
