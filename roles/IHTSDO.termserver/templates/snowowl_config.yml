@@ -37,8 +37,8 @@ snomed:
     cisUserName : "{{ cis_username }}"
     cisPassword : "{{ cis_password }}"
     cisClientSoftwareKey : "{{ cis_client_name }}"
-    cisNumberOfPollTries : 1
-    cisTimeBetweenPollTries : 1000
+    cisNumberOfPollTries : 20
+    cisTimeBetweenPollTries : 500
     enforceNamespace: INT
   maxReasonerCount: 1
   maxReasonerRuns: 100000
