@@ -1,0 +1,9 @@
+letsencrypt_email: "spam@spam"
+letsencrypt_bin: /usr/local/sbin
+
+letsencrypt:
+    posthook: service nginx reload
+    domains:
+       - { domain: 'prod-sia.ihtsdotools.org' }
+       - { domain: 'www.snomedinaction.org' }
+       - { domain: 'snomedinaction.org' }
