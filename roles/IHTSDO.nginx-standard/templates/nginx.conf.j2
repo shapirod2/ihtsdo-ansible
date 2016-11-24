@@ -1,5 +1,5 @@
 #{{ ansible_managed }}
-user  nginx;
+user  {{ nginx_user }};
 
 worker_processes  {{ ansible_processor_count }};
 pid        /var/run/nginx.pid;
