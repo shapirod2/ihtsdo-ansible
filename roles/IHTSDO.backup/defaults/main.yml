@@ -26,7 +26,7 @@ backup_db_user: "root"
 backup_db_password: "password"
 
 # the owner of the backup dir if not the same as root
-backup_owner: ""
+backup_dir_owner: ""
 
 #the backup level : t1 t2 or t3
 backup_level: "t3"

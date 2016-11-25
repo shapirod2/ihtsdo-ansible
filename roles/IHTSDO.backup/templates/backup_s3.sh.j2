@@ -79,7 +79,7 @@ ABSOLUTE_ARCHIVE_PREFIX="{{backup_archive_dir}}"
 # Archive
 ARCHIVE_FILE="{{backup_archive_file}}"
 
-backup_owner="{{backup_owner}}"
+backup_dir_owner="{{backup_dir_owner}}"
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -234,8 +234,8 @@ echo "should be deleting and recreating $tmp_backup_dir"
 rm -rf $tmp_backup_dir
 echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error.";
-if [ "x$backup_owner" != "x" ]; then
-chown -vR $backup_owner:$backup_owner $tmp_backup_dir
+if [ "x$backup_dir_owner" != "x" ]; then
+chown -vR $backup_dir_owner:$backup_dir_owner $tmp_backup_dir
 fi
 }
 
