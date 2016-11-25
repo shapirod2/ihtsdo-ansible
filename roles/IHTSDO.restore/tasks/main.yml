@@ -11,8 +11,11 @@
 #  include_vars: "{{ system_prod }}"
 #  when: system_type =="prod"  
 
+- include_vars: "{{role_path}}/../IHTSDO.backup/defaults/main.yml"
 
-- debug: msg="restore_fromhostname = {{restore_fromhostname}}"
+#- debug: msg="restore_fromhostname = {{restore_fromhostname}}"
+#- debug: msg="playbook_dir  = {{ playbook_dir }}"
+#- debug: msg="role_path  = {{ role_path }}"
 
 - name: include includevars yml when restore_fromhostname is defined and not empty
   include: includevars.yml
@@ -23,8 +26,16 @@
 #  include: restore.yml
 #  when: not (restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == '')
 
-- debug: msg="example_var = {{example_var}}"
+#- debug: msg="vars = {{hostvars[inventory_hostname]}}"
 
+#- debug: msg="example_var1 = {{example_var1}}"
+#  when: example_var1  is defined
+
+- debug: msg="restore_s3_restore_dir = {{restore_s3_restore_dir}}"
+  when: restore_s3_restore_dir  is defined
+  
+- debug: msg="restore_app_name = {{restore_app_name}}"
+  when: restore_app_name  is defined  
 
 - debug: msg="Please set a restore_app_name. Exiting now"
   when: restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == ''

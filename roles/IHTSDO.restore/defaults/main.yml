@@ -33,6 +33,9 @@ restore_app_name: "{{backup_app_name}}"
 restore_dir: "/opt/backup/{{restore_app_name}}"
 restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
 restore_s3_restore_region: "{{backup_s3_backup_region}}"
+
+
+
 restore_hostname: "{{inventory_hostname}}"
 
 restore_script_dir: "/opt/scripts/{{restore_app_name}}"

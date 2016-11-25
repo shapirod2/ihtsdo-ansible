@@ -1,7 +1,87 @@
 
 - debug: msg="restore_fromhostname = {{restore_fromhostname}}"
 
-- set_fact: 
-   example_var: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
-  with_items: "{{restore_fromhostname}}" 
+#- set_fact: 
+#   example_var: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
+#  with_items: "{{restore_fromhostname}}" 
   
+#- set_fact: 
+#   example_var1: "{{ hostvars[item]['bob'] }}"
+#  with_items: "{{restore_fromhostname}}" 
+#  when: hostvars[item]['bob']  is defined
+
+ 
+- set_fact: 
+   restore_app_name: "{{ hostvars[item]['backup_app_name'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_app_name']  is defined  
+  
+- set_fact: 
+   restore_s3_restore_dir: "{{ hostvars[item]['backup_s3_backup_dir'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_s3_backup_dir']  is defined  
+  
+- set_fact: 
+   restore_s3_restore_region: "{{ hostvars[item]['restore_s3_restore_region'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['restore_s3_restore_region']  is defined  
+  
+- set_fact: 
+   restore_db_host: "{{ hostvars[item]['backup_db_host'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_host']  is defined    
+  
+- set_fact: 
+   restore_db_port: "{{ hostvars[item]['backup_db_host'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_host']  is defined    
+    
+- set_fact: 
+   restore_db_user: "{{ hostvars[item]['backup_db_user'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_user']  is defined      
+
+- set_fact: 
+   restore_db_password: "{{ hostvars[item]['backup_db_password'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_password']  is defined  
+  
+- set_fact: 
+   restore_dir_owner: "{{ hostvars[item]['backup_dir_owner'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_dir_owner']  is defined  
+  
+- set_fact: 
+   restore_dirs_to_copy: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_dirs_to_copy']  is defined      
+
+- set_fact: 
+   restore_db_type: "{{ hostvars[item]['backup_db_type'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_type']  is defined
+  
+- set_fact: 
+   restore_db_names: "{{ hostvars[item]['backup_db_names'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_db_names']  is defined      
+
+#restore_dir: "/opt/backup/{{restore_app_name}}"
+#restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
+#restore_s3_restore_region: "{{backup_s3_backup_region}}"
+#restore_db_host: "{{backup_db_host}}"
+#restore_db_port: "{{backup_db_port}}"
+#restore_db_user: "{{backup_db_user}}"
+#restore_db_password: "{{backup_db_password}}"
+#restore_dir_owner: "{{backup_dir_owner}}"  
+
+#A list of directories to copy:
+#restore_dirs_to_copy: "{{backup_dirs_to_copy}}"
+
+#Database info  
+#mysql, postgresql or none. Default to mysql on localhost as most are
+#backup_db_type: "none"
+#restore_db_type: "{{backup_db_type}}"
+#backup_db_type: "pgsql"
+# names of db'es to back up. if not set will back up all
+#restore_db_names: "{{backup_db_names}}"
