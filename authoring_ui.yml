@@ -1,7 +1,0 @@
----
-  - hosts: termserver
-    sudo: true
-    roles: 
-      - IHTSDO.authoring-ui
-
-
