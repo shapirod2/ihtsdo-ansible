@@ -28,7 +28,7 @@
 - include: getTestRail.yml   
 
 # Include backup scripts etc.
-- include: backup.yml
+#- include: backup.yml
 
 - name: if ssl then set up ssl
   include: ssl.yml

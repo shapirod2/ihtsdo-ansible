@@ -7,6 +7,7 @@ test_var: "TEST_VAR"
 
 term_serv_dir_resources: "/opt/termserver/resources"
 
+restore_fromhostname: "jenkins.ihtsdotools.org"
 
 term_serv_test_res_dir: "{{term_serv_dir_resources}}/test-resources"
 #term_serv_test_res_S3_bucket: "validation-resources.ihtsdo"

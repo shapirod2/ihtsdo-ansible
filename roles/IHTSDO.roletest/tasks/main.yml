@@ -7,9 +7,28 @@
 - debug: msg="Role Test running. "
 
 - debug: msg="test_var  =  {{ test_var }} "
+#- debug: msg="{{ hostvars['jenkins.ihtsdotools.org']['ansible_all_ipv4_addresses'] }}"
 
-- include: addTestResources.yml
-  when: not((term_serv_test_res_S3_bucket is undefined) or (term_serv_test_res_S3_bucket is none) or (term_serv_test_res_S3_bucket|trim == ''))
+#- debug: msg="{{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'] }}"
+
+#- set_fact: 
+#   example_var: "{{ hostvars[item]['ansible_eth0']['ipv4']['address'] }}"
+#  with_items: "jenkins.ihtsdotools.org" 
+#  with_items: "{{restore_fromhostname}}"
+   
+#- debug: msg="example_var  =  {{ example_var }} "  
+
+
+- shell: "getent hosts {{restore_fromhostname}} | awk '{ print $1 }'"
+  register: ip_addr
+  ignore_errors: True
+
+- debug: msg="ip addr for {{restore_fromhostname}} = {{ip_addr.stdout_lines[0]}}"
+
+#- debug: msg="jenkins  = {{ hostvars['jenkins.ihtsdotools.org']['ansible_all_ipv4_addresses']}}"
+
+#- include: addTestResources.yml
+#  when: not((term_serv_test_res_S3_bucket is undefined) or (term_serv_test_res_S3_bucket is none) or (term_serv_test_res_S3_bucket|trim == ''))
  
 #- debug: msg="sys_type  =  {{ sys_type }} "
 #- debug: msg="version_term_serv  =  {{ version_term_serv }} "
