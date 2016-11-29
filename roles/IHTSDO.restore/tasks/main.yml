@@ -7,6 +7,10 @@
 #- name: Install rsync
 #  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+- name: Install wget
+  apt: pkg=wget state=latest update_cache=yes cache_valid_time=3600  
+
+
 #- name: include prod settings
 #  include_vars: "{{ system_prod }}"
 #  when: system_type =="prod"  
@@ -21,21 +25,22 @@
   include: includevars.yml
   when: not (restore_fromhostname is undefined or restore_fromhostname is none or restore_fromhostname | trim == '')
 
+- debug: msg="restore_s3_restore_dir = {{restore_s3_restore_dir}}"
+  when: restore_s3_restore_dir  is defined
+  
+- debug: msg="restore_app_name = {{restore_app_name}}"
+  when: restore_app_name  is defined
 
-#- name: include restore yml when app name is defined and not empty
-#  include: restore.yml
-#  when: not (restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == '')
+- name: include restore yml when app name is defined and not empty
+  include: restore.yml
+  when: not (restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == '')
 
 #- debug: msg="vars = {{hostvars[inventory_hostname]}}"
 
 #- debug: msg="example_var1 = {{example_var1}}"
 #  when: example_var1  is defined
 
-- debug: msg="restore_s3_restore_dir = {{restore_s3_restore_dir}}"
-  when: restore_s3_restore_dir  is defined
   
-- debug: msg="restore_app_name = {{restore_app_name}}"
-  when: restore_app_name  is defined  
 
 - debug: msg="Please set a restore_app_name. Exiting now"
   when: restore_app_name is undefined or restore_app_name is none or restore_app_name | trim == ''

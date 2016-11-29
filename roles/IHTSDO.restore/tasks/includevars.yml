@@ -66,6 +66,14 @@
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_db_names']  is defined      
 
+- set_fact: 
+   restore_hostname: "{{restore_fromhostname}}"
+
+
+
+
+
+
 #restore_dir: "/opt/backup/{{restore_app_name}}"
 #restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
 #restore_s3_restore_region: "{{backup_s3_backup_region}}"

@@ -38,13 +38,16 @@ s3_backup_dir_suffix="$HOST_NAME/$APP_NAME/"
 s3_backup_dir_daily="$s3_backup_dir_prefix/$DAILY/$s3_backup_dir_suffix"
 s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
 
+restore_file="{{restore_file}}"
+restore_base_url="{{restore_base_url}}"
+restore_s3_restore_dir_period="{{restore_s3_restore_dir_period}}"
 
 s3_restore_dir="{ restore_s3_restore_dir | default('') }"
 s3_restore_region_base="{{ restore_s3_restore_region | default('') }}"
 s3_restore_filename="{{ restore_s3_restore_filename | default('') }}"
 
 if [ "x$s3_restore_dir" != "x" ]; then
-s3_restore_dir = "s3://$s3_restore_dir"
+s3_restore_dir="s3://$s3_restore_dir"
 echo "s3 added and now: "$s3_restore_dir
 else
 ## use the daily dir
@@ -127,7 +130,8 @@ main() {
 	echo_date "----------------------------"
 	check_arguments
 	pre_cmd
-#	mkbkdir
+	mkrestoredir
+	getbackupfile
 #	if [ "$db_type" != "none" ]; then
 #	backup_db
 #	fi
@@ -180,19 +184,6 @@ for dir in ${dirs_to_backup[*]};
 	echo_date "Done rsync'ing files."
 }
 
-findfiletorestore(){
-
-# get file name and s3 path
-# if set check exists
-
-
-
-#if not get latest from daily
-
-
-
-}
-
 
 mkrestoredir(){
 # first delete if there
@@ -202,105 +193,73 @@ echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 mkdir -pv "$tmp_restore_dir" || error_exit "Couldn't create directory '$tmp_restore_dir'. Exiting with error.";
 }
 
-compresstozip(){
-	echo_date "ARCHIVE_FILE = $ARCHIVE_FILE"
-	cd "$tmp_restore_dir"
-	zip --recurse-paths --move --test "$ARCHIVE_FILE" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+
+getbackupfile(){
+# if restore_base_url use it:
+ if [ "x$restore_base_url" != "x" ]; 
+    then
+      echo "restore_base_url and set to  "$restore_base_url;
+# first check for s3 and if so get
+     if [[ "$restore_base_url" == s3* ]];
+        then 
+         echo "restore_base_url is s3 ";
+         getbackupawsurl;
+        else
+         echo "not s3 using wget";
+         getbackupurl;
+        fi           
+    else 
+     echo "restore_base_url not set so getting from S3 using restore_s3_restore_dir = "$restore_s3_restore_dir
+     getbackupawsdir;
+    fi
 }
 
-backup_db() {	
-	cd "$tmp_restore_dir"	
-	echo_date "Creating db dump file in dir $ABSOLUTE_ARCHIVE_PREFIX"
-	
-# then for each db in db_include
-        for db in ${db_include[*]};
-        do  
-                echo "db = "${db}
-                DATABASE_DUMP_FILE="${db}.sql"
-if [ "$db_type" = "pgsql" ];
-then
-echo "dbtype = postgres : " $db_type
-                        if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
-                        then
-                          if [ "$db" = "all" ];
-                             then 
-                                su - postgres -c "/usr/bin/pg_dumpall -i -c -o -f '$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE'"
-                             else
-                                su - postgres -c "/usr/bin/pg_dump ${db}"  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                             fi   
-                                
-                        else 
-                        if [ "$db" = "all" ];
-                             then
-                                /usr/bin/pg_dumpall -i -U${db_user} -h${db_host} -p${db_port} -c -o -f "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                             else   
-                                /usr/bin/pg_dump -U${db_user} -h${db_host} -p${db_port} ${db}  > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
-                             fi                                  
-                        fi
- fi      
- if [ "$db_type" = "mysql" ];
-  then 
-   DB_STR="--databases "$db
- if [ "$db" = "all" ];
-then 
-  DB_STR="--all-databases"
- fi
-echo "DB_STR = "$DB_STR;
-echo "dbtype = mysql : " $db_type   
-     /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
- fi               
-    done 
-	echo_date "Done backing up DB."
-	
-}
+getbackupawsurl(){
+echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_backup_region;
 
-movetoaws(){
-echo "s3_backup_dir_prefix = "$s3_backup_dir_prefix;
-echo "s3_backup_dir_daily = "$s3_backup_dir_daily;
-echo "s3_backup_dir_weekly = "$s3_backup_dir_weekly;
-echo "s3_backup_dir_monthly = "$s3_backup_dir_monthly;
-echo "s3_backup_dir_yearly = "$s3_backup_dir_yearly;
-
-LANG=C DOW=$(date +"%A")
-echo "Day of Week ="$DOW
-DOM=$(date +"%d")
-echo "Day of Month ="$DOM
-DOY=$(date +"%j")
-echo "Day of Year ="$DOY
-
-echo "temp dir = $tmp_restore_dir"
-echo "ARCHIVE_FILE = $ARCHIVE_FILE"
-
-#Always copy to daily
-
-# /usr/bin/aws s3 cp $i $s3_backup_dir_full $s3_backup_region;
- 
-$cp_cmd $tmp_restore_dir/$ARCHIVE_FILE $s3_backup_dir_daily $s3_backup_region;
-
-#Copy from daily to weekly
-if [ "$DOW" = "$DAY_OF_WEEK" ];
-then
-echo "Making a weekly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_weekly $s3_backup_region;
-fi
-#Copy from daily to monthly
-if [ "$DOM" = "$DAY_OF_MONTH" ];
-then
-echo "Making a Monthly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_monthly $s3_backup_region;
-fi
-#Copy from daily to yearly
-#if 1st of year copy to yearly.
-if [ "$DOY" = "$DAY_OF_YEAR" ];
-then
-echo "Making a yearly back up"
-$cp_cmd $s3_backup_dir_daily$ARCHIVE_FILE $s3_backup_dir_yearly $s3_backup_region;
-fi
+	if $cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_backup_region; then
+		echo "Downloaded $restore_base_url$restore_file to $tmp_restore_dir";
+	else
+		error_exit
+	fi
 
 }
+
+getbackupawsdir(){
+s3basefolder=$s3_backup_dir_prefix/$restore_s3_restore_dir_period/$s3_backup_dir_suffix
+echo "getbackupawsdir s3basefolder = "$s3basefolder;
+ if [ "x$restore_file" != "x" ]; 
+   then
+     echo "restore_file not empty and = "$restore_file;
+     	if $cp_cmd $s3basefolder$restore_file $tmp_restore_dir/$restore_file $s3_backup_region; then
+		echo "Downloaded $restore_file to $tmp_restore_dir";
+	else
+		error_exit
+	fi
+   else
+     echo "restore_file  finding most recent"
+     LATEST=`aws s3 ls $s3basefolder  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
+	if $cp_cmd $s3basefolder$LATEST $tmp_restore_dir/$LATEST $s3_backup_region; then
+		echo "Downloaded $LATEST to $tmp_restore_dir";
+	else
+		error_exit
+	fi
+   fi   
+}
+
+getbackupurl(){
+echo "getbackupurl cmd = " wget -O $tmp_restore_dir/$restore_file $restore_base_url$restore_file
+	if wget -O $tmp_restore_dir/$restore_file $restore_base_url$restore_file; then
+		echo "Downloaded $restore_base_url$restore_file to $tmp_restore_dir";
+	else
+		error_exit
+	fi
+}
+
+
 
 # Ensures that only a single instance is running at any time
-LOCKFILE="{{ backup_script_dir }}/instance.lock"
+LOCKFILE="{{ restore_script_dir }}/instance.lock"
 
 (
         flock -n 200 || error_exit "Another backup script is already running. Exiting with error."

@@ -33,6 +33,14 @@ restore_app_name: "{{backup_app_name}}"
 restore_dir: "/opt/backup/{{restore_app_name}}"
 restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
 restore_s3_restore_region: "{{backup_s3_backup_region}}"
+# default to daily but can be set to monthly etc.
+restore_s3_restore_dir_period: "daily"
+
+restore_file: "dev-testrail.ihtsdotools.org_2016-11-29T032904Z.zip"
+#restore_file: ""
+#restore_base_url: "s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
+restore_base_url: "https://s3.amazonaws.com/backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
+#s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/
 
 
 
@@ -44,4 +52,20 @@ restore_cmd: "{{ restore_script_dir }}/{{ restore_script }}"
 restore_log: "{{ restore_script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 restore_full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
 
-example_var: ""
+#example_var: ""
+
+restore_precmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+restore_dbcmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+restore_precopycmds: ""
+#   - "/bin/echo \"precopycmd1!\""
+#   - "/bin/echo \"precopycmd2!\""
+
+restore_postcmds: ""
+#  - "/bin/echo \"postcmd1!\""
+#  - "/bin/echo \"postcmd2!\""
