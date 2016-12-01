@@ -30,5 +30,8 @@
   lineinfile: dest="{{php_ini}}" line="{{ioncube_line}}" state="present"  
   
 - name: add line to php_cli.ini  php_cli_ini
-  lineinfile: dest="{{php_cli_ini}}" line="{{ioncube_line}}" state="present"   
+  lineinfile: dest="{{php_cli_ini}}" line="{{ioncube_line}}" state="present" 
+  
+ 
+
     

@@ -1,0 +1,21 @@
+---
+
+- name: Ensure testrail auth dir exists
+  file: path={{ testrail_html_auth_dir }} state=directory
+        owner={{ testrail_dir_owner }}  group={{ testrail_dir_owner }}  mode=0755 
+        recurse=yes 
+
+
+
+- name: copy auth.php
+  template: src=auth.php.j2 dest={{ testrail_html_auth_dir }}/auth.php
+            owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }} mode=0644
+      
+      
+- name: copy Crowd.php
+  template: src=Crowd.php.j2 dest={{ testrail_html_auth_dir }}/Crowd.php
+            owner={{ testrail_dir_owner }} group={{ testrail_dir_owner }} mode=0644     
+      
+            
+
+    

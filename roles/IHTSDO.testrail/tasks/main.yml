@@ -32,6 +32,11 @@
 
 - name: if ssl then set up ssl
   include: ssl.yml
+  
+- name: if crowd pw is not empty then set up crowd authentication
+  include: crowdauth.yml  
+  when: not (testrail_crowd_pw is undefined or testrail_crowd_pw is none or testrail_crowd_pw | trim == '')  
+    
 
 - name: restart apache2
   service: name=apache2 state=restarted

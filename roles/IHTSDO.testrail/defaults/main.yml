@@ -1,4 +1,10 @@
+
 ---
+
+testrail_crowd_pw: ""
+testrail_crowd_url: "https://{{crowd.instance}}/crowd/"
+testrail_crowd_app_name: "testrail"
+
 testrail_user: testrail
 testrail_pw: testrail
 mysql_root_pass: r00ty2ty
@@ -28,6 +34,9 @@ testrail_dir:  "testrail"
 #testrail_git_dir: "/opt/{{ testrail_dir }}"
 html_dir: "/var/www/html"
 testrail_html_dir: "{{ html_dir }}/{{ testrail_dir }}"
+testrail_html_testrail_dir: "{{ html_dir }}/{{ testrail_dir }}/{{ testrail_dir }}"
+
+testrail_html_auth_dir: "{{testrail_html_testrail_dir}}/custom/auth"
 
 testrail_data_dir: "/opt/testrail"
 testrail_attach_dir: "{{testrail_data_dir}}/attachments"
