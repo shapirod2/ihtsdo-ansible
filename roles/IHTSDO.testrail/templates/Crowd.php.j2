@@ -47,11 +47,11 @@ class Crowd {
     function authenticateApplication() {
         $param = array('in0' => array('credential' => array('credential' => $this->crowd_config['app_credential']),
                                       'name'       => $this->crowd_config['app_name']));
-        try {
+        //try {
             $resp = $this->crowd_client->authenticateApplication($param);
-        } catch (SoapFault $fault) {
+       // } catch (SoapFault $fault) {
            //echo "SOAP Fault: faultcode: {$fault->faultcode}, faultstring: {$fault->faultstring}"; 
-        }
+       // }
 
         $this->crowd_app_token = $resp->out->token;
 
