@@ -1,0 +1,11 @@
+---
+  - hosts: local
+    sudo: true
+    vars:
+     rf2json_s3_bucket_name: s3://daily-build-rf2-json-drugs.ihtsdo
+     dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/se/products/snomed_ct_se_daily_build/builds/
+     unpacked_release_file_name: SnomedCT_DrugsProductHierarchyModelingTechPreview_INT_20170131
+     release_file_name: SnomedCT_DrugsProductHierarchyModelingTechPreview_INT_20170131.zip
+     config_xml: enConfig-drugs.xml.j2
+    roles:
+      - IHTSDO.daily-build-browser-json-conversion
