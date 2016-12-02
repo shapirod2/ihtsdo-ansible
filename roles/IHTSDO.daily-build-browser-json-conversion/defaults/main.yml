@@ -22,7 +22,7 @@ rf2_diff_json_file_name: diffReports.tgz
 rf2_diff_json_report_folder: "{{ daily_build_dir }}/diff_reports"
 rf2_diff_root_dir: /opt/rf2-diff-generator
 # One date after the previous release
-rf2_diff_start_date: 20170801
+rf2_diff_start_date: 20170201
 rf2_diff_json_s3_upload_script: uploadRf2DiffJsonToS3.sh
 rf2_diff_report_s3_upload_cmd:  "{{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}"
 config_xml: "enConfig.xml.j2"
