@@ -214,6 +214,12 @@ getbackupfile(){
     fi
 }
 
+decompress(){
+#for each zip...
+
+unzip $backup_dir/$LATEST
+}
+
 getbackupawsurl(){
 echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_backup_region;
 
