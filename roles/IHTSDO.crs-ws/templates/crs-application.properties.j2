@@ -35,6 +35,12 @@ jira.ticket.customField.semanticTag.id={{crs_jira_ticket_customField_semanticTag
 jira.ticket.customField.crs_id.id={{crs_jira_ticket_customField_crs_id_id}}
 jira.ticket.customField.topic.id={{crs_jira_ticket_customField_topic_id}}
 
+#New properties:
+jira.ticket.customField.contentTrackerId.id={{ crs_jira_ticket_customField_contentTrackerId_id }}
+jira.ticket.customField.contentTrackerUrl.id={{ crs_jira_ticket_customField_contentTrackerUrl_id }}
+jira.ticket.customField.impactedNewConcept.id={{ crs_jira_ticket_customField_impactedNewConcept_id }}
+jira.ticket.customField.newFsn.id={{ crs_jira_ticket_customField_newFsn_id }}
+
 #Status mapping between CRS and JIRA
 jira.ticket.statusMapping.new=New
 jira.ticket.statusMapping.accepted=Accepted
@@ -45,13 +51,13 @@ jira.ticket.statusMapping.approved=
 jira.ticket.statusMapping.rejected=Rejected
 jira.ticket.statusMapping.withdrawn=Withdrawn
 jira.ticket.statusMapping.appeal=In Appeal
-jira.ticket.statusMapping.appealRejected=Rejected
+jira.ticket.statusMapping.appealRejected=Appeal Rejected
 jira.ticket.statusMapping.released=Completed
 jira.ticket.statusMapping.forwarded=Forwarded
 jira.ticket.statusMapping.deleted=Deleted
 jira.ticket.statusMapping.inInceptionElaboration=In Inception/Elaboration
 jira.ticket.statusMapping.readyforRelease=Ready For Release
-
+jira.ticket.statusMapping.inAppealClarification=In Appeal Clarification
 
 #Keys for JIRA SSO
 jira.credential.consumerKey={{crs_jira_consumerKey}}
@@ -60,7 +66,6 @@ jira.credential.systemUsername={{crs_jira_systemUsername}}
 
 #Label to be added to authoring tasks
 jira.authoringTask.label.crs=CRS
-
 
 #SNOMEDCT Configurations
 snomect.host={{crs_snomect_host}}
@@ -86,3 +91,6 @@ mail.smtp.userName={{crs_mail_smtp_userName}}
 
 crs.bulk.maxSize=50
 
+#CIS Configuration
+cis.url="{{ crs_cis_url }}"
+cis.sctidValidation.enable=true
