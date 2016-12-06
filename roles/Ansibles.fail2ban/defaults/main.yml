@@ -33,12 +33,12 @@ fail2ban_services:
     filter: "sshd"
     logpath: "/var/log/auth.log"
     maxretry: 6
-  - name: "http(s)"
+  - name: "http-s"
     enabled: "true"
     port: "http,https"
     filter: "http-get-dos"
     logpath: "/var/log/nginx/access.log"
-    action: "iptables[name=HTTP, port=http, protocol=tcp]"
+    action: "iptables[name=HTTP-S, port=http, protocol=tcp]"
     maxretry: 300
     findtime: 300
     bantime: 300
