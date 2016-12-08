@@ -9,7 +9,10 @@
 # You should set up in the jail.conf file, the maxretry and findtime carefully in order to avoid false positives.
 
 #failregex = ^ -.*GET
-failregex = ^<HOST> -.*GET.*/
+#failregex = ^<HOST> -.*GET.*/
+#failregex = ^<HOST> -.*"(GET|POST|OPTIONS|PUT).*
+
+failregex = ^<HOST>
 
 
 # Option: ignoreregex
