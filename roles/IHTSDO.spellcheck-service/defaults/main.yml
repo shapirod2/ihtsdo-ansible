@@ -3,3 +3,29 @@ spellcheck_name: "spellcheck-service"
 spellcheck_port: 8087
 spellcheck_version: latest
 spellcheck_contextPath: "/spellcheck-service"
+#prod uat or dev
+spellcheck_install: "prod"
+
+spellcheck_install_dir: "/opt/{{spellcheck_name}}"
+
+
+spellcheck_dir: "dictionaries"
+spellcheck_filename: "lexicon_20121001.txt"
+spellcheck_source_filename: "spelling-dictionary.txt"
+spellcheck_dict_dir: "{{spellcheck_install_dir}}/{{spellcheck_dir}}"
+spellcheck_dict_path: "{{spellcheck_dict_dir}}/{{spellcheck_filename}}"
+
+spellcheck_s3_dict_bucket: "validation-resources.ihtsdo"
+spellcheck_s3_dict_region: "us-east-1"
+spellcheck_s3_dir: "{{spellcheck_s3_dict_bucket}}/{{spellcheck_install}}/international/"
+
+spellcheck_s3_full: "{{spellcheck_s3_dir}}{{spellcheck_source_filename}}"
+
+#validation-resources.ihtsdo/dev/international/spelling-dictionary.txt
+#validation-resources.ihtsdo/uat/international/spelling-dictionary.txt
+#validation-resources.ihtsdo/prod/international/spelling-dictionary.txt
+
+#/opt/spellcheck-service/dictionaries/lexicon_20121001.txt
+
+
+s3_copy_cmd: "/usr/bin/aws s3 cp s3://{{spellcheck_s3_full}} {{spellcheck_dict_path}} --region {{spellcheck_s3_dict_region}}"

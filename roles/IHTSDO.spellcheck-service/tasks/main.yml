@@ -20,10 +20,16 @@
   when: spellcheck_version != 'installed' and spellcheck_version != 'latest' and spellcheck_version != 'absent'
 
 - name: Copy application.properties
-  spellcheck: src=application.properties.j2 dest=/opt/{{ spellcheck_name }}/application.properties owner={{ spellcheck_name }} group=root mode=0644
+  template: src=application.properties.j2 dest={{spellcheck_install_dir}}/application.properties owner={{ spellcheck_name }} group=root mode=0644
 
 - name: Ensure the spellcheck_store exists
-  file: path="/opt/{{ spellcheck_name }}/spellcheck-store" state=directory owner={{ spellcheck_name }}
+  file: path="{{spellcheck_dict_dir}}" state=directory owner={{ spellcheck_name }}
+
+#- debug: msg="{{s3_copy_cmd}}"
+
+- name: Copy dict file from S3
+  shell: "{{s3_copy_cmd}}"
+
 
 - name: (re)start spellcheck-service
   supervisorctl: name={{ spellcheck_name }}  state=restarted
