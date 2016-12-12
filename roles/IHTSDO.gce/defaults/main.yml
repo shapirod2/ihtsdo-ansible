@@ -1,0 +1,14 @@
+gce_ubuntu_release: "trusty"
+gce_repository_key_url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+gce_repository: "deb https://packages.cloud.google.com/apt cloud-sdk-{{gce_ubuntu_release}} main"
+
+gce_exe: "/usr/bin/gcloud"
+
+gce_json: "readonly.json"
+gce_email_user: "read-only-user@ihtsdo-automation-tooling.iam.gserviceaccount.com"
+gce_project: "ihtsdo-automation-tooling"
+
+#export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)"
+#echo "deb https://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+#deb https://packages.cloud.google.com/apt cloud-sdk-trusty main
+#curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -  
