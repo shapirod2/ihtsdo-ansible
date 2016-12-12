@@ -1,0 +1,5 @@
+---
+spellcheck_name: "spellcheck-service"
+spellcheck_port: 8087
+spellcheck_version: latest
+spellcheck_contextPath: "/spellcheck-service"
