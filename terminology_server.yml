@@ -7,6 +7,7 @@
       - IHTSDO.termserver
       - IHTSDO.traceability-service
       - IHTSDO.template-service
+      - IHTSDO.spellcheck-service
       - IHTSDO.termserver-browser
       - IHTSDO.sca
       - IHTSDO.authoring-ui
