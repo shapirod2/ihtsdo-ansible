@@ -3,6 +3,8 @@ moodle_user: moodle
 moodle_pw: moodle
 moodle_mysql_root_pass: r00ty2ty
 mysql_service: mysql
+# Disables sending of mail. used for test instance which may have real data Values: True or False
+moodle_nomail: False
 
 moodle_db_name: moodle
 moodle_rebuild_db: False
@@ -18,7 +20,6 @@ moodle_git_repo: "git://git.moodle.org/moodle.git"
 moodle_git_version: "MOODLE_28_STABLE"
 
 moodle_URL: "https://{{ inventory_hostname }}"
-
 moodle_port: 80
 
 # Dir to put scripts into
