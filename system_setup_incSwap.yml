@@ -1,0 +1,28 @@
+# Added the install java and super visor roles as it is common and means it does not have to be 
+# included everytime.
+---
+- hosts: all
+#- hosts: www
+  sudo: true
+#  remote_user: ubuntu
+  #remote_user: root
+  vars:
+    user_accounts_skip_sshd: true
+  vars_files:
+     - "{{ inventory_dir }}/../files/users/users.yml"
+  roles:
+    - IHTSDO.basicpackages  
+    - IHTSDO.user-accounts
+# Commented out as AWS does not let you reset the host name    
+#    - laggyluke.hostname
+    - IHTSDO.apt-upgrade
+    - knopki.timezone
+    - IHTSDO.harden
+    - IHTSDO.ufw
+    - Ansibles.fail2ban
+    - IHTSDO.supervisor
+    - IHTSDO.oraclejava
+    - IHTSDO.javacheck
+    - IHTSDO.unattended-updates
+    - ansible-swapfile-master
+

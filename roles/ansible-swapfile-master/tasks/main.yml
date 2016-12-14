@@ -5,6 +5,8 @@
 # rm -rf /swapfile 
 # if swapfile exists or if looking to change.
 
+- debug: msg="swapfile_size = {{ swapfile_size }}"
+
 - name: Write swapfile
   command: |
     {% if swapfile_use_dd %}
