@@ -25,8 +25,8 @@ CURRENT_DATE=`date +%Y%m%d_%H%M`
 
 indexes=indexes
 ts_indexes_dir={{ts_dir}}
-
 ts_resources_dir={{ts_res_dir}}
+ts_template_store={{ts_template_store}}
 
 
 # The starting directory
@@ -165,6 +165,9 @@ rsyncindexes(){
 mkdir -pv {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress $ts_indexes_dir {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress --no-links $ts_template_store {{ rsync_dir }}
+ 
+ 
 }
 
 copyfromrsyncdir(){

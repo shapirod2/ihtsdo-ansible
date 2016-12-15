@@ -12,7 +12,8 @@
 - debug: msg="import_term_serv_indexes = {{import_term_serv_indexes}}"
 - debug: msg="import_term_serv_resources = {{import_term_serv_resources}}"
 - debug: msg="target_term_serv_indexes = {{target_term_serv_indexes}}"
- 
+- debug: msg="target_term_serv_templates = {{target_term_serv_templates}}"
+
 - name: Remove {{term_serv_dir_resources}} 
   file: path={{term_serv_dir_resources}} state=absent
   when: sqlimportfile.stat.exists == True  
@@ -41,6 +42,18 @@
   when: import_term_serv_indexes_dir.stat.exists == false
   
 - debug: msg="term_serv_dir_resources_indexes_dir = {{term_serv_dir_resources_indexes_dir}}"  
+
+- name: Remove {{target_term_serv_templates}} 
+  file: path={{target_term_serv_templates}} state=absent
+  when: sqlimportfile.stat.exists == True 
+  
+- name: make sure {{target_term_serv_templates}}  exists
+  file: path={{target_term_serv_templates}} state=directory     
+
+- name: Copy the {{import_term_serv_templates}}  dir to {{target_term_serv_templates}}
+  command: cp -r {{import_term_serv_templates}} {{target_term_serv_templates}}
+  when: sqlimportfile.stat.exists == True
+
    
 #- debug: "move the existing term_serv resources indexes dir {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}"
 #  when: sqlimportfile.stat.exists == True and term_serv_dir_resources_indexes_dir.stat.exists == True  

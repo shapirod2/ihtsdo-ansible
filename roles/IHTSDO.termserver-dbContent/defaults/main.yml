@@ -14,6 +14,8 @@ term_serv_indexes_dir: "indexes"
 term_serv_resources_dir: "resources"
 # Dir name where resources go
 term_serv_index_dir: "termserver_indexes"
+# Dir name where templates go
+term_serv_template_dir: "template-store"
 #Term Serv Resources dir
 term_serv_dir_resources: "{{term_serv_dir}}/{{ term_serv_resources_dir }}"
 #Term Serv Indexes dir
@@ -52,9 +54,14 @@ import_term_serv_sql: "{{import_term_serv_dataset}}/{{ import_term_serv_sql_name
 import_term_serv_indexes: "{{import_term_serv_dataset}}/{{ term_serv_index_dir }}"
 # The path to the import resources folder
 import_term_serv_resources: "{{import_term_serv_dataset}}/{{ term_serv_resources_dir }}"
+# The path to the import templates folder
+import_term_serv_templates: "{{import_term_serv_dataset}}/{{ term_serv_template_dir }}"
+
 
 #target dir for term_serv_indexes
 target_term_serv_indexes: "/opt/{{ term_serv_index_dir }}"
+#target dir for term_serv_templates
+target_term_serv_templates: "/opt/snomed-template-service/"
 
 traceability_database: traceability
 
