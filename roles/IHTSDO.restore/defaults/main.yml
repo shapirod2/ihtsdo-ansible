@@ -35,11 +35,14 @@ restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
 restore_s3_restore_region: "{{backup_s3_backup_region}}"
 # default to daily but can be set to monthly etc.
 restore_s3_restore_dir_period: "daily"
+#restore_s3_restore_dir_period: "weekly"
 
-restore_file: "dev-testrail.ihtsdotools.org_2016-11-29T032904Z.zip"
-#restore_file: ""
+restore_file: ""
+#restore_file: "dev-testrail.ihtsdotools.org_2016-11-29T032904Z.zip"
+
+restore_base_url: ""
 #restore_base_url: "s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
-restore_base_url: "https://s3.amazonaws.com/backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
+#restore_base_url: "https://s3.amazonaws.com/backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
 #s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/
 
 

@@ -132,13 +132,13 @@ main() {
 	pre_cmd
 	mkrestoredir
 	getbackupfile
-#	if [ "$db_type" != "none" ]; then
-#	backup_db
-#	fi
-#	copyfiles
+	decompress
+	copyfiles
+	#if [ "$db_type" != "none" ]; then
+	#restore_db
+	#fi
+	
 	#rsyncfiles
-#	compresstozip
-#	movetoaws
     post_cmd
 	
 }
@@ -166,11 +166,32 @@ fi
 
 }
 
+restore_db(){
+
+#echo "Restoring postgres database"
+#su - {{ postgres_user }} -c "/usr/bin/psql -d mlds -f $backup_dir/database.sql"
+#psql -U <username> -d <dbname> -1 -f <filename>.sql
+
+
+#echo "Restoring mysql database"
+#	/usr/bin/mysql -u {{ crs_user }} -p{{ crs_pw }} crs < ./crs.sql
+#	echo "Restarting mysql to flush stale permissions"
+#	service mysql restart
+
+}
+
+
+
 copyfiles(){
+echo "copyfiles restore_file = $restore_file"
+cd $tmp_restore_dir
+cd $(ls -d */|head -n 1)
+echo "currently in " $PWD
 for dir in ${dirs_to_restore[*]};
         do  
-        echo "Copying dir = "${dir} " to " $ABSOLUTE_ARCHIVE_PREFIX
-        cp --recursive --parents ${dir} $ABSOLUTE_ARCHIVE_PREFIX
+        echo "Copying dir = .${dir} to ${dir}"
+        rm -rf ${dir}
+        cp --recursive .${dir} ${dir} 
         done 
 	echo_date "Done Copying files."
 }
@@ -215,9 +236,9 @@ getbackupfile(){
 }
 
 decompress(){
-#for each zip...
-
-unzip $backup_dir/$LATEST
+cd $tmp_restore_dir
+echo "decompressing"
+unzip *.zip
 }
 
 getbackupawsurl(){
@@ -245,6 +266,8 @@ echo "getbackupawsdir s3basefolder = "$s3basefolder;
    else
      echo "restore_file  finding most recent"
      LATEST=`aws s3 ls $s3basefolder  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
+     restore_file=$LATEST
+     echo "getbackupawsdir restore_file = $restore_file"
 	if $cp_cmd $s3basefolder$LATEST $tmp_restore_dir/$LATEST $s3_backup_region; then
 		echo "Downloaded $LATEST to $tmp_restore_dir";
 	else
