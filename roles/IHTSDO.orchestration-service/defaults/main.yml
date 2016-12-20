@@ -2,6 +2,7 @@
 orch_app_name: "orchestration-service"
 orchestration_server_port: 9007
 orchestration_name: "change_me"
+orchestration_platform: "change-me-platform"
 orchestration_ihtsdo_log_level: info
 
 # Snow Owl Server
@@ -29,8 +30,13 @@ orchestration_srs_password:
 orchestration_rvf_pollPeriod: 60
 orchestration_rvf_timeout: 120
 
-#Following parameters are no longer in use from 1.32 onwards so please remove them
+orchestration_jms_url: failover:tcp://localhost:61616
+orchestration_jms_username: "change-jms-username"
+orchestration_jms_password: "change-jms-password"
+#10min time out on messages published to topics 
+orchestration_jms_timeToLive: 600
 
+#Following parameters are no longer in use from 1.32 onwards so please remove them
 orchestration_snowowl_projectBranch:
 orchestration_snowowl_export_from_date:
 orchestration_srs_product:

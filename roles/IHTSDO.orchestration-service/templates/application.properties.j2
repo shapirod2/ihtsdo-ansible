@@ -31,7 +31,10 @@ rvf.root.url = {{ orchestration_rvf_root_url }}
 orchestration.jms.url = {{ orchestration_jms_url }}
 orchestration.jms.username = {{ orchestration_jms_username }}
 orchestration.jms.password = {{ orchestration_jms_password }}
+#Time out on messages published to topics in seconds
+orchestration.jms.timeToLive = {{ orchestration_jms_timeToLive }}
 orchestration.name = {{ orchestration_name }}
+orchestration.platform = {{ orchestration_platform }}
 
 #Following parameters are no longer in use from 1.32 onwards so please remove these and the default values
 snowowl.projectBranch = {{ orchestration_snowowl_projectBranch }}
