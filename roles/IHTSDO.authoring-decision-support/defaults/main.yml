@@ -7,3 +7,5 @@ spring_activemq_user: "change-activemq-user"
 spring_activemq_password: "change-activemq-user"
 
 orchestration_platform: "change-ads-orchestration-platform"
+
+authoring_decision_support_version: "latest"
