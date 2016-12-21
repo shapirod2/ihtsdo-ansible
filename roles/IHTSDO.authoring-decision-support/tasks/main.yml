@@ -7,7 +7,7 @@
 - include: mongodb.yml
 
 - name: Create Folder
-  file: path=/opt/authoring-decision-support owner=authoring-decision-support group=authoring-decision-support mode=0755 state=directory
+  file: path=/etc/opt/authoring-decision-support owner=authoring-decision-support group=authoring-decision-support mode=0755 state=directory
     
 - name: Install package
   apt: name=authoring-decision-support state=installed
