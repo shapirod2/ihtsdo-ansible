@@ -7,7 +7,7 @@
 - include: mongodb.yml
     
 - name: Install package
-  apt: name={{orch_app_name}} state=installed
+  apt: name=authoring-decision-support state=installed
   notify:
     - restart authoring-decision-support
   when: authoring_decision_support_version == 'installed'
@@ -23,7 +23,7 @@
     - ihtsdo-asset
 
 - name: Install package specific version
-  apt: name={{orch_app_name}}={{ authoring_decision_support_version }} state=installed
+  apt: name=authoring-decision-support={{ authoring_decision_support_version }} state=installed
   notify:
     - restart authoring-decision-support
   when: authoring_decision_support_version != 'installed' and authoring_decision_support_version != 'latest'
@@ -45,7 +45,7 @@
   replace:
       dest=/etc/supervisor/conf.d/authoring-decision-support.conf
       regexp='LOG_LEVEL=debug'
-      replace='LOG_LEVEL={{ orchestration_ihtsdo_log_level }}'
+      replace='LOG_LEVEL={{ ads_log_level }}'
   notify:
     - restart authoring-decision-support
   tags:
