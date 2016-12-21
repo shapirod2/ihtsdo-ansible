@@ -1,0 +1,52 @@
+---
+- name: Apt cache update
+  apt: update_cache=yes cache_valid_time=300
+  tags:
+    - ihtsdo-asset
+    
+- include: mongodb.yml
+    
+- name: Install package
+  apt: name={{orch_app_name}} state=installed
+  notify:
+    - restart authoring-decision-support
+  when: authoring_decision_support_version == 'installed'
+  tags:
+    - ihtsdo-asset
+    
+- name: Install latest package
+  apt: name=authoring-decision-support state=latest
+  notify:
+    - restart authoring-decision-support
+  when: authoring_decision_support_version == 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Install package specific version
+  apt: name={{orch_app_name}}={{ authoring_decision_support_version }} state=installed
+  notify:
+    - restart authoring-decision-support
+  when: authoring_decision_support_version != 'installed' and authoring_decision_support_version != 'latest'
+  tags:
+    - ihtsdo-asset
+
+- name: Configure
+  template: src=application.properties.j2 dest=/etc/opt/authoring-decision-support/application.properties
+            owner=root group=authoring-decision-support mode=0640
+  notify:
+    - restart authoring-decision-support
+  tags:
+    - ihtsdo-asset
+    
+- name: Symlink configuration file
+  file: src=/etc/opt/authoring-decision-support/application.properties dest=/var/opt/authoring-decision-support/run/application.properties owner=authoring-decision-support group=authoring-decision-support state=link
+    
+- name: Configure Logging in Supervisor Startup
+  replace:
+      dest=/etc/supervisor/conf.d/authoring-decision-support.conf
+      regexp='LOG_LEVEL=debug'
+      replace='LOG_LEVEL={{ orchestration_ihtsdo_log_level }}'
+  notify:
+    - restart authoring-decision-support
+  tags:
+    - ihtsdo-asset

@@ -1,0 +1,4 @@
+---
+- name: restart authoring-decision-support
+  supervisorctl: name=authoring-decision-support state=restarted
+

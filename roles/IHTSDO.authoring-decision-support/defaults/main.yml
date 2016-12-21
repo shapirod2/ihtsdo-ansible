@@ -1,0 +1,8 @@
+---
+ads_currentRelease: "change-current-release"
+
+spring_activemq_broker-url: failover:tcp://localhost:61616
+spring_activemq_user: "change-activemq-user"
+spring_activemq_password: "change-activemq-user"
+
+orchestration_platform: "change-ads-orchestration-platform"

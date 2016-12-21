@@ -1,0 +1,19 @@
+# {{ ansible_managed }}
+# See http://docs.spring.io/spring-boot/docs/current/reference/html/common-application-properties.html
+spring.thymeleaf.cache=false
+spring.main.banner-mode=off
+
+server.contextPath=/ads_api
+multipart.maxFileSize: 1024mb
+multipart.maxRequestSize: 1024mb
+
+spring.jms.pub-sub-domain=true
+spring.data.mongodb.uri=mongodb://localhost/ads
+
+ads.currentRelease = {{ ads_currentRelease }}
+
+spring.activemq.broker-url= {{ spring_activemq_broker-url }}
+spring.activemq.user= {{ spring_activemq_user }}
+spring.activemq.password= {{ spring_activemq_password }}
+
+orchestration.platform = {{ orchestration_platform }}
