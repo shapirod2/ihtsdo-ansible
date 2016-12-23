@@ -1,0 +1,60 @@
+---
+- name: install base packages
+  apt:
+    pkg:{{item}}
+    state:present
+    update_cache:yes
+    cache_valid_time:604800
+    with_items:
+      - iptables
+      - ipset
+      - curl
+
+- name: Ensure {{ blacklist_base_dir }} exists with correct structure
+    file:
+      path: {{ blacklist_base_dir }}/{{ item }}
+      state: directory
+      with_items:
+        - bin
+        - lists
+        - resources
+
+- name: provision script
+    template:
+      src: ipblacklist.sh.j2
+      dest: {{ blacklist_base_dir }}/bin/ipblacklist.sh
+      mode: 0755
+
+- name: Create ihtsdo specific lists
+     file:
+       path: {{ blacklist_base_dir }}/{{ lists }}/{{ item }}
+       state: touch
+       with_items:
+         - ihtsdo-local.blacklist
+         - ihtsdo-local.whitelist
+         - ihtsdo-global.blacklist
+         - ihtsdo-global.whitelist
+
+- name: Copy entries to ihtsdo-global lists
+    template:
+      src: "{{ item }}"
+      dest: {{ blacklist_base_dir }}/lists/{{ item }}
+      with_items:
+         - ihtsdo-global.blacklist
+         - ihtsdo-global.whitelist
+
+- name: Provision sample web resources
+    copy:
+      src: {{ role_path }}/files/{{ item }}
+      dest: {{ blacklist_base_dir }}/resources/{{ item }}
+      with_items:
+          - ban_nginx_sample.conf
+          - ban.html
+
+- name: Create cron job to update from external blacklist providers
+    minute: "0"
+    hour: "3"
+    job: "sleep $(expr $RANDOM \% 1200); {{ blacklist_base_dir }}/bin/ipblacklist.sh reload"
+
+- name: Apply the blacklist
+    command: "{{ blacklist_base_dir }}/bin/ipblacklist.sh"
