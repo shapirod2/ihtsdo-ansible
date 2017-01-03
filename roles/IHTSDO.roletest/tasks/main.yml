@@ -6,7 +6,39 @@
 
 - debug: msg="Role Test running. "
 
-- debug: msg="test_var  =  {{ test_var }} "
+- name: Check if zip is installed
+  command: dpkg -s zip
+  register: package_check_deb
+
+- name: Install zip
+  apt: name=zip state=present update_cache=yes cache_valid_time=300
+  when: package_check_deb.rc == 1
+  
+- debug: msg="package_check_deb  =  {{ package_check_deb }} "  
+- debug: msg="package_check_deb.rc  =  {{ package_check_deb.rc }} "  
+
+
+
+
+
+- name: Check if unzip is installed
+  command: dpkg -s unzip
+  register: package_check_deb
+  failed_when: package_check_deb.rc > 1
+  changed_when: package_check_deb.rc == 1
+  
+- debug: msg="package_check_deb unzip  =  {{ package_check_deb }} "  
+- debug: msg="package_check_deb.rc unzip =  {{ package_check_deb.rc }} "  
+
+
+
+
+
+
+
+
+
+# - debug: msg="test_var  =  {{ test_var }} "
 #- debug: msg="{{ hostvars['jenkins.ihtsdotools.org']['ansible_all_ipv4_addresses'] }}"
 
 #- debug: msg="{{ hostvars[inventory_hostname]['ansible_all_ipv4_addresses'] }}"
@@ -19,11 +51,11 @@
 #- debug: msg="example_var  =  {{ example_var }} "  
 
 
-- shell: "getent hosts {{restore_fromhostname}} | awk '{ print $1 }'"
-  register: ip_addr
-  ignore_errors: True
+#- shell: "getent hosts {{restore_fromhostname}} | awk '{ print $1 }'"
+#  register: ip_addr
+#  ignore_errors: True
 
-- debug: msg="ip addr for {{restore_fromhostname}} = {{ip_addr.stdout_lines[0]}}"
+#- debug: msg="ip addr for {{restore_fromhostname}} = {{ip_addr.stdout_lines[0]}}"
 
 #- debug: msg="jenkins  = {{ hostvars['jenkins.ihtsdotools.org']['ansible_all_ipv4_addresses']}}"
 
@@ -56,6 +88,6 @@
 #- debug: msg="p.stat.isdir  =  {{ p.stat.isdir }} " 
 #- debug: msg="p.stat.size  =  {{ p.stat.size }} " 
 
-- debug: msg="update key  =  {{ test_var }} "
-  tags: 
-   - updatekey
+#- debug: msg="update key  =  {{ test_var }} "
+#  tags: 
+#   - updatekey

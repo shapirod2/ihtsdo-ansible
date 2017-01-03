@@ -9,12 +9,20 @@
 #- name: Install AWS CLI
 #  pip: name=awscli state=latest
 
-- name: Update apt cache
-  apt: update_cache=yes cache_valid_time=3600
-  sudo: yes
+#- name: Update apt cache
+#  apt: update_cache=yes cache_valid_time=3600
+#  sudo: yes
+  
+- name: Check if awscli is installed
+  command: dpkg -s awscli
+  register: package_check_deb
 
-- name: ensure AWS CLI is installed
-  apt: pkg=awscli state=latest
+- name: Install zip
+  apt: name=awscli state=present update_cache=yes cache_valid_time=300
+  when: package_check_deb.rc == 1  
+
+#- name: ensure AWS CLI is installed
+#  apt: pkg=awscli state=latest
   
 - name: Assures ~/.aws dir exists
   file: path=~/.aws state=directory

@@ -1,6 +1,11 @@
 
+- name: Check if zip is installed
+  command: dpkg -s zip
+  register: package_check_deb
+
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300
+  when: package_check_deb.rc == 1
 
 - name: make sure script_dir exists
   file: path={{ backup_script_dir }}  state=directory
