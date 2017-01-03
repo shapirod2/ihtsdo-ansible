@@ -80,13 +80,13 @@ build-list() {
    sed -r -e '/^(10\.|127\.|172\.16\.|192\.168\.)/d' .list.tmp | sort -n|sort -mu >| "$MY_PATH/lists/$2"
    rm -rf .list.tmp
    sed -rn -e '/^#|^$/d' \
-    -e "s/^([0-9./]+).*/add $2-tmp \1/p" "$MY_PATH/lists/$IP_BLACKLIST" >> .list.set
+    -e "s/^([0-9./]+).*/add tmp \1/p" "$MY_PATH/lists/$2" >> .list.set
    ipset create $2 -exist hash:net family inet hashsize ${HASHSIZE:-16384} maxelem ${MAXELEM:-65536}
-   ipset create $2-tmp -exist hash:net family inet hashsize ${HASHSIZE:-16384} maxelem ${MAXELEM:-65536}
+   ipset create tmp -exist hash:net family inet hashsize ${HASHSIZE:-16384} maxelem ${MAXELEM:-65536}
    ipset -file .list.set restore
-   ipset swap $2-tmp $2
-   ipset destroy $2-tmp
-
+   ipset swap tmp $2
+   ipset destroy tmp
+   rm -rf .list.set
 }
 
 main "$@"
