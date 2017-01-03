@@ -7,8 +7,15 @@
 #- name: Install rsync
 #  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+
+- name: Check if wget is installed
+  command: dpkg -s wget
+  register: package_check_deb
+
 - name: Install wget
-  apt: pkg=wget state=latest update_cache=yes cache_valid_time=3600  
+  apt: name=wget state=present update_cache=yes cache_valid_time=300
+  when: package_check_deb.rc == 1  
+
 
 
 #- name: include prod settings
