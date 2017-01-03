@@ -1,6 +1,7 @@
 ---
 ads_currentRelease: "change-current-release"
 ads_log_level: debug
+ads_maxCachedProjects: 4
 
 spring_activemq_broker_url: failover:tcp://localhost:61616
 spring_activemq_user: "change-activemq-user"
