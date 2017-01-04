@@ -16,8 +16,11 @@
 - name: Check if awscli is installed
   command: dpkg -s awscli
   register: package_check_deb
+  ignore_errors: yes 
+  
+- debug: msg="package_check_deb.rc  =  {{ package_check_deb.rc }} "   
 
-- name: Install zip
+- name: Install awscli
   apt: name=awscli state=present update_cache=yes cache_valid_time=300
   when: package_check_deb.rc == 1  
 

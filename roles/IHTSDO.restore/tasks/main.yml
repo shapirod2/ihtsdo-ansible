@@ -11,10 +11,12 @@
 - name: Check if wget is installed
   command: dpkg -s wget
   register: package_check_deb
+  ignore_errors: yes
 
 - name: Install wget
   apt: name=wget state=present update_cache=yes cache_valid_time=300
   when: package_check_deb.rc == 1  
+  
 
 
 

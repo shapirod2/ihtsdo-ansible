@@ -3,6 +3,7 @@
 - name: Check if google-cloud-sdk is installed
   command: dpkg -s google-cloud-sdk
   register: package_check_deb
+  ignore_errors: yes
 
 - name: include install gce yml when package is not installed
   include: install_gce.yml

@@ -2,6 +2,7 @@
 - name: Check if zip is installed
   command: dpkg -s zip
   register: package_check_deb
+  ignore_errors: yes
 
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300
