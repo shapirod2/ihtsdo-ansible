@@ -1,5 +1,5 @@
 ---
-  - hosts: all
+  - hosts: local
     sudo: true
     vars:
      rf2json_s3_bucket_name: s3://ms-authoring-clean/se/dailybuilds/
