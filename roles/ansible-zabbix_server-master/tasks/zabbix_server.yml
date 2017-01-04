@@ -18,13 +18,13 @@
 
 - name: zabbixserver | Add zabbix.com repository key
   apt_key: 
-     url=http://repo.zabbix.com/zabbix-official-repo.key
+     url=https://repo.zabbix.com/zabbix-official-repo.key
      state=present
   tags: zabbixserver
 
 - name: zabbixserver | Add zabbix.com repository
   apt_repository: 
-     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     repo='deb https://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
      state=present
   tags: zabbixserver
 

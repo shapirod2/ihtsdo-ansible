@@ -14,20 +14,20 @@
 
 - name: zabbixclient| Add zabbix.com repository key
   apt_key: 
-     url=http://repo.zabbix.com/zabbix-official-repo.key
+     url=https://repo.zabbix.com/zabbix-official-repo.key
      state=present
   tags: zabbixclient
   
 - name: zabbixclient | Remove old zabbix.com repository
   apt_repository: 
-     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major_old}}.{{zabbixserver_minor_old}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     repo='deb https://repo.zabbix.com/zabbix/{{zabbixserver_major_old}}.{{zabbixserver_minor_old}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
      state=absent
   when: zabbixserver_major_old is defined   
   tags: zabbixserver  
 
 - name: zabbixclient | Add zabbix.com repository
   apt_repository: 
-     repo='deb http://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
+     repo='deb https://repo.zabbix.com/zabbix/{{zabbixserver_major}}.{{zabbixserver_minor}}/{{ansible_distribution|lower}} {{ansible_lsb.codename}} main contrib non-free' 
      state=present
   tags: zabbixserver
 
