@@ -6,29 +6,38 @@
 
 - debug: msg="Role Test running. "
 
-- name: Check if zip is installed
-  command: dpkg -s zip
-  register: package_check_deb
 
-- name: Install zip
-  apt: name=zip state=present update_cache=yes cache_valid_time=300
-  when: package_check_deb.rc == 1
+#- name: set zabbix repo to https
+#  replace:
+#      dest=/etc/apt/sources.list.d/repo_zabbix_com_zabbix_3_0_ubuntu.list
+#      regexp='http://repo.zabbix.com'
+#      replace='https://repo.zabbix.com'
+
+#- name: Update apt cache
+#  apt: update_cache=yes cache_valid_time=3600
+#  sudo: yes
+
+
+#- name: Check if zip is installed
+#  command: dpkg -s zip
+#  register: package_check_deb
+
+#- name: Install zip
+#  apt: name=zip state=present update_cache=yes cache_valid_time=300
+#  when: package_check_deb.rc == 1
   
-- debug: msg="package_check_deb  =  {{ package_check_deb }} "  
-- debug: msg="package_check_deb.rc  =  {{ package_check_deb.rc }} "  
+#- debug: msg="package_check_deb  =  {{ package_check_deb }} "  
+#- debug: msg="package_check_deb.rc  =  {{ package_check_deb.rc }} "  
 
 
-
-
-
-- name: Check if unzip is installed
-  command: dpkg -s unzip
-  register: package_check_deb
-  failed_when: package_check_deb.rc > 1
-  changed_when: package_check_deb.rc == 1
+#- name: Check if unzip is installed
+#  command: dpkg -s unzip
+#  register: package_check_deb
+#  failed_when: package_check_deb.rc > 1
+#  changed_when: package_check_deb.rc == 1
   
-- debug: msg="package_check_deb unzip  =  {{ package_check_deb }} "  
-- debug: msg="package_check_deb.rc unzip =  {{ package_check_deb.rc }} "  
+#- debug: msg="package_check_deb unzip  =  {{ package_check_deb }} "  
+#- debug: msg="package_check_deb.rc unzip =  {{ package_check_deb.rc }} "  
 
 
 
