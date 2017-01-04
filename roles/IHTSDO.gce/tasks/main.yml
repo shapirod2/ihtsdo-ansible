@@ -1,40 +1,13 @@
 ---
 
-#- name: Install Python PIP
-#  apt: pkg=python-pip state=latest
+- name: Check if google-cloud-sdk is installed
+  command: dpkg -s google-cloud-sdk
+  register: package_check_deb
 
-#- name: Install boto via PIP
-#  pip: name=boto state=latest
-
-#- name: Install AWS CLI
-#  pip: name=awscli state=latest
+- name: include install gce yml when package is not installed
+  include: install_gce.yml
+  when: package_check_deb.rc == 1  
 
 
-- name: Install GCE package signing key
-  apt_key: url={{ gce_repository_key_url }} state=present validate_certs=no
-
-- debug: msg="Adding GCE repository {{ gce_repository }}"
-
-- name: Setup GCE apt repository
-  apt_repository: repo='{{ gce_repository }}' state=present
-
-- name: Update apt cache
-  apt: update_cache=yes cache_valid_time=3600
-  sudo: yes
-
-- name: ensure Gcloud sdk is installed
-  apt: pkg=google-cloud-sdk state=latest
-  
-- name: Assures ~/.gce dir exists
-  file: path=~/.gce state=directory
-  
-- name: Create config file in .gce
-  template: src={{ inventory_dir }}/../files/gce/{{gce_json}} dest=~/.gce/{{gce_json}} mode=0600
- 
-- name: Auth account
-  shell: "{{gce_exe}} auth activate-service-account {{gce_email_user}} --key-file ~/.gce/{{gce_json}}"
-  
-- name: Auth account
-  shell: "{{gce_exe}} config set project {{gce_project}}"  
 
   
