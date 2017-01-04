@@ -1,11 +1,22 @@
 ---
 get_release: True
 daily_build_dir: /opt/dailybuild
+
 force_zip_download: True
 rf2_json_conversion_enabled: True
 rf2_diff_report_enabled: True
 release_file_name: SnomedCT_RF2Release_INT_20170731.zip
 unpacked_release_file_name: SnomedCT_RF2Release_INT_20170731
+
+int_release_s3_backup_region: "eu-west-1"
+int_release_dir: "/opt/IntRelease"
+int_release_s3_bucket_name: s3://ire.published.release.ihtsdo/international/
+int_unpacked_release_file_name: ""
+int_release_file_name: "{{int_unpacked_release_file_name}}.zip"
+int_release_s3_download: "{{int_release_s3_bucket_name}}{{int_release_file_name}}"
+int_release_snapshotFolder: "{{ int_release_dir }}/{{ int_unpacked_release_file_name }}/Snapshot"
+int_unpacked_release_file_name: "SnomedCT_RF2Release_INT_20160731"
+
 effectiveTime: 20170731
 expirationTime: 20180131
 jsonOutputFolder: "{{ daily_build_dir }}/json"

@@ -1,0 +1,24 @@
+---
+- name: Remove int_release_dir so as to spark complete rebuild
+  file: path={{int_release_dir}} state=absent
+
+- name: make sure int_release_dir exists
+  file: path={{int_release_dir}}  state=directory
+  
+- debug: msg="int_release_dir= {{int_release_dir}}"   
+
+
+- name: download Int release zip file
+  shell: "/usr/bin/aws s3 cp   {{int_release_s3_download}} {{int_release_dir}}/{{int_release_file_name}} --region {{int_release_s3_backup_region}}"
+
+- name: make sure int_release_file_name zip file exists
+  stat: path={{int_release_dir}}/{{int_release_file_name}}
+  register: intreleaseZipfile
+   
+- name: Unarchive int_release_file_name zip file on the remote machine
+  unarchive: src={{int_release_dir}}/{{int_release_file_name}}  dest={{int_release_dir}} copy=no
+  when: intreleaseZipfile.stat.exists == True
+
+
+
+

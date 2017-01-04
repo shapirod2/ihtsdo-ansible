@@ -1,5 +1,5 @@
 ---
-  - hosts: local
+  - hosts: all
     sudo: true
     vars:
      rf2json_s3_bucket_name: s3://ms-authoring-clean/se/dailybuilds/
@@ -7,5 +7,9 @@
      unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20170531
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: seConfig.xml.j2
+     ihtsdo_repository: release 
+     int_unpacked_release_file_name: "SnomedCT_RF2Release_INT_20160731"  
     roles:
+      - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
+
