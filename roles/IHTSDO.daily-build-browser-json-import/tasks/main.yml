@@ -5,3 +5,6 @@
 - include: importRf2DiffReport.yml
   when: "import_rf2_diff_report_enabled == True"  
   
+- name: remove import dir after use
+  file: path="{{ daily_build_import_dir }}" state=absent
+  
