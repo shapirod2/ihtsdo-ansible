@@ -1,0 +1,10 @@
+---
+  - hosts: browser
+    sudo: true
+    vars:
+     rf2json_s3_bucket_name: s3://ms-authoring-clean/dk/dailybuild
+     edition_name: dk-edition
+     daily_build_import_dir: "/home/dailybuild-dk"
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.daily-build-browser-json-import
