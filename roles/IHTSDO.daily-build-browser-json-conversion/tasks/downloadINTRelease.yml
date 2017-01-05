@@ -9,7 +9,7 @@
 
 
 - name: download Int release zip file
-  shell: "/usr/bin/aws s3 cp   {{int_release_s3_download}} {{int_release_dir}}/{{int_release_file_name}} --region {{int_release_s3_backup_region}}"
+  shell: "aws s3 cp   {{int_release_s3_download}} {{int_release_dir}}/{{int_release_file_name}} --region {{int_release_s3_backup_region}}"
 
 - name: make sure int_release_file_name zip file exists
   stat: path={{int_release_dir}}/{{int_release_file_name}}
