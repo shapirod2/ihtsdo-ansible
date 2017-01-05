@@ -1,0 +1,15 @@
+---
+  - hosts: local
+    sudo: true
+    vars:
+     rf2json_s3_bucket_name: s3://ms-authoring-clean/dk/dailybuild
+     dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/dk/products/snomed_ct_dk_daily_build/builds/
+     unpacked_release_file_name: SnomedCT_ManagedServiceDK_Production_DK1000005_20170131
+     release_file_name: "{{unpacked_release_file_name}}.zip"
+     config_xml: dkConfig.xml.j2
+     ihtsdo_repository: release 
+     int_unpacked_release_file_name: "SnomedCT_RF2Release_INT_20160731"  
+    roles:
+     # - IHTSDO.aws
+      - IHTSDO.daily-build-browser-json-conversion
+
