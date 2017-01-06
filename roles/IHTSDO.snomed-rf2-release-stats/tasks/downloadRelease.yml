@@ -30,15 +30,15 @@
   when: buildStatus.stdout == "BUILT"
   
 - debug: msg="buildOutputUrl= {{ buildOutputUrl.stdout }}"
-- debug: msg="get file = {{buildOutputUrl.stdout}}/{{release_file_base_name}}"
+- debug: msg="get file = {{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip"
   
-#- name: download release zip file if daily build is successful
-#  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip dest={{release_stats_dir}}/{{release_file_base_name}}.zip validate_certs=no mode=0440 timeout=30
-#  when: buildStatus.stdout == "BUILT"
-
 - name: download release zip file if daily build is successful
-  shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip > {{release_stats_dir}}/{{release_file_base_name}}.zip"
-  when: buildStatus.stdout == "BUILT"  
+  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip dest={{release_stats_dir}}/{{release_file_base_name}}.zip validate_certs=no mode=0440 timeout=30
+  when: buildStatus.stdout == "BUILT"
+
+#- name: download release zip file if daily build is successful
+#  shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_base_name}}.zip > {{release_stats_dir}}/{{release_file_base_name}}.zip"
+#  when: buildStatus.stdout == "BUILT"  
 
 - name: make sure release zip file exists
   stat: path={{release_stats_dir}}/{{release_file_base_name}}.zip
