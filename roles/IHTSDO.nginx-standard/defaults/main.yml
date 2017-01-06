@@ -24,6 +24,7 @@ nginx_http_parameters:
   gzip: "on"
   gzip_disable: "msie6"
   default_type: "application/octet-stream"
+  server_tokens: "off"
 
 nginx_sites_available:
  - server:

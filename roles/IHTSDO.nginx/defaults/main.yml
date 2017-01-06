@@ -16,6 +16,7 @@ nginx_http_params:
   error_log: "/var/log/nginx/error.log"
   types_hash_bucket_size: 64
   client_max_body_size: 100M
+  server_tokens: "off"
   server_names_hash_bucket_size: 64
 
 #nginx_sites:
