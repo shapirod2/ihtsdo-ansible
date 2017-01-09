@@ -14,6 +14,7 @@ orchestration_snowowl_log_path: /opt/termserver/serviceability/logs/log.log
 orchestration_snowowl_rollover_log_path: /opt/termserver/serviceability/logs/log_1.log
 orchestration_snowowl_import_timeout: 90
 orchestration_snowowl_classification_timeout: 10
+orchestration_snowowl_flatIndexExportStyle: true
 orchestration_rvf_failureExportMax: 100
 
 # AWS 'dev-ts-sync' user
@@ -23,8 +24,8 @@ orchestration_aws_bucket_refsets: dev.externally-maintained-refsets.ihtsdo
 
 #SNOMED Release Service settings
 orchestration_srs_root_url: https://dev-release.ihtsdotools.org/api/v1/
-orchestration_srs_username: 
-orchestration_srs_password: 
+orchestration_srs_username:
+orchestration_srs_password:
 
 #Release Validation Framework settings
 orchestration_rvf_pollPeriod: 60
@@ -33,7 +34,7 @@ orchestration_rvf_timeout: 120
 orchestration_jms_url: failover:tcp://localhost:61616
 orchestration_jms_username: "change-jms-username"
 orchestration_jms_password: "change-jms-password"
-#10min time out on messages published to topics 
+#10min time out on messages published to topics
 orchestration_jms_timeToLive: 600
 
 #Following parameters are no longer in use from 1.32 onwards so please remove them
