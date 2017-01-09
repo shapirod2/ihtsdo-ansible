@@ -1,5 +1,11 @@
 ---
 
+
+
+- name: Setup apt repository
+  apt_repository: repo='ppa:ondrej/php' state=present
+  when: moodle_php_version == "php5.6"
+
 - name: Apt cache update
   apt: update_cache=yes cache_valid_time=3600 
   tags:
@@ -11,8 +17,29 @@
 - name: Install moodle deps mysql-client
   apt: name=mysql-client state=latest
     
-- name: Install moodle deps php5
-  apt: name=php5 state=latest
+- name: Install moodle deps {{moodle_php_version}}
+  apt: name={{moodle_php_version}} state=latest
+  
+- name: Install moodle deps {{moodle_php_version}}-pspell 
+  apt: name={{moodle_php_version}}-pspell  state=latest  
+  
+- name: Install moodle deps {{moodle_php_version}}-curl
+  apt: name={{moodle_php_version}}-curl state=latest
+  
+- name: Install moodle deps {{moodle_php_version}}-gd
+  apt: name={{moodle_php_version}}-gd state=latest
+    
+- name: Install moodle deps {{moodle_php_version}}-intl
+  apt: name={{moodle_php_version}}-intl state=latest
+  
+- name: Install moodle deps {{moodle_php_version}}-mysql 
+  apt: name={{moodle_php_version}}-mysql  state=latest  
+  
+- name: Install moodle deps {{moodle_php_version}}-xmlrpc
+  apt: name={{moodle_php_version}}-xmlrpc state=latest  
+  
+- name: Install moodle deps {{moodle_php_version}}-ldap
+  apt: name={{moodle_php_version}}-ldap state=latest   
   
 - name: Install moodle deps graphviz
   apt: name=graphviz state=latest  
@@ -20,26 +47,7 @@
 - name: Install moodle deps aspell
   apt: name=aspell state=latest  
   
-- name: Install moodle deps php5-pspell 
-  apt: name=php5-pspell  state=latest  
-  
-- name: Install moodle deps php5-curl
-  apt: name=php5-curl state=latest
-  
-- name: Install moodle deps php5-gd
-  apt: name=php5-gd state=latest
-    
-- name: Install moodle deps php5-intl
-  apt: name=php5-intl state=latest
-  
-- name: Install moodle deps php5-mysql 
-  apt: name=php5-mysql  state=latest  
-  
-- name: Install moodle deps php5-xmlrpc
-  apt: name=php5-xmlrpc state=latest  
-  
-- name: Install moodle deps php5-ldap
-  apt: name=php5-ldap state=latest  
+ 
 
 - name: Install moodle deps clamav
   apt: name=clamav state=latest  

@@ -18,6 +18,7 @@ moodle_data_dir: "/var/moodledata"
 
 moodle_git_repo: "git://git.moodle.org/moodle.git"
 moodle_git_version: "MOODLE_28_STABLE"
+moodle_php_version: "php5"
 
 moodle_URL: "https://{{ inventory_hostname }}"
 moodle_port: 80
