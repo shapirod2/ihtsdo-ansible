@@ -18,6 +18,10 @@
    # https://docs.moodle.org/28/en/Step-by-step_Installation_Guide_for_Ubuntu
 - include: extraSettings.yml
 
+- name: antelope to barracuda db update
+  shell: "{{moodle_db_update_script}}"
+
+
 - name: if ssl then set up ssl
   include: ssl.yml
 

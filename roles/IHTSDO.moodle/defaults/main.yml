@@ -13,6 +13,9 @@ moodle_dir:  "moodle"
 moodle_git_dir: "/opt/{{ moodle_dir }}"
 moodle_html_base_dir: "/var/www/html"
 moodle_html_dir: "{{ moodle_html_base_dir }}/{{ moodle_dir }}"
+moodle_html_admin_dir: "{{moodle_html_dir}}/admin"
+moodle_html_admin_cli_dir: "{{moodle_html_admin_dir}}/cli"
+moodle_db_update_script: "php {{moodle_html_admin_cli_dir}}/mysql_compressed_rows.php --fix"
 
 moodle_data_dir: "/var/moodledata"
 

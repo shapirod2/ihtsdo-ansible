@@ -12,6 +12,9 @@
 # set the my.cnf
 - name: Copy my.cnf
   template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
+  
+- name: Copy the root credentials as .my.cnf file
+  template: src=root.cnf.j2 dest=~/.my.cnf mode=0600    
 
 # Install the package "python-mysqldb"
 - name: Install mysql python helper
