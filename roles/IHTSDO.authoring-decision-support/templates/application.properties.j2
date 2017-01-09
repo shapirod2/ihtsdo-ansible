@@ -3,9 +3,12 @@
 spring.thymeleaf.cache=false
 spring.main.banner-mode=off
 
-server.contextPath=/ads_api
-multipart.maxFileSize: 1024mb
-multipart.maxRequestSize: 1024mb
+server.contextPath=/ads-api
+
+# Max file size.
+spring.http.multipart.max-file-size=1024Mb
+# Max request size.
+spring.http.multipart.max-request-size=1024Mb
 
 spring.jms.pub-sub-domain=true
 spring.data.mongodb.uri=mongodb://localhost/ads
