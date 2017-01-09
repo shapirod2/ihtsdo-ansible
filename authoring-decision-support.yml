@@ -3,4 +3,6 @@
     sudo: true
     roles:
       - IHTSDO.authoring-decision-support
+      - IHTSDO.termserver-browse
+      - IHTSDO.nginx-standard
 
