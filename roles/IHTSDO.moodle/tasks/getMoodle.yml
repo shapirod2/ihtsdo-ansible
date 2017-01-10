@@ -11,7 +11,7 @@
         owner=root group=root mode=0644 
         recurse=yes  
 
-- name: check out moodle    
+- name: check out moodle  version {{moodle_git_version}}  
   git:  repo={{ moodle_git_repo }} dest={{ moodle_git_dir }} version={{ moodle_git_version }} accept_hostkey=True force=yes
   
                      

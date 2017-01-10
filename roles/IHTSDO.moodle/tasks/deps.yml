@@ -45,7 +45,10 @@
   apt: name={{moodle_php_version}}-ldap state=latest   
   
 - name: Install moodle deps {{moodle_php_version}}-zip
-  apt: name={{moodle_php_version}}-zip state=latest     
+  apt: name={{moodle_php_version}}-zip state=latest    
+  
+- name: Install moodle deps {{moodle_php_version}}-fpm
+  apt: name={{moodle_php_version}}-fpm state=latest        
   
 - name: Install moodle deps libapache2-mod-{{moodle_php_version}}
   apt: name=libapache2-mod-{{moodle_php_version}} state=latest  
