@@ -3,14 +3,10 @@
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
-  
 
-   
-
- 
  #Setup the database
-- include: db.yml 
-  
+- include: db.yml
+
 - name: Install package
   apt: name={{crs_ws_app_name}} state=installed
   when: version_crs_web == 'installed'
@@ -22,50 +18,50 @@
 - name: Install package specific version
   apt: name={{crs_ws_app_name}}={{ version_crs_web }} state=installed
   when: version_crs_web != 'installed' and version_crs_web != 'latest'
- 
-  
+
+
 - name: Creates crsPropertiesFolderLocation directory
   file: path={{ crs_crsPropertiesFolderLocation }} state=directory
-  
+
 - name: Creates crowdConfigFolderLocation directory
   file: path={{ crs_crowdConfigFolderLocation }} state=directory
 
 - name: Creates log directory
-  file: path={{ crs_log_dir }} state=directory  
-  
+  file: path={{ crs_log_dir }} state=directory
+
 - name: Copy Jira Private Key to crsPropertiesFolderLocation
   copy: src={{ crs_jira_pem_file }} dest={{ crs_jira_privKey }}
-        owner=root group=root mode=0644  
+        owner=root group=root mode=0644
   tags: updatekey
-  
+
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ crs_ws_app_name }}.conf"
-              owner=root group=root mode=0640    
-              
+              owner=root group=root mode=0640
+
 
 - name: Configure application-im-common-security-config.xml
   template: src=application-im-common-security-config.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/application-im-common-security-config.xml"
-              owner=root group=root mode=0640   
-              
+              owner=root group=root mode=0640
+
 - name: Configure applicationContext-CrowdClient.xml
   template: src=applicationContext-CrowdClient.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/applicationContext-CrowdClient.xml"
-              owner=root group=root mode=0640                 
+              owner=root group=root mode=0640
 
 - name: Configure crowd.properties
   template: src=crowd.properties.j2 dest="{{ crs_crowdPropertiesFileLocation   }}/crowd.properties"
-              owner=root group=root mode=0640     
-              
+              owner=root group=root mode=0640
+
 - name: Configure crs-application.properties
   template: src=crs-application.properties.j2 dest="{{ crs_crsPropertiesFolderLocation   }}/crs-application.properties"
               owner=root group=root mode=0640
-  tags: updatekey                  
+  tags: updatekey
 
 - name: Configure swagger.properties
   template: src=swagger.properties.j2 dest="{{ crs_crsPropertiesFolderLocation   }}/swagger.properties"
-              owner=root group=root mode=0640                                 
+              owner=root group=root mode=0640
 
 # crs-application.properties? crs-application.properties
 
 - name: (re)start app
-  supervisorctl: name={{ crs_ws_app_name }} state=restarted 
-  tags: updatekey              
+  supervisorctl: name={{ crs_ws_app_name }} state=restarted
+  tags: updatekey

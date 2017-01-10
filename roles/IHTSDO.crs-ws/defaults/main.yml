@@ -9,6 +9,10 @@ version_crs_web: "latest"
 crs_ws_install_dir: "/opt/{{ crs_ws_app_name }}"
 crs_ws_lib_dir: "{{ crs_ws_install_dir }}/lib"
 
+#Auth
+crs_username: "change_me"
+crs_password: "change_me"
+
 crs_crsPropertiesFolderLocation: "{{crs_ws_install_dir}}/crs-resources"
 crs_crowdConfigFolderLocation:  "{{crs_ws_install_dir}}/crowd"
 crs_crowdPropertiesFileLocation: "{{crs_crowdConfigFolderLocation}}"

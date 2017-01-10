@@ -7,6 +7,10 @@ datasource.username={{crs_user}}
 datasource.password={{crs_pw}}
 datasource.driver-class-name=com.mysql.jdbc.Driver
 
+#Authentication
+crs.basicAuth.username={{ crs_username }}
+crs.basicAuth.password={{ crs_password }}
+
 #CRS Urls
 ihtsdo.crs.host={{crs_url}}
 ihtsdo.crs.batchRequest.url=/#/batches/{id}/view
@@ -59,11 +63,6 @@ jira.ticket.statusMapping.inInceptionElaboration=In Inception/Elaboration
 jira.ticket.statusMapping.readyforRelease=Ready For Release
 jira.ticket.statusMapping.inAppealClarification=In Appeal Clarification
 
-
-
-
-
-
 #Keys for JIRA SSO
 jira.credential.consumerKey={{crs_jira_consumerKey}}
 jira.credential.privateKey={{crs_jira_privKey}}
@@ -77,7 +76,6 @@ snomect.host={{crs_snomect_host}}
 snomect.url={{crs_snomect_url}}
 snomect.authorization={{crs_snomect_authorization}}
 snomect.branch={{crs_snomect_branch}}
-
 snomect.method.browser={{crs_snomect_method_browser}}
 snomect.method.mrcm={{crs_snomect_method_mrcm}}
 
