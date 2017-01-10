@@ -49,7 +49,10 @@
     
 - name: Symlink configuration file
   file: src=/etc/opt/authoring-decision-support/application.properties dest=/var/opt/authoring-decision-support/run/application.properties owner=authoring-decision-support group=authoring-decision-support state=link
-    
+
+- name: Create runtime data Folder
+  file: path=/etc/opt/authoring-decision-support/data mode=0755 owner=authoring-decision-support group=authoring-decision-support state=directory
+  
 - name: Configure Logging in Supervisor Startup
   replace:
       dest=/etc/supervisor/conf.d/authoring-decision-support.conf
