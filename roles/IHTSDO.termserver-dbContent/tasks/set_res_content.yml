@@ -53,6 +53,7 @@
 - name: Copy the {{import_term_serv_templates}}  dir to {{target_term_serv_templates}}
   command: cp -r {{import_term_serv_templates}} {{target_term_serv_templates}}
   when: sqlimportfile.stat.exists == True
+  ignore_errors: yes 
 
    
 #- debug: "move the existing term_serv resources indexes dir {{term_serv_dir_resources_indexes}} dir to {{target_term_serv_indexes}}"
