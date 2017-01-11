@@ -16,8 +16,11 @@ mysql_service: mysql
 wp_app_name: wordpress
 wp_install_dir: "/opt/{{ wp_app_name }}"
 wp_installto_dir: "{{wp_install_dir}}/wp"
-wp_apache_html_dir: "/var/www/html/"
+wp_html_dir: "/var/www/html/"
 wp_config: "wp-config.php"
 
 wp_web_user: "www-data"
 wp_dir_src: wp-directory
+
+#wp_web_server: "apache"
+wp_web_server: "nginx"

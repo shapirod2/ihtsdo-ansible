@@ -16,30 +16,30 @@
 - name: Extract installation
   unarchive: src="{{ wp_install_dir }}/{{ wp_installer }}" dest="{{ wp_installto_dir }}" copy=no
   
-- name: rem apache html dir 
-  file: path={{ wp_apache_html_dir }} state=absent  
+- name: rem wp html dir 
+  file: path={{ wp_html_dir }} state=absent  
   
-- name: Ensure wp_apache_html_dir exists
-  file: path={{ wp_apache_html_dir }} state=directory   
+- name: Ensure wp_html_dir exists
+  file: path={{ wp_html_dir }} state=directory   
 
 - name: copy wordpress
-  shell: "mv {{ wp_installto_dir }}/wordpress/* {{wp_apache_html_dir}}" 
+  shell: "mv {{ wp_installto_dir }}/wordpress/* {{wp_html_dir}}" 
  
 - name: copy wordpress config
-  shell: "cp {{wp_apache_html_dir}}/wp-config-sample.php {{wp_apache_html_dir}}/{{wp_config}}" 
+  shell: "cp {{wp_html_dir}}/wp-config-sample.php {{wp_html_dir}}/{{wp_config}}" 
   
 - replace:
-    dest={{wp_apache_html_dir}}/{{wp_config}}
+    dest={{wp_html_dir}}/{{wp_config}}
     regexp='database_name_here'
     replace='{{wp_db_name}}'
   
 - replace:
-    dest={{wp_apache_html_dir}}/{{wp_config}}
+    dest={{wp_html_dir}}/{{wp_config}}
     regexp='username_here'
     replace='{{wp_db_user}}'
     
 - replace:
-    dest={{wp_apache_html_dir}}/{{wp_config}}
+    dest={{wp_html_dir}}/{{wp_config}}
     regexp='password_here'
     replace='{{wp_db_pw}}'   
       
@@ -51,10 +51,10 @@
   user: name={{ wp_web_user }} group={{ wp_web_user }} state=present system=yes
   
 - name: set perms
-  file: path="{{ wp_apache_html_dir }}" state=directory
+  file: path="{{ wp_html_dir }}" state=directory
         owner={{ wp_web_user }} group="{{ wp_web_user }}" mode=755 
         recurse=yes  
     
 - name: Configure htaccess
-  template: src=htaccess.j2 dest={{wp_apache_html_dir}}.htaccess
+  template: src=htaccess.j2 dest={{wp_html_dir}}.htaccess
               owner=root group=root mode=0770  

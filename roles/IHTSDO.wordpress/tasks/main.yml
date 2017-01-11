@@ -3,10 +3,6 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
- 
-
-  
-
 - debug: msg="installing wordpress wp_version = {{wp_version}}"
   
   #Setup the database
@@ -14,12 +10,17 @@
 #include dependencies
 - include: deps.yml
  
-- name: stop apache2
-  service: name=apache2 state=stopped
-  
+#- name: stop apache2
+#  service: name=apache2 state=stopped
+ 
+- name: stop nginx
+  service: name=nginx state=stopped 
+ 
  #include getwp
 - include: getwp.yml 
   
-- name: restart apache2
-  service: name=apache2 state=restarted
+#- name: restart apache2
+#  service: name=apache2 state=restarted
  
+- name: restart nginx
+  service: name=nginx state=restarted 

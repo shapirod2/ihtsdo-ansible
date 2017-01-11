@@ -7,9 +7,7 @@
   apt: name={{item}} state=latest
   with_items:
        - git
-       - apache2
        - php5
-       - libapache2-mod-php5
        - php5-mysql
        - php5-curl
        - php5-gd 
@@ -27,9 +25,20 @@
        - php5-tidy
        - php5-xmlrpc
        - php5-xsl
+       - php5-fpm
        - libssh2-php
   
   
+- name: set php5-fpm to a safe setting
+  replace: dest=/etc/php5/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0'  
+
+- name: set php5-fpm listen to 127.0.0.1:9000
+  replace: dest=/etc/php5/fpm/pool.d/www.conf regexp='/var/run/php5-fpm.sock' replace='127.0.0.1:9000'
+
+- name: restart php5-fpm
+  service: name=php5-fpm state=restarted  
   
+#       - libapache2-mod-php5
+#       - apache2
          
             
