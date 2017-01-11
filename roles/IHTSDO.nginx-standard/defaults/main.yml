@@ -3,6 +3,7 @@ nginx_version: latest
 nginx_user: nginx
 nginx_max_clients: 512
 
+nginx_ssl_install: True
 nginx_ssl_location: "/opt/ssl/ihtsdo_multi"
 nginx_sslkey_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi.key.pem"
 nginx_sslcert_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi.chained.pem"
@@ -35,3 +36,5 @@ nginx_sites_available:
     cors_location: ".*\\.ihtsdotools.org"
  - server:
     template: "blank"
+    
+    

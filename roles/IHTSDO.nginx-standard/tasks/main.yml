@@ -4,6 +4,7 @@
 
 #Install ssl certificates
 - include: ssl.yml
+  when: nginx_ssl_install == True
 
 #Setup maintenance screen
 - include: maintenance.yml
