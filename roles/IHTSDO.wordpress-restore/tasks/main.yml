@@ -22,5 +22,10 @@
 - name: make uploads writeable
   file: path="{{wp_uploads_dir}}" state=directory mode=0777 recurse=yes
 
+#mysql update
+#update wp_options set option_value = 'https://uat-sia.ihtsdotools.org' where option_name = 'siteurl';
+#update wp_options set option_value = 'https://uat-sia.ihtsdotools.org' where option_name = 'home';
+
+
 - name: Ensure service is started
   service: name=nginx state=restarted enabled=yes

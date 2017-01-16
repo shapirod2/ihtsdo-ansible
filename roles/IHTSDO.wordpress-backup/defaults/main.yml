@@ -9,10 +9,10 @@ system_type: local_test
 sia_s3_backup_dir: "prod-sia-backup-ihtsdo"
 sia_s3_backup_region: "us-west-2"
 
-wp_apache_html_dir: "/var/www/html/"
+wp_html_dir: "/var/www/html/"
 
 sia_backup_dir: "/opt/backup/sia"
-sia_data_dir: "{{ wp_apache_html_dir }}"
+sia_data_dir: "{{ wp_html_dir }}"
 sia_dump_filename: "sia_mysqldump.sql"
 
 wp_db_name: wordpress 

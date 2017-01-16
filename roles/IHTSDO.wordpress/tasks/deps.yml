@@ -1,4 +1,8 @@
 
+- name: Setup apt repository
+  apt_repository: repo='ppa:ondrej/php' state=present
+  when: wp_php_version == "php5.6"
+
 - name: Update apt cache
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
@@ -7,36 +11,42 @@
   apt: name={{item}} state=latest
   with_items:
        - git
-       - php5
-       - php5-mysql
-       - php5-curl
-       - php5-gd 
-       - php5-intl
+       - "{{wp_php_version}}"
+       - "{{wp_php_version}}-mysql"
+       - "{{wp_php_version}}-curl"
+       - "{{wp_php_version}}-gd"
+       - "{{wp_php_version}}-intl"
        - php-pear
-       - php5-imagick
-       - php5-imap
-       - php5-mcrypt
-       - php5-memcache
-       - php5-ming
-       - php5-ps
-       - php5-pspell
-       - php5-recode
-       - php5-sqlite
-       - php5-tidy
-       - php5-xmlrpc
-       - php5-xsl
-       - php5-fpm
+       - "{{wp_php_version}}-imagick"
+       - "{{wp_php_version}}-imap"
+       - "{{wp_php_version}}-mcrypt"
+       - "{{wp_php_version}}-memcache"
+#       - "{{wp_php_version}}-ming"
+#       - "{{wp_php_version}}-ps"
+       - "{{wp_php_version}}-pspell"
+       - "{{wp_php_version}}-recode"
+#       - "{{wp_php_version}}-sqlite"
+       - "{{wp_php_version}}-tidy"
+       - "{{wp_php_version}}-xmlrpc"
+       - "{{wp_php_version}}-xsl"
+       - "{{wp_php_version}}-fpm"
        - libssh2-php
   
   
-- name: set php5-fpm to a safe setting
-  replace: dest=/etc/php5/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0'  
+- name: set {{wp_php_version}}-fpm to a safe setting
+  replace: dest=/etc/php/{{wp_php_version_base}}/fpm/php.ini regexp=';cgi.fix_pathinfo=1' replace='cgi.fix_pathinfo=0'  
 
-- name: set php5-fpm listen to 127.0.0.1:9000
-  replace: dest=/etc/php5/fpm/pool.d/www.conf regexp='/var/run/php5-fpm.sock' replace='127.0.0.1:9000'
+- name: set php5-fpm listen to 127.0.0.1:9000 if php5 dir
+  replace: dest=/etc/php5/fpm/pool.d/www.conf regexp='/var/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
 
-- name: restart php5-fpm
-  service: name=php5-fpm state=restarted  
+- name: set {{wp_php_version}}-fpm listen to 127.0.0.1:9000
+  replace: dest=/etc/php/{{wp_php_version_base}}/fpm/pool.d/www.conf regexp='/var/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
+
+- name: set {{wp_php_version}}-fpm listen to 127.0.0.1:9000 in case of using direct /rn ref instead of /var/run
+  replace: dest=/etc/php/{{wp_php_version_base}}/fpm/pool.d/www.conf regexp='/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
+
+- name: restart {{wp_php_version}}-fpm
+  service: name={{wp_php_version}}-fpm state=restarted  
   
 #       - libapache2-mod-php5
 #       - apache2

@@ -2,8 +2,8 @@
 wp_app_name: wordpress
 wp_install_dir: "/opt/{{ wp_app_name }}"
 sia_installto_dir: "{{wp_install_dir}}/sia"
-wp_apache_html_dir: "/var/www/html/"
-wp_content_dir: "{{wp_apache_html_dir}}wp-content/"
+wp_html_dir: "/var/www/html/"
+wp_content_dir: "{{wp_html_dir}}wp-content/"
 wp_config: "wp-config.php"
 
 wp_web_user: "www-data"

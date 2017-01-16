@@ -24,6 +24,9 @@ wp_db_user: wordpress
 wp_db_pw: wordpress
 wp_web_user: "www-data"
 
+wp_web_server: apache2
+wp_web_server: nginx
+
 #dataset
 script_dir: /opt/scripts/sia
 new_restore_script: wp_restore_s3.sh

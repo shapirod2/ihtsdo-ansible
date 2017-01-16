@@ -7,6 +7,8 @@ wp_db_pw: wordpress
 
 wp_version: "4.5.2"
 
+wp_php_version_base: "5"
+wp_php_version: "php{{wp_php_version_base}}"
 wp_baseurl: "https://wordpress.org"
 wp_installer: "wordpress-{{wp_version}}.tar.gz"
 
