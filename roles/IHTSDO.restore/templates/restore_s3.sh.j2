@@ -134,9 +134,9 @@ main() {
 	getbackupfile
 	decompress
 	copyfiles
-	#if [ "$db_type" != "none" ]; then
-	#restore_db
-	#fi
+	if [ "$db_type" != "none" ]; then
+	restore_db
+	fi
 	
 	#rsyncfiles
     post_cmd
@@ -167,16 +167,49 @@ fi
 }
 
 restore_db(){
-
-#echo "Restoring postgres database"
-#su - {{ postgres_user }} -c "/usr/bin/psql -d mlds -f $backup_dir/database.sql"
-#psql -U <username> -d <dbname> -1 -f <filename>.sql
-
-
-#echo "Restoring mysql database"
-#	/usr/bin/mysql -u {{ crs_user }} -p{{ crs_pw }} crs < ./crs.sql
-#	echo "Restarting mysql to flush stale permissions"
-#	service mysql restart
+cd $tmp_restore_dir
+echo "tmp_restore_dir = $tmp_restore_dir"
+cd $(ls -d */|head -n 1)
+echo "currently in " $PWD
+# then for each db in db_include
+  for db in ${db_include[*]};
+   do  
+    echo "db = "${db}
+    DATABASE_DUMP_FILE="${db}.sql"
+    echo "DATABASE_DUMP_FILE = ${DATABASE_DUMP_FILE}"
+     if [ "$db_type" = "pgsql" ];
+      then
+        echo "dbtype = postgres : " $db_type
+          if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
+            then
+             if [ "$db" = "all" ];
+              then 
+               su - postgres -c "/usr/bin/psql -f './$DATABASE_DUMP_FILE'"
+              else
+               su - postgres -c "/usr/bin/psql -d ${db}  -f './$DATABASE_DUMP_FILE'"
+            fi                       
+          else 
+            if [ "$db" = "all" ];
+              then
+               /usr/bin/psql -h${db_host} -p${db_port} -f "./$DATABASE_DUMP_FILE"
+              else   
+               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f "./$DATABASE_DUMP_FILE"
+              fi                                  
+          fi
+    fi      
+     if [ "$db_type" = "mysql" ];
+      then 
+       if [ "$db" = "all" ];
+        then 
+         echo "MySql restoring all";
+         /usr/bin/mysql -u ${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
+        else
+         echo "MySql restoring : ${db}";
+         /usr/bin/mysql -u ${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
+      fi  
+ fi               
+    done 
+	echo_date "Done restoring up DB."
 
 }
 
@@ -237,7 +270,9 @@ getbackupfile(){
 
 decompress(){
 cd $tmp_restore_dir
-echo "decompressing"
+echo "tmp_restore_dir = $tmp_restore_dir"
+echo "currently in " $PWD
+echo "decompressing all zips in $tmp_restore_dir"
 unzip *.zip
 }
 

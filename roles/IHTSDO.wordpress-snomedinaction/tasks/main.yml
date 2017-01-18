@@ -34,4 +34,5 @@
 - name: restart nginx
   service: name=nginx state=restarted
 
- 
+ #cp -r ./languages /var/www/html/wp-content/
+ #cp -r ./uploads /var/www/html/wp-content/
