@@ -1,6 +1,9 @@
   - name: ensure postgres is installed
     apt: pkg=postgresql state=latest
 
+  - name: ensure acl is installed (dependancy for ansible)
+    apt: pkg=acl state=latest
+
   - name: ensure postgres contrib/Adminpack is installed
     apt: pkg=postgresql-contrib state=latest
 
@@ -10,7 +13,7 @@
   - name: stop mlds
     supervisorctl: name={{mlds_appname}} state=stopped
     ignore_errors: True
-         
+
   - name: drop mlds db if rebuilding for testing
     sudo_user: postgres
     postgresql_db: name={{mlds_dbname}} state=absent

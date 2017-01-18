@@ -2,11 +2,6 @@
   - hosts: mlds
     sudo: true
     roles:
-      - IHTSDO.user-accounts
-      
-  - hosts: mlds
-    sudo: true
-    roles:
-      - IHTSDO.nginx-std
-      - IHTSDO.mlds   
+      - IHTSDO.mlds
+      - IHTSDO.nginx-standard   
 

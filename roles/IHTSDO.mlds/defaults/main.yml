@@ -11,10 +11,3 @@ mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
 mlds_drop_db: 'false'
 
 dev_instance: false
-
-include_rewrites: true
-
-rewrite_contents: "{{ lookup('file', 'rewrites.txt') }}"
-
-#only_rewrites: true
-
