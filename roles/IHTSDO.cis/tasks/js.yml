@@ -2,6 +2,12 @@
 
 - name: Install latest curl package
   apt: name=curl state=latest  
+  
+- name: Install latest g++ package
+  apt: name=g++ state=latest
+ 
+- name: Install latest build-essential package
+  apt: name=build-essential state=latest  
 
 - name: Make sure node install repo is set 
   shell: curl -sL https://deb.nodesource.com/setup | sudo bash -
