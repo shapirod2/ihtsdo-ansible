@@ -2,6 +2,7 @@
 ads_currentRelease: "change-current-release"
 ads_log_level: debug
 ads_maxCachedProjects: 4
+ads_thread_pool: 2
 
 spring_activemq_broker_url: "change-activemq-broker-url"
 spring_activemq_user: "change-activemq-user"
