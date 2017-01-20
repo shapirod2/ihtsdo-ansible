@@ -63,7 +63,8 @@ backup_archive_suffix: ".zip"
 backup_archive_dir: "{{backup_dir_tmp}}/{{backup_archive_prefix}}"
 backup_archive_file: "{{backup_archive_prefix}}{{backup_archive_suffix}}" 
 
-backup_s3_backup_dir: "backup-ihtsdo-{{backup_level}}"
+backup_s3_backup_dir_prefix: "backup-ihtsdo-"
+backup_s3_backup_dir: "{{backup_s3_backup_dir_prefix}}{{backup_level}}"
 backup_s3_backup_region: "us-east-1"
 backup_hostname: "{{inventory_hostname}}"
 
