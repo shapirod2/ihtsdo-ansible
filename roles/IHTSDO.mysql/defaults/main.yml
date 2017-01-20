@@ -2,3 +2,11 @@
 mysql_version: 5.5
 mysql_service_name: mysql
 mysql_root_password: change_me
+
+# mysql_databases:
+#   - change_me
+#
+# mysql_users:
+#   user:
+#     name: change_me
+#     password: change_me

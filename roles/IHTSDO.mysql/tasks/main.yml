@@ -8,18 +8,18 @@
 # Install the package "mysql-server"
 - name: Install mysql server
   apt: name=mysql-server-{{ mysql_version }} state=present
-  
+
 # set the my.cnf
-#- name: Copy my.cnf
-#  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644  
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644
 
 # Install the package "python-mysqldb"
 - name: Install mysql python helper
   apt: name=python-mysqldb state=present
-  
+
 - name: Copy the root credentials as .my.cnf file
-  template: src=root.cnf.j2 dest=~/.my.cnf mode=0600   
-  
+  template: src=root.cnf.j2 dest=~/.my.cnf mode=0600
+
 - name: Update MySQL root password for all root accounts
   mysql_user: name=root host={{ item }} password={{ mysql_root_password }} state=present
   with_items:
@@ -27,7 +27,7 @@
      - 127.0.0.1
      - ::1
      - localhost
-         
+
 - name: ensure anonymous users are not in the database
   mysql_user: name='' host={{ item }}  login_user=root login_password={{ mysql_root_password }}  state=absent
   with_items:
@@ -37,5 +37,15 @@
 - name: remove the test database
   mysql_db: name=test state=absent login_user=root login_password={{ mysql_root_password }}
 
+- name: Create Databases
+  mysql_db: name={{ item }} state=present login_user=root login_password={{ mysql_root_password }} collation=utf8_bin encoding=utf8
+  with_items: "{{ mysql_databases }}"
+  when: mysql_databases|lower != 'none'
+
+- name: Create Users
+  mysql_user: name={{ item['user']['name'] }} password={{ item['user']['password'] }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
+  with_items: "{{ mysql_users }}"
+  when: mysql_users|lower != 'none'
+
 - name: restart mysql
-  service: name={{ mysql_service_name }} state=restarted 
+  service: name={{ mysql_service_name }} state=restarted
