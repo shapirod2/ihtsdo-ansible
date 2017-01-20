@@ -19,20 +19,30 @@ restore_db_port: "{{backup_db_port}}"
 restore_db_user: "{{backup_db_user}}"
 restore_db_password: "{{backup_db_password}}"
 
-
+#default values from the backup main.yml
 #the backup level : t1 t2 or t3
+#backup_level: ""
 backup_level: "t3"
 backup_app_name: "test"
 #backup_app_name: ""
+backup_s3_backup_dir_prefix: "backup-ihtsdo-"
+backup_s3_backup_dir: "{{backup_s3_backup_dir_prefix}}{{backup_level}}"
+backup_s3_backup_region: "us-east-1"
+
 
 # If this is set will get vars from hostname. MUST be in the same inventory.
 #restore_fromhostname: "va-mlds.ihtsdotools.org"
 
+#set from backup if set
 restore_app_name: "{{backup_app_name}}"
-
 restore_dir: "/opt/backup/{{restore_app_name}}"
-restore_s3_restore_dir: "{{backup_s3_backup_dir}}"
-restore_s3_restore_region: "{{backup_s3_backup_region}}"
+
+
+# Should be set manually. if left blank then values are set 
+# inside script using matching backup vals
+restore_s3_restore_dir: ""
+restore_s3_restore_region: ""
+restore_level: ""
 # default to daily but can be set to monthly etc.
 restore_s3_restore_dir_period: "daily"
 #restore_s3_restore_dir_period: "weekly"
@@ -44,8 +54,6 @@ restore_base_url: ""
 #restore_base_url: "s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
 #restore_base_url: "https://s3.amazonaws.com/backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
 #s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/
-
-
 
 restore_hostname: "{{inventory_hostname}}"
 
@@ -72,3 +80,5 @@ restore_precopycmds: ""
 restore_postcmds: ""
 #  - "/bin/echo \"postcmd1!\""
 #  - "/bin/echo \"postcmd2!\""
+
+restore_async_time: 1800

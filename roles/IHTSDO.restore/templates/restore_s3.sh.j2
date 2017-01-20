@@ -23,7 +23,7 @@ db_include=({% for db in restore_db_names %}"{{db}}" {% endfor %})
 db_user={{restore_db_user}}
 db_password={{restore_db_password}} 
 
-DAILY="daily"
+PERIOD="{{ restore_s3_restore_dir_period | default('daily') }}"
 
 HOST_NAME="{{restore_hostname}}"
 APP_NAME="{{restore_app_name}}"
@@ -35,14 +35,14 @@ s3_backup_dir="{{ backup_s3_backup_dir | default('') }}"
 s3_backup_dir_prefix="s3://$s3_backup_dir"
 s3_backup_dir_suffix="$HOST_NAME/$APP_NAME/"
 
-s3_backup_dir_daily="$s3_backup_dir_prefix/$DAILY/$s3_backup_dir_suffix"
+s3_backup_dir_daily="$s3_backup_dir_prefix/$PERIOD/$s3_backup_dir_suffix"
 s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
 
 restore_file="{{restore_file}}"
 restore_base_url="{{restore_base_url}}"
-restore_s3_restore_dir_period="{{restore_s3_restore_dir_period}}"
 
-s3_restore_dir="{ restore_s3_restore_dir | default('') }"
+
+s3_restore_dir="{{ restore_s3_restore_dir | default('') }}"
 s3_restore_region_base="{{ restore_s3_restore_region | default('') }}"
 s3_restore_filename="{{ restore_s3_restore_filename | default('') }}"
 
@@ -59,7 +59,7 @@ fi
 s3_restore_region=""
 if [ "x$s3_restore_region_base" != "x" ]; then
       s3_restore_region="--region $s3_restore_region_base"
-      echo "setting restore region to $s3_restore_region"
+      echo "setting restore region to $s3_restore_region"      
 fi
 
 
@@ -277,9 +277,9 @@ unzip *.zip
 }
 
 getbackupawsurl(){
-echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_backup_region;
+echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_restore_region;
 
-	if $cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_backup_region; then
+	if $cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_restore_region; then
 		echo "Downloaded $restore_base_url$restore_file to $tmp_restore_dir";
 	else
 		error_exit
@@ -288,22 +288,22 @@ echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restor
 }
 
 getbackupawsdir(){
-s3basefolder=$s3_backup_dir_prefix/$restore_s3_restore_dir_period/$s3_backup_dir_suffix
-echo "getbackupawsdir s3basefolder = "$s3basefolder;
+
+echo "getbackupawsdir s3_restore_dir = "$s3_restore_dir;
  if [ "x$restore_file" != "x" ]; 
    then
      echo "restore_file not empty and = "$restore_file;
-     	if $cp_cmd $s3basefolder$restore_file $tmp_restore_dir/$restore_file $s3_backup_region; then
+     	if $cp_cmd $s3_restore_dir$restore_file $tmp_restore_dir/$restore_file $s3_restore_region; then
 		echo "Downloaded $restore_file to $tmp_restore_dir";
 	else
 		error_exit
 	fi
    else
      echo "restore_file  finding most recent"
-     LATEST=`aws s3 ls $s3basefolder  $s3_backup_region | sort | tail -n 1 | awk '{print $4}'`
+     LATEST=`aws s3 ls $s3_restore_dir  $s3_restore_region | sort | tail -n 1 | awk '{print $4}'`
      restore_file=$LATEST
      echo "getbackupawsdir restore_file = $restore_file"
-	if $cp_cmd $s3basefolder$LATEST $tmp_restore_dir/$LATEST $s3_backup_region; then
+	if $cp_cmd $s3_restore_dir$LATEST $tmp_restore_dir/$LATEST $s3_restore_region; then
 		echo "Downloaded $LATEST to $tmp_restore_dir";
 	else
 		error_exit

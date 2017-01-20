@@ -9,3 +9,5 @@
 
 - name: run restore command
   shell: "{{ restore_full_restore_cmd }}"
+  async: "{{restore_async_time}}"
+  poll:  10

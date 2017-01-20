@@ -33,12 +33,9 @@
 - name: include includevars yml when restore_fromhostname is defined and not empty
   include: includevars.yml
   when: not (restore_fromhostname is undefined or restore_fromhostname is none or restore_fromhostname | trim == '')
-
-- debug: msg="restore_s3_restore_dir = {{restore_s3_restore_dir}}"
-  when: restore_s3_restore_dir  is defined
   
-- debug: msg="restore_app_name = {{restore_app_name}}"
-  when: restore_app_name  is defined
+#- debug: msg="restore_app_name = {{restore_app_name}}"
+#  when: restore_app_name  is defined
 
 - name: include restore yml when app name is defined and not empty
   include: restore.yml

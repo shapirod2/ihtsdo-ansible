@@ -10,68 +10,113 @@
 #  with_items: "{{restore_fromhostname}}" 
 #  when: hostvars[item]['bob']  is defined
 
- 
-- set_fact: 
+
+- name:  set restore_app_name from val in {{restore_fromhostname}}
+  set_fact: 
    restore_app_name: "{{ hostvars[item]['backup_app_name'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_app_name']  is defined  
-  
-- set_fact: 
-   restore_s3_restore_dir: "{{ hostvars[item]['backup_s3_backup_dir'] }}"
+  when: hostvars[item]['backup_app_name']  is defined 
+
+
+- name:  set backup_level from val in {{restore_fromhostname}}  
+  set_fact: 
+   backup_level: "{{ hostvars[item]['backup_level'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_level']  is defined
+
+
+- name:  set backup_s3_backup_dir from val in {{restore_fromhostname}} using backup_level
+  set_fact: 
+   backup_s3_backup_dir: "{{backup_s3_backup_dir_prefix}}{{ hostvars[item]['backup_level'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_level']  is defined 
+
+
+- name:  set backup_s3_backup_dir from val in {{restore_fromhostname}}  
+  set_fact: 
+   backup_s3_backup_dir: "{{ hostvars[item]['backup_s3_backup_dir'] }}"
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_s3_backup_dir']  is defined  
-  
-- set_fact: 
-   restore_s3_restore_region: "{{ hostvars[item]['restore_s3_restore_region'] }}"
+
+
+- name:  set backup_s3_backup_region from val in {{restore_fromhostname}}  
+  set_fact: 
+   backup_s3_backup_region: "{{ hostvars[item]['backup_s3_backup_region'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['restore_s3_restore_region']  is defined  
-  
-- set_fact: 
+  when: hostvars[item]['backup_s3_backup_region']  is defined
+ 
+- debug: msg="restore_db_host = {{restore_db_host}}" 
+- name:  set restore_db_host from val in {{restore_fromhostname}}  
+  set_fact: 
    restore_db_host: "{{ hostvars[item]['backup_db_host'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_host']  is defined    
-  
-- set_fact: 
+  when: hostvars[item]['backup_db_host']  is defined  and  (restore_db_host  is undefined or restore_db_host is none or restore_db_host | trim == '' )
+
+- debug: msg="restore_db_port = {{restore_db_port}}"
+- name:  set restore_db_port from val in {{restore_fromhostname}}  
+  set_fact: 
    restore_db_port: "{{ hostvars[item]['backup_db_host'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_host']  is defined    
-    
-- set_fact: 
+  when: hostvars[item]['backup_db_host']  is defined  and  (restore_db_port  is undefined or restore_db_port is none or restore_db_port | trim == '' )    
+
+- debug: msg="restore_db_user = {{restore_db_user}}"
+- name:  set restore_db_user from val in {{restore_fromhostname}}    
+  set_fact: 
    restore_db_user: "{{ hostvars[item]['backup_db_user'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_user']  is defined      
+  when: hostvars[item]['backup_db_user']  is defined and  (restore_db_user  is undefined or restore_db_user is none or restore_db_user | trim == '' )     
 
-- set_fact: 
+- name:  set restore_db_password from val in {{restore_fromhostname}}
+  set_fact: 
    restore_db_password: "{{ hostvars[item]['backup_db_password'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_password']  is defined  
+  when: hostvars[item]['backup_db_password']  is defined  and  (restore_db_password  is undefined or restore_db_password is none or restore_db_password | trim == '' )
   
-- set_fact: 
-   restore_dir_owner: "{{ hostvars[item]['backup_dir_owner'] }}"
-  with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_dir_owner']  is defined  
-  
-- set_fact: 
-   restore_dirs_to_copy: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
-  with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_dirs_to_copy']  is defined      
-
-- set_fact: 
+- debug: msg="restore_db_type = {{restore_db_type}}"
+- name:  set restore_db_type from val in {{restore_fromhostname}}
+  set_fact: 
    restore_db_type: "{{ hostvars[item]['backup_db_type'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_type']  is defined
-  
-- set_fact: 
+  when: hostvars[item]['backup_db_type']  is defined  and  (restore_db_type  is undefined or restore_db_type is none or restore_db_type | trim == '' )
+
+
+- name:  set restore_db_names from val in {{restore_fromhostname}}  
+  set_fact: 
    restore_db_names: "{{ hostvars[item]['backup_db_names'] }}"
   with_items: "{{restore_fromhostname}}" 
-  when: hostvars[item]['backup_db_names']  is defined      
+  when: hostvars[item]['backup_db_names']  is defined   
+
+- debug: msg="restore_dir_owner = {{restore_dir_owner}}" 
+- name:  set restore_dir_owner from val in {{restore_fromhostname}}  
+  set_fact: 
+   restore_dir_owner: "{{ hostvars[item]['backup_dir_owner'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_dir_owner']  is defined  and  (restore_dir_owner  is undefined or restore_dir_owner is none or restore_dir_owner | trim == '' )  
+
+- debug: msg="restore_dirs_to_copy = {{restore_dirs_to_copy}}"  
+- name:  set restore_dirs_to_copy from val in {{restore_fromhostname}}  
+  set_fact: 
+   restore_dirs_to_copy: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
+  with_items: "{{restore_fromhostname}}" 
+  when: hostvars[item]['backup_dirs_to_copy']  is defined  and  (restore_dirs_to_copy  is undefined or restore_dirs_to_copy is none or restore_dirs_to_copy | trim == '' )      
+
+ 
 
 - set_fact: 
    restore_hostname: "{{restore_fromhostname}}"
 
 
-
-
+- debug: msg="restore_app_name = {{restore_app_name}}"
+- debug: msg="backup_level = {{backup_level}}"
+- debug: msg="backup_s3_backup_dir = {{backup_s3_backup_dir}}"
+- debug: msg="backup_s3_backup_region = {{backup_s3_backup_region}}"
+- debug: msg="restore_db_type = {{restore_db_type}}"
+- debug: msg="restore_db_host = {{restore_db_host}}"
+- debug: msg="restore_db_user = {{restore_db_user}}"
+- debug: msg="restore_db_port = {{restore_db_port}}"
+- debug: msg="restore_db_names = {{restore_db_names}}"
+- debug: msg="restore_dir_owner = {{restore_dir_owner}}"
+- debug: msg="restore_dirs_to_copy = {{restore_dirs_to_copy}}"
 
 
 #restore_dir: "/opt/backup/{{restore_app_name}}"
