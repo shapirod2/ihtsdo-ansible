@@ -1,6 +1,0 @@
----
-- name: restart refsetService
-  supervisorctl: name=refsetService state=restarted
-
-- name: restart nginx
-  service: name=nginx state=restarted

@@ -2,6 +2,6 @@
   - hosts: refset
     sudo: true
     roles: 
-      - IHTSDO.refset_mysql
-
-      
+      - IHTSDO.mysql
+      - IHTSDO.refset
+      - IHTSDO.nginx-standard

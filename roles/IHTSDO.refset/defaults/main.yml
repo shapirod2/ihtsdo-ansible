@@ -1,0 +1,45 @@
+---
+refset_name: refset-rest
+refset_version: latest
+refset_indexes: /opt/refset-indexes/refset
+refset_location: /opt/refset-rest
+refset_base_url: hmmm
+
+refset_admin_user: change_me
+refset_admin_password: change_me
+
+refset_jdbc_user: change_me
+refset_jdbc_password: change_me
+refset_jdbc_database: change_me
+
+refset_termserver_instance: change_me
+refset_termserver_auth_header: change_me
+refset_termserver_url: "https://{{ refset_termserver_instance }}/snowowl/snomed-ct/v2"
+refset_termserver_apikey: NOT_USED
+
+refset_termserverSE_instance: change_me
+refset_termserverSE_auth_header: change_me
+refset_termserverSE_url: "https://{{ refset_termserverSE_instance }}/snowowl/snomed-ct/v2"
+refset_termserverSE_apikey: NOT_USED
+
+refset_browser_instance: change_me
+refset_browser_url: "https://{{ refset_browser_instance }}/api"
+refset_browser_apikey: change_me
+
+refset_cis_instance: change_me
+refset_cis_url: "https://{{ refset_cis_instance }}/api"
+refset_cis_username: "bob"
+refset_cis_password: "bob"
+
+refset_ims_instance: ims.ihtsdotools.org
+refset_ims_url: "https://{{refset_ims_instance}}"
+
+refset_mail_enabled: "false"
+refset_mail_smtp_user: "change_me"
+refset_mail_smtp_password: "change_me"
+refset_mail_smtp_to: "shange_me@spam.com"
+refset_mail_smtp_host: "localhost"
+refset_mail_smtp_port: "587"
+refset_mail_smtp_starttls_enable: "false"
+refset_mail_smtp_auth: "false"
+refset_mail_smtp_from: "change_me@spam.com"
