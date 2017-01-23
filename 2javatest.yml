@@ -1,0 +1,10 @@
+# Added the install java and super visor roles as it is common and means it does not have to be 
+# included everytime.
+---
+- hosts: all
+  sudo: true
+  roles:
+    - { role: IHTSDO.oraclejava, oraclejava_version: 7}
+    - { role: IHTSDO.oraclejava, oraclejava_version: 8}
+
+
