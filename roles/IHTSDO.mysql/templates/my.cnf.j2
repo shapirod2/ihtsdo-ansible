@@ -29,8 +29,6 @@ socket		= /var/run/mysqld/mysqld.sock
 nice		= 0
 
 [mysqld]
-innodb_log_file_size = 1024M
-innodb_buffer_pool_size = 2G
 #
 # * Basic Settings
 #
@@ -108,7 +106,7 @@ max_binlog_size         = 100M
 # ssl-ca=/etc/mysql/cacert.pem
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
-default-character-set=utf8
+character-set-server=utf8
 
 [mysqldump]
 quick
