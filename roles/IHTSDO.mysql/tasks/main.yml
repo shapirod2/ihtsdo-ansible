@@ -7,7 +7,7 @@
 
 # Install the package "mysql-server"
 - name: Install mysql server
-  apt: name=mysql-server-{{ mysql_version }} state=present
+  apt: name=mysql-server-{{ mysql_version }} state=present update_cache=yes cache_valid_time=300  
 
 # set the my.cnf
 - name: Copy my.cnf
@@ -40,12 +40,12 @@
 - name: Create Databases
   mysql_db: name={{ item }} state=present login_user=root login_password={{ mysql_root_password }} collation=utf8_bin encoding=utf8
   with_items: "{{ mysql_databases }}"
-  when: mysql_databases|lower != 'none'
+  when: mysql_databases|lower != 'none' and mysql_databases is defined
 
 - name: Create Users
   mysql_user: name={{ item['user']['name'] }} password={{ item['user']['password'] }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
   with_items: "{{ mysql_users }}"
-  when: mysql_users|lower != 'none'
+  when: mysql_users|lower != 'none' and mysql_users is defined
 
 - name: restart mysql
   service: name={{ mysql_service_name }} state=restarted

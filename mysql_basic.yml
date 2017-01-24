@@ -1,0 +1,6 @@
+- name: Install just MySQL 
+  hosts: mysql
+  sudo: true
+  roles:
+    - IHTSDO.mysql
+
