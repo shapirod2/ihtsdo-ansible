@@ -202,10 +202,12 @@ echo "currently in " $PWD
        if [ "$db" = "all" ];
         then 
          echo "MySql restoring all";
-         /usr/bin/mysql -u ${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
+         /usr/bin/mysql -u${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
         else
          echo "MySql restoring : ${db}";
-         /usr/bin/mysql -u ${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
+         /usr/bin/mysql -u${db_user} -p${db_password} -e "DROP DATABASE IF EXISTS ${db};"
+         /usr/bin/mysql -u${db_user} -p${db_password} -e "CREATE DATABASE ${db};"
+         /usr/bin/mysql -u${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
       fi  
  fi               
     done 
