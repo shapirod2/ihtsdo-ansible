@@ -4,7 +4,9 @@
 - hosts: all
   sudo: true
   roles:
-    - { role: IHTSDO.oraclejava, oraclejava_version: 7}
-    - { role: IHTSDO.oraclejava, oraclejava_version: 8}
+   # - { role: IHTSDO.oraclejava, oraclejava_version: 7}
+   # - { role: IHTSDO.oraclejava, oraclejava_version: 8}
+   - IHTSDO.oraclejava
+
 
 

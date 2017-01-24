@@ -1,1 +1,1 @@
-JAVA_OPTS="-DcrowdPropertiesFileLocation=configuration/"
+JAVA_OPTS="{{term_serv_java_opts}} {{term_serv_java_opts_extra}}"

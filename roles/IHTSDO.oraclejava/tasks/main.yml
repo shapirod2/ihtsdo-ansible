@@ -1,4 +1,6 @@
 ---
+  - debug: msg="oraclejava_versions = {{ oraclejava_versions }}"
+
   - name: Install python-apt
     apt: name=python-software-properties state=installed update_cache=yes cache_valid_time=3600
 
@@ -12,14 +14,17 @@
     shell: echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections
 
   - name: Install Java
-    apt: pkg=oracle-java{{ oraclejava_version }}-installer
+    apt: pkg=oracle-java{{ item }}-installer
          state=installed
          update_cache=yes
          cache_valid_time=3600
+    with_items: "{{oraclejava_versions}}"
 
   - name: Set default alternative Java
-    command: update-java-alternatives --set java-{{ oraclejava_version }}-oracle
+    command: update-java-alternatives --set java-{{ item }}-oracle
+    with_items: "{{oraclejava_versions}}"
     when: oraclejava_default == true
+    
     
 #  - name: Set the /dev/urandom to   /dev/./urandom in java.security
 #    lineinfile:

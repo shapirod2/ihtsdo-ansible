@@ -61,6 +61,9 @@
 
 - name: Copy dmk.sh
   template: src=dmk.sh.j2 dest={{ term_serv_dir }}/bin/dmk.sh owner=root group=root mode=0755
+  
+- name: Copy checkJava.sh
+  template: src=checkJava.sh.j2 dest={{ term_serv_dir }}/bin/checkJava.sh owner=root group=root mode=0755  
 
 - name: Copy Jira Private Key
   copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/{{ jira_privateKeyName }}

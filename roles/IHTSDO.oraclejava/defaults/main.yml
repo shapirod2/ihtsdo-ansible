@@ -1,5 +1,6 @@
 ---
-oraclejava_version: 7
+oraclejava_versions: [7]
+                  
 oraclejava_default: yes
 
 #oraclejava_secure_path: /usr/lib/jvm/java-7-oracle/jre/lib/security/java.security

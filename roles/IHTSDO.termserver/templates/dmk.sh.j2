@@ -179,6 +179,10 @@ then
     else
      	JAVA_EXECUTABLE=$JAVA_HOME/bin/java
     fi
+    
+    {% if term_serv_java_path is defined %}
+     JAVA_EXECUTABLE = {{term_serv_java_path}}
+    {% endif %}
 
 	# If we get here we have the correct Java version.
 	

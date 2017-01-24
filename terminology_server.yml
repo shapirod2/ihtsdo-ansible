@@ -2,6 +2,7 @@
   - hosts: termserver
     sudo: true
     roles:
+      - IHTSDO.oraclejava
       - IHTSDO.aws
       - IHTSDO.orchestration-service
       - IHTSDO.termserver
