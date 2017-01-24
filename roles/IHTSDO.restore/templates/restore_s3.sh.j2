@@ -184,16 +184,22 @@ echo "currently in " $PWD
             then
              if [ "$db" = "all" ];
               then 
-               su - postgres -c "/usr/bin/psql -f './$DATABASE_DUMP_FILE'"
+              echo "using postgres user to restore all"
+               su - postgres -c "/usr/bin/psql -f '$tmp_restore_dir/$DATABASE_DUMP_FILE'"
               else
-               su - postgres -c "/usr/bin/psql -d ${db}  -f './$DATABASE_DUMP_FILE'"
+              echo "using postgres user to restore ${db} using $tmp_restore_dir/$DATABASE_DUMP_FILE"
+               su - postgres -c "/usr/bin/psql -c 'DROP DATABASE IF EXISTS ${db}'"
+               su - postgres -c "/usr/bin/psql -c 'CREATE DATABASE ${db}'"
+               su - postgres -c "/usr/bin/psql -d ${db}  -f '$tmp_restore_dir/$DATABASE_DUMP_FILE'"
             fi                       
           else 
             if [ "$db" = "all" ];
               then
-               /usr/bin/psql -h${db_host} -p${db_port} -f "./$DATABASE_DUMP_FILE"
+               /usr/bin/psql -h${db_host} -p${db_port} -f "$tmp_restore_dir/$DATABASE_DUMP_FILE"
               else   
-               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f "./$DATABASE_DUMP_FILE"
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'DROP DATABASE IF EXISTS ${db}'"
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'CREATE DATABASE ${db}'"
+               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f "$tmp_restore_dir/$DATABASE_DUMP_FILE"
               fi                                  
           fi
     fi      
