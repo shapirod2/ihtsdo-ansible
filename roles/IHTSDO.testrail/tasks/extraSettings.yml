@@ -32,6 +32,7 @@
 - name: add line to php_cli.ini  php_cli_ini
   lineinfile: dest="{{php_cli_ini}}" line="{{ioncube_line}}" state="present" 
   
- 
+- name: enable a2enmod rewrite
+  command: /usr/sbin/a2enmod rewrite
 
     

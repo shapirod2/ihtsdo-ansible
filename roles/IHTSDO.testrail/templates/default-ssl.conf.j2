@@ -2,6 +2,9 @@
 	<VirtualHost _default_:443>
 		ServerAdmin webmaster@localhost
 		DocumentRoot {{ testrail_html_dir }}
+		RewriteEngine  on
+        RewriteRule ^/$ /testrail [R=301,L]
+		
 
 		# Available loglevels: trace8, ..., trace1, debug, info, notice, warn,
 		# error, crit, alert, emerg.
