@@ -9,7 +9,7 @@ term_serv_Xms: 5g
 term_serv_workers: 40
 term_serv_java_opts: "-DcrowdPropertiesFileLocation=configuration"
 term_serv_java_opts_extra: ""
-#term_serv_java_opts_extra: "-Xloggc:/opt/termserver/servicability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
+#term_serv_java_opts_extra: "-Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
 term_serv_java_path: "/usr/lib/jvm/java-7-oracle/bin/java"
 #oraclejava_version: 7
 #Set the db content from a backup
