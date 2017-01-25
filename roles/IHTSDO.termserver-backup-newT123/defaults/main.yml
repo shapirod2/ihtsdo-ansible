@@ -2,7 +2,7 @@
 
 #ts_backup_mode: "hot"
 ts_user: "snowowl"
-ts_pw: "snowowl"
+ts_pw: "localtest"
 ts_dbname: snomedstore
 ts_review_dbname: ts_review
 traceability_database: traceability
