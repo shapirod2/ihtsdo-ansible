@@ -1,7 +1,9 @@
 restore_dir_owner: ""
 #A list of directories to copy:
+# If set to no none are copied even if they are backed up.
 restore_dirs_to_copy: "{{backup_dirs_to_copy}}"
-
+# stops the copying of restore dirs if set to no
+#restore_dirs: no
 #Database info  
 #mysql, postgresql or none. Default to mysql on localhost as most are
 #backup_db_type: "none"
@@ -74,11 +76,11 @@ restore_precmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
-restore_dbcmds: ""
+#restore_dbcmds: ""
 #  - "/bin/echo \"precmd1!\""
 #  - "/bin/echo \"precmd2!\""
 
-restore_precopycmds: ""
+#restore_precopycmds: ""
 #   - "/bin/echo \"precopycmd1!\""
 #   - "/bin/echo \"precopycmd2!\""
 

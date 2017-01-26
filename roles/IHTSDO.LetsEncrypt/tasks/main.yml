@@ -23,6 +23,11 @@
 
 - name: Make executable
   file: path={{ letsencrypt_bin }}/certbot-auto mode=755
+  
+  
+- name: Ensure {{letsencrypt_webserver}}  service is stopped
+  service: name={{letsencrypt_webserver}} state=stopped enabled=yes
+  ignore_errors: yes   
 
 - name: Generate cert
   shell: "certbot-auto certonly --standalone --email {{ item.email|default(letsencrypt.email)|quote }} -d {{ item.domain|quote }}{% if item.auto_www|default(false) %} -d www.{{ item.domain|quote }}{% endif %}{% for altname in item.altnames|default([]) %} -d {{ altname|quote }}{% if item.auto_www|default(false) %} -d www.{{ altname|quote }}{% endif %}{% endfor %} --non-interactive --agree-tos"
@@ -31,3 +36,8 @@
 #
 # - name: Automate renewel
 #   cron: name="Renew cert" minute="46" hour="*/12" job="certbot-auto renew --post-hook {{ letsencrypt.posthook }}"
+
+
+- name: Ensure {{letsencrypt_webserver}}  service is started
+  service: name={{letsencrypt_webserver}} state=started enabled=yes
+ 

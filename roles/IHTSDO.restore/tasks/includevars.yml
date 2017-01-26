@@ -127,7 +127,14 @@
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_dirs_to_copy']  is defined  and  (restore_dirs_to_copy  is undefined or restore_dirs_to_copy is none or restore_dirs_to_copy | trim == '' )      
 
- 
+- debug: msg="restore_dirs_to_copy1 = {{restore_dirs_to_copy}}"
+
+- name:  set restore_dirs_to_copy to empty if set to no 
+  set_fact: 
+   restore_dirs_to_copy: ""
+  when: restore_dirs is defined and restore_dirs == no
+
+- debug: msg="restore_dirs_to_copy2 = {{restore_dirs_to_copy}}"
 
 - set_fact: 
    restore_hostname: "{{restore_fromhostname}}"

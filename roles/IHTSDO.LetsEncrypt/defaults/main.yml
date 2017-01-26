@@ -9,3 +9,5 @@ letsencrypt:
      #  - { domain: 'www.snomedinaction.org', email: afl@snomed.org  }
      #  - { domain: 'snomedinaction.org', email: afl@snomed.org  }
      #  - { domain: 'va-sia.ihtsdotools.org', email: afl@snomed.org  }
+
+letsencrypt_webserver: nginx     

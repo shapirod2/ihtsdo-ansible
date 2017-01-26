@@ -4,10 +4,14 @@ cp_cmd="/usr/bin/aws s3 cp "
 
 #dirs to restore :
 dirs_to_restore=({% for restore_dir in restore_dirs_to_copy %}"{{restore_dir}}" {% endfor %})
-#pre back up commands
+#pre restore commands
 precmds=({% for precmd in restore_precmds %}"{{precmd}}" {% endfor %})
-#post back up commands
+#post restore commands
 postcmds=({% for postcmd in restore_postcmds %}"{{postcmd}}" {% endfor %})
+
+#restore_dbcmds
+#restore_precopycmds
+ 
 # db_type acceptable values:
 # pgsql = Postgres
 # mysql = MySql
@@ -40,6 +44,7 @@ s3_backup_region_base="{{ backup_s3_backup_region | default('') }}"
 
 restore_file="{{restore_file}}"
 restore_base_url="{{restore_base_url}}"
+restore_dir_owner={{restore_dir_owner | default('')}}
 
 
 s3_restore_dir="{{ restore_s3_restore_dir | default('') }}"
@@ -155,6 +160,7 @@ fi
 }
 
 post_cmd(){
+echo "post_cmd postcmds = $postcmds"
 if [ "x$postcmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${postcmds[*]};
@@ -228,11 +234,15 @@ echo "copyfiles restore_file = $restore_file"
 cd $tmp_restore_dir
 cd $(ls -d */|head -n 1)
 echo "currently in " $PWD
+echo "restore_dir_owner = $restore_dir_owner"
 for dir in ${dirs_to_restore[*]};
         do  
         echo "Copying dir = .${dir} to ${dir}"
         rm -rf ${dir}
         cp --recursive .${dir} ${dir} 
+        if [ "x$restore_dir_owner" != "x" ]; then
+        /bin/chown -R $restore_dir_owner:$restore_dir_owner ${dir}
+        fi
         done 
 	echo_date "Done Copying files."
 }
