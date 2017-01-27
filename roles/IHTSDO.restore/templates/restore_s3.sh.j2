@@ -214,12 +214,15 @@ echo "currently in " $PWD
        if [ "$db" = "all" ];
         then 
          echo "MySql restoring all";
-         /usr/bin/mysql -u${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
+         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
         else
          echo "MySql restoring : ${db}";
+         echo "dropping ${db};"
          /usr/bin/mysql -u${db_user} -p${db_password} -e "DROP DATABASE IF EXISTS ${db};"
+         echo "recreating ${db};"
          /usr/bin/mysql -u${db_user} -p${db_password} -e "CREATE DATABASE ${db};"
-         /usr/bin/mysql -u${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
+         echo "restoring ${db} using ./$DATABASE_DUMP_FILE;"
+         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
       fi  
  fi               
     done 
