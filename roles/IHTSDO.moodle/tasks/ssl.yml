@@ -19,4 +19,7 @@
   command: /usr/sbin/a2ensite default-ssl
 - name: add ssl module
   command: /usr/sbin/a2enmod ssl
+  
+- name: enable a2enmod rewrite
+  command: /usr/sbin/a2enmod rewrite  
       

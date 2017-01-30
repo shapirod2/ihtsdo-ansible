@@ -1,0 +1,9 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteCond %{REMOTE_ADDR} !
+RewriteCond /opt/maint/maintain.html -f
+RewriteCond %{SCRIPT_FILENAME} !maintain.html
+RewriteRule ^.*$ /opt/maint/maintain.html [R=503,L]
+ErrorDocument 503 /opt/maint/maintain.html
+Header Set Cache-Control "max-age=0, no-store"
+</IfModule>

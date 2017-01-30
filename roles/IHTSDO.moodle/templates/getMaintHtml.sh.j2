@@ -1,0 +1,18 @@
+#!/bin/sh
+
+# Args -
+# start downloads the file to here
+# finish removes the file from here
+
+maintFile={{ moodle_maint_filename }}
+maintURL={{ moodle_maint_page_url }}
+maintDir={{ moodle_maint_location }}
+
+echo "Action = $1 "
+if [ $1 = "start" ];
+then wget -O $maintDir/$maintFile $maintURL
+fi
+
+if [ $1 = "stop" ];
+then rm -f $maintDir/$maintFile
+fi

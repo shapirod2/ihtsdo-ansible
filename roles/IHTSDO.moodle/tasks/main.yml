@@ -24,6 +24,9 @@
 
 - name: if ssl then set up ssl
   include: ssl.yml
+  
+   #Get maint 
+- include: maintenance.yml   
 
 - name: restart apache2
   service: name=apache2 state=restarted

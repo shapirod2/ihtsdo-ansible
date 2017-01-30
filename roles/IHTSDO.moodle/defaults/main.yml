@@ -16,6 +16,7 @@ moodle_html_dir: "{{ moodle_html_base_dir }}/{{ moodle_dir }}"
 moodle_html_admin_dir: "{{moodle_html_dir}}/admin"
 moodle_html_admin_cli_dir: "{{moodle_html_admin_dir}}/cli"
 moodle_db_update_script: "php {{moodle_html_admin_cli_dir}}/mysql_compressed_rows.php --fix"
+moodle_innodb_buffer_pool_size: "100M"
 
 moodle_data_dir: "/var/moodledata"
 
@@ -47,3 +48,7 @@ ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
 #nginx_default_site: true
 #nginx_ufw_allow_https: true
 #nginx_proxy_url: http://localhost:8080/
+
+moodle_maint_location: /opt/maint
+moodle_maint_page_url: "https://static-web.ihtsdotools.org/html/maint.html"
+moodle_maint_filename: "maintain.html"
