@@ -132,7 +132,7 @@ check_arguments() {
 
 # Main script starts here.
 main() {
-	echo_date "----------------------------"
+	echo_date "START TIME ----------------------------"
 	check_arguments
 	pre_cmd
 	mkrestoredir
@@ -145,6 +145,7 @@ main() {
 	
 	#rsyncfiles
     post_cmd
+    echo_date "END TIME ----------------------------"
 	
 }
 
@@ -298,9 +299,10 @@ unzip *.zip
 }
 
 getbackupawsurl(){
-echo "getbackupawsurl cmd = "$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_restore_region;
+getbackupawsurlcmd="$cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_restore_region";
+echo "getbackupawsurl cmd = $getbackupawsurlcmd";
 
-	if $cp_cmd  $restore_base_url$restore_file $tmp_restore_dir/$restore_file $s3_restore_region; then
+	if eval getbackupawsurlcmd; then
 		echo "Downloaded $restore_base_url$restore_file to $tmp_restore_dir";
 	else
 		error_exit
@@ -314,17 +316,21 @@ echo "getbackupawsdir s3_restore_dir = "$s3_restore_dir;
  if [ "x$restore_file" != "x" ]; 
    then
      echo "restore_file not empty and = "$restore_file;
-     	if $cp_cmd $s3_restore_dir$restore_file $tmp_restore_dir/$restore_file $s3_restore_region; then
+        s3cpcmd="$cp_cmd $s3_restore_dir$restore_file $tmp_restore_dir/$restore_file $s3_restore_region";
+        echo "s3cpcmd  = $s3cpcmd"
+     	if eval $s3cpcmd; then
 		echo "Downloaded $restore_file to $tmp_restore_dir";
 	else
 		error_exit
 	fi
    else
      echo "restore_file  finding most recent"
-     LATEST=`aws s3 ls $s3_restore_dir  $s3_restore_region | sort | tail -n 1 | awk '{print $4}'`
+     LATEST=`/usr/bin/aws s3 ls $s3_restore_dir | sort | tail -n 1 | awk '{print \$4}'`;
      restore_file=$LATEST
      echo "getbackupawsdir restore_file = $restore_file"
-	if $cp_cmd $s3_restore_dir$LATEST $tmp_restore_dir/$LATEST $s3_restore_region; then
+     s3cpcmd="$cp_cmd $s3_restore_dir$LATEST $tmp_restore_dir/$LATEST $s3_restore_region";
+     echo "s3cpcmd  = $s3cpcmd"
+	if eval $s3cpcmd; then
 		echo "Downloaded $LATEST to $tmp_restore_dir";
 	else
 		error_exit
