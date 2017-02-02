@@ -20,10 +20,5 @@
   unarchive: src="{{new_relic_zip_path}}" dest="/opt" copy=no
   when: dlfile2.stat.exists == True
 
-- name: Add newRelic agent into java options
-  lineinfile: dest="{{term_serv_dir}}/bin/setenv.sh"
-              regexp="^JAVA_OPTS="
-              line="JAVA_OPTS=\"-javaagent:/opt/newrelic/newrelic.jar -DcrowdPropertiesFileLocation=configuration/\""
-
 #- name: Install NewRelic Monitoring Agent
 #  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no
