@@ -10,6 +10,6 @@
      ihtsdo_repository: release 
      int_unpacked_release_file_name: "SnomedCT_RF2Release_INT_20160731"  
     roles:
-     # - IHTSDO.aws
+      - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
 

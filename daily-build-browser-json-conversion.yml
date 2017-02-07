@@ -2,4 +2,5 @@
   - hosts: browser
     sudo: true
     roles:
+      - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion

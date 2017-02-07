@@ -8,4 +8,5 @@
      release_file_name: SnomedCT_DrugsProductHierarchyModelingTechPreview_INT_20170131.zip
      config_xml: enConfig-drugs.xml.j2
     roles:
+      - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
