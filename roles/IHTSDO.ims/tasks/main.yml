@@ -9,6 +9,12 @@
   
 - name: stop ims
   supervisorctl: name=identity-service state=stopped   
+
+- name: Remove install_dir 
+  file: path={{install_dir}} state=absent
+
+- name: make sure install_dir exists
+  file: path={{install_dir}}  state=directory 
   
 - name: Install latest ims package
   apt: name=identity-service state=latest  
@@ -24,11 +30,7 @@
 #- name: Ensure user exists
 #  user: name={{ ims_user }} group={{ ims_user }} state=present  
 
-- name: Remove classes_dir 
-  file: path={{classes_dir}} state=absent
 
-- name: make sure classes_dir exists
-  file: path={{classes_dir}}  state=directory 
 
  
 # unzip war
