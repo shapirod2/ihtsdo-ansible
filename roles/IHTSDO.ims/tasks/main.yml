@@ -23,23 +23,27 @@
 
 #- name: Ensure user exists
 #  user: name={{ ims_user }} group={{ ims_user }} state=present  
- 
-# unzip war
-
-- name: make sure zip file exists
-  stat: path={{lib_dir}}/{{war_file}}
-  register: warfile
-
-- name: Unarchive war
-  unarchive: src={{lib_dir}}/{{war_file}} dest={{lib_dir}}/ copy=no
-  when: warfile.stat.exists == True
 
 - name: Remove classes_dir 
   file: path={{classes_dir}} state=absent
 
 - name: make sure classes_dir exists
-  file: path={{classes_dir}}  state=directory  
+  file: path={{classes_dir}}  state=directory 
 
+ 
+# unzip war
+
+
+- name: make sure zip file exists
+  stat: path={{lib_dir}}/{{war_file}}
+  register: warfile
+
+
+- name: Unarchive war
+  unarchive: src={{lib_dir}}/{{war_file}} dest={{lib_dir}}/ copy=no
+  when: warfile.stat.exists == True
+
+ 
 
 - name: Configure application.yml
   template: src=application.yml.j2 dest="{{ classes_dir}}/application.yml"
