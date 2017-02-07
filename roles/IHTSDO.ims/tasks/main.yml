@@ -34,6 +34,13 @@
   unarchive: src={{lib_dir}}/{{war_file}} dest={{lib_dir}}/ copy=no
   when: warfile.stat.exists == True
 
+- name: Remove classes_dir 
+  file: path={{classes_dir}} state=absent
+
+- name: make sure classes_dir exists
+  file: path={{classes_dir}}  state=directory  
+
+
 - name: Configure application.yml
   template: src=application.yml.j2 dest="{{ classes_dir}}/application.yml"
               owner=root group=root mode=0640        
