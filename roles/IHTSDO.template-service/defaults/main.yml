@@ -3,3 +3,5 @@ template_name: "snomed-template-service"
 template_port: 8086
 template_version: latest
 template_contextPath: "/template-service"
+template_username: change_me
+template_password: change_me

@@ -27,3 +27,5 @@
 
 - name: (re)start template-service
   supervisorctl: name={{ template_name }}  state=restarted
+  ignore_errors: yes
+
