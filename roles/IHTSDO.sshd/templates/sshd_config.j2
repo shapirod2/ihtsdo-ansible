@@ -114,3 +114,7 @@ Banner {{ sshd_banner }}
 
 # override default of no subsystems
 Subsystem	sftp	{{ sshd_subsystem_sftp }}
+
+# Encryption Standadrs Supported
+Ciphers {{ sshd_ciphers }}
+MACs {{ sshd_mac }}

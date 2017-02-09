@@ -55,3 +55,5 @@ sshd_chroot_directory: none
 sshd_version_addendum: none
 sshd_banner: none
 sshd_subsystem_sftp: /usr/lib/ssh/sftp-server
+sshd_ciphers: aes256-ctr
+sshd_mac: hmac-sha2-512,hmac-sha2-256
