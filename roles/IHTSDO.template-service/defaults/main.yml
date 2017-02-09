@@ -5,3 +5,4 @@ template_version: latest
 template_contextPath: "/template-service"
 template_username: change_me
 template_password: change_me
+template_terminology_endpoint: https://dev-authoring.ihtsdotools.org/snowowl/snomed-ct/v2/
