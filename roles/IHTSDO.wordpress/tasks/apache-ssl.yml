@@ -1,0 +1,47 @@
+
+- name: stop apache2
+  service: name=apache2 state=stopped
+ 
+- name: stop nginx
+  service: name=nginx state=stopped 
+
+- name: Install deps
+  apt: name={{item}} state=latest
+  with_items:
+       - apache2
+       - libapache2-mod-{{wp_php_version}}
+       
+
+
+- name: Install SSL cert
+  copy: src={{ ssl_cert_file }} dest={{ ssl_cert_file_dest }}
+          owner=root group=root mode=0644
+          
+- name: Install Intermediate SSL cert
+  copy: src={{ ssl_intermediate_cert_file }} dest={{ ssl_intermediate_cert_file_dest }}
+          owner=root group=root mode=0644          
+
+- name: Install SSL key
+  copy: src={{ ssl_key_file }} dest={{ ssl_key_file_dest }}
+          owner=root group=root mode=0600
+          
+- name: copy default conf
+  template: src=default-ssl.conf.j2 dest=/etc/apache2/sites-available/default-ssl.conf
+            owner=root group=root mode=0644   
+            
+- name: copy apache2 conf
+  template: src=apache2.conf.j2 dest=/etc/apache2/apache2.conf
+            owner=root group=root mode=0644                  
+                   
+
+- name: add default-ssl virtual host
+  command: /usr/sbin/a2ensite default-ssl
+  
+- name: add ssl module
+  command: /usr/sbin/a2enmod ssl
+  
+- name: enable a2enmod rewrite
+  command: /usr/sbin/a2enmod rewrite  
+ 
+- name: restart apache2
+  service: name=apache2 state=restarted      

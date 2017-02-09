@@ -19,8 +19,10 @@
  #include getwp
 - include: getwp.yml 
   
-#- name: restart apache2
-#  service: name=apache2 state=restarted
- 
-- name: restart nginx
-  service: name=nginx state=restarted 
+- include: apache-ssl.yml 
+  when:  wp_web_server == "apache"  
+  
+- name: restart webserver
+  service: name={{wp_web_server}} state=restarted
+
+

@@ -29,3 +29,6 @@ full_setup_cmd: "{{ setup_cmd }} >> {{ setup_log }}"
 #wp_dir_tgt: "{{plugins_dir_tgt}}/{{wp_dir}}"
 #theme_dir: "SnomedInAction"
 #wp_dir: wp-directory
+
+#wp_web_server: "nginx"
+wp_web_server: "apache2"

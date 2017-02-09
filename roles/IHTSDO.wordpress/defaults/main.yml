@@ -5,7 +5,8 @@ wp_db_name: wordpress
 wp_db_user: wordpress
 wp_db_pw: wordpress
 
-wp_version: "4.5.2"
+#wp_version: "4.5.2"
+wp_version: "4.3.1"
 
 wp_php_version_base: "5"
 wp_php_version: "php{{wp_php_version_base}}"
@@ -24,5 +25,15 @@ wp_config: "wp-config.php"
 wp_web_user: "www-data"
 wp_dir_src: wp-directory
 
-#wp_web_server: "apache"
-wp_web_server: "nginx"
+
+#wp_web_server: "nginx"
+wp_web_server: "apache2"
+#if using apache as webserver
+
+use_ssl_only: "True"
+ssl_key_file: "{{nginx_ssl_key_file}}"
+ssl_cert_file: "{{nginx_ssl_cert_file}}"
+ssl_cert_file_dest: "{{nginx_ssl_cert_file_dest}}"
+ssl_key_file_dest: "{{nginx_ssl_key_file_dest}}"
+
+wp_port: "80"

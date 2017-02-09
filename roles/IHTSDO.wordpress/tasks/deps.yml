@@ -38,11 +38,12 @@
 
 - name: set php5-fpm listen to 127.0.0.1:9000 if php5 dir
   replace: dest=/etc/php5/fpm/pool.d/www.conf regexp='/var/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
+  when: wp_php_version == "php5"
 
 - name: set {{wp_php_version}}-fpm listen to 127.0.0.1:9000
   replace: dest=/etc/php/{{wp_php_version_base}}/fpm/pool.d/www.conf regexp='/var/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
 
-- name: set {{wp_php_version}}-fpm listen to 127.0.0.1:9000 in case of using direct /rn ref instead of /var/run
+- name: set {{wp_php_version}}-fpm listen to 127.0.0.1:9000 in case of using direct /run ref instead of /var/run
   replace: dest=/etc/php/{{wp_php_version_base}}/fpm/pool.d/www.conf regexp='/run/{{wp_php_version}}-fpm.sock' replace='127.0.0.1:9000'
 
 - name: restart {{wp_php_version}}-fpm
