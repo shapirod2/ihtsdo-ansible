@@ -1,31 +1,25 @@
 ---
 # defaults file for IMS
+ims_version: latest
+ims_install_dir: /opt/identity-service
+ims_base_url: "https://dev-ims.ihtsdotools.org"
+ims_application_login_url: "{{ims_base_url }}/#/login"
+ims_cookie_tokenkey: "dev-ims-ihtsdo"
+ims_system_user: identity-service
+ims_system_group: identity-service
+ims_port: 8080
 
-install_dir: /opt/identity-service
-lib_dir: "{{ install_dir }}/lib"
-war_file: "app.war"
-classes_dir: "{{ lib_dir }}/WEB-INF/classes"
+ims_crowd_base_url: "https://dev-crowd.ihtsdotools.org/crowd"
+ims_crowd_server_url: "{{ims_crowd_base_url }}/services/"
+ims_crowd_application_name: "change_me"
+ims_crowd_application_password: "change_me"
 
-#The crowd Server URL
-#crowd_base_url: "https://{{ crowd_host }}/crowd"
-crowd_base_url: "https://dev-crowd.ihtsdotools.org/crowd"
-#The IHTSDO identity management service url
-#ihtsdo_im_service_base_url: https://{{ ims_host }}
-ihtsdo_im_service_base_url: "https://dev-ims.ihtsdotools.org"
+ims_swagger_title: "IHTSDO Identity & SSO service"
+ims_swagger_desc: "Identity & SSO and beyond!"
+ims_swagger_contact: "tooling@ihtsdo.org"
 
-crowd_server_url: "{{ crowd_base_url }}/services/"
-application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
-
-#crowd.properties:
-cookie_tokenkey: "dev-ims-ihtsdo"
-
-#application.yml:
-swagger_title: "IHTSDO Identity & SSO service"
-swagger_desc: "Identity & SSO and beyond!"
-swagger_contact: "tooling@ihtsdo.org"
-
-server_port: 8080
-
-mail_host: auth.smtp.1and1.co.uk
-mail_port: 587
-mail_from: ihtsdo@ihtsdotools.org
+ims_mail_host: auth.smtp.1and1.co.uk
+ims_mail_port: 587
+ims_mail_from: ihtsdo@ihtsdotools.org
+ims_mail_user: change_me
+ims_mail_password: change_me

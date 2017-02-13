@@ -1,59 +1,40 @@
 ---
-
-- name: Update apt cache
-  apt: update_cache=yes cache_valid_time=300
-  sudo: yes
-  
 - name: Install unzip
-  apt: name=unzip state=present  
-  
+  apt: name=unzip state=present update_cache=yes cache_valid_time=3600
+
 - name: stop ims
-  supervisorctl: name=identity-service state=stopped   
+  supervisorctl: name=identity-service state=stopped
+  failed_when: false
 
-- name: Remove install_dir 
-  file: path={{install_dir}} state=absent
+- name: Install package
+  apt: name=identity-service state=installed force=yes update_cache=yes
+  when: ims_version == 'present'
 
-- name: make sure install_dir exists
-  file: path={{install_dir}}  state=directory 
-  
-- name: Install latest ims package
-  apt: name=identity-service state=latest  
+- name: Install package
+  apt: name=identity-service state=installed force=yes update_cache=yes
+  when: ims_version == 'absent'
 
-#Not needed as using h2 which is embedded. needed if using mysql    
-#- name: Include db
-#  include: db.yml  
+- name: Install latest package
+  apt: name=identity-service state=latest force=yes update_cache=yes
+  when: ims_version == 'latest'
 
-#Just using root atm.  
-#- name: Ensure group exists
-#  group: name={{ ims_user }} state=present
-
-#- name: Ensure user exists
-#  user: name={{ ims_user }} group={{ ims_user }} state=present  
-
-
-
- 
-# unzip war
-
+- name: Install package specific version
+  apt: name=identity-service={{ ims_version }} state=installed force=yes
+  when: ims_version != 'installed' and ims_version != 'latest' and ims_version != 'absent'
 
 - name: make sure zip file exists
-  stat: path={{lib_dir}}/{{war_file}}
+  stat: path="{{ ims_install_dir }}/lib/app.war"
   register: warfile
 
-
 - name: Unarchive war
-  unarchive: src={{lib_dir}}/{{war_file}} dest={{lib_dir}}/ copy=no
+  unarchive: src="{{ ims_install_dir }}/lib/app.war" dest={{ims_install_dir}}/lib/ owner={{ ims_system_user }} group={{ ims_system_group }} copy=no
   when: warfile.stat.exists == True
 
- 
-
 - name: Configure application.yml
-  template: src=application.yml.j2 dest="{{ classes_dir}}/application.yml"
-              owner=root group=root mode=0640        
-  
+  template: src=application.yml.j2 dest="{{ ims_install_dir }}/lib/WEB-INF/classes/application.yml" owner={{ ims_system_user }} group={{ ims_system_group }} mode=0640
+
 - name: Configure crowd.properties
-  template: src=crowd.properties.j2 dest="{{ classes_dir }}/crowd.properties"
-              owner=root group=root mode=0640        
-  
+  template: src=crowd.properties.j2 dest="{{ ims_install_dir }}/lib/WEB-INF/classes/crowd.properties" owner={{ ims_system_user }} group={{ ims_system_group }} mode=0640
+
 - name: start ims
-  supervisorctl: name=identity-service state=restarted 
+  supervisorctl: name=identity-service state=restarted

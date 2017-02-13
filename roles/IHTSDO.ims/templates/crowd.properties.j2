@@ -1,15 +1,15 @@
-application.password={{ application_password }}
-application.name={{ application_name }}
-crowd.server.url={{ crowd_server_url }}
-crowd.base.url={{ crowd_base_url }}
-application.login.url={{ application_login_url }}
+application.password={{ ims_crowd_application_password }}
+application.name={{ ims_crowd_application_name }}
+crowd.server.url={{ ims_crowd_server_url }}
+crowd.base.url={{ ims_crowd_base_url }}
+application.login.url={{ ims_application_login_url }}
 #This is IHTSDO identity management service url
-ihtsdo.im.service.base.url={{ ihtsdo_im_service_base_url }}
+ihtsdo.im.service.base.url={{ ims_base_url }}
 
 session.tokenkey=session.tokenkey
 session.lastvalidation=session.lastvalidation
 session.isauthenticated=session.isauthenticated
 
 {% if cookie_tokenkey is defined %}
-cookie.tokenkey={{ cookie_tokenkey }}
+cookie.tokenkey={{ ims_cookie_tokenkey }}
 {% endif %}
