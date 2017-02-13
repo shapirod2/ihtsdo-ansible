@@ -1,12 +1,17 @@
 ---
 mysql_version: 5.5
 mysql_service_name: mysql
+mysql_local: true
+mysql_host: localhost
+mysql_root_username: root
 mysql_root_password: change_me
 
 #mysql_databases:
-#   - changeme
+#   - db1
+#   - db2
 
 # mysql_users:
-#   user:
-#     name: change_me
-#     password: change_me
+#   - user:
+#      name: change_me
+#      password: change_me
+#      privs: "db1.*:ALL,GRANT/db2.*:ALL,GRANT"
