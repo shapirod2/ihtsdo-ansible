@@ -1,13 +1,16 @@
 ---
+- name: Stop any running instances
+  supervisorctl: name={{ crowd_system_name }}  state=stopped
+  failed_when: false
+
 #Install Selected Application
 - include: installApplication.yml
 
 #Install apache mysql connector
 - include: installMysqlConnector.yml
 
-#Configure crowd 
+#Configure crowd
 - include: configCrowd.yml
 
-#Register and launch service
-- include: setupService.yml
-  when: crowd_create_service
+- name: (re)start crowd
+  supervisorctl: name={{ crowd_system_name }}  state=started

@@ -3,19 +3,17 @@ crowd_archive: atlassian-crowd-{{ crowd_version }}.tar.gz
 crowd_download_location: http://downloads.atlassian.com/software/crowd/downloads
 crowd_install_location: /opt/atlassian
 crowd_home_location: /var/atlassian/application-data
-crowd_create_database: true
-crowd_create_service: true
 crowd_system_location_tmp: /tmp
 crowd_system_install_mysql_connector: true
 crowd_system_user: "crowd"
 crowd_system_group: "crowd"
+crowd_system_name: "crowd"
+crowd_supervisor_location: /etc/supervisor/conf.d/
 crowd_mysql_connector_version: 5.1.38
 crowd_mysql_connector_archive: mysql-connector-java-{{ crowd_mysql_connector_version }}.tar.gz
 crowd_mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ crowd_mysql_connector_archive }}
-crowd_mysql_user: "{{ crowd_system_user }}"
+crowd_mysql_user: change_me
 crowd_mysql_password: change_me
 crowd_mysql_db: "crowd"
 crowd_mysql_hostname: localhost
 crowd_mysql_port: 3306
-
-mysql_root_password: change_me

@@ -3,4 +3,4 @@
   unarchive: src="{{ crowd_mysql_connector_url }}" dest={{ crowd_system_location_tmp }} owner={{ crowd_system_user }} group={{ crowd_system_group }} copy=no
 
 - name: Copy the connector to crowd libs directory
-  command: "cp {{ crowd_system_location_tmp }}/mysql-connector-java-{{ crowd_mysql_connector_version }}/mysql-connector-java-{{ crowd_mysql_connector_version }}-bin.jar {{ crowd_install_location }}/crowd/apache-tomcat/lib"
+  command: "cp {{ crowd_system_location_tmp }}/mysql-connector-java-{{ crowd_mysql_connector_version }}/mysql-connector-java-{{ crowd_mysql_connector_version }}-bin.jar {{ crowd_install_location }}/{{ crowd_system_name }}/apache-tomcat/lib"

@@ -1,0 +1,10 @@
+[program:crowd]
+user = {{ crowd_system_user }}
+directory = {{ crowd_install_location }}/{{ crowd_system_name }}
+command = {{ crowd_install_location }}/{{ crowd_system_name }}/apache-tomcat/bin/catalina.sh run
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760
