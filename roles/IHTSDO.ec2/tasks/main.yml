@@ -1,0 +1,58 @@
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install Python PIP
+  apt: pkg=python-pip state=latest
+
+- name: Install boto via PIP
+  pip: name=boto state=latest
+
+
+- name: Create  EC2 instance
+  ec2:
+      aws_access_key: "{{ aws_ec2accesskey }}"
+      aws_secret_key: "{{ aws_ec2secret }}"
+      region: "{{ aws_region }}"
+      #state: "{{aws_state}}"
+      assign_public_ip: "{{aws_assign_ip}}"
+      group_id: "{{ aws_group_id }}"
+      image: "{{ aws_ami_image }}"
+      #instance_profile_name: no
+      instance_tags:
+        Env: "{{ aws_env }}"
+        Name: "{{ aws_name }}"
+        Type: "{{ aws_instance_type }}"
+      exact_count: "{{aws_exact_count}}"
+      count_tag: 
+        Env: "{{ aws_env }}"
+        Name: "{{ aws_name }}"
+      instance_type: "{{ aws_instance_type }}"
+      key_name: "{{ aws_keyname }}"
+      private_ip: "{{aws_private_ip}}"
+      source_dest_check: "{{aws_source_dest_check}}"
+      tenancy: "{{aws_tenancy}}"
+      wait: "{{aws_wait}}"
+      volumes: "{{ aws_volumes }}"
+      vpc_subnet_id: "{{ aws_vpc_subnet_id }}"
+      zone: "{{ aws_zone}}"
+      termination_protection: "{{aws_termination_protection}}"
+  register: ec2_new
+  tags: ec2_create
+     
+ 
+- debug: var=item
+  with_items: ec2_new.instances
+
+- add_host: name={{ item.public_ip }} >
+            groups=tag_Type_{{aws_servicename}},tag_Environment_{{aws_env}}
+            ec2_region={{aws_region}} 
+            ec2_tag_Name={{aws_name}}
+            ec2_tag_Type={{aws_instance_type}}
+            ec2_tag_Environment={{aws_env}}
+            ec2_ip_address={{item.public_ip}}
+  with_items: ec2_new.instances
+
+- name: Wait for the instances to boot by checking the ssh port
+  wait_for: host={{item.public_ip}} port=22 delay=60 timeout=320 state=started
+  with_items: ec2_new.instances    

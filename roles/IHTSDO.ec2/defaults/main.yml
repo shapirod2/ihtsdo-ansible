@@ -1,0 +1,25 @@
+
+aws_exact_count: "1"
+
+aws_region: "us-west-2"
+aws_state: "present"
+aws_assign_ip: "yes"
+aws_private_ip: ""
+aws_group_id: "sg-2cbce748"
+aws_ami_image: "ami-5e63d13e"
+aws_env: "dev"
+aws_servicename: "test"
+aws_name: "{{ aws_env }}-{{ aws_servicename }}"
+aws_instance_type: "t2.micro"
+aws_keyname: "WestDevops"
+aws_source_dest_check: true
+aws_tenancy: "default"
+aws_wait: "yes"
+aws_vpc_subnet_id: "subnet-63141f01"
+aws_zone: "us-west-2a"
+aws_termination_protection: "yes"
+
+aws_volumes:
+    - device_name: "/dev/xvda"
+      volume_type: "gp2"
+      volume_size: 820
