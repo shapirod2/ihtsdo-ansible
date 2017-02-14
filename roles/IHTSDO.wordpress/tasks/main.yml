@@ -13,8 +13,8 @@
 #- name: stop apache2
 #  service: name=apache2 state=stopped
  
-- name: stop nginx
-  service: name=nginx state=stopped 
+- name: stop web server
+  service: name={{wp_web_server}} state=stopped 
  
  #include getwp
 - include: getwp.yml 

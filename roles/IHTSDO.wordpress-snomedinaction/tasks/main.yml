@@ -24,10 +24,6 @@
             owner=root group=root mode=0740
 
 - debug: msg="full_setup_cmd = {{ full_setup_cmd }}"
-
-- name: stop nginx
-  service: name=nginx state=stopped
-  when:  wp_web_server == "nginx"
   
 - name: stop webserver
   service: name={{wp_web_server}} state=stopped
