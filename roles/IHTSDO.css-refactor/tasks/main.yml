@@ -1,0 +1,27 @@
+---
+- name: Install package
+  apt: name={{cssrefactor_app_name}} state=installed update_cache=yes
+  when: version_cssrefactor == 'installed'
+
+- name: Install latest package
+  apt: name={{cssrefactor_app_name}} state=latest update_cache=yes
+  when: version_cssrefactor == 'latest'
+
+- name: Install package specific version
+  apt: name={{cssrefactor_app_name}}={{ version_cssrefactor }} state=installed update_cache=yes
+  when: version_cssrefactor != 'installed' and version_cssrefactor != 'latest'
+
+- name: Creates conf directory
+  file: path={{ conf_dir }} state=directory
+
+- name: Configure endpointConfig.json
+  template: src=endpointConfig.json.j2 dest="{{ conf_dir }}/endpointConfig.json"
+              owner=root group=root mode=0644
+
+- name: Remove UAT ribbon
+  file: path=/opt/css-refactor/lib/images/uat_ribbon.png state=absent
+  when: ansible_hostname | search("prod")
+
+- name: Remove Development ribbons
+  file: path=/opt/css-refactor/lib/images/development_ribbon.png state=absent
+  when: ansible_hostname | search("prod")
