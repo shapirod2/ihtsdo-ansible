@@ -1,12 +1,13 @@
-- name: Update apt cache
-  apt: update_cache=yes cache_valid_time=3600
-  sudo: yes
 
-- name: Install Python PIP
-  apt: pkg=python-pip state=latest
+- name: Check if python-pip is installed
+  command: dpkg -s python-pip
+  register: package_check_deb
+  ignore_errors: yes
 
-- name: Install boto via PIP
-  pip: name=boto state=latest
+- name: include install_boto yml when package is not installed
+  include: install_boto.yml
+  when: package_check_deb.rc == 1  
+
 
 
 - name: Create  EC2 instance
