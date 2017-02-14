@@ -5,6 +5,7 @@
 #- include: files/systemchoice.yml  
 
 - debug: msg="Role Test running. "
+- debug: msg="nginx_ssl_key_filename = {{nginx_ssl_key_filename}} "
 
 
 #- name: set zabbix repo to https
