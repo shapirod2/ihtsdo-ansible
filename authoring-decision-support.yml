@@ -1,8 +1,7 @@
 ---
-  - hosts: termserver
+  - hosts: ads
     sudo: true
     roles:
       - IHTSDO.authoring-decision-support
-      - IHTSDO.termserver-browser
       - IHTSDO.nginx-standard
 
