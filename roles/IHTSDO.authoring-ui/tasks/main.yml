@@ -25,3 +25,19 @@
 - name: Remove Development ribbons
   file: path=/opt/authoring-ui/lib/images/development_ribbon.png state=absent
   when: ansible_hostname | search("prod")
+
+- name: Query versions list
+  shell: "dpkg -s {{ item }} 2>&1 | grep Version | cut -d' ' -f2"
+  register: versions
+  with_items:
+    - authoring-ui
+    - terminology-server-browser
+    - authoring-traceability-service
+    - termserver
+    - orchestration-service
+    - snomed-template-service
+    - spellcheck-service
+
+- name: Configure versions.json
+  template: src=versions.json.j2 dest="{{ conf_dir }}/versions.json"
+              owner=root group=root mode=0644

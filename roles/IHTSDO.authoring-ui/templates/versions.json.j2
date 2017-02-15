@@ -1,0 +1,7 @@
+{
+    "versions": {
+         {% for item in versions.results %}
+            "{{ item.item }}": "{{ item.stdout }}",
+         {% endfor %}
+    }
+}
