@@ -3,8 +3,6 @@
   apt: update_cache=yes
   tags:
     - ihtsdo-asset
-    
-- include: mongodb.yml
 
 - name: Create /etc/opt/ Folder
   file: path=/etc/opt/authoring-decision-support mode=0755 state=directory
