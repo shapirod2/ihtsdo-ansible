@@ -22,4 +22,4 @@ aws_termination_protection: "yes"
 aws_volumes:
     - device_name: "/dev/xvda"
       volume_type: "gp2"
-      volume_size: 20
+      volume_size: "20"
