@@ -21,12 +21,12 @@
   vars_files:
      - "{{ inventory_dir }}/../files/users/users.yml"
   roles:
-    - IHTSDO.hostname
     - knopki.timezone
     - ansible-swapfile-master
     - IHTSDO.apt-upgrade
     - IHTSDO.sshd
     - IHTSDO.basicpackages
+    - IHTSDO.hostname
     - IHTSDO.ufw
     - Ansibles.fail2ban
     - IHTSDO.supervisor

@@ -4,6 +4,10 @@
 aws_env: "dev"
 aws_servicename: "test"
 aws_instance_type: "t2.micro"
+# either yes if allocating a new one or an ip number if set
+#aws_elastic_ip: "yes"
+aws_elastic_ip: "34.193.92.142"
+#aws_elastic_ip: "no"
 
 #may change:
 aws_volumes:
@@ -39,5 +43,5 @@ aws_name: "{{ aws_env }}-{{ aws_servicename }}"
 aws_source_dest_check: true
 aws_tenancy: "default"
 aws_wait: "yes"
-aws_termination_protection: "yes"
+aws_termination_protection: "no"
 

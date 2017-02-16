@@ -7,4 +7,10 @@
 
 - name: Install boto via PIP
   pip: name=boto3 state=latest
+   
+- name: Install Python netaddr
+  apt: pkg=python-netaddr state=latest 
+  
+  
+  
 
