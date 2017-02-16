@@ -1,0 +1,42 @@
+---
+
+- hosts: localhost
+  connection: local
+  gather_facts: false
+  user: root
+  #vars_files:
+  # - host_vars/{{host}}
+  pre_tasks:
+   - include_vars: "{{ inventory_dir }}/host_vars/{{host}}"
+     when: host is defined
+  roles:
+   - IHTSDO.ec2
+      
+
+- hosts: ec2_created
+  sudo: true
+  remote_user: ubuntu
+  vars:
+    user_accounts_skip_sshd: true
+  vars_files:
+     - "{{ inventory_dir }}/../files/users/users.yml"
+  roles:
+    - IHTSDO.hostname
+    - knopki.timezone
+    - ansible-swapfile-master
+    - IHTSDO.apt-upgrade
+    - IHTSDO.sshd
+    - IHTSDO.basicpackages
+    - IHTSDO.ufw
+    - Ansibles.fail2ban
+    - IHTSDO.supervisor
+    - IHTSDO.oraclejava
+    - IHTSDO.unattended-updates
+    - IHTSDO.harden
+    - IHTSDO.zabbixclient
+
+- hosts: ec2_created
+  sudo: true
+  remote_user: ubuntu
+  roles:
+    - IHTSDO.user-accounts

@@ -1,25 +1,43 @@
 
-aws_exact_count: "1"
 
-aws_region: "us-west-2"
-aws_state: "present"
-aws_assign_ip: "yes"
-aws_private_ip: ""
-aws_group_id: "sg-2cbce748"
-aws_ami_image: "ami-5e63d13e"
+#should be set externally:
 aws_env: "dev"
 aws_servicename: "test"
-aws_name: "{{ aws_env }}-{{ aws_servicename }}"
 aws_instance_type: "t2.micro"
-aws_keyname: "WestDevops"
-aws_source_dest_check: true
-aws_tenancy: "default"
-aws_wait: "yes"
-aws_vpc_subnet_id: "subnet-63141f01"
-aws_zone: "us-west-2a"
-aws_termination_protection: "yes"
 
+#may change:
 aws_volumes:
     - device_name: "/dev/xvda"
       volume_type: "gp2"
       volume_size: "20"
+
+#specific to aws account
+#Old Account
+#aws_region: "us-west-2"
+#aws_group_id: "sg-2cbce748"
+#aws_ami_image: "ami-5e63d13e"
+#aws_keyname: "WestDevops"
+#aws_vpc_subnet_id: "subnet-63141f01"
+#aws_zone: "us-west-2a"
+
+#new Account
+
+aws_region: "us-east-1"
+aws_group_id: "sg-48a20d34"
+aws_ami_image: "ami-49c9295f"
+aws_keyname: "ansible"
+aws_vpc_subnet_id: "subnet-d994e882"
+aws_zone: "us-east-1a"
+
+#usually unchanged:
+
+aws_exact_count: "1"
+aws_state: "present"
+aws_assign_ip: "yes"
+aws_private_ip: ""
+aws_name: "{{ aws_env }}-{{ aws_servicename }}"
+aws_source_dest_check: true
+aws_tenancy: "default"
+aws_wait: "yes"
+aws_termination_protection: "yes"
+
