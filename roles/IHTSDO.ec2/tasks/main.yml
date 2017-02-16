@@ -8,18 +8,16 @@
   include: install_boto.yml
   when: package_check_deb.rc == 1  
 
-
-
 - name: Create  EC2 instance
   ec2:
       aws_access_key: "{{ aws_ec2accesskey }}"
       aws_secret_key: "{{ aws_ec2secret }}"
       region: "{{ aws_region }}"
-      #state: "{{aws_state}}"
+   #state: "{{aws_state}}"
       assign_public_ip: "{{aws_assign_ip}}"
       group_id: "{{ aws_group_id }}"
       image: "{{ aws_ami_image }}"
-      #instance_profile_name: no
+  #instance_profile_name: no
       instance_tags:
         Env: "{{ aws_env }}"
         Name: "{{ aws_name }}"
@@ -53,6 +51,30 @@
             ec2_tag_Environment={{aws_env}}
             ec2_ip_address={{item.public_ip}}
   with_items: ec2_new.instances
+  
+  
+#- name: List all hosted zones
+#  route53_facts:
+#    query: hosted_zone
+#  register: hosted_zones   
+
+#- debug: var=item
+#  with_items: hosted_zones.HostedZones 
+  
+- name: Add internal aws dns setting if a local zone is defined  
+  route53:
+    aws_access_key: "{{ aws_ec2accesskey }}"
+    aws_secret_key: "{{ aws_ec2secret }}"
+    command: create
+    zone: "{{ aws_dns_local_zone }}"
+    record: "{{ aws_name }}.{{ aws_dns_local_zone }}"
+    type: A
+    ttl: "{{ aws_dns_ttl }}"
+    private_zone: true
+    overwrite: true
+    value: "{{ item.private_ip }}" 
+  with_items: ec2_new.instances
+  when: aws_dns_local_zone is defined  
 
 - name: Wait for the instances to boot by checking the ssh port
   wait_for: host={{item.public_ip}} port=22 delay=60 timeout=320 state=started
