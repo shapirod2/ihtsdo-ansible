@@ -1,0 +1,6 @@
+---
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.template-service
+
