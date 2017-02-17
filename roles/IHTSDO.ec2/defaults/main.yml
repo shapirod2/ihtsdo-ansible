@@ -6,8 +6,8 @@ aws_servicename: "test"
 aws_instance_type: "t2.micro"
 # either yes if allocating a new one or an ip number if set
 #aws_elastic_ip: "yes"
-aws_elastic_ip: "34.193.92.142"
-#aws_elastic_ip: "no"
+#aws_elastic_ip: "34.193.92.142"
+aws_elastic_ip: "no"
 
 #may change:
 aws_volumes:

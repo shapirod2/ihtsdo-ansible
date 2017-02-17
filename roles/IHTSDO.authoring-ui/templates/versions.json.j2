@@ -1,7 +1,7 @@
 {
     "versions": {
          {% for item in versions.results %}
-            "{{ item.item }}": "{{ item.stdout }}",
+            "{{ item.item }}": "{{ item.stdout }}" {% if not loop.last %},{% endif %}
          {% endfor %}
     }
 }
