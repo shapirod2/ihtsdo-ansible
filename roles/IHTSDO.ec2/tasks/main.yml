@@ -57,7 +57,7 @@
     region: "{{ aws_region }}"
     device_id: "{{ec2_newi.id }}"
   when: aws_elastic_ip == "yes"  
-  register: eip  
+  register: eip1  
       
 - name: associate existing elastic IPs with each of the instances if set to a ip numeric
   ec2_eip:
@@ -67,23 +67,27 @@
     device_id: "{{ec2_newi.id }}"
     ip: "{{aws_elastic_ip}}"    
   when: aws_elastic_ip | ipv4 
-  register: eip
+  register: eip2
 
-#- debug:
-#    msg: "eip.stdout is {{ eip.stdout }}" 
-
-- name: output the IP
+- name: output the eip1
   debug:
-    msg: "Elastic IP details is {{ eip }}" 
-  when: eip.public_ip is defined
+    msg: "Elastic IP  1 details is {{ eip1 }}" 
+    
+- name: output the eip2
+  debug:
+    msg: "Elastic IP  2 details is {{ eip2 }}"     
 
-- name: set public ip
-  set_fact: public_ip={{eip.public_ip}}
-  when: eip.public_ip is defined
+- name: set public ip from eip1
+  set_fact: public_ip={{eip1.public_ip}}
+  when: eip1.public_ip is defined
+  
+- name: set public ip from eip2
+  set_fact: public_ip={{eip2.public_ip}}
+  when: eip2.public_ip is defined 
 
 - name: set public ip
   set_fact: public_ip={{ec2_newi.public_ip}}
-  when: eip.public_ip is not defined
+  when: eip1.public_ip is not defined and eip2.public_ip is not defined
 
 - name: output the public IP
   debug:
