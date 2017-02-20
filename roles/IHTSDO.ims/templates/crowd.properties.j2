@@ -10,6 +10,6 @@ session.tokenkey=session.tokenkey
 session.lastvalidation=session.lastvalidation
 session.isauthenticated=session.isauthenticated
 
-{% if cookie_tokenkey is defined %}
+{% if ims_cookie_tokenkey is defined %}
 cookie.tokenkey={{ ims_cookie_tokenkey }}
 {% endif %}
