@@ -65,38 +65,47 @@
     aws_secret_key: "{{ aws_ec2secret }}"
     region: "{{ aws_region }}"
     device_id: "{{ec2_newi.id }}"
-    ip: "{{aws_elastic_ip}}"
+    ip: "{{aws_elastic_ip}}"    
   when: aws_elastic_ip | ipv4 
-  register: eip  
+  register: eip
+
+#- debug:
+#    msg: "eip.stdout is {{ eip.stdout }}" 
 
 - name: output the IP
   debug:
-    msg: "Eleastic IP details is {{ eip }}" 
-  when: eip is defined
+    msg: "Elastic IP details is {{ eip }}" 
+  when: eip.public_ip is defined
 
 - name: set public ip
   set_fact: public_ip={{eip.public_ip}}
-  when: eip is defined
+  when: eip.public_ip is defined
 
 - name: set public ip
   set_fact: public_ip={{ec2_newi.public_ip}}
-  when: eip is not defined
+  when: eip.public_ip is not defined
 
 - name: output the public IP
   debug:
     msg: "Public IP is {{ public_ip }}" 
 
+- name: set ec2_tag_Name when host defined
+  set_fact: ec2_tag_Name={{host}}
+  when: host is defined
 
-- name: add host to in memory inventory
+- name: set ec2_tag_Name when host not defined
+  set_fact: ec2_tag_Name={{aws_name}}
+  when: host is not defined
+
+
+- name: add host to in memory inventory inc ansible_host
   add_host: name={{ public_ip }} 
             groups=ec2_created
             ec2_region={{aws_region}} 
-            ec2_tag_Name={{aws_name}}
+            ec2_tag_Name={{ec2_tag_Name}}
             ec2_tag_Type={{aws_instance_type}}
             ec2_tag_Environment={{aws_env}}
-            ec2_ip_address={{eip.public_ip}}
-            inventory_hostname={{host}}
-            ansible_hostname={{host}}
+            ec2_ip_address={{public_ip}}
 
  
 #- name: List all hosted zones
@@ -125,5 +134,3 @@
 
 - name: Wait for the instances to boot by checking the ssh port
   wait_for: host={{public_ip}} port=22 delay=60 timeout=320 state=started
-
-  

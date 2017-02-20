@@ -4,8 +4,6 @@
   connection: local
   gather_facts: false
   user: root
-  #vars_files:
-  # - host_vars/{{host}}
   pre_tasks:
    - include_vars: "{{ inventory_dir }}/host_vars/{{host}}"
      when: host is defined
