@@ -6,11 +6,11 @@ cp_cmd="/usr/bin/aws s3 cp "
 dirs_to_restore=({% for restore_dir in restore_dirs_to_copy %}"{{restore_dir}}" {% endfor %})
 #pre restore commands
 precmds=({% for precmd in restore_precmds %}"{{precmd}}" {% endfor %})
+#pre db restore cmds
+predbcmds=({% for predbcmd in restore_dbcmds %}"{{predbcmd}}" {% endfor %})
 #post restore commands
 postcmds=({% for postcmd in restore_postcmds %}"{{postcmd}}" {% endfor %})
 
-#restore_dbcmds
-#restore_precopycmds
  
 # db_type acceptable values:
 # pgsql = Postgres
@@ -160,6 +160,19 @@ for cmd in ${precmds[*]};
 fi
 }
 
+pre_db_cmd(){
+echo "predb_cmd predbcmds = $predbcmds"
+if [ "x$predbcmds" != "x" ]; then
+IFS=$(echo -en "\n\b")
+for cmd in ${predbcmds[*]};
+        do
+        echo_date "pre db cmd About to do cmd : $cmd"
+        eval $cmd
+        done
+fi
+
+}
+
 post_cmd(){
 echo "post_cmd postcmds = $postcmds"
 if [ "x$postcmds" != "x" ]; then
@@ -178,6 +191,7 @@ cd $tmp_restore_dir
 echo "tmp_restore_dir = $tmp_restore_dir"
 cd $(ls -d */|head -n 1)
 echo "currently in " $PWD
+pre_db_cmd
 # then for each db in db_include
   for db in ${db_include[*]};
    do  
@@ -204,9 +218,9 @@ echo "currently in " $PWD
               then
                /usr/bin/psql -h${db_host} -p${db_port} -f "$PWD/$DATABASE_DUMP_FILE"
               else   
-               /usr/bin/psql -h${db_host} -p${db_port} -c 'DROP DATABASE IF EXISTS ${db}'"
-               /usr/bin/psql -h${db_host} -p${db_port} -c 'CREATE DATABASE ${db}'"
-               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f "$PWD/$DATABASE_DUMP_FILE"
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'DROP DATABASE IF EXISTS ${db}'
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'CREATE DATABASE ${db}'
+               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f '$PWD/$DATABASE_DUMP_FILE'
               fi                                  
           fi
     fi      
@@ -215,15 +229,18 @@ echo "currently in " $PWD
        if [ "$db" = "all" ];
         then 
          echo "MySql restoring all";
-         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password}   < ./$DATABASE_DUMP_FILE
+         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} --host=${db_host} --port=${db_port}  < ./$DATABASE_DUMP_FILE
         else
          echo "MySql restoring : ${db}";
          echo "dropping ${db};"
-         /usr/bin/mysql -u${db_user} -p${db_password} -e "DROP DATABASE IF EXISTS ${db};"
+         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "DROP DATABASE IF EXISTS \`${db}\`;"
          echo "recreating ${db};"
-         /usr/bin/mysql -u${db_user} -p${db_password} -e "CREATE DATABASE ${db};"
+         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "CREATE DATABASE \`${db}\`;"
+         echo "removing any hard coded definers";
+         /bin/sed -i 's/DEFINER=[^ |\*]*//g' ./$DATABASE_DUMP_FILE
+         
          echo "restoring ${db} using ./$DATABASE_DUMP_FILE;"
-         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} ${db} < ./$DATABASE_DUMP_FILE
+         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} ${db} < ./$DATABASE_DUMP_FILE
       fi  
  fi               
     done 
