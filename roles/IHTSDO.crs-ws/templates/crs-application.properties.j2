@@ -2,7 +2,7 @@
 ihtsdo.im.service.base.url={{crs_ims_base_url}}
 
 #Database connection
-datasource.url=jdbc:mysql://localhost/{{crs_dbname}}
+datasource.url=jdbc:mysql://{{crs_mysql_host}}:{{crs_mysql_port}}/{{crs_dbname}}
 datasource.username={{crs_user}}
 datasource.password={{crs_pw}}
 datasource.driver-class-name=com.mysql.jdbc.Driver

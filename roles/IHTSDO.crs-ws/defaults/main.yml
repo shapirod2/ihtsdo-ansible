@@ -23,6 +23,8 @@ crs_dbname: "crs"
 crs_user: "root"
 crs_mysql_root_pass: "defaultpw"
 crs_pw: "{{crs_mysql_root_pass}}"
+crs_mysql_port: "3306"
+crs_mysql_host: "localhost"
 crs_log_dir: "{{ crs_ws_install_dir }}/log"
 
 crs_ims_host: "dev-ims.ihtsdotools.org"
@@ -66,7 +68,7 @@ crs_snomect_method_mrcm: "mrcm"
 crs_snomect_branch: "MAIN"
 
 supervisor_dir: "/etc/supervisor/conf.d/"
-mysql_port: 3306
+
 
 #Email
 crs_mail_root_url: "http://local.ihtsdotools.org/#/"

@@ -2,6 +2,7 @@
   - hosts: crs
     sudo: true
     roles:
+      - IHTSDO.mysql
       - IHTSDO.crs
       - IHTSDO.crs-ws
       - IHTSDO.nginx-standard
