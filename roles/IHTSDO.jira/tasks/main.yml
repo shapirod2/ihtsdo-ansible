@@ -1,4 +1,8 @@
 ---
+- name: Stop any running instances
+  supervisorctl: name={{ jira_system_name }}  state=stopped
+  failed_when: false
+
 #Install Selected Application
 - include: installApplication.yml
 
@@ -8,6 +12,5 @@
 #Setup jira
 - include: configJira.yml
 
-#Register and launch service
-- include: setupService.yml
-  when: jira_create_service
+- name: (re)start jira
+  supervisorctl: name={{ jira_system_name }}  state=started

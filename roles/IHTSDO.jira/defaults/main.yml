@@ -2,10 +2,10 @@ jira_version: 6.4.3
 jira_archive: atlassian-jira-{{ jira_version }}.tar.gz
 jira_download_location: http://www.atlassian.com/software/jira/downloads/binary/
 jira_system_location_tmp: /tmp
-jira_create_database: true
-jira_create_service: true
 jira_system_user: "jira"
 jira_system_group: "jira"
+jira_system_name: "jira"
+jira_supervisor_location: /etc/supervisor/conf.d/
 jira_install_location: /opt/atlassian
 jira_home_location: /var/atlassian/application-data
 jira_mysql_connector_version: 5.1.38
@@ -13,8 +13,6 @@ jira_mysql_connector_archive: mysql-connector-java-{{ jira_mysql_connector_versi
 jira_mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ jira_mysql_connector_archive }}
 jira_mysql_user: "{{ jira_system_user }}"
 jira_mysql_password: change_me
-jira_mysql_db: "jiradb"
+jira_mysql_db: "dev-jiradb"
 jira_mysql_hostname: localhost
 jira_mysql_port: 3306
-
-mysql_root_password: change_me
