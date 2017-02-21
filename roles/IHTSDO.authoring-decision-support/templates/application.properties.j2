@@ -11,7 +11,15 @@ spring.http.multipart.max-file-size=1024Mb
 spring.http.multipart.max-request-size=1024Mb
 
 spring.jms.pub-sub-domain=true
-spring.data.mongodb.uri=mongodb://localhost/ads
+
+spring.data.jest.uri=http://search.snomedtools.org
+cloud.aws.region.static = {{ aws_es_region }}
+
+cloud.aws.credentials.accessKey = {{ aws_es_accesskey }}
+cloud.aws.credentials.secretKey = {{ aws_es_secret }}
+cloud.aws.credentials.instanceProfile = true
+
+rest.action.multi.allow_explicit_index = true
 
 ads.currentRelease = {{ ads_currentRelease }}
 ads.maxCachedProjects = {{ ads_maxCachedProjects }}
