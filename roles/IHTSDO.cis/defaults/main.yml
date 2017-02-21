@@ -1,15 +1,9 @@
 ---
-cis_add_dbcontent: false
-
-mysql_root_pass: rooty
-mysql_port: 3306
-mysql_service: mysql
-
+cis_db_host: localhost
 cis_db_name: idservice
 cis_db_user: idservice
 cis_db_pw: idservice
 cis_version: HEAD
-cis_init_script: "{{ cis_install_dir }}/config/db_script.sql"
 
 # Should be the same as the artifactId in the pom
 cis_app_name: cis
@@ -22,11 +16,6 @@ cis_node_dir: "/usr/bin/node"
 cis_rest_app: "{{ cis_install_dir }}/app.js"
 
 supervisor_dir: "/etc/supervisor/conf.d/"
-nginx_ufw_allow_https: true
-nginx_conf: "cis"
-nginx_fqdn: "~(?i)cis"
-nginx_default_site: true
-nginx_proxy_url: http://localhost:3000
 
 cis_crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
 cis_crowd_app_name: "component-id-service"

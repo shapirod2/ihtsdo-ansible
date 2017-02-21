@@ -3,6 +3,6 @@
     sudo: true
     roles:
       - IHTSDO.aws
-      - IHTSDO.nginx-std  
+      - IHTSDO.mysql
       - IHTSDO.cis
-      
+      - IHTSDO.nginx-standard

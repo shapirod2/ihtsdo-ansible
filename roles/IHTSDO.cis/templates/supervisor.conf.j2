@@ -1,8 +1,8 @@
 [program:{{ cis_app_name }}]
 user = root
 directory = {{ cis_install_dir }}
-command = {{ cis_node_dir }} {{ cis_rest_app }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}
-environment=CROWD_URL={{ cis_crowd_url }},CROWD_APP_NAME={{ cis_crowd_app_name }},CROWD_APP_PASSWORD={{ cis_crowd_pw }}
+command = {{ cis_node_dir }} {{ cis_rest_app }} host={{ cis_db_host }} dbName={{ cis_db_name }} dbuser={{ cis_db_user }} dbpass={{ cis_db_pw }}
+environment=NODE_TLS_REJECT_UNAUTHORIZED=0,CROWD_URL={{ cis_crowd_url }},CROWD_APP_NAME={{ cis_crowd_app_name }},CROWD_APP_PASSWORD={{ cis_crowd_pw }}
 autostart = true
 autorestart = true
 stdout_logfile_backups=5

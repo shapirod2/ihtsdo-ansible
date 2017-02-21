@@ -3,9 +3,6 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
-  #Setup the database
-- include: db.yml
-
 - name: Install latest git package
   apt: name=git state=latest
 
@@ -39,15 +36,8 @@
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ cis_app_name }}.conf"
               owner=root group=root mode=0640
 
-- name: restart nginx
-  service: name=nginx state=restarted
-
-- name: allow port 3000 through the firewall
-  ufw: rule=allow port=3000 proto=any
-
-  #Setup the database content
-- include: dbcontent.yml
-  when: cis_add_dbcontent == true
+#- name: allow port 3000 through the firewall
+#  ufw: rule=allow port=3000 proto=any
 
 - name: (re)start app
   supervisorctl: name={{ cis_app_name }} state=restarted
