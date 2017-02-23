@@ -1,0 +1,9 @@
+---
+- hosts: browser
+#  - hosts: local
+#- hosts: localhost
+#  connection: local
+  sudo: true
+  roles:
+    - IHTSDO.aws
+    - IHTSDO.daily-build-qa-data

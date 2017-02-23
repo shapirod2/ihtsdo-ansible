@@ -1,0 +1,36 @@
+#!/bin/bash
+s3_bucket_name="{{ rf2json_s3_bucket_name }}"
+filename="{{ daily_build_rf2RelStats_file_name }}"
+import_dir="{{ daily_build_stats_import_dir }}"
+data_dir="{{rf2_stats_dir_data}}"
+
+s3_backup_region_base="{{rf2json_s3_region | default('')}}"
+
+s3_backup_region=""
+if [ "x$s3_backup_region_base" != "x" ]; then
+      s3_backup_region="--region $s3_backup_region_base"
+      echo "setting backup region to $s3_backup_region"
+fi
+
+echo "Getting rf2 json from AWS S3";
+echo $import_dir
+cd $import_dir
+echo "start s3 copying..."
+aws s3 $s3_backup_region cp $s3_bucket_name/$filename $filename
+
+echo "Retrieved $filename to $import_dir"
+echo "s3 copy process is completed"
+
+echo "start untar json file"
+tar -xf $filename
+echo "end of untar json file"
+echo "removing $data_dir"
+rm -rf $data_dir
+echo "creating $data_dir"
+mkdir -p $data_dir/
+
+echo "copy files to $data_dir"
+
+find ./ -name '*.json' -exec cp -prv '{}' $data_dir/ ';'
+find ./ -name '*.csv' -exec cp -prv '{}' $data_dir/ ';'
+

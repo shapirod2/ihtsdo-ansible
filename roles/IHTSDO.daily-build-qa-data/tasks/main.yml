@@ -1,0 +1,14 @@
+---
+
+- name: Creates {{rf2_stats_dir_views}} directory
+  file: path={{ rf2_stats_dir_views }} state=directory
+
+- include: importRf2Json.yml
+
+- name: set templates.js
+  template: src=templates.js.j2 dest={{ rf2_stats_dir_views }}/templates.js
+            owner=root group=root mode=0644    
+  
+#- name: remove import dir after use
+#  file: path="{{ daily_build_import_dir }}" state=absent
+  
