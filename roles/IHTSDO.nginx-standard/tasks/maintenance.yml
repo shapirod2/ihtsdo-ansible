@@ -1,9 +1,15 @@
 ---
-  - name: ensure wget is installed
-    apt: pkg=wget state=latest
+  - name: ensure dependancies are installed
+    apt: pkg={{ item }} state=latest
+    with_items:
+       - wget
+       - dialog
 
   - name: Creates directory
     file: path=/opt/maint state=directory
+
+  - name: Creates state directory
+    file: path=/opt/maint/state state=directory
 
   - name: Copy Maint Script
     template: src=getMaintHtml.sh.j2 dest={{ nginx_maint_location }}/getMaintHtml.sh

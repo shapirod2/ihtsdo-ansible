@@ -11,6 +11,7 @@ nginx_sslcert_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi.
 nginx_maint_location: /opt/maint
 nginx_maint_page_url: "https://static-web.ihtsdotools.org/html/maint.html"
 nginx_maint_filename: "maintain.html"
+nginx_maint_hostnames: ""
 
 nginx_http_parameters:
   sendfile: "on"

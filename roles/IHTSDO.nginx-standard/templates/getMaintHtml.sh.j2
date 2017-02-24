@@ -1,18 +1,38 @@
-#!/bin/sh
+#!/bin/bash
 
-# Args -
-# start downloads the file to here
-# finish removes the file from here
+COUNTER=1
+DIRECTORY={{nginx_maint_location}}/state
+SERVICENAMES=( 'all' {{ nginx_maint_hostnames }})
+MAINTFILE={{ nginx_maint_filename }}
+MAINTURL={{ nginx_maint_page_url }}
+MAINTDIR={{ nginx_maint_location }}
 
-maintFile={{ nginx_maint_filename }}
-maintURL={{ nginx_maint_page_url }}
-maintDir={{ nginx_maint_location }}
-
-echo "Action = $1 "
-if [ $1 = "start" ];
-then wget -O $maintDir/$maintFile $maintURL
-fi
-
-if [ $1 = "stop" ];
-then rm -f $maintDir/$maintFile
+if [ $1 == "start" ];
+  then
+     touch $DIRECTORY/all
+     wget -O $MAINTDIR/$MAINTFILE $MAINTURL
+elif [ $1 == "stop" ];
+  then
+     rm $DIRECTORY/all
+     rm -f $MAINTDIR/$MAINTFILE
+else
+  for i in "${SERVICENAMES[@]}"
+  do
+    if [ -f $DIRECTORY/$i ]
+    then
+        LIST="$LIST $COUNTER $i ON "
+    else
+        LIST="$LIST $COUNTER $i OFF "
+    fi
+    let COUNTER=COUNTER+1
+  done
+  CHOICES=`dialog --stdout --backtitle "Maintenace" --checklist "Hostnames" 0 0 $COUNTER $LIST`
+  rm -f $DIRECTORY/*
+  rm -f $MAINTDIR/$MAINTFILE
+  for CHOICE in $CHOICES
+  do
+    touch $DIRECTORY/${SERVICENAMES[CHOICE-1]}
+    wget -O $MAINTDIR/$MAINTFILE $MAINTURL
+  done
+  clear
 fi
