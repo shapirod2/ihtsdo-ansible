@@ -1,0 +1,6 @@
+---
+- name: Deploy Templates
+  git:
+    repo: "{{ template_service_templates_repository }}"
+    dest: "{{ template_service_templates_location }}"
+    version: "{{ template_service_templates_version }}"

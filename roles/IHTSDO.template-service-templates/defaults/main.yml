@@ -1,0 +1,4 @@
+---
+template_service_templates_version: develop
+template_service_templates_location: "/opt/snomed-template-service/snomed-templates"
+template_service_templates_repository: "https://git.ihtsdotools.org/ihtsdo/snomed-templates.git"
