@@ -3,7 +3,7 @@
 - name: Creates {{rf2_stats_dir_views}} directory
   file: path={{ rf2_stats_dir_views }} state=directory
 
-#- include: importRf2Json.yml
+- include: importRf2Json.yml
 
 - include: setfilevals.yml
    
