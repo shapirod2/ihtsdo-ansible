@@ -1,0 +1,16 @@
+---
+
+- name: set templates.js
+  template: src=templates.js.j2 dest={{ rf2_stats_dir_views }}/templates.js
+            owner=root group=root mode=0644 
+            
+- name: set version in template.js link in {{rf2_stats_dir}}/index.html
+  replace:
+    dest="{{rf2_stats_dir}}/index.html"
+    regexp='(?<=views\/compiled\/templates.js)(.*)(?=\"><\/script>)'
+    replace='?version={{ansible_date_time.iso8601}}'
+    backup=yes         
+    
+    
+
+       
