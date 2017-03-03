@@ -13,7 +13,7 @@ if [ $1 == "start" ];
      wget -O $MAINTDIR/$MAINTFILE $MAINTURL
 elif [ $1 == "stop" ];
   then
-     rm $DIRECTORY/all
+     rm -f $DIRECTORY/*
      rm -f $MAINTDIR/$MAINTFILE
 else
   for i in "${SERVICENAMES[@]}"
@@ -27,12 +27,16 @@ else
     let COUNTER=COUNTER+1
   done
   CHOICES=`dialog --stdout --backtitle "Maintenace" --checklist "Hostnames" 0 0 $COUNTER $LIST`
-  rm -f $DIRECTORY/*
-  rm -f $MAINTDIR/$MAINTFILE
-  for CHOICE in $CHOICES
-  do
-    touch $DIRECTORY/${SERVICENAMES[CHOICE-1]}
-    wget -O $MAINTDIR/$MAINTFILE $MAINTURL
-  done
+  RETURN_CODE=$?
+  if [ $RETURN_CODE == "0" ];
+    then
+        rm -f $DIRECTORY/*
+        rm -f $MAINTDIR/$MAINTFILE
+        for CHOICE in $CHOICES
+          do
+                touch $DIRECTORY/${SERVICENAMES[CHOICE-1]}
+                wget -O $MAINTDIR/$MAINTFILE $MAINTURL
+          done
+  fi
   clear
 fi
