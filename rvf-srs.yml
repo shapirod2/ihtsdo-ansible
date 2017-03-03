@@ -3,6 +3,7 @@
     sudo: true
     roles:
      # - IHTSDO.user-accounts
+      - IHTSDO.mysql
       - IHTSDO.release-validation-framework-api
       - IHTSDO.release-validation-framework-web
       - IHTSDO.snomed-release-service-api 
