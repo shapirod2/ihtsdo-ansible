@@ -1,0 +1,17 @@
+---
+pgsql_version: 9.3
+pgsql_service_name: pgsql
+pgsql_local: true
+pgsql_host: localhost
+pgsql_root_username: postgres
+pgsql_root_password: change_me
+
+#pgsql_databases:
+#   - db1
+#   - db2
+
+# pgsql_users:
+#   - user:
+#      name: change_me
+#      password: change_me
+#      privs: "db1.*:ALL,GRANT/db2.*:ALL,GRANT"

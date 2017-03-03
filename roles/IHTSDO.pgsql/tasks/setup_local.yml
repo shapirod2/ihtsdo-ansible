@@ -1,0 +1,53 @@
+
+- name: ensure postgres is installed
+  apt: 
+    name: postgresql={{pgsql_version}} 
+    state: present
+
+- name: ensure postgres contrib/Adminpack is installed
+  apt: 
+    name: postgresql-contrib={{pgsql_version}} 
+    state: present
+
+- name: ensure acl is installed (dependancy for ansible)
+  apt: name=acl state=latest
+
+- name: ansible postgres python deps
+  apt: name=python-psycopg2 state=latest
+       
+- name: create admin pack extension
+  sudo_user: postgres
+  action: "command psql -c 'CREATE EXTENSION adminpack;'"
+  ignore_errors: True    
+
+- name: Create Databases
+  sudo_user: postgres
+  postgresql_db:
+    name: "{{ item }}"
+    state: present
+    lc_collate: "en_US.UTF-8"
+    lc_ctype: "en_US.UTF-8"
+    template: "template0"  
+  with_items: "{{ pgsql_databases }}"
+  when: pgsql_databases|lower != 'none' and pgsql_databases is defined
+  
+- name: Create Users
+  sudo_user: postgres
+  postgresql_user:
+    name: "{{ item['user']['name'] }}"
+    password: "{{ item['user']['password'] }}"
+    state: present
+    priv: "{{ item['user']['privs'] }}"
+    role_attr_flags: "LOGIN,NOSUPERUSER"
+  with_items: "{{ pgsql_users }}"
+  when: pgsql_users|lower != 'none' and pgsql_users is defined
+
+
+ # - name: Allow PostGreSQL through the firewall
+ #   ufw: rule=allow port=5432 proto=any
+
+ 
+ 
+
+
+

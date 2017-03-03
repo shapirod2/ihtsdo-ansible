@@ -1,0 +1,9 @@
+---
+
+- name: Install locally if required
+  include: setup_local.yml
+  when: mysql_local
+
+- name: Install remotely  if required
+  include: setup_remote.yml
+  when: not mysql_local
