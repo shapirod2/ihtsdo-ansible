@@ -6,6 +6,8 @@
     
 #Setup the database so it's available before the RVF starts up.
 - include: db.yml
+  when: old_db == true
+
 
 - name: Install rvf-api package
   apt: name=rvf-api state=installed

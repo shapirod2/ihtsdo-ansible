@@ -7,3 +7,4 @@ autoscale: "False"
 autoscale_script_dir: "/root/scripts"
 autoscale_exec_as: root
 autoscale_script_path: "{{autoscale_script_dir}}/autoscale.sh"
+old_db: true

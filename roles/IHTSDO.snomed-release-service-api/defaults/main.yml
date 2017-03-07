@@ -23,3 +23,5 @@ tunnel_host: "mgr.servers.aceworkspace.net"
 script_dir: "/opt/autossh"
 script_path: "{{script_dir}}/autosshtunnel.sh"
 
+old_db: true
+

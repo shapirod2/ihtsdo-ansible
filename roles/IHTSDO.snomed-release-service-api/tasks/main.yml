@@ -6,6 +6,7 @@
     
 #Setup the database so it's available before the SRS starts up.
 - include: db.yml
+  when: old_db == true
 
 - name: Install snomed-release-service-api package
   apt: name=snomed-release-service-api state=installed
