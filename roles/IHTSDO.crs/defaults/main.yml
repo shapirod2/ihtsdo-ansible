@@ -21,4 +21,4 @@ crs_web_conf_crs_url: "/ihtsdo-crs/"
 crs_web_conf_snowowl_url: "/snowowl/"
 crs_web_conf_ims_url: "https://{{ crs_web_ims_host }}/"
 crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
-crs_web_conf_ims_api_url: "https://{{ crs_web_snowowl_host }}/ims-api/"
+crs_web_conf_ims_api_url: "{{ crs_web_conf_ims_url }}/api/"
