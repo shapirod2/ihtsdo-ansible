@@ -5,16 +5,16 @@
 spring.profiles.active=dev
 
 webauth.url={{ mlds_webauth_url }}
-webauth.applicationName=mlds
+webauth.applicationName={{mlds_appname}}
 
 server.port=8080
 
-spring.datasource.dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
-spring.datasource.url: jdbc:postgresql:mlds
-spring.datasource.databaseName: mlds
-spring.datasource.serverName: localhost
-spring.datasource.username: mlds
-spring.datasource.password: password
+spring.datasource.dataSourceClassName: {{mlds_dataSource_ClassName}}
+spring.datasource.url: {{mlds_datasource_url}}
+spring.datasource.databaseName: {{mlds_dbname}}
+spring.datasource.serverName: {{mlds_datasource_serverName}}
+spring.datasource.username: {{mlds_user}}
+spring.datasource.password: {{mlds_password}}
 
 #These values common to all environments so see groupvars/mlds
 spring.mail.from: {{ mlds_mail_from }}

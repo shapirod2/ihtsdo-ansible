@@ -4,10 +4,19 @@ mlds_version: latest
 mlds_appname: "mlds"
 
 mlds_dbname: "mlds"
+mlds_user: "mlds"
 mlds_password: "password"
-
-mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
+mlds_dataSource_ClassName: "org.postgresql.ds.PGSimpleDataSource"
+mlds_datasource_url: "jdbc:postgresql:mlds"
+#servername and dbname only used if url not set
+mlds_datasource_serverName: "localhost"
 
 mlds_drop_db: 'false'
 
+mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
+
 dev_instance: false
+
+
+
+

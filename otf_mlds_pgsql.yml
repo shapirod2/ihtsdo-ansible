@@ -1,0 +1,8 @@
+---
+  - hosts: mlds
+    sudo: true
+    roles:
+      - IHTSDO.pgsql
+      - IHTSDO.mlds
+      - IHTSDO.nginx-standard   
+
