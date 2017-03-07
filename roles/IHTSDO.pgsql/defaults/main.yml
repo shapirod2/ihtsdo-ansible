@@ -1,5 +1,6 @@
 ---
-pgsql_version: 9.3
+#pgsql_version: "9.3+154ubuntu1"
+pgsql_version: "9.3"
 pgsql_service_name: pgsql
 pgsql_local: true
 pgsql_host: localhost

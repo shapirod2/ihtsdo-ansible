@@ -30,7 +30,6 @@
     name: "{{ item['user']['name'] }}"
     password: "{{ item['user']['password'] }}"
     state: present
-    priv: "{{ item['user']['privs'] }}"
     role_attr_flags: "LOGIN,NOSUPERUSER"
     login_host: "{{ pgsql_host }}"
     login_user: "{{ pgsql_root_username }}"

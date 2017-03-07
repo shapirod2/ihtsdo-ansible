@@ -1,12 +1,12 @@
 
 - name: ensure postgres is installed
   apt: 
-    name: postgresql={{pgsql_version}} 
+    name: postgresql-{{pgsql_version}} 
     state: present
 
 - name: ensure postgres contrib/Adminpack is installed
   apt: 
-    name: postgresql-contrib={{pgsql_version}} 
+    name: postgresql-contrib-{{pgsql_version}} 
     state: present
 
 - name: ensure acl is installed (dependancy for ansible)
@@ -37,7 +37,6 @@
     name: "{{ item['user']['name'] }}"
     password: "{{ item['user']['password'] }}"
     state: present
-    priv: "{{ item['user']['privs'] }}"
     role_attr_flags: "LOGIN,NOSUPERUSER"
   with_items: "{{ pgsql_users }}"
   when: pgsql_users|lower != 'none' and pgsql_users is defined
