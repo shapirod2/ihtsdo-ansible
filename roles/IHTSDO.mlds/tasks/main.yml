@@ -4,5 +4,6 @@
     sudo: yes
 
   - include: db.yml
+    when : old_db == true
 
   - include: mlds.yml

@@ -17,6 +17,8 @@ mlds_webauth_url: https://usermanagement2.ihtsdotools.org/security-web/query/
 
 dev_instance: false
 
+old_db: true
+
 
 
 
