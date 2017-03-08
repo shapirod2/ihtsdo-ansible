@@ -56,6 +56,14 @@
     - restart rvf-api
   tags:
     - ihtsdo-asset
+        
+- name: Configure supervisor conf
+  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/rvf-api.conf
+            owner=root group=rvf-api mode=0640
+  notify:
+    - restart rvf-api
+  tags:
+    - ihtsdo-asset    
     
 - name: Create RVF data directory
   file: path={{ rvf_data_folder_location }} state=directory
