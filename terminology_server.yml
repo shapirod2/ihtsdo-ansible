@@ -4,6 +4,7 @@
     roles:
       - IHTSDO.oraclejava
       - IHTSDO.aws
+      - IHTSDO.mysql
       - IHTSDO.orchestration-service
       - IHTSDO.termserver
       - IHTSDO.authoring-services

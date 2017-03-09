@@ -42,8 +42,8 @@ tmpdir		= /tmp
 lc-messages-dir	= /usr/share/mysql
 skip-external-locking
 lower_case_table_names= {{ mysql_settings_lower_case_table_names }}
-character-set-server={{ mysql_settings_character-set-server }}
-collation-server={{ mysql_settings_collation-server }}
+character-set-server={{ mysql_settings_character_set_server }}
+collation-server={{ mysql_settings_collation_server }}
 innodb_buffer_pool_size = {{ mysql_settings_innodb_buffer_pool_size }}
 #
 # Instead of skip-networking the default is now to listen only on
@@ -110,7 +110,6 @@ max_binlog_size         = 100M
 # ssl-ca=/etc/mysql/cacert.pem
 # ssl-cert=/etc/mysql/server-cert.pem
 # ssl-key=/etc/mysql/server-key.pem
-character-set-server=utf8
 
 [mysqldump]
 quick
