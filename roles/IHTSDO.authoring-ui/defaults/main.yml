@@ -1,12 +1,12 @@
 ---
 authoringui_app_name: authoring-ui
-version_authoringui: "latest"
-install_dir: "/opt/{{ authoringui_app_name }}"
-lib_dir: "{{ install_dir }}/lib"
-conf_dir: "{{ install_dir }}/conf"
+authoringui_version: "latest"
+authoringui_install_dir: "/opt/{{ authoringui_app_name }}"
+authoringui_lib_dir: "{{ authoringui_install_dir }}/lib"
+authoringui_conf_dir: "{{ authoringui_install_dir }}/conf"
 
 #Endpoints:
-authoringEndpoint: "/snowowl/ihtsdo-authoring/"
-snowOwlEndpoint: "/snowowl/snomed-ct/"
-imsEndpoint: "https://dev-ims.ihtsdotools.org/#/"
-collectorEndpoint: "https://jira.ihtsdotools.org/s/f890da76f5b668bf7eb9dc26a2170e6e-T/en_US-je3gdv/64027/28/1.4.27/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=248feca3"
+authoringui_authoringEndpoint: "/authoring-services/"
+authoringui_snowOwlEndpoint: "/snowowl/snomed-ct/v2/"
+authoringui_imsEndpoint: "https://dev-ims.ihtsdotools.org/#/"
+authoringui_collectorEndpoint: "https://jira.ihtsdotools.org/s/f890da76f5b668bf7eb9dc26a2170e6e-T/en_US-je3gdv/64027/28/1.4.27/_/download/batch/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector/com.atlassian.jira.collector.plugin.jira-issue-collector-plugin:issuecollector.js?locale=en-US&collectorId=248feca3"
