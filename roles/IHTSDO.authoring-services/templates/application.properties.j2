@@ -1,0 +1,25 @@
+jira.url={{ authoring_services_jira_url }}
+jira.username={{ authoring_services_jira_username }}
+jira.consumerKey={{ authoring_services_jira_consumerKey }}
+jira.privateKeyName=jiraKey.pem
+jiraProjectFilterProductCodes={{ authoring_services_jira_proj_filter_pc }}
+
+securityServiceStubMode={{ authoring_services_securityServiceStubMode }}
+
+snowowl.url= {{ authoring_services_ts_url }}
+orchestration.url= {{ authoring_services_orchestration_url }}
+orchestration.name= {{ authoring_services_orchestration_name }}
+
+# Basic auth config
+security.user.name={{ authoring_services_username }}
+security.user.password={{ authoring_services_password }}
+
+spring.datasource.url=jdbc:mysql://{{ authoring_services_db_host }}/{{ authoring_services_review_dbname }}?useSSL=false
+spring.datasource.username={{ authoring_services_db_username }}
+spring.datasource.password={{ authoring_services_db_password }}
+spring.datasource.driver-class-name=com.mysql.jdbc.Driver
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+
+spring.activemq.broker-url = {{ authoring_services_jms_url }}
+spring.activemq.user = {{ authoring_services_jms_username }}
+spring.activemq.password = {{ authoring_services_jms_password }}
