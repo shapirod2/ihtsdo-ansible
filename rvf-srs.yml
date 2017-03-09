@@ -1,16 +1,16 @@
 ---
         
-#  - hosts: snomed_release_service_api
-#    sudo: true
-#    roles:
-#      - IHTSDO.mysql
-#      - IHTSDO.snomed-release-service-api
-#      - IHTSDO.aws
+  - hosts: snomed_release_service_api
+    sudo: true
+    roles:
+      - IHTSDO.mysql
+      - IHTSDO.snomed-release-service-api
+      - IHTSDO.aws
 
-#  - hosts: snomed_release_service_web
-#    sudo: true
-#    roles:
-#      - IHTSDO.snomed-release-service-web
+  - hosts: snomed_release_service_web
+    sudo: true
+    roles:
+      - IHTSDO.snomed-release-service-web
 
   - hosts: release_validation_framework_api
     sudo: true
