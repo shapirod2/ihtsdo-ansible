@@ -1,74 +1,53 @@
 ---
-term_serv_app_name: termserver
-version_term_serv: latest
-environment_shortname: UNKNOWN
-mysql_service: mysql
-term_serv_innodb_buffer_pool_size: 2G
-term_serv_Xmx: 10g
-term_serv_Xms: 5g
-term_serv_workers: 40
-term_serv_java_opts: "-DcrowdPropertiesFileLocation=configuration"
-term_serv_java_opts_extra: ""
-#term_serv_java_opts_extra: "-Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCTimeStamps -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
-term_serv_java_path: "/usr/lib/jvm/java-7-oracle/bin/java"
-#oraclejava_version: 7
-#Set the db content from a backup
-#set_db_content:  False
-# Force the import to download a fresh copy of the  backup zip and use that.
-#force_zip_download:  False
-# Dir where term server is installed
-term_serv_dir: /opt/termserver
-# Dir name where indexes go
-term_serv_indexes_dir: "indexes"
-# Dir name where resources go
-term_serv_resources_dir: "resources"
-#Term Serv Resources dir
-term_serv_dir_resources: "{{term_serv_dir}}/{{ term_serv_resources_dir }}"
-#Term Serv Indexes dir
-term_serv_dir_resources_indexes: "{{term_serv_dir_resources}}/{{ term_serv_indexes_dir }}"
+ts_app_name: termserver
+ts_version: latest
+ts_Xmx: 10g
+ts_Xms: 5g
+ts_workers: 40
+ts_java_opts: "-DcrowdPropertiesFileLocation=configuration"
+ts_java_opts_extra: "-Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
+ts_java_path: "/usr/lib/jvm/java-7-oracle/bin/java"
+ts_dir: /opt/termserver
+ts_dir_resources: "{{ts_dir}}/resources"
+ts_dir_resources_indexes: "{{ts_dir}}/indexes"
+ts_securityServiceStubMode: "false"
+ts_tmpdl_dir: "/opt/downloads"
 
-#snowowl_reasoner_id: au.csiro.snorocket.owlapi3.snorocket.factory
-snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
-snowowl_url: http://localhost:8080/snowowl/
+ts_dbname: snomedstore
+ts_review_dbname: ts_review
+ts_snowowl_db_host: "localhost:3306/"
+ts_snowowl_db_user: change_me
+ts_snowowl_db_password: change_me
+ts_snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
+ts_snowowl_url: http://localhost:8080/snowowl/
 
-# Backup
-# Dir to put scripts into
-backup_dir: /opt/backup/termserver
-#Dir for scripts to put final backup zips into
-backup_zip_dir: /opt/backup/termserver/zips
-#base URL for rest calls for use by hot backup
-base_url: http://localhost:8080/snowowl
+ts_new_relic_active: = False
+ts_new_relic_zip: "newrelic-java-3.28.0.zip"
+ts_new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/"
+ts_new_relic_zip_path: "{{dl_dir}}/{{ts_new_relic_zip}}"
+ts_conf_dir: "{{ ts_dir }}/configuration"
 
-dl_dir: "/opt/downloads"
+ts_jira_privateKeyName: jira.pem
+ts_jira_pem_file: "{{ inventory_dir }}/../files/ssl/{{ ts_jira_privateKeyName }}"
+ts_jira_username: "change_me"
+ts_jira_password: "change_me"
+ts_jira_reviewer_field: "customfield_10000"
+ts_jira_consumerKey: "change_me"
+ts_jira_proj_filter_pc: "change_me"
 
-new_relic_active: = False
-new_relic_zip: "newrelic-java-3.28.0.zip"
-new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/"
-new_relic_zip_path: "{{dl_dir}}/{{new_relic_zip}}"
+ts_orchestration_name: "change_me"
+ts_orchestration_server_port: 9007
+ts_orchestration_username: change_me
+ts_orchestration_password: change_me
+ts_orchestration_url: "http://localhost:9007/"
+ts_orchestration_jms_url: "change_me"
+ts_orchestration_jms_username: "change_me"
+ts_orchestration_jms_password: "change_me"
 
-#Crowd.properties basic settings. Check the termserver app info in inventory for more and/or
-# add extra to a specific machine inventory (develop, prod etc):
+ts_test_res_dir: "{{ts_dir_resources}}/test-resources"
+ts_test_res_S3_bucket: "validation-resources.ihtsdo"
+ts_test_res_S3_dir: "prod/SnomedCT_RF2Release_INT_20170131/"
+ts_test_res_S3_region: "us-east-1"
 
-crowd_server_url: "{{ crowd_base_url }}/services/"
-application_login_url: "{{ ihtsdo_im_service_base_url }}/#/login"
-
-term_serv_conf_dir: "{{ term_serv_dir }}/configuration"
-
-jira_privateKeyName: jira.pem
-jira_pem_file: "{{ inventory_dir }}/../files/ssl/{{ jira_privateKeyName }}"
-jira_proj_filter_pc: "changeme"
-
-orchestration_name: "changeme"
-orchestration_server_port: 9007
-
-securityServiceStubMode: "false"
 snomed_drools_version: master
 mrcm_version: master
-system_type: local_test
-
-term_serv_test_res_dir: "{{term_serv_dir_resources}}/test-resources"
-term_serv_test_res_S3_bucket: ""
-term_serv_test_res_S3_dir: ""
-term_serv_test_res_S3_region: "us-east-1"
-
-

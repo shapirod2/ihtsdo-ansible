@@ -2,23 +2,20 @@
 # create a download dir and get new relic zip etc.
 
 - name: make sure dlDir exists
-  file: path={{dl_dir}}  state=directory
+  file: path={{ts_tmpdl_dir}}  state=directory
 
 - name: make sure  zip file exists
-  stat: path={{new_relic_zip_path}}
+  stat: path={{ts_new_relic_zip_path}}
   register: dlfile
 
 - name: download zip file if url is set
-  get_url: force=no url={{new_relic_dl_url}}{{new_relic_zip}} dest={{new_relic_zip_path}} validate_certs=no mode=0440
+  get_url: force=no url={{ts_new_relic_dl_url}}{{ ts_new_relic_zip }} dest={{ ts_new_relic_zip_path }} validate_certs=no mode=0440
   when: dlfile.stat.exists == False
 
 - name: make sure  zip file exists after dl
-  stat: path={{new_relic_zip_path}}
+  stat: path={{ts_new_relic_zip_path}}
   register: dlfile2
 
 - name: Unarchive  zip file on the remote machine
-  unarchive: src="{{new_relic_zip_path}}" dest="/opt" copy=no
+  unarchive: src="{{ts_new_relic_zip_path}}" dest="/opt" copy=no
   when: dlfile2.stat.exists == True
-
-#- name: Install NewRelic Monitoring Agent
-#  unarchive: src="https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/newrelic-java-3.28.0.zip" dest="/opt" copy=no

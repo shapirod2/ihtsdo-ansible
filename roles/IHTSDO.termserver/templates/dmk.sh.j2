@@ -34,21 +34,21 @@ fi
 . "$KERNEL_HOME/bin/checkJava.sh"
 
 shopt -s extglob
-	
+
 # parse the command we executing
 COMMAND=$1
 shift;
-	
+
 if [ "$COMMAND" = "start" ]
 then
-	
+
 	# parse the standard arguments
 	CONFIG_DIR=$KERNEL_HOME/configuration
 	CLEAN_FLAG=
 	NO_START_FLAG=
 
 	SHELL_FLAG=
-	
+
 	DEBUG_FLAG=
 	DEBUG_PORT=8000
 	SUSPEND=n
@@ -56,12 +56,12 @@ then
 	then
 		JMX_PORT=9875
 	fi
-	
+
 	if [ -z "$KEYSTORE_PASSWORD" ]
 	then
 		KEYSTORE_PASSWORD=changeit
 	fi
-	
+
 	ADDITIONAL_ARGS=
 
 	while (($# > 0))
@@ -97,7 +97,7 @@ then
 		-noStart)
 				NO_START_FLAG=1
 				;;
-				
+
 		-suspend)
 				SUSPEND=y
 				;;
@@ -110,7 +110,7 @@ then
 		esac
 		shift
 	done
-	
+
 	# start the kernel
 	if [[ "$CONFIG_DIR" != /* ]]
 	then
@@ -136,7 +136,7 @@ then
 
         LAUNCH_OPTS="$LAUNCH_OPTS -clean" #equivalent to setting osgi.clean to "true"
 	fi
-	
+
 	if [ "$SHELL_FLAG" ]
 	then
 	    echo "Warning: Kernel shell not supported; -shell option ignored."
@@ -158,7 +158,7 @@ then
         CONFIG_AREA=$(cygpath -wp $CONFIG_AREA)
         JAVA_PROFILE=$(cygpath -wp $JAVA_PROFILE)
     fi
-	
+
 	# Set the required permissions on the JMX configuration files
 	chmod 600 $ACCESS_PROPERTIES
 
@@ -179,30 +179,30 @@ then
     else
      	JAVA_EXECUTABLE=$JAVA_HOME/bin/java
     fi
-    
-    {% if term_serv_java_path is defined %}
-     JAVA_EXECUTABLE={{term_serv_java_path}}
+
+    {% if ts_java_path is defined %}
+     JAVA_EXECUTABLE={{ts_java_path}}
     {% endif %}
 
 	# If we get here we have the correct Java version.
-	
+
 	if [ -z "$NO_START_FLAG" ]
 	then
 		TMP_DIR=$KERNEL_HOME/work/tmp
 		# Ensure that the tmp directory exists
 		mkdir -p $TMP_DIR
-		
+
 		#Added awt.headless - http://mail-archives.apache.org/mod_mbox/poi-user/200705.mbox/%3C15719338671.20070504144714@dinom.ru%3E
         JAVA_OPTS="$JAVA_OPTS \
-        			-Xms{{term_serv_Xmx}} \
-                    -Xmx{{term_serv_Xmx}} \
+        			-Xms{{ts_Xmx}} \
+                    -Xmx{{ts_Xmx}} \
                     -XX:MaxPermSize=512m \
                     -Djavax.xml.parsers.DocumentBuilderFactory=com.sun.org.apache.xerces.internal.jaxp.DocumentBuilderFactoryImpl \
                     -Djavax.xml.transform.TransformerFactory=com.sun.org.apache.xalan.internal.xsltc.trax.TransformerFactoryImpl \
                     -Djavax.xml.parsers.SAXParserFactory=com.sun.org.apache.xerces.internal.jaxp.SAXParserFactoryImpl \
                     -Djava.awt.headless=true \
                     -Dosgi.classloader.type=nonparallel \
-                    -Dfile.encoding=UTF-8" 
+                    -Dfile.encoding=UTF-8"
 
 		cd $KERNEL_HOME; exec $JAVA_EXECUTABLE \
 			$JAVA_OPTS \
@@ -240,8 +240,8 @@ then
 	then
 		TRUSTSTORE_PATH=$CONFIG_DIR/keystore
 	fi
-	
-	if [ -z "$TRUSTSTORE_PASSWORD" ]	
+
+	if [ -z "$TRUSTSTORE_PASSWORD" ]
 	then
 		TRUSTSTORE_PASSWORD=changeit
 	fi
@@ -278,7 +278,7 @@ then
 		esac
 		shift
 	done
-	
+
 	JMX_OPTS=" \
 		$JMX_OPTS \
 		-Djavax.net.ssl.trustStore=${TRUSTSTORE_PATH} \
@@ -296,8 +296,7 @@ then
 		-Dorg.eclipse.virgo.kernel.home=$KERNEL_HOME \
 		-Dorg.eclipse.virgo.kernel.authentication.file=$CONFIG_DIR/org.eclipse.virgo.kernel.users.properties \
 		org.eclipse.virgo.nano.shutdown.ShutdownClient $OTHER_ARGS
-	
+
 else
 	echo "Unknown command: ${COMMAND}"
 fi
-

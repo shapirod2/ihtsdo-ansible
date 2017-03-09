@@ -3,8 +3,6 @@
   apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
-#Setup the database
-- include: db.yml
 
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600
@@ -18,68 +16,54 @@
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
   ignore_errors: yes
-  tags: updatekey 
-#- name: Install term server
-#  apt: pkg=termserver state=latest force=yes
+  tags: updatekey
 
 - name: Install package
-  apt: name={{term_serv_app_name}} state=installed
-  when: version_term_serv == 'installed'
+  apt: name={{ts_app_name}} state=installed
+  when: ts_version == 'installed'
 
 - name: Install latest package
-  apt: name={{term_serv_app_name}} state=latest
-  when: version_term_serv == 'latest'
+  apt: name={{ ts_app_name }} state=latest
+  when: ts_version == 'latest'
 
 - name: Install package specific version
-  apt: name={{term_serv_app_name}}={{ version_term_serv }} state=installed
-  when: version_term_serv != 'installed' and version_term_serv != 'latest'
+  apt: name={{ ts_app_name }}={{ ts_version }} state=installed
+  when: ts_version != 'installed' and ts_version != 'latest'
 
 - name: Make sure all .sh files in bin are executable
-  shell:  'find {{term_serv_dir}}/bin -name "*.sh" -exec chmod +x {} \;'
-#Setup the backup
-- include: backup.yml
-
-#If setting up the content
-#- include: setdbcontent.yml
-#  when: "set_db_content == True"
-
-#- name: Dump all vars
-#  template: src=dumpvars.j2 dest=/tmp/ansibleVars.txt
+  shell:  'find {{ ts_dir }}/bin -name "*.sh" -exec chmod +x {} \;'
 
 - name: Copy snowowl_config.yml
-  template: src=snowowl_config.yml dest={{ term_serv_dir }}/snowowl_config.yml owner=root group=root mode=0644
-
-- name: Copy crowd.properties
-  template: src=crowd.properties.j2 dest={{ term_serv_conf_dir }}/crowd.properties owner=root group=root mode=0644
+  template: src=snowowl_config.yml dest={{ ts_dir }}/snowowl_config.yml owner=root group=root mode=0644
 
 - name: Copy single_authoring.properties
-  template: src=single_authoring.properties.j2 dest={{ term_serv_conf_dir }}/single_authoring.properties owner=root group=root mode=0644
-  tags: updatekey 
+  template: src=single_authoring.properties.j2 dest={{ ts_conf_dir }}/single_authoring.properties owner=root group=root mode=0644
+  tags: updatekey
 
 - name: Copy setenv.sh
-  template: src=setenv.sh dest={{ term_serv_dir }}/bin/setenv.sh owner=root group=root mode=0755
+  template: src=setenv.sh dest={{ ts_dir }}/bin/setenv.sh owner=root group=root mode=0755
 
 - name: Copy dmk.sh
-  template: src=dmk.sh.j2 dest={{ term_serv_dir }}/bin/dmk.sh owner=root group=root mode=0755
-  
+  template: src=dmk.sh.j2 dest={{ ts_dir }}/bin/dmk.sh owner=root group=root mode=0755
+
 - name: Copy checkJava.sh
-  template: src=checkJava.sh.j2 dest={{ term_serv_dir }}/bin/checkJava.sh owner=root group=root mode=0755  
+  template: src=checkJava.sh.j2 dest={{ ts_dir }}/bin/checkJava.sh owner=root group=root mode=0755
 
 - name: Copy Jira Private Key
-  copy: src={{ jira_pem_file }} dest={{ term_serv_conf_dir }}/{{ jira_privateKeyName }}
+  copy: src={{ ts_jira_pem_file }} dest={{ ts_conf_dir }}/{{ ts_jira_privateKeyName }}
         owner=root group=root mode=0644
-  tags: updatekey      
+  tags: updatekey
 
 - name: Ensure servicability directory exists
-  file: path="{{ term_serv_dir }}/serviceability"
+  file: path="{{ ts_dir }}/serviceability"
         state=directory
 
 - name: Ensure logs directory exists
-  file: path="{{ term_serv_dir }}/serviceability/logs"
+  file: path="{{ ts_dir }}/serviceability/logs"
         state=directory
 
 - name: Setup symbolic link between tslogs and termserver
-  file: src="{{ term_serv_dir }}/serviceability/logs"
+  file: src="{{ ts_dir }}/serviceability/logs"
         dest="/tslogs"
         state=link
         force=yes
@@ -92,30 +76,30 @@
        dest="/tslogs/grep-commands"
 
 - name: make sure drools dir is gone
-  file: path="{{ term_serv_dir }}/snomed-drools-rules"  state=absent
+  file: path="{{ ts_dir }}/snomed-drools-rules"  state=absent
 
 - name: Deploy snomed drools rules
   git: repo=https://github.com/IHTSDO/snomed-drools-rules.git
-       dest="{{ term_serv_dir }}/snomed-drools-rules"
+       dest="{{ ts_dir }}/snomed-drools-rules"
        version="{{ snomed_drools_version }}"
-       
+
 - name: Copy Script to check concept relationships for extensions
-  template: src=checkconrels.sh.j2 dest={{ term_serv_dir }}/checkconrels.sh owner=root group=root mode=0774       
+  template: src=checkconrels.sh.j2 dest={{ ts_dir }}/checkconrels.sh owner=root group=root mode=0774
 
 - name: make sure mrcm dir is gone
-  file: path="{{ term_serv_dir }}/mrcm"  state=absent
+  file: path="{{ ts_dir }}/mrcm"  state=absent
 
 - name: Deploy MRCM
   git: repo=https://git.ihtsdotools.org/ihtsdo/termserver-mrcm.git
-       dest="{{ term_serv_dir }}/mrcm"
+       dest="{{ ts_dir }}/mrcm"
        version="{{ mrcm_version }}"
 
 - include: newrelic.yml
-  when: new_relic_active == True
-  
+  when: ts_new_relic_active == True
+
 - include: addTestResources.yml
-  when: not((term_serv_test_res_S3_bucket is undefined) or (term_serv_test_res_S3_bucket is none) or (term_serv_test_res_S3_bucket|trim == ''))
- 
+  when: not((ts_test_res_S3_bucket is undefined) or (ts_test_res_S3_bucket is none) or (ts_test_res_S3_bucket|trim == ''))
+
 - name: Start TS
   supervisorctl: name=termserver state=started
-  tags: updatekey 
+  tags: updatekey

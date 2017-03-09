@@ -14,8 +14,8 @@ else
   	JAVA_EXECUTABLE=$JAVA_HOME/bin/java
 fi
 
-    {% if term_serv_java_path is defined %}
-     JAVA_EXECUTABLE={{term_serv_java_path}}
+    {% if ts_java_path is defined %}
+     JAVA_EXECUTABLE={{ts_java_path}}
     {% endif %}
 
 # Run java version check with the discovered java jvm.

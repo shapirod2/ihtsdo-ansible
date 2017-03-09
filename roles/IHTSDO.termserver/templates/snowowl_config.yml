@@ -14,7 +14,7 @@ fileAuth:
 repository:
   host: 0.0.0.0
   port: 2036
-  numberOfWorkers: "{{ term_serv_workers }}"
+  numberOfWorkers: "{{ ts_workers }}"
   # Minutes to invalidate and close the unused indexes for tasks
   # Default is 4 hours, setting it to 0 means infinite (turns the feature off)
   # indexTimeout: 240
@@ -24,19 +24,19 @@ repository:
     datasource: com.mysql.jdbc.jdbc2.optional.MysqlDataSource
     driver: com.mysql.jdbc.Driver
     scheme: jdbc:mysql://
-    location: localhost:3306/
+    location: "{{ ts_snowowl_db_host }}"
     settings: ?useServerPrepStmts=true&useCursorFetch=true
-    username: "{{ snowowl_db_user }}"
-    password: "{{ snowowl_db_password }}"
+    username: "{{ ts_snowowl_db_user }}"
+    password: "{{ ts_snowowl_db_password }}"
 
 snomed:
   ids:
     strategy : CIS
-    cisBaseUrl : "{{ cis_url }}"
+    cisBaseUrl : "{{ ts_cis_url }}"
     cisContextRoot : api
-    cisUserName : "{{ cis_username }}"
-    cisPassword : "{{ cis_password }}"
-    cisClientSoftwareKey : "{{ cis_client_name }}"
+    cisUserName : "{{ ts_cis_username }}"
+    cisPassword : "{{ ts_cis_password }}"
+    cisClientSoftwareKey : "{{ ts_cis_client_name }}"
     cisNumberOfPollTries : 240
     cisTimeBetweenPollTries : 500
     enforceNamespace: INT
