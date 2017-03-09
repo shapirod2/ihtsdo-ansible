@@ -6,6 +6,7 @@
       - IHTSDO.aws
       - IHTSDO.orchestration-service
       - IHTSDO.termserver
+      - IHTSDO.authoring-services
       - IHTSDO.traceability-service
       - IHTSDO.template-service
       - IHTSDO.template-service-templates
