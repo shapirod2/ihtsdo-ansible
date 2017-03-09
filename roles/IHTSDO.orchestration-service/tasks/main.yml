@@ -3,31 +3,28 @@
   apt: update_cache=yes cache_valid_time=300
   tags:
     - ihtsdo-asset
-    
- 
-   
 
 - name: Install package
-  apt: name={{orch_app_name}} state=installed
+  apt: name={{orchestration_app_name}} state=installed
   notify:
     - restart orchestration-service
-  when: orchestration_service_version == 'installed'
+  when: orchestration_version == 'installed'
   tags:
     - ihtsdo-asset
-    
+
 - name: Install latest package
-  apt: name={{orch_app_name}} state=latest
+  apt: name={{orchestration_app_name}} state=latest
   notify:
     - restart orchestration-service
-  when: orchestration_service_version == 'latest'
+  when: orchestration_version == 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Install package specific version
-  apt: name={{orch_app_name}}={{ orchestration_service_version }} state=installed
+  apt: name={{orchestration_app_name}}={{ orchestration_version }} state=installed
   notify:
     - restart orchestration-service
-  when: orchestration_service_version != 'installed' and orchestration_service_version != 'latest'
+  when: orchestration_version != 'installed' and orchestration_version != 'latest'
   tags:
     - ihtsdo-asset
 
@@ -38,10 +35,10 @@
     - restart orchestration-service
   tags:
     - ihtsdo-asset
-    
+
 - name: Symlink configuration file
   file: src=/etc/opt/orchestration-service/application.properties dest=/var/opt/orchestration-service/run/application.properties owner=orchestration-service group=orchestration-service state=link
-    
+
 - name: Configure Logging in Supervisor Startup
   replace:
       dest=/etc/supervisor/conf.d/orchestration-service.conf
