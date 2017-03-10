@@ -6,10 +6,10 @@ mysql_host: localhost
 mysql_root_username: root
 mysql_root_password: change_me
 
-mysql_settings_lower_case_table_names: 1
+mysql_settings_lower_case_table_names: 0
 mysql_settings_character_set_server: utf8
 mysql_settings_collation_server: utf8_general_ci
-mysql_settings_innodb_buffer_pool_size: 512M
+mysql_settings_innodb_buffer_pool_size: 128M
 #mysql_databases:
 #   - db1
 #   - db2
