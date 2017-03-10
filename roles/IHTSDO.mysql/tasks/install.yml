@@ -15,6 +15,9 @@
 
 - name: Copy the root credentials as .my.cnf file
   template: src=root.cnf.j2 dest=~/.my.cnf mode=0600
+  
+- name: check started mysql
+  service: name={{ mysql_service_name }} state=started  
 
 - name: Update MySQL root password for all root accounts
   mysql_user: name={{ mysql_root_username }} host={{ item }} password={{ mysql_root_password }} state=present
