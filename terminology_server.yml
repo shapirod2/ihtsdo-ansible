@@ -13,6 +13,5 @@
       - IHTSDO.template-service-templates
       - IHTSDO.spellcheck-service
       - IHTSDO.termserver-browser
-      - IHTSDO.sca
       - IHTSDO.authoring-ui
       - IHTSDO.nginx-standard
