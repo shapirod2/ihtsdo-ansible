@@ -2,13 +2,13 @@
 traceability_name: "authoring-traceability-service"
 traceability_port: 8085
 traceability_version: 1.0.2
+
 traceability_database: traceability
+traceability_database_host: localhost
 traceability_database_username: traceability
 traceability_database_password: change_me
 
-mysql_root_pass: change_me
-
-orchestration_jms_url: change_me
-orchestration_jms_username: change_me
-orchestration_jms_password: change_me
-orchestration_name: change_me
+traceability_orchestration_jms_url: change_me
+traceability_orchestration_jms_username: change_me
+traceability_orchestration_jms_password: change_me
+traceability_orchestration_name: change_me

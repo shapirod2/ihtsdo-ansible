@@ -1,4 +1,0 @@
----
-- name: restart orchestration-service
-  supervisorctl: name=orchestration-service state=restarted
-
