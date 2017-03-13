@@ -68,32 +68,32 @@
   tags:
     - ihtsdo-asset
 
-- name: Install SSL cert
-  copy: src={{ otf_user_module_security_web_nginx_ssl_cert_file }} dest={{ otf_user_module_security_web_nginx_ssl_cert_file_dest }}
-        owner=root group=root mode=0644
-  notify:
-    - restart nginx
-  tags:
-    - ihtsdo-asset
-    - nginx
+#- name: Install SSL cert
+#  copy: src={{ otf_user_module_security_web_nginx_ssl_cert_file }} dest={{ otf_user_module_security_web_nginx_ssl_cert_file_dest }}
+#        owner=root group=root mode=0644
+#  notify:
+#    - restart nginx
+#  tags:
+#    - ihtsdo-asset
+#    - nginx
 
-- name: Install SSL key
-  copy: src={{ otf_user_module_security_web_nginx_ssl_key_file }} dest={{ otf_user_module_security_web_nginx_ssl_key_file_dest }}
-        owner=root group=root mode=0600
-  notify:
-    - restart nginx
-  tags:
-    - ihtsdo-asset
-    - nginx
+#- name: Install SSL key
+#  copy: src={{ otf_user_module_security_web_nginx_ssl_key_file }} dest={{ otf_user_module_security_web_nginx_ssl_key_file_dest }}
+#        owner=root group=root mode=0600
+#  notify:
+#    - restart nginx
+#  tags:
+#    - ihtsdo-asset
+#    - nginx
 
-- name: Configure nginx
-  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/otf-user-module-security-web.conf
-            owner=root group=otf-user-module-security-web mode=0640
-  notify:
-    - restart nginx
-  tags:
-    - ihtsdo-asset
-    - nginx
+#- name: Configure nginx
+#  template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/otf-user-module-security-web.conf
+#            owner=root group=otf-user-module-security-web mode=0640
+#  notify:
+#    - restart nginx
+#  tags:
+#    - ihtsdo-asset
+#    - nginx
  
 - name: If not standalone make sure localhost set to localhost.ihtsdo.org    
   lineinfile: dest=/etc/hosts line="127.0.0.1 localhost.ihtsdotools.org" 
@@ -102,6 +102,6 @@
 - name: restart useradmin
   supervisorctl: name={{otf_user_module_security_web_fqdn}} state=restarted
 
-- name: restart nginx
-  service: name=nginx state=restarted
+#- name: restart nginx
+#  service: name=nginx state=restarted
 

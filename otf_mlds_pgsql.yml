@@ -5,4 +5,5 @@
       - IHTSDO.pgsql
       - IHTSDO.mlds
       - IHTSDO.nginx-standard   
+      - IHTSDO.otf-user-module-security-web
 
