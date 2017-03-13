@@ -27,7 +27,7 @@ ts_new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdpa
 ts_new_relic_zip_path: "{{dl_dir}}/{{ts_new_relic_zip}}"
 ts_conf_dir: "{{ ts_dir }}/configuration"
 
-ts_jira_privateKeyName: jira.pem
+ts_jira_privateKeyName: jiraKey.pem
 ts_jira_pem_file: "{{ inventory_dir }}/../files/ssl/{{ ts_jira_privateKeyName }}"
 ts_jira_username: "change_me"
 ts_jira_password: "change_me"
