@@ -13,7 +13,7 @@ authoring_services_db_password: change_me
 authoring_services_ts_url: http://localhost:8080/snowowl/
 
 authoring_services_jira_url: https://dev-workflow.ihtsdotools.org/
-authoring_services_jira_pem_file: "{{ inventory_dir }}/../files/ts-jira-keys/dev/{{ts_jira_privateKeyName}}/private8.pem"
+authoring_services_jira_pem_file: "{{ inventory_dir }}/../files/ts-jira-keys/dev/private8.pem"
 authoring_services_jira_username: "change_me"
 authoring_services_jira_consumerKey: "change_me"
 authoring_services_jira_proj_filter_pc: "change_me"
