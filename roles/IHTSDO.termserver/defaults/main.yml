@@ -4,8 +4,7 @@ ts_version: latest
 ts_Xmx: 10g
 ts_Xms: 5g
 ts_workers: 40
-ts_java_opts: "-DcrowdPropertiesFileLocation=configuration"
-ts_java_opts_extra: "-Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
+ts_java_opts: "-DcrowdPropertiesFileLocation=configuration -Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
 ts_java_path: "/usr/lib/jvm/java-7-oracle/bin/java"
 ts_dir: /opt/termserver
 ts_dir_resources: "{{ts_dir}}/resources"

@@ -4,14 +4,12 @@
   tags:
     - ihtsdo-asset
 
-- name: Install rsync
-  apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600
-
-- name: Install unzip
-  apt: pkg=unzip state=latest update_cache=yes cache_valid_time=3600
-
-- name: Install git
-  apt: pkg=git state=latest update_cache=yes cache_valid_time=3600
+- name: Install Dependancies
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  with_items:
+   - rsync
+   - unzip
+   - git
 
 - name: Stop TS if running
   supervisorctl: name=termserver state=stopped
@@ -38,21 +36,43 @@
 
 - name: Copy single_authoring.properties
   template: src=single_authoring.properties.j2 dest={{ ts_conf_dir }}/single_authoring.properties owner=root group=root mode=0644
-  tags: updatekey
-
-- name: Copy setenv.sh
-  template: src=setenv.sh dest={{ ts_dir }}/bin/setenv.sh owner=root group=root mode=0755
-
-- name: Copy dmk.sh
-  template: src=dmk.sh.j2 dest={{ ts_dir }}/bin/dmk.sh owner=root group=root mode=0755
-
-- name: Copy checkJava.sh
-  template: src=checkJava.sh.j2 dest={{ ts_dir }}/bin/checkJava.sh owner=root group=root mode=0755
 
 - name: Copy Jira Private Key
   copy: src={{ ts_jira_pem_file }} dest={{ ts_conf_dir }}/{{ ts_jira_privateKeyName }}
         owner=root group=root mode=0644
-  tags: updatekey
+
+- name: Copy setenv.sh
+  template: src=setenv.sh dest={{ ts_dir }}/bin/setenv.sh owner=root group=root mode=0755
+
+- name: Set java path in checkJava.sh
+  lineinfile:
+    path: "{{ ts_dir }}/bin/checkJava.sh"
+    state: present
+    insertafter: 'java version check'
+    line: 'JAVA_EXECUTABLE={{ts_java_path}}'
+  when: ts_java_path is defined
+
+- name: Set java path in dmk.sh
+  lineinfile:
+    path: "{{ ts_dir }}/bin/dmk.sh"
+    state: present
+    insertafter: 'If we get here we have the correct Java version'
+    line: 'JAVA_EXECUTABLE={{ts_java_path}}'
+  when: ts_java_path is defined
+
+- name: Set xms in dmk.sh
+  lineinfile:
+    path: "{{ ts_dir }}/bin/dmk.sh"
+    state: present
+    regexp: '-Xms5g'
+    line: '-Xms{{ts_Xmx}} \'
+
+- name: Set xmx in dmk.sh
+  lineinfile:
+    path: "{{ ts_dir }}/bin/dmk.sh"
+    state: present
+    regexp: '-Xmx10g'
+    line: '-Xmx{{ts_Xmx}} \'
 
 - name: Ensure servicability directory exists
   file: path="{{ ts_dir }}/serviceability"
@@ -103,4 +123,3 @@
 - name: Start TS
   supervisorctl: name=termserver state=started
   ignore_errors: yes
-  tags: updatekey
