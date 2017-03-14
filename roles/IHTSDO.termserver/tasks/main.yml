@@ -102,4 +102,5 @@
 
 - name: Start TS
   supervisorctl: name=termserver state=started
+  ignore_errors: yes
   tags: updatekey
