@@ -22,6 +22,12 @@
   apt: name=identity-service={{ ims_version }} state=installed force=yes
   when: ims_version != 'installed' and ims_version != 'latest' and ims_version != 'absent'
 
+- name: Ensure  group exists
+  group: name={{ ims_system_group }}  state=present system=yes
+
+- name: Ensure user exists
+  user: name={{ ims_system_user }} group={{ ims_system_group }} state=present system=yes
+
 - name: make sure zip file exists
   stat: path="{{ ims_install_dir }}/lib/app.war"
   register: warfile
