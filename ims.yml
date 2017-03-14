@@ -4,5 +4,5 @@
     roles:
       #- IHTSDO.oraclejava
       - IHTSDO.ims
-      - IHTSDO.nginx-std 
+      - IHTSDO.nginx-standard 
 
