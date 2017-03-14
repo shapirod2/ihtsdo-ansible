@@ -1,12 +1,12 @@
 
 
 - name: remove existing test res dir
-  file: path={{ts_test_res_dir}} state=absent
+  file: path="{{ts_dir}}/resources/test-resource" state=absent
 
 - name: Ensure test res dir exists
-  file: path={{ ts_test_res_dir }} state=directory
+  file: path="{{ts_dir}}/resources/test-resource" state=directory
 
-- set_fact: s3_cp_cmd="/usr/bin/aws s3 cp s3://{{ts_test_res_S3_bucket}}/{{ts_test_res_S3_dir}} {{ts_test_res_dir}} --recursive --region {{ts_test_res_S3_region}}"
+- set_fact: s3_cp_cmd="/usr/bin/aws s3 cp s3://{{ts_test_res_S3_bucket}}/{{ts_test_res_S3_dir}} {{ts_dir}}/resources/test-resource --recursive --region {{ts_test_res_S3_region}}"
 
 - debug: msg="s3_cp_cmd  =  {{ s3_cp_cmd }} "
 

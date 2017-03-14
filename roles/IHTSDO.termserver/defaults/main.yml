@@ -7,10 +7,7 @@ ts_workers: 40
 ts_java_opts: "-DcrowdPropertiesFileLocation=configuration -Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
 ts_java_path: "/usr/lib/jvm/java-7-oracle/bin/java"
 ts_dir: /opt/termserver
-ts_dir_resources: "{{ts_dir}}/resources"
-ts_dir_resources_indexes: "{{ts_dir}}/indexes"
 ts_securityServiceStubMode: "false"
-ts_tmpdl_dir: "/opt/downloads"
 
 ts_dbname: snomedstore
 ts_review_dbname: ts_review
@@ -20,11 +17,9 @@ ts_snowowl_db_password: change_me
 ts_snowowl_reasoner_id: org.semanticweb.elk.elk.reasoner.factory
 ts_snowowl_url: http://localhost:8080/snowowl/
 
-ts_new_relic_active: = False
+ts_new_relic_active: False
 ts_new_relic_zip: "newrelic-java-3.28.0.zip"
 ts_new_relic_dl_url: "https://nexus.ihtsdotools.org/content/repositories/thirdparty/newrelic/newrelic-java/3.28.0/"
-ts_new_relic_zip_path: "{{dl_dir}}/{{ts_new_relic_zip}}"
-ts_conf_dir: "{{ ts_dir }}/configuration"
 
 ts_jira_privateKeyName: jiraKey.pem
 ts_jira_pem_file: "{{ inventory_dir }}/../files/ssl/{{ ts_jira_privateKeyName }}"
@@ -43,7 +38,6 @@ ts_orchestration_jms_url: "change_me"
 ts_orchestration_jms_username: "change_me"
 ts_orchestration_jms_password: "change_me"
 
-ts_test_res_dir: "{{ts_dir_resources}}/test-resources"
 ts_test_res_S3_bucket: "validation-resources.ihtsdo"
 ts_test_res_S3_dir: "prod/SnomedCT_RF2Release_INT_20170131/"
 ts_test_res_S3_region: "us-east-1"

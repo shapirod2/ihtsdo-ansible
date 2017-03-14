@@ -28,17 +28,14 @@
   apt: name={{ ts_app_name }}={{ ts_version }} state=installed
   when: ts_version != 'installed' and ts_version != 'latest'
 
-- name: Make sure all .sh files in bin are executable
-  shell:  'find {{ ts_dir }}/bin -name "*.sh" -exec chmod +x {} \;'
-
 - name: Copy snowowl_config.yml
   template: src=snowowl_config.yml dest={{ ts_dir }}/snowowl_config.yml owner=root group=root mode=0644
 
 - name: Copy single_authoring.properties
-  template: src=single_authoring.properties.j2 dest={{ ts_conf_dir }}/single_authoring.properties owner=root group=root mode=0644
+  template: src=single_authoring.properties.j2 dest={{ ts_dir }}/configuration/single_authoring.properties owner=root group=root mode=0644
 
 - name: Copy Jira Private Key
-  copy: src={{ ts_jira_pem_file }} dest={{ ts_conf_dir }}/{{ ts_jira_privateKeyName }}
+  copy: src={{ ts_jira_pem_file }} dest={{ ts_dir }}/configuration/{{ ts_jira_privateKeyName }}
         owner=root group=root mode=0644
 
 - name: Copy setenv.sh
@@ -46,7 +43,7 @@
 
 - name: Set java path in checkJava.sh
   lineinfile:
-    path: "{{ ts_dir }}/bin/checkJava.sh"
+    dest: "{{ ts_dir }}/bin/checkJava.sh"
     state: present
     insertafter: 'java version check'
     line: 'JAVA_EXECUTABLE={{ts_java_path}}'
@@ -54,7 +51,7 @@
 
 - name: Set java path in dmk.sh
   lineinfile:
-    path: "{{ ts_dir }}/bin/dmk.sh"
+    dest: "{{ ts_dir }}/bin/dmk.sh"
     state: present
     insertafter: 'If we get here we have the correct Java version'
     line: 'JAVA_EXECUTABLE={{ts_java_path}}'
@@ -62,17 +59,20 @@
 
 - name: Set xms in dmk.sh
   lineinfile:
-    path: "{{ ts_dir }}/bin/dmk.sh"
+    dest: "{{ ts_dir }}/bin/dmk.sh"
     state: present
     regexp: '-Xms5g'
     line: '-Xms{{ts_Xmx}} \'
 
 - name: Set xmx in dmk.sh
   lineinfile:
-    path: "{{ ts_dir }}/bin/dmk.sh"
+    dest: "{{ ts_dir }}/bin/dmk.sh"
     state: present
     regexp: '-Xmx10g'
     line: '-Xmx{{ts_Xmx}} \'
+
+- name: Make sure all .sh files in bin are executable
+  shell:  'find {{ ts_dir }}/bin -name "*.sh" -exec chmod +x {} \;'
 
 - name: Ensure servicability directory exists
   file: path="{{ ts_dir }}/serviceability"
