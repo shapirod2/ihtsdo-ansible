@@ -9,6 +9,6 @@ spring_activemq_broker_url: "change-activemq-broker-url"
 spring_activemq_user: "change-activemq-user"
 spring_activemq_password: "change-activemq-user"
 
-orchestration_name: "change-ads-orchestration-platform"
+orchestration_platform: "change-ads-orchestration-platform"
 
 authoring_decision_support_version: "latest"
