@@ -4,11 +4,8 @@ ads_log_level: debug
 ads_maxCachedProjects: 3
 ads_thread_pool: 4
 ads_es_chunkSize: 250
-
-spring_activemq_broker_url: "change-activemq-broker-url"
-spring_activemq_user: "change-activemq-user"
-spring_activemq_password: "change-activemq-user"
-
-orchestration_platform: "change-ads-orchestration-platform"
-
-authoring_decision_support_version: "latest"
+ads_activemq_broker_url: "change-activemq-broker-url"
+ads_activemq_user: "change-activemq-user"
+ads_activemq_password: "change-activemq-user"
+ads_orchestration_name: "change-ads-orchestration-platform"
+ads_version: "latest"

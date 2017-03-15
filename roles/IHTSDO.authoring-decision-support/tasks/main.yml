@@ -17,7 +17,7 @@
   apt: name=authoring-decision-support state=installed
   notify:
     - restart authoring-decision-support
-  when: authoring_decision_support_version == 'installed'
+  when: ads_version == 'installed'
   tags:
     - ihtsdo-asset
     
@@ -25,15 +25,15 @@
   apt: name=authoring-decision-support state=latest
   notify:
     - restart authoring-decision-support
-  when: authoring_decision_support_version == 'latest'
+  when: ads_version == 'latest'
   tags:
     - ihtsdo-asset
 
 - name: Install package specific version
-  apt: name=authoring-decision-support={{ authoring_decision_support_version }} state=installed
+  apt: name=authoring-decision-support={{ ads_version }} state=installed
   notify:
     - restart authoring-decision-support
-  when: authoring_decision_support_version != 'installed' and authoring_decision_support_version != 'latest'
+  when: ads_version != 'installed' and ads_version != 'latest'
   tags:
     - ihtsdo-asset
 
