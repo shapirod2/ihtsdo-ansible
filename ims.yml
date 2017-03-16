@@ -1,5 +1,5 @@
 ---
-  - hosts: ims
+  - hosts: authentication
     sudo: true
     roles:
       #- IHTSDO.oraclejava
