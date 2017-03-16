@@ -6,7 +6,7 @@
   user: name={{ crowd_system_user }} group={{ crowd_system_group }} state=present system=yes
 
 - name: Remove any pre-existing installation
-  file: path={{ crowd_install_location }}/crowd_system_name state=absent
+  file: path={{ crowd_install_location }}/{{ crowd_system_name }} state=absent
 
 - name: Create crowd installation directory
   file: path={{ crowd_install_location }} state=directory owner={{ crowd_system_user }}  group={{ crowd_system_group }}
