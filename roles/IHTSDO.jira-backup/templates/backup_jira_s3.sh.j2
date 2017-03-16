@@ -74,7 +74,7 @@ main() {
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/mysqldump.sql"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_password }} --all-databases --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/mysqldump.sql
+/usr/bin/mysqldump -uroot -p{{ mysql_root_password }} --all-databases --quick --events --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/mysqldump.sql
 }
 
 copyfromdatadir(){
