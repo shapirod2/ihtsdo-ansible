@@ -9,6 +9,6 @@ ads_activemq_user: "change-activemq-user"
 ads_activemq_password: "change-activemq-user"
 ads_orchestration_name: "change-ads-orchestration-platform"
 ads_version: "latest"
-ads_es_maxComplexity: 3000
+ads_es_maxComplexity: 2500
 
 
