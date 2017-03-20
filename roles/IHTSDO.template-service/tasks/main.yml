@@ -22,10 +22,6 @@
 - name: Copy application.properties
   template: src=application.properties.j2 dest=/opt/{{ template_name }}/application.properties owner={{ template_name }} group=root mode=0644
 
-- name: Ensure the template_store exists
-  file: path="/opt/{{ template_name }}/template-store" state=directory owner={{ template_name }}
-
 - name: (re)start template-service
   supervisorctl: name={{ template_name }}  state=restarted
   ignore_errors: yes
-
