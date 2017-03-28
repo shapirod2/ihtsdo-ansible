@@ -11,45 +11,8 @@
      regexp="^CONF_USER="
      line="CONF_USER={{ confluence_system_user }}"
 
-- name: Rewrite footer-content.vm with Rory's customisations
-  template: src=templates/footer-content.vm.j2 dest={{ confluence_home_location }}/confluence/confluence/decorators/includes/footer-content.vm owner={{ confluence_system_user }} group={{ confluence_system_group }}
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ confluence_supervisor_location }}/{{ confluence_system_name }}.conf" owner=root group=root mode=0640
 
-- name: Create default database user for application
-  mysql_user: name={{ confluence_mysql_user }} password={{ confluence_mysql_password }} login_host={{ confluence_mysql_hostname }} login_port={{ confluence_mysql_port }} login_user=root login_password={{ mysql_root_password }} priv=*.*:ALL,GRANT state=present
-  when: confluence_create_database
-
-- name: Create default database
-  mysql_db: name={{ confluence_mysql_db }} login_host={{ confluence_mysql_hostname }} login_port={{ confluence_mysql_port }} login_user={{ confluence_mysql_user }} login_password={{ confluence_mysql_password }} encoding=utf8 state=present
-  when: confluence_create_database
-
-- name: Add innodb_log_file_size = 1024M to my.cnf
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     insertafter="\[mysqld\]"
-     line="innodb_log_file_size = 1024M"
-  when: confluence_create_database
-
-- name: Add innodb_buffer_pool_size = 2G to my.cnf
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     insertafter="\[mysqld\]"
-     line="innodb_buffer_pool_size = 2G"
-  when: confluence_create_database
-
-- name:  Modify max_allowed_packet mysqldump settings in my.cnf
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     regexp="^max_allowed_packet	"
-     line="max_allowed_packet = 1G"
-  when: confluence_create_database
-
-- name:  Modify max_allowed_packet server  settings in my.cnf
-  lineinfile:
-     dest="/etc/mysql/my.cnf"
-     regexp="^max_allowed_packet	"
-     line="max_allowed_packet = 1G"
-  when: confluence_create_database
-
-- name: Ensure service is started
-  service: name=mysql  state=restarted
-  when: confluence_create_database
+- name: (re)load and update supervisor
+  shell: "supervisorctl reread && supervisorctl update"

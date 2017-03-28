@@ -1,4 +1,8 @@
 ---
+- name: Stop any running instances
+  supervisorctl: name={{ confluence_system_name }}  state=stopped
+  failed_when: false
+
 #Install Selected Application
 - include: installApplication.yml
 
@@ -8,6 +12,5 @@
 #Setup confluence
 - include: configConfluence.yml
 
-#Register and launch service
-- include: setupService.yml
-  when: confluence_create_service
+- name: (re)start confluence
+  supervisorctl: name={{ confluence_system_name }}  state=started

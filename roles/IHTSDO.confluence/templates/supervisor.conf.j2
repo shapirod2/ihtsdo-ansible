@@ -1,0 +1,10 @@
+[program:{{ confluence_system_name }}]
+user = {{ confluence_system_user }}
+directory = {{ confluence_install_location }}/{{ confluence_system_name }}
+command = {{ confluence_install_location }}/{{ confluence_system_name }}/bin/catalina.sh run
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760

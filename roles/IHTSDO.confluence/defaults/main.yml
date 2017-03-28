@@ -1,9 +1,9 @@
-confluence_version: 6.4.3
+confluence_version: 6.1.0
+confluence_system_name: confluence
 confluence_archive: atlassian-confluence-{{ confluence_version }}.tar.gz
 confluence_download_location: http://downloads.atlassian.com/software/confluence/downloads/
 confluence_system_location_tmp: /tmp
-confluence_create_database: true
-confluence_create_service: true
+confluence_supervisor_location: /etc/supervisor/conf.d/
 confluence_system_user: "confluence"
 confluence_system_group: "confluence"
 confluence_install_location: /opt/atlassian
@@ -11,10 +11,8 @@ confluence_home_location: /var/atlassian/application-data
 confluence_mysql_connector_version: 5.1.38
 confluence_mysql_connector_archive: mysql-connector-java-{{ confluence_mysql_connector_version }}.tar.gz
 confluence_mysql_connector_url: https://dev.mysql.com/get/Downloads/Connector-J/{{ confluence_mysql_connector_archive }}
-confluence_mysql_user: "{{ confluence_system_user }}"
+confluence_mysql_user: change_me
 confluence_mysql_password: change_me
 confluence_mysql_db: "confluence"
 confluence_mysql_hostname: localhost
 confluence_mysql_port: 3306
-
-mysql_root_password: change_me
