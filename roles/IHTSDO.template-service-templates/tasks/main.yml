@@ -6,5 +6,5 @@
     version: "{{ template_service_templates_version }}"
 
 - name: Force a reload of the template service
-  command: "curl -X POST --header 'Content-Type: application/json' --header 'Accept: /' --user {{ template_username }}:{{ template_password }} 'http://localhost:8086/template-service/templates/reload'"
+  command: "curl -X POST --header 'Content-Type: application/json' --header 'Accept: */*' --user {{ template_username }}:{{ template_password }} 'http://localhost:8086/template-service/templates/reload'"
   ignore_errors: yes
