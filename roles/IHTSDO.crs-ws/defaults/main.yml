@@ -29,13 +29,11 @@ crs_log_dir: "{{ crs_ws_install_dir }}/log"
 
 crs_ims_host: "dev-ims.ihtsdotools.org"
 crs_ims_base_url: "https://{{crs_ims_host}}"
-crs_ims_app_pw: "ihtsdo-tools"
-crs_ims_app_name: "ihtsdo-tools"
-
-crs_ims_crowd_host: "dev-crowd.ihtsdotools.org"
-crs_ims_crowd_url: "https://{{ crs_ims_crowd_host }}"
-
-crs_ims_token_key: "dev-ims.ihtsdo"
+#crs_ims_app_pw: "ihtsdo-tools"
+#crs_ims_app_name: "ihtsdo-tools"
+#crs_ims_crowd_host: "dev-crowd.ihtsdotools.org"
+#crs_ims_crowd_url: "https://{{ crs_ims_crowd_host }}"
+#crs_ims_token_key: "dev-ims.ihtsdo"
 
 crs_host: "{{ inventory_hostname }}"
 crs_url: "https://{{ crs_host }}"
