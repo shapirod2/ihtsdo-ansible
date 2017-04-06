@@ -14,18 +14,34 @@
   file: path="/root/.m2" state=directory
         owner=root group=root mode=755   
   
-- name: add settings.xml to root
-  template: src=settings.xml.j2 dest=/root/.m2/settings.xml
-            owner=root group=root mode=0640    
+#- name: add settings.xml to root
+#  template: src=settings.xml.j2 dest=/root/.m2/settings.xml
+#            owner=root group=root mode=0640    
 
-- debug: msg="About to admin set up script = {{ full_mapping_admin_setup_cmd }}"               
-  
-- name: run admin set up script
-  shell: "{{full_mapping_admin_setup_cmd}} chdir={{mapping_admin_app_dir}}"
-  
-- name: copy the version specific pom to the std name
-  shell: "cp {{mapping_admin_pom_dir}}/mapping-admin*.pom   {{mapping_admin_pom_dir}}/{{mapping_admin_pom_file}}"
-  
-  
+- name: Remove mapping_admin_app_admin_dir 
+  file: path={{mapping_admin_app_admin_dir}} state=absent
 
+- name: Remove mapping_admin_app_conf_dir 
+  file: path={{mapping_admin_app_conf_dir}} state=absent
+
+- name: unzip mapping admin-(version).zip
+  shell: "unzip {{mapping_admin_app_dir}}/zips/mapping-admin*.zip -d {{mapping_admin_app_admin_dir}}"
+
+- name: unzip mapping mapping-config-(version).zip
+  shell: "unzip {{mapping_admin_app_dir}}/zips/mapping-config*.zip -d {{mapping_admin_app_conf_dir}}"
+
+#- name: Unarchive intl zip file on the remote machine
+#  unarchive: src={{mapping_admin_app_dir}}/zips/mapping-admin*.zip dest={{mapping_admin_app_dir}}/admin/ copy=no
+
+#- debug: msg="About to admin set up script = {{ full_mapping_admin_setup_cmd }}"               
   
+#- name: run admin set up script
+#  shell: "{{full_mapping_admin_setup_cmd}} chdir={{mapping_admin_app_dir}}"
+  
+#- name: copy the version specific pom to the std name
+#  shell: "cp {{mapping_admin_pom_dir}}/mapping-admin*.pom   {{mapping_admin_pom_dir}}/{{mapping_admin_pom_file}}"
+  
+# for file in /opt/mapping-service-admin/pom/mapping-admin*.pom; do cp -v $file /opt/mapping-service-admin/pom/mapping-admin-pom; done
+  
+# /opt/mapping-service-admin/zips# unzip mapping-admin.zip -d ../admin/
+

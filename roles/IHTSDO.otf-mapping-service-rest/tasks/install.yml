@@ -13,6 +13,22 @@
   apt: name={{mapping_app_name}}={{ mapping_version }} state=installed
   when: mapping_version != 'installed' and mapping_version != 'latest'
   
+# Install admin
+
+- name: Install package
+  apt: name={{mapping_admin_app_name}} state=installed
+  when: mapping_version == 'installed'
+
+- name: Install latest package
+  apt: name={{mapping_admin_app_name}} state=latest
+  when: mapping_version == 'latest'
+
+- name: Install package specific version
+  apt: name={{mapping_admin_app_name}}={{ version_mapping }} state=installed
+  when: mapping_version != 'installed' and mapping_version != 'latest'
+
+  
+  
 - name: Ensure group exists
   group: name={{ mapping_user }} state=present system=yes
 

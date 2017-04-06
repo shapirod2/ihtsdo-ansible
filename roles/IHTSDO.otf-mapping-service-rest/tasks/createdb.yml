@@ -1,12 +1,16 @@
 
+# set the my.cnf
+- name: Copy my.cnf
+  template: src=my.cnf.j2 dest=/etc/mysql/my.cnf owner=root group=root mode=0644 
+
 #"CREATE database refsetdb CHARACTER SET utf8 default collate utf8_unicode_ci;
 # Create a new database with name mapping_db_name ('refsetdb') if required
-- mysql_db: name={{mapping_db_name}} state=present login_user=root login_password={{ mapping_mysql_root_pass }} collation=utf8_unicode_ci encoding=utf8
+#- mysql_db: name={{mapping_db_name}} state=present login_user=root login_password={{ mapping_mysql_root_pass }} collation=utf8_unicode_ci encoding=utf8
 
 # Creates database user 'mapping_db_user' with all database privileges and 'WITH GRANT OPTION'
-- mysql_user: name={{mapping_db_user}} password={{mapping_db_pw}} login_user=root login_password={{ mapping_mysql_root_pass }} priv=*.*:ALL,GRANT state=present
+#- mysql_user: name={{mapping_db_user}} password={{mapping_db_pw}} login_user=root login_password={{ mapping_mysql_root_pass }} priv=*.*:ALL,GRANT state=present
 
 - name: restart mysql
-  service: name={{ mapping_mysql_service }} state=restarted
+  service: name=mysql state=restarted
   
  

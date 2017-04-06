@@ -1,0 +1,9 @@
+---
+  - hosts: mapping
+    sudo: true
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.mysql
+      #- IHTSDO.mapping
+      - IHTSDO.otf-mapping-service-rest 
+      - IHTSDO.nginx-standard

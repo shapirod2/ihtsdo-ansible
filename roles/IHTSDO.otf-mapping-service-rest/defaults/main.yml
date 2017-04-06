@@ -1,39 +1,87 @@
 ---
 
+ihtsdo_repository: snapshot
 
 mapping_app_name: "mapping-service"
-app_name: "{{ mapping_app_name }}"
-supervisor_dir: "/etc/supervisor/conf.d/"
-
-
-mapping_mysql_root_pass: rooty
-mapping_db_name: mapping 
-mapping_db_user: mapping
-mapping_db_pw: mapping
-mapping_db_host: "127.0.0.1"
-mapping_user: "ihtsdo"
-mapping_mysql_port: 3306
-mapping_mysql_service: mysql
-mapping_xmx: "1500m"
-
-nginx_ufw_allow_https: true
-nginx_conf: "{{app_name}}"
-nginx_fqdn: "~(?i){{app_name}}"
-nginx_default_site: true
-nginx_ufw_allow_https: true
-nginx_proxy_url: "http://localhost:8080/"
-
-mapping_app_dir: "/opt/{{ mapping_app_name }}"
+mapping_admin_app_name: "mapping-service-admin"
+mapping_data_dir: "/opt/mapping-data"
+mapping_app_dir: "/opt/{{mapping_app_name}}"
 mapping_indexBase_dir: "{{mapping_app_dir}}/indexes"
-mapping_data_dir: "{{mapping_app_dir}}/data"
 mapping_conf_dir: "{{mapping_app_dir}}/conf"
 
-mapping_version: latest
-mapping_jdbc_url: "jdbc:mysql://{{mapping_db_host}}:{{mapping_mysql_port}}/{{mapping_db_name}}?autoReconnect=true"
-#mapping_db_user: otf
-#mapping_db_pw: CHANGE_ME
+mapping_admin_app_dir: "/opt/{{mapping_admin_app_name}}"
+mapping_admin_app_admin_dir: "{{mapping_admin_app_dir}}/admin"
+mapping_admin_app_conf_dir: "{{mapping_admin_app_dir}}/config"
+
+mapping_version: "latest"
+mapping_host: "{{ inventory_hostname }}"
+
+app_name: "{{ mapping_app_name }}"
+mapping_user: "{{ mapping_app_name }}"
+supervisor_dir: "/etc/supervisor/conf.d/"
+mapping_xmx: "1500m"
+mapping_port: "10002"
+
+##IMS/Auth
+
+mapping_ims_users_admin: "admin"
+mapping_ims_users_viewer: "guest,guest1,author1,reviewer1,guest2,author2,reviewer2,guest3,author3,reviewer3,admin1,admin2,admin3"
+
+mapping_ims_host: "dev-ims.ihtsdotools.org"
+mapping_ims_url: "https://{{ mapping_ims_host }}/"
+mapping_ims_api_url: "{{ mapping_ims_host }}/api/"
+mapping_ims_logout: "{{mapping_ims_url}}/#/logout"
+
+#DB
+
+mapping_db_host: "localhost"
+mapping_db_name: "mappingservicedb"
+mapping_telemetry_db_name: "telemetrydb"
+mapping_db_user: otf
+mapping_db_pw: "CHANGE_ME"
+mapping_db_port: "3306"
+mysql_root_password: "CHANGE_ME2"
+
+
+mysql_databases:
+   - "{{mapping_db_name}}"
+   - "{{mapping_telemetry_db_name}}"
+   
+mapping_jdbc_url: "jdbc:mysql://{{mapping_db_host}}:{{mapping_db_port}}/{{mapping_db_name}}?autoReconnect=true"
 mapping_batch_size: 500
-mapping_default_batch_fetch_size: 500
+mapping_default_batch_fetch_size: 500   
+
+
+#mapping_mysql_root_pass: rooty
+#mapping_db_name: mapping 
+#mapping_db_user: mapping
+#mapping_db_pw: mapping
+#mapping_db_host: "127.0.0.1"
+#mapping_user: "ihtsdo"
+#mapping_mysql_port: 3306
+#mapping_mysql_service: mysql
+
+
+#mail
+mail_enabled: "true"
+mapping_smtp_user: "smtpuser"
+mapping_smtp_password: "smtppass"
+mapping_smtp_host: "some.smtpserver.org"
+mapping_smtp_port: "587"
+mail_smtp_starttls_enable: "true"
+mail_smtp_auth: "true"
+mail_smtp_to: "bob@bob.com;bob2@bob.com"
+mail_smtp_from: "alice@alice.com"
+mail_smtp_to_feedback_user: "alice@alice.com"
+send_notification_recipients: "dave@dave.com;dave1@dave.com;dave2@dave.com"
+
+
+#----- IHTSDO.nginx-standard config ----
+nginx_version: 1.11.1-1~trusty
+nginx_sites_available:
+ - server:
+    template: "mapping"
+
 #mapping_indexBase_dir: /var/opt/otf-mapping-service-rest/indexes
 #mapping_data_dir: /var/opt/otf-mapping-service-rest/data
 mapping_defaultPreferredNames_typeId: 900000000000013009
@@ -53,8 +101,6 @@ mapping_base_url: ''
 # true false.
 load_example_data: false
 install_admin: true
-
-mapping_admin_app_name: "mapping-service-admin"
 mapping_admin_app_dir: "/opt/{{ mapping_admin_app_name }}"
 mapping_admin_setup_script: "{{mapping_admin_app_dir}}/setupconfdata.sh"
 
@@ -66,6 +112,8 @@ mapping_admin_pom_script_file: "setupconfdata_mvn.sh"
 mapping_admin_pom_script: "{{mapping_admin_pom_dir}}/{{mapping_admin_pom_script_file}}"
 mapping_admin_pom_log: "{{ mapping_admin_pom_dir }}/admin_exampledata_{{ ansible_date_time.iso8601 }}.log"
 full_mapping_admin_pom_cmd: "{{ mapping_admin_pom_script }} >> {{ mapping_admin_pom_log }}"
+
+
 script_dir: /opt/scripts/mapping
 new_restore_script: restore_mapping_s3.sh
 restore_cmd: "{{ script_dir }}/{{ new_restore_script }}"

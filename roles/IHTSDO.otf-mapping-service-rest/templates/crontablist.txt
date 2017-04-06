@@ -1,0 +1,27 @@
+#
+# Minute     Hour     Day of Month     Month     Day of Week
+#
+
+# Set to blank to fix the following issue in /var/log/syslog
+# postfix/sendmail[8810]: fatal: open /etc/postfix/main.cf: No such file or directory
+MAILTO=""
+
+# ORIGINAL SETUP
+# Run every wednesday evening into thursday  morning
+#0 23 * * 3 csh /home/ihtsdo/config/bin/loadDelta.csh > /home/ihtsdo/logs/loadDelta.log 2>&1
+# Run every day except thursday
+#0 0 * * 0,1,2,3,5,6 csh /home/ihtsdo/config/bin/qaCron.csh > /home/ihtsdo/logs/qaCron.log 2>&1
+# Run every day except thursday
+#0 0 * * 0,1,2,3,5,6 csh /home/ihtsdo/config/bin/dailyReports.csh > /home/ihtsdo/logs/dailyReports.log 2>&1
+
+# Run every day
+45 3 * * * csh /home/ihtsdo/config/bin/loadDeltaWrapper.csh > /home/ihtsdo/logs/loadDelta.log 2>&1
+
+# Run every day
+45 0 * * 0,1,2,3,4,5,6 csh /home/ihtsdo/config/bin/qaCron.csh > /home/ihtsdo/logs/qaCron.log 2>&1
+
+# Run every day
+45 0 * * 0,1,2,3,4,5,6 csh /home/ihtsdo/config/bin/dailyReports.csh > /home/ihtsdo/logs/dailyReports.log 2>&1
+
+# Run every day
+* 20 * * 0,1,2,3,4,5,6 csh /home/ihtsdo/config/bin/pullGmdn.csh > /home/ihtsdo/logs/pullGmdn.log 2>&1

@@ -17,22 +17,25 @@
        - unzip
        - speedometer
 
-- name: install db
-  include: db.yml  
+#- name: install db
+#  include: db.yml 
+
+- name: add local db settings
+  include: createdb.yml
+  when: mapping_db_host == "localhost"  
   
 - name: install app
   include: install.yml  
   
 - name: make sure mapping_app_dir exists 
   file: path="{{ mapping_app_dir }}" state=directory
+  
+- name: make sure mapping_data_dir exists
+  file: path={{mapping_data_dir}}  state=directory    
     
 - name: make sure mapping_conf_dir exists
   file: path={{mapping_conf_dir}}  state=directory  
   
-- name: make sure mapping_data_dir exists
-  file: path={{mapping_data_dir}}  state=directory  
- 
-
 - name: install admin and reference data
   include: getadmin.yml 
   when: install_admin == true
@@ -52,6 +55,6 @@
   supervisorctl: name={{mapping_app_name}} state=restarted
   ignore_errors: yes  
   
-- name: restart nginx
-  service: name=nginx state=restarted
+#- name: restart nginx
+#  service: name=nginx state=restarted
   

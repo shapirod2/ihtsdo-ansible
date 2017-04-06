@@ -1,7 +1,7 @@
 [program:{{mapping_app_name}}]
 user = {{mapping_user}}
 directory = /opt/%(program_name)s/run
-command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC -jar /opt/%(program_name)s/lib/app.jar -Drefset.config=/opt/%(program_name)s/conf/config.properties -resetExtract -extractDirectory /opt/%(program_name)s/run/extract
+command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC -jar /opt/%(program_name)s/lib/app.jar -Drun.config=/opt/%(program_name)s/conf/config.properties -httpPort={{mapping_port}} -resetExtract -extractDirectory /var/opt/%(program_name)s/run/extract
 #startsecs=5
 #stopsignal=INT
 autostart = true

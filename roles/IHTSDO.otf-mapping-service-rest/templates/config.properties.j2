@@ -34,12 +34,29 @@ hibernate.jdbc.default_batch_fetch_size={{ mapping_default_batch_fetch_size }}
 # SNOMEDCT data location
 #
 loader.SNOMEDCT.input.data={{ mapping_snomedct_input_data }}
+# SNOMEDCT latest delta location
+#loader.SNOMEDCT.delta.data=/home/ihtsdo/.m2/repository/org/ihtsdo/intl/release/process/wb-release-process/1.18-SNAPSHOT/wb-release-process-1.18-SNAPSHOT-delta/destination/Delta
+
+# SNOMEDCT drip feed notification recipients list
+send.notification.recipients=bcarlsen@westcoastinformatics.com;pgranvold@westcoastinformatics.com
+
 # SNOMED CT RF2 SCTID for "Synonym"
 loader.defaultPreferredNames.typeId={{ mapping_defaultPreferredNames_typeId }}
 # SNOMED CT RF2 SCTID for the US English language refset
 loader.defaultPreferredNames.refSetId={{ mapping_defaultPreferredNames_refSetId }}
 # SNOMED CT RF2 SCTID for "Preferred"
 loader.defaultPreferredNames.acceptabilityId={{ mapping_defaultPreferredNames_acceptabilityId }}
+
+# Map handbook location
+map.principle.source.document.dir={{mapping_data_dir}}/doc
+
+#
+# ICD10 Unmapped Review Project data location and user
+#
+loader.complexmap.rf2.sample.input.user=wci
+loader.complexmap.rf2.sample.input.data={{mapping_data_dir}}/sample/der2_iisssccRefset_ExtendedMapSnapshot_INT_20141018.txt
+loader.complexmap.rf2.sample.percentage=0.1
+
 
 #
 # ICPC data location
@@ -78,4 +95,86 @@ export.output.dir={{ mapping_export_input_data }}
 # Webapp base URL (currently unused)
 #
 base.url={{ mapping_base_url }}
+base.url.webapp={{ mapping_base_url }}
+deploy.title= Mapping Tool UAT
+deploy.favicon={{ mapping_data_dir }}/images/favicon.png
+deploy.logo={{ mapping_data_dir }}/images/logo.png
 
+#
+# Metadata service configuration
+#
+metadata.service.handler=SNOMEDCT,SNOMEDCT_US,ICD10,ICD10CM,ICD9CM,ICPC,GMDN,ICDO
+metadata.service.handler.SNOMEDCT.class=org.ihtsdo.otf.mapping.jpa.services.SnomedMetadataServiceJpaHelper
+metadata.service.handler.SNOMEDCT_US.class=org.ihtsdo.otf.mapping.jpa.services.SnomedMetadataServiceJpaHelper
+metadata.service.handler.ICD10.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.ICD10CM.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.ICD9CM.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.ICPC.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.GMDN.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.ICDO.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+
+#
+# Workflow handlers
+#
+workflow.path.handler=NON_LEGACY_PATH,LEGACY_PATH,REVIEW_PROJECT_PATH,FIX_ERROR_PATH,QA_PATH,SIMPLE_PATH
+workflow.path.handler.NON_LEGACY_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowNonLegacyPathHandler
+workflow.path.handler.LEGACY_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowLegacyPathHandler
+workflow.path.handler.REVIEW_PROJECT_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowReviewProjectPathHandler
+workflow.path.handler.FIX_ERROR_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowFixErrorPathHandler
+workflow.path.handler.QA_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowQaPathHandler
+workflow.path.handler.SIMPLE_PATH.class=org.ihtsdo.otf.mapping.jpa.handlers.WorkflowSimplePathHandler
+
+#
+# URL for security service
+#
+#
+# URL for security service
+#
+security.timeout=7200000
+security.guest.disabled=false
+#security.handler=DEFAULT
+security.handler=IMS
+security.handler.DEFAULT.class=org.ihtsdo.otf.mapping.jpa.handlers.DefaultSecurityServiceHandler
+security.handler.DEFAULT.users.admin={{ mapping_ims_users_admin }}
+security.handler.DEFAULT.users.viewer={{ mapping_ims_users_viewer }}
+security.handler.IMS.class=org.ihtsdo.otf.mapping.jpa.handlers.ImsSecurityServiceHandler
+security.handler.IMS.url={{mapping_ims_url }}
+security.handler.IMS.url.logout={{ mapping_ims_logout }}
+
+#
+# Exception processing emails
+#
+
+
+mail.enabled={{mail_enabled}}
+mail.smtp.user={{mapping_smtp_user}}
+mail.smtp.password={{mapping_smtp_password}}
+mail.smtp.host={{mapping_smtp_host}}
+mail.smtp.port={{mapping_smtp_port}}
+mail.smtp.starttls.enable={{mail_smtp_starttls_enable}}
+mail.smtp.auth={{mail_smtp_auth}}
+mail.smtp.to={{mail_smtp_to}}
+mail.smtp.from={{mail_smtp_from}}
+mail.smtp.to.feedback.user={{mail_smtp_to_feedback_user}}
+send.notification.recipients={{send_notification_recipients}}
+
+
+# test force exception with: 
+# curl -H 'Authorization: bcarlsen' 'https://uat-mapping.ihtsdotools.org/mapping-rest/mapping/concept/id/9419002/unmappedDescendants/project/id/22'
+
+#
+# Index Viewer data & settings
+#
+index.viewer.data={{mapping_data_dir}}/indexViewerData
+index.viewer.groupId=org.ihtsdo.otf.mapping
+index.viewer.artifactId=index-viewer-data-icd10
+index.viewer.version=1.4.1
+index.viewer.maxHits=10000
+index.viewer.searchStartLevel=0
+index.viewer.searchEndLevel=0
+index.viewer.subSearchStartLevel=1
+index.viewer.subSearchEndLevel=1
+index.viewer.subSubSearchStartLevel=2
+index.viewer.subSubSearchEndLevel=2
+index.viewer.phonet=./config/dict/phonet.en
+index.viewer.linkSubstitutions=s/Complications/Complication/;

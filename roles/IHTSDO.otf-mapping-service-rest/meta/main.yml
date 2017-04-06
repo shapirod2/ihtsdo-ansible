@@ -1,5 +1,5 @@
 ---
 dependencies:
   - IHTSDO.repositories
-  - IHTSDO.nginx-std
+#  - IHTSDO.nginx-std
 
