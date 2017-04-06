@@ -41,11 +41,11 @@
   
 #- debug: var=ec2_new
 
-# Only going to be singluar so create var from first item 
+# Only going to be singular so create var from first item 
 
 - name: set singular item
   set_fact: ec2_newi={{item}} 
-  with_items: ec2_new.instances 
+  with_items: "{{ec2_new.instances}}" 
 
 - debug: var=ec2_newi 
   
