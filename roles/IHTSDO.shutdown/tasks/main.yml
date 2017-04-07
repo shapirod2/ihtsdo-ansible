@@ -1,0 +1,14 @@
+
+
+- name: Wait for the instances to boot by checking the ssh port
+  wait_for: host={{ansible_ssh_host}} port=22 delay={{shutdown_ssh_delay}} timeout={{shutdown_ssh_timeout}} state=started
+
+## possibly a list of shell commands? 
+#e.g. to shut down apps which don't take well to a general shutdown? 
+  
+- name: shutdown
+  command: /sbin/shutdown -h now
+  sudo: yes
+
+- name: wait go down
+  wait_for: host={{ ansible_ssh_host }} port=22 state=stopped

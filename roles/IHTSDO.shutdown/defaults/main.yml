@@ -1,0 +1,3 @@
+shutdown_ssh_delay: "60"
+shutdown_ssh_timeout: "60"
+
