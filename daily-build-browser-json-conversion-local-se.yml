@@ -7,8 +7,12 @@
      unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20170531
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: seConfig.xml.j2
-     ihtsdo_repository: release 
-     int_unpacked_release_file_name: "SnomedCT_RF2Release_INT_20160731"  
+     ihtsdo_repository: release  
+     int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
+     effectiveTime: 20170531
+     expirationTime: 20180531
+     # One date after the previous release
+     rf2_diff_start_date: 20161201
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
