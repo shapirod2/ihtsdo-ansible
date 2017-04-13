@@ -29,7 +29,7 @@ rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
 daily_build_rf2json_file_name: rf2Json.tgz
 rf2_json_s3_upload_script: uploadRf2JsonToS3.sh
 rf2_json_s3_upload_cmd: "{{ jsonOutputFolder }}/{{ rf2_json_s3_upload_script }}"
-rf2_diff_jar_version: rf2-diff-generator-1.2-jar-with-dependencies.jar
+rf2_diff_jar_version: rf2-diff-generator-1.3-jar-with-dependencies.jar
 rf2_diff_json_file_name: diffReports.tgz
 rf2_diff_json_report_folder: "{{ daily_build_dir }}/diff_reports"
 rf2_diff_root_dir: /opt/rf2-diff-generator
