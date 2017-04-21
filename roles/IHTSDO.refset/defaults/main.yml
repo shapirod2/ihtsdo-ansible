@@ -8,6 +8,7 @@ refset_base_url: hmmm
 refset_admin_user: change_me
 refset_admin_password: change_me
 
+refset_jdbc_host: localhost
 refset_jdbc_user: change_me
 refset_jdbc_password: change_me
 refset_jdbc_database: change_me
