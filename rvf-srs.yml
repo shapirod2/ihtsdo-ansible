@@ -6,6 +6,7 @@
       - IHTSDO.mysql
       - IHTSDO.snomed-release-service-api
       - IHTSDO.aws
+      - IHTSDO.nginx-standard
 
   - hosts: snomed_release_service_web
     sudo: true
@@ -17,6 +18,7 @@
     roles:
       - IHTSDO.mysql
       - IHTSDO.release-validation-framework-api
+      - IHTSDO.nginx-standard
 
   - hosts: release_validation_framework_web
     sudo: true
