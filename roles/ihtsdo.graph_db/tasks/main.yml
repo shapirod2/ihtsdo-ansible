@@ -1,0 +1,127 @@
+---
+  - name: Add Datastax repository key
+    apt_key: url=http://debian.datastax.com/debian/repo_key state=present
+    sudo: yes
+    
+  - name: Add Datastax repository
+    apt_repository: repo='deb http://debian.datastax.com/community stable main' state=present
+    sudo: yes
+ 
+  - name: Add Elasticsearch repository key
+    apt_key: url=http://packages.elasticsearch.org/GPG-KEY-elasticsearch state=present
+    sudo: yes 
+    
+  - name: Add Elasticsearch repository
+    apt_repository: repo='deb http://packages.elasticsearch.org/elasticsearch/1.2/debian stable main' state=present
+    sudo: yes
+ 
+  - name: Update apt cache
+    apt: update_cache=yes cache_valid_time=300
+    sudo: yes
+    
+  - name: ensure cassandra is installed
+    apt: name=cassandra=2.0.11 state=present
+    #apt: name=cassandra state=latest
+
+  - name: start cassandra
+    service: name=cassandra state=started
+
+  - name: ensure dsc20 is installed
+    apt: name=dsc20=2.0.11-1 state=present
+    
+#  - name: start cassandra
+#    service: name=cassandra state=started    
+    
+  - name: ensure elasticsearch 1.2.1 is installed
+    apt: name=elasticsearch=1.2.1 state=present
+    
+  - name: start elasticsearch
+    service: name=elasticsearch state=started
+    
+  - name: stop refsetGraphService
+    supervisorctl: name=refsetGraphService state=stopped  
+                     
+  - name: Apt cache update
+    apt: update_cache=yes cache_valid_time=300
+    tags:
+      - ihtsdo-asset
+      
+  - debug: msg="refsetGraphService_version =  {{ refsetGraphService_version }} "     
+
+  - name: Install refsetGraphService package
+    apt: name=refsetGraphService state=installed
+    notify:
+      - restart refsetGraphService
+    when: refsetGraphService_version == 'installed'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install latest refsetGraphService package
+    apt: name=refsetGraphService state=latest
+    notify:
+      - restart refsetGraphService
+    when: refsetGraphService_version == 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Install refsetGraphService package specific version
+    apt: name=refsetGraphService={{ refsetGraphService_version }} state=installed
+    notify:
+      - restart refsetGraphService
+    when: refsetGraphService_version != 'installed' and refsetGraphService_version != 'latest'
+    tags:
+      - ihtsdo-asset
+
+  - name: Configure refset.properties 
+    template: src=refset-config.properties.j2 dest={{refsetGraphService_folder}}/refset-config.properties
+              owner=root group=refsetGraphService mode=0640                       
+    notify:
+      - restart refsetGraphService
+    tags:
+      - ihtsdo-asset
+      
+  - name: Configure refset graph properties
+    template: src=refset-graph-es-dev.properties.j2 dest={{refsetGraphService_folder}}/refset-graph-es.properties
+              owner=root group=refsetGraphService mode=0640                     
+    notify:
+      - restart refsetGraphService
+    tags:
+      - ihtsdo-asset
+      
+#  - name: Configure snomed graph properties
+#    template: src=snomed-graph-es-dev.properties.j2 dest={{refsetGraphService_folder}}/snomed-graph-es.properties
+#              owner=root group=refsetGraphService mode=0640                        
+#    notify:
+#      - restart refsetGraphService
+#    tags:
+#      - ihtsdo-asset
+
+#  - name: Install SSL cert
+#    copy: src={{ otf_refsetGraphService_nginx_ssl_cert_file }} dest={{ refsetGraphService_nginx_ssl_cert_file_dest }}
+#          owner=root group=root mode=0644
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx
+
+#  - name: Install SSL key
+#    copy: src={{ otf_refsetGraphService_nginx_ssl_key_file }} dest={{ refsetGraphService_nginx_ssl_key_file_dest }}
+#          owner=root group=root mode=0600
+#    notify:
+#      - restart nginx
+#    tags:
+#      - ihtsdo-asset
+#      - nginx
+
+  - name: Configure nginx
+    template: src=nginx.conf.j2 dest=/etc/nginx/conf.d/refsetGraphService.conf
+              owner=root group=refsetGraphService mode=0640
+    notify:
+      - restart nginx
+    tags:
+      - ihtsdo-asset
+      - nginx 
+ 
+  - name: Reload the firewall  
+    ufw: state=reloaded                         
