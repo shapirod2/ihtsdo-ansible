@@ -1,6 +1,6 @@
 ---
-  - hosts: otf_refsetService
+  - hosts: graphservice
     sudo: true
     roles:
       - IHTSDO.nginx-std    
-      - IHTSDO.refsetService
+      - IHTSDO.graph_db
