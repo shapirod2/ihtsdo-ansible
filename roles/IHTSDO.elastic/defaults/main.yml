@@ -38,3 +38,5 @@ conf_dir: ''
 data_dirs: ''
 # JVM custom parameters
 es_jvm_custom_parameters: ''
+
+es_instance_name: "node1"
