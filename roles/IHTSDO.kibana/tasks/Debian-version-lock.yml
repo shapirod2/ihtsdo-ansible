@@ -1,0 +1,5 @@
+---
+- name: Debian - hold kibana version
+  command: apt-mark hold kibana
+  register: hold_kibanah_result
+  changed_when: "hold_kibana_result.stdout != 'kibana was already set on hold.'"
