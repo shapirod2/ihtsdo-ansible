@@ -3,15 +3,27 @@
   file:
     path: "{{ logstash_ssl_dir }}"
     state: directory
-  when: logstash_ssl_key_file
+  when: logstash_ssl
 
-- name: Copy SSL key and cert for logstash-forwarder.
-  copy:
-    src: "{{ item }}"
-    dest: "{{ logstash_ssl_dir }}/{{ item | basename }}"
-    mode: 0644
-  with_items:
-    - "{{ logstash_ssl_key_file }}"
-    - "{{ logstash_ssl_certificate_file }}"
+#- name: Copy SSL key and cert for logstash-forwarder.
+#  copy:
+#    src: "{{ item }}"
+#    dest: "{{ logstash_ssl_dir }}/{{ item | basename }}"
+#    mode: 0644
+#  with_items:
+#    - "{{ logstash_ssl_key_file }}"
+#    - "{{ logstash_ssl_certificate_file }}"
+#  notify: restart logstash
+#  when: logstash_ssl_key_file
+
+- name: Install  SSL cert
+  copy: src={{ logstash_ssl_certificate_file }} dest={{ logstash_ssl_dir }}/{{logstash_ssl_certificate_fn}}
+          owner=root group=root mode=0644
   notify: restart logstash
-  when: logstash_ssl_key_file
+  when: logstash_ssl
+
+- name: Install SSL key
+  copy: src={{ logstash_ssl_key_file }} dest={{ logstash_ssl_dir }}/{{logstash_ssl_key_fn}}
+          owner=root group=root mode=0600
+  notify: restart logstash
+  when: logstash_ssl

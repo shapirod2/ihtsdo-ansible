@@ -21,9 +21,8 @@
   with_items:
     - 10-syslog.conf
     - 11-nginx.conf
-    - 12-apache.conf
-    - 14-solr.conf
-    - 15-drupal.conf
+    - 13-termserver.conf
+    - 16-error.conf
   notify: restart logstash
 
 - name: Create Logstash configuration file for local syslog.
