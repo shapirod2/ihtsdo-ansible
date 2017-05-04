@@ -21,3 +21,15 @@ logstash_enabled_on_boot: yes
 
 logstash_install_plugins:
   - logstash-input-beats
+
+logstash_geoip: true
+logstash_geoip_base_url: "http://geolite.maxmind.com/download/geoip/database/"
+logstash_geoip_dl_fn: "GeoLite2-ASN.tar.gz"
+logstash_geoip_dl_url: "{{logstash_geoip_base_url}}{{logstash_geoip_dl_fn}}"
+logstash_geoip_dl_dir: "/usr/share/GeoIP/"
+logstash_geoip_dl_dir_fn: "{{logstash_geoip_dl_dir}}{{logstash_geoip_dl_fn}}"
+
+logstash_geoip_local: "{{logstash_geoip_dl_dir}}GeoLite2-ASN.mmdb"
+  
+  
+  

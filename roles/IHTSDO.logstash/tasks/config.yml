@@ -20,9 +20,19 @@
     mode: 0644
   with_items:
     - 10-syslog.conf
-    - 11-nginx.conf
     - 13-termserver.conf
     - 16-error.conf
+    #    - 11-nginx.conf
+  notify: restart logstash
+
+
+- name: Create Logstash configuration file for nginx.
+  template:
+    src: 11-nginx.conf.j2
+    dest: /etc/logstash/conf.d/11-nginx.conf
+    owner: root
+    group: root
+    mode: 0644
   notify: restart logstash
 
 - name: Create Logstash configuration file for local syslog.
