@@ -44,3 +44,5 @@ ts_test_res_S3_region: "us-east-1"
 
 snomed_drools_version: master
 mrcm_version: master
+
+batch_import_snowowl_url: http://localhost:8080/snowowl/
