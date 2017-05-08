@@ -1,0 +1,8 @@
+- hosts: elk
+  remote_user: user
+  become: yes
+  become_user: root
+  roles:
+   - { role: IHTSDO.elastic }
+   - { role: IHTSDO.kibana }
+   - { role: IHTSDO.logstash }
