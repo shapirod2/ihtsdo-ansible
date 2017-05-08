@@ -7,7 +7,7 @@ hibernate.connection.useUnicode=true
 hibernate.connection.characterEncoding=UTF-8
 hibernate.connection.charSet=UTF-8
 javax.persistence.jdbc.driver=com.mysql.jdbc.Driver
-javax.persistence.jdbc.url=jdbc:mysql://127.0.0.1:3306/{{ refset_jdbc_database }}?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useLocalSessionState=true
+javax.persistence.jdbc.url=jdbc:mysql://{{ refset_jdbc_host }}:3306/{{ refset_jdbc_database }}?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useLocalSessionState=true
 javax.persistence.jdbc.user={{ refset_jdbc_user }}
 javax.persistence.jdbc.password={{ refset_jdbc_password }}
 
