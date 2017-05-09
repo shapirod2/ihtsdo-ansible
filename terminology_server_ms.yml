@@ -1,0 +1,13 @@
+---
+  - hosts: termserver
+    sudo: true
+    roles:
+      - IHTSDO.oraclejava
+      - IHTSDO.aws
+      - IHTSDO.mysql
+      - IHTSDO.orchestration-service
+      - IHTSDO.termserver
+      - IHTSDO.traceability-service
+      - IHTSDO.termserver-browser
+      - IHTSDO.authoring-ui
+      - IHTSDO.nginx-standard
