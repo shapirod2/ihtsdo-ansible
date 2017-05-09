@@ -22,6 +22,11 @@
 - name: unzip mapping mapping-config-(version).zip
   shell: "unzip {{mapping_admin_app_dir}}/zips/mapping-config*.zip -d {{mapping_admin_app_conf_dir}}"
 
+- name: Add lucene re-index script
+  template: src=rebuild_lucene.sh.j2 dest={{mapping_admin_app_dir}}/rebuild_lucene.sh
+            owner={{mapping_user}} group={{mapping_user}} mode=0740  
+
+
 #- name: Unarchive intl zip file on the remote machine
 #  unarchive: src={{mapping_admin_app_dir}}/zips/mapping-admin*.zip dest={{mapping_admin_app_dir}}/admin/ copy=no
 

@@ -1,0 +1,10 @@
+#!/bin/bash
+
+LUCENE_ADMIN=/opt/mapping-service-admin/admin/lucene
+CONF_FILE=/opt/mapping-service/conf/config.properties
+
+export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
+
+cd $LUCENE_ADMIN
+
+mvn install -PReindex -Drun.config=$CONF_FILE
