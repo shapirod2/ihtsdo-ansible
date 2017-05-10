@@ -14,9 +14,9 @@
   file: path="/root/.m2" state=directory
         owner=root group=root mode=755   
   
-#- name: add settings.xml to root
-#  template: src=settings.xml.j2 dest=/root/.m2/settings.xml
-#            owner=root group=root mode=0640    
+- name: add settings.xml to root
+  template: src=settings.xml dest=/root/.m2/settings.xml
+            owner=root group=root mode=0640    
 
 - name: Remove mapping_admin_app_admin_dir 
   file: path={{mapping_admin_app_admin_dir}} state=absent
