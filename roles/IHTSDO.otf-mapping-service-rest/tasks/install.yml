@@ -35,7 +35,7 @@
 - name: Ensure user exists
   user: name={{ mapping_user }} group={{ mapping_user }} state=present system=yes
   
-- name: set perms
+- name: set perms mapping_app_dir
   file: path="{{ mapping_app_dir }}" state=directory
         owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
         recurse=yes  
@@ -43,7 +43,38 @@
 - name: set perms for indexes dir
   file: path="{{ mapping_indexBase_dir }}" state=directory
         owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
-        recurse=yes   
+        recurse=yes  
+        
+- name: set perms mapping_admin_app_dir
+  file: path="{{ mapping_admin_app_dir }}" state=directory
+        owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
+        recurse=yes 
+        
+- name: set perms mapping_data_dir
+  file: path="{{ mapping_data_dir }}" state=directory
+        owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
+        recurse=yes  
+ 
+- name: set perms mapping_user_home_dir
+  file: path="{{ mapping_user_home_dir }}" state=directory
+        owner={{ mapping_user }} group="{{ mapping_user }}" mode=755 
+        recurse=yes         
+        
+- name: set perms on root m2
+  file: path="/root/.m2" state=directory
+        owner=root group=root mode=755   
+
+- name: add settings.xml to root
+  template: src=settings.xml dest=/root/.m2/settings.xml
+            owner=root group=root mode=0640    
+ 
+- name: set perms on mapping_user_home_dir m2
+  file: path="{{mapping_user_home_dir}}/.m2" state=directory
+        owner={{ mapping_user }} group={{ mapping_user }} mode=755   
+            
+- name: add settings.xml to mapping service user home
+  template: src=settings.xml dest={{mapping_user_home_dir}}/.m2/settings.xml
+            owner={{ mapping_user }} group={{ mapping_user }} mode=0640                        
         
 #- debug: msg="security_handler = {{security_handler}}"
               
