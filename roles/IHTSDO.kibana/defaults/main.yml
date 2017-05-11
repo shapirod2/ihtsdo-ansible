@@ -1,0 +1,23 @@
+---
+
+es_major_version: "5.x"
+es_version: "5.2.2"
+es_version_lock: false
+es_use_repository: true
+es_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+es_apt_url: "deb https://artifacts.elastic.co/packages/{{ es_major_version }}/apt stable main"
+es_apt_url_old: "deb http://packages.elastic.co/elasticsearch/{{ es_major_version }}/debian stable main"
+es_allow_downgrades: false
+
+#es_custom_package_url
+#es_package_url
+
+es_api_host: "localhost"
+es_api_port: 9200
+  
+kibana_version: "{{es_version}}"
+
+kibana_server_port: 5601
+kibana_server_host: "0.0.0.0"
+
+kibana_elasticsearch_url: "http://{{es_api_host}}:{{es_api_port}}"
