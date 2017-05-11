@@ -1,0 +1,24 @@
+
+- name: make sure logstash_geoip_dl_dir exists
+  file: path="{{logstash_geoip_dl_dir}}"  state=directory
+
+
+- name: dl from logstash_geoip_dl_url
+  get_url:
+   url: "{{logstash_geoip_dl_url}}"
+   dest: "{{logstash_geoip_dl_dir_fn}}"
+
+#- name: unarchive
+#  unarchive:
+#    src: "{{logstash_geoip_dl_dir_fn}}"
+#    dest: "{{logstash_geoip_dl_dir}}"
+#    remote_src: yes
+
+#- name: download from logstash_geoip_dl_url and unarchive
+#  unarchive:
+#    src: "{{logstash_geoip_dl_url}}"
+#    dest: "{{logstash_geoip_dl_dir}}"
+#    remote_src: True
+
+- name: unarchive using shell as remote unarchive requires ansible 2.2
+  shell: "tar -zxvf {{logstash_geoip_dl_dir_fn}} -C {{logstash_geoip_dl_dir}} --strip=1"

@@ -1,0 +1,7 @@
+---
+  - hosts: logging
+    sudo: true
+    roles:
+      - IHTSDO.kibana
+
+      

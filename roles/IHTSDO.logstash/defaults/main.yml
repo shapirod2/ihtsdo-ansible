@@ -1,0 +1,35 @@
+---
+logstash_listen_port_beats: 5044
+
+logstash_elasticsearch_hosts:
+  - http://localhost:9200
+
+logstash_local_syslog_path: /var/log/syslog
+#logstash_monitor_local_syslog: true
+logstash_monitor_local_syslog: false
+
+logstash_ssl: true
+logstash_ssl_dir: /etc/pki/logstash
+logstash_ssl_certificate_fn: "logstash-forwarder.crt"
+logstash_ssl_key_fn: "logstash-forwarder.key"
+
+logstash_ssl_certificate_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_certificate_fn}}"
+logstash_ssl_key_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_key_fn}}"
+
+
+logstash_enabled_on_boot: yes
+
+logstash_install_plugins:
+  - logstash-input-beats
+
+logstash_geoip: true
+logstash_geoip_base_url: "http://geolite.maxmind.com/download/geoip/database/"
+logstash_geoip_dl_fn: "GeoLite2-ASN.tar.gz"
+logstash_geoip_dl_url: "{{logstash_geoip_base_url}}{{logstash_geoip_dl_fn}}"
+logstash_geoip_dl_dir: "/usr/share/GeoIP/"
+logstash_geoip_dl_dir_fn: "{{logstash_geoip_dl_dir}}{{logstash_geoip_dl_fn}}"
+
+logstash_geoip_local: "{{logstash_geoip_dl_dir}}GeoLite2-ASN.mmdb"
+  
+  
+  
