@@ -1,6 +1,6 @@
 ---
-- hosts: all
+- hosts: browser
   sudo: true
   roles:
-    - IHTSDO.nginx-std
     - IHTSDO.browser_server_install
+    - IHTSDO.nginx-standard

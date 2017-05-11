@@ -51,18 +51,18 @@
   when: p.stat.exists is defined and p.stat.exists  
          
               
-- name: Configure nginx for https
-  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-              owner=root group=root mode=0640  
-  when: browser_http_only == false 
+#- name: Configure nginx for https
+#  template: src=nginx.conf.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+#              owner=root group=root mode=0640  
+#  when: browser_http_only == false 
   
-- name: Configure nginx for http only
-  template: src=nginx.conf.nohttps.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
-              owner=root group=root mode=0640  
-  when: browser_http_only == true   
+#- name: Configure nginx for http only
+#  template: src=nginx.conf.nohttps.j2 dest={{nginx_conf_dir}}{{nginx_conf}}.conf
+#              owner=root group=root mode=0640  
+#  when: browser_http_only == true   
               
-- name: restart nginx
-  service: name=nginx state=restarted                           
+#- name: restart nginx
+#  service: name=nginx state=restarted                           
               
 - name: (re)start sct_rest_app
   supervisorctl: name={{ sct_rest_app_name }} state=restarted              
