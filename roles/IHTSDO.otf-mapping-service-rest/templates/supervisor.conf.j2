@@ -1,8 +1,7 @@
 [program:{{mapping_app_name}}]
 user = {{mapping_user}}
 directory = /opt/%(program_name)s/run
-#command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC -jar /opt/%(program_name)s/lib/app.jar -Drun.config=/opt/%(program_name)s/conf/config.properties -httpPort={{mapping_port}} -resetExtract -extractDirectory /var/opt/%(program_name)s/run/extract
-command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC  -Drun.config=/opt/%(program_name)s/conf/config.properties -jar /opt/%(program_name)s/lib/webapp-runner.jar /opt/%(program_name)s/lib/mapping-rest.war --port {{mapping_port}} --path /mapping-rest --context-xml /opt/%(program_name)s/conf/context.xml  -AmaxPostSize=50000000# --expand-war-file --expanded-dir-name /var/opt/%(program_name)s/run/extract
+command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC  -Drun.config=/opt/%(program_name)s/conf/config.properties -jar /opt/%(program_name)s/lib/webapp-runner.jar /opt/%(program_name)s/lib/mapping-rest.war --port {{mapping_port}} --path /mapping-rest --context-xml /opt/%(program_name)s/conf/context.xml  -AmaxPostSize=50000000
 #startsecs=5
 #stopsignal=INT
 autostart = true
