@@ -46,3 +46,4 @@ snomed_drools_version: master
 mrcm_version: master
 
 batch_import_snowowl_url: http://localhost:8080/snowowl/
+batch_import_authoring-services_url: http://change_per_environment/
