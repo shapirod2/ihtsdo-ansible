@@ -34,7 +34,7 @@
   register: output
   with_items: letsencrypt.domains
 
-- name: Automate renewal
+- name: Automate cert renewal
   cron: name="Renew cert" minute="46" hour="*/12" job="certbot-auto renew --post-hook {{ letsencrypt.posthook }}"
 
 

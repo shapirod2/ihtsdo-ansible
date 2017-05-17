@@ -25,3 +25,8 @@ script_path: "{{script_dir}}/autosshtunnel.sh"
 
 old_db: true
 
+srs_api_xms: "1024m"
+srs_api_xmx: "6g"
+
+
+

@@ -40,13 +40,20 @@
   tags:
     - ihtsdo-asset
 
-- name: Specify Environment
-  replace:
-      dest=/etc/supervisor/conf.d/snomed-release-service-api.conf
-      regexp='TBC'
-      replace='{{ environment_shortname }}'
+#- name: Specify Environment
+#  replace:
+#      dest=/etc/supervisor/conf.d/snomed-release-service-api.conf
+#      regexp='TBC'
+#      replace='{{ environment_shortname }}'
+#  notify:
+#    - restart snomed-release-service-api
+#  tags:
+#    - ihtsdo-asset
+
+- name: Configure supervisor conf
+  template: src=supervisor.conf.j2 dest=/etc/supervisor/conf.d/snomed-release-service-api.conf
+            owner=root group=snomed-release-service-api mode=0640
   notify:
     - restart snomed-release-service-api
   tags:
-    - ihtsdo-asset
-
+    - ihtsdo-asset  
