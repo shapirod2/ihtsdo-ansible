@@ -1,4 +1,4 @@
-[program:{{mapping_app_name}}]
+[program:{{mapping_app_name_std}}]
 user = {{mapping_user}}
 directory = /opt/%(program_name)s/run
 command = /usr/bin/java -Xms256m -Xmx{{mapping_xmx}} -XX:+UseConcMarkSweepGC  -Drun.config=/opt/%(program_name)s/conf/config.properties -jar /opt/%(program_name)s/lib/webapp-runner.jar /opt/%(program_name)s/lib/mapping-rest.war --port {{mapping_port}} --path /mapping-rest --context-xml /opt/%(program_name)s/conf/context.xml  -AmaxPostSize=50000000

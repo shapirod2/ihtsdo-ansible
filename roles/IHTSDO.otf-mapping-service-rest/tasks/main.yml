@@ -4,7 +4,7 @@
   apt: update_cache=yes cache_valid_time=300 
     
 - name: Stop app if running
-  supervisorctl: name={{mapping_app_name}} state=stopped
+  supervisorctl: name={{mapping_app_name_std}} state=stopped
   ignore_errors: yes
 
 # https://confluence.ihtsdotools.org/display/REFSET/Deploy+Instructions
@@ -52,7 +52,7 @@
   file: path={{mapping_app_dir}} owner={{mapping_user}} group={{mapping_user}} recurse=yes
   
 - name: Start App
-  supervisorctl: name={{mapping_app_name}} state=restarted
+  supervisorctl: name={{mapping_app_name_std}} state=restarted
   ignore_errors: yes  
   
 #- name: restart nginx

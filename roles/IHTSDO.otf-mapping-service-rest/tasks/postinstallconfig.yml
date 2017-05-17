@@ -1,6 +1,6 @@
 ---
 - name: Configure supervisor
-  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ mapping_app_name }}.conf"
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ mapping_app_name_std }}.conf"
               owner=root group=root mode=0640  
               
 
