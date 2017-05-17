@@ -3,9 +3,10 @@
 ihtsdo_repository: snapshot
 
 mapping_app_name: "mapping-service"
+mapping_app_name_std: "mapping-service"
 mapping_admin_app_name: "mapping-service-admin"
 mapping_data_dir: "/opt/mapping-data"
-mapping_app_dir: "/opt/{{mapping_app_name}}"
+mapping_app_dir: "/opt/{{mapping_app_name_std}}"
 mapping_indexBase_dir: "{{mapping_app_dir}}/indexes"
 mapping_conf_dir: "{{mapping_app_dir}}/conf"
 
@@ -13,13 +14,13 @@ mapping_admin_app_dir: "/opt/{{mapping_admin_app_name}}"
 mapping_admin_app_admin_dir: "{{mapping_admin_app_dir}}/admin"
 mapping_admin_app_conf_dir: "{{mapping_admin_app_dir}}/config"
 
-mapping_user_home_dir: "/var/opt/{{mapping_app_name}}"
+mapping_user_home_dir: "/var/opt/{{mapping_app_name_std}}"
 
 mapping_version: "latest"
 mapping_host: "{{ inventory_hostname }}"
 
-app_name: "{{ mapping_app_name }}"
-mapping_user: "{{ mapping_app_name }}"
+app_name: "{{ mapping_app_name_std }}"
+mapping_user: "{{ mapping_app_name_std }}"
 supervisor_dir: "/etc/supervisor/conf.d/"
 mapping_xmx: "1500m"
 mapping_port: "10002"
