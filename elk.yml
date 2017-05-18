@@ -7,3 +7,5 @@
    - { role: IHTSDO.elastic }
    - { role: IHTSDO.kibana }
    - { role: IHTSDO.logstash }
+   - { role: IHTSDO.nginx-standard  }
+   
