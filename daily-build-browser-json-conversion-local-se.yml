@@ -3,7 +3,7 @@
     vars:
      rf2json_s3_bucket_name: s3://ms-authoring-clean/se/dailybuild
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/se/products/snomed_ct_se_daily_build/builds/
-     unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20170531
+     unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20171130
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: seConfig.xml.j2
      ihtsdo_repository: release  
