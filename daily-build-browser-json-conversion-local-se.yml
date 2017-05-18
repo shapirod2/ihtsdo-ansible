@@ -1,4 +1,3 @@
----
   - hosts: local
     sudo: true
     vars:
@@ -9,11 +8,10 @@
      config_xml: seConfig.xml.j2
      ihtsdo_repository: release  
      int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
-     effectiveTime: 20170531
+     effectiveTime: 20171130
      expirationTime: 20180531
      # One date after the previous release
-     rf2_diff_start_date: 20161201
+     rf2_diff_start_date: 20170601
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
-
