@@ -30,4 +30,4 @@
   with_items: letsencrypt.domains
 
 - name: Automate renewel
-  cron: name="Renew cert" minute="46" hour="*/12" job="certbot-auto renew --post-hook {{ letsencrypt.posthook }}"
+  cron: name="Renew cert" minute="46" hour="*/12" job="/usr/local/sbin/certbot-auto renew --post-hook {{ letsencrypt.posthook }}"

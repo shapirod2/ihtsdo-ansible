@@ -12,8 +12,8 @@
 *nat
 :POSTROUTING ACCEPT [0:0]
 
-# Forward traffic through eth0 - Change to match you out-interface
--A POSTROUTING -s {{ vpn.outbound_interface }} -o eth0 -j MASQUERADE
+# Forward traffic through eth0 - Change to match your out-interface
+-A POSTROUTING -s {{ vpn.internal_subnet }} -o eth0 -j MASQUERADE
 
 # don't delete the 'COMMIT' line or these nat table rules won't
 # be processed
@@ -113,5 +113,4 @@ COMMIT
 -A ufw-before-input -p udp -d 239.255.255.250 --dport 1900 -j ACCEPT
 
 # don't delete the 'COMMIT' line or these rules won't be processed
-COMMIT
 COMMIT
