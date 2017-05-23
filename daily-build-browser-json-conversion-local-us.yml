@@ -12,7 +12,7 @@
      effectiveTime: 20170901
      expirationTime: 20180901
      # One date after the previous release
-     rf2_diff_start_date: 20160902
+     rf2_diff_start_date: 20170302
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
