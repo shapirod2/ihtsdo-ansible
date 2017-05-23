@@ -1,14 +1,14 @@
 ---
 - name: Install package
-  apt: name={{ authoringui_app_name }} state=installed update_cache=yes
+  apt: name={{ authoringui_app_name }} state=present update_cache=yes force=yes
   when: authoringui_version == 'installed'
 
 - name: Install latest package
-  apt: name={{ authoringui_app_name }} state=latest update_cache=yes
+  apt: name={{ authoringui_app_name }} state=latest update_cache=yes force=yes
   when: authoringui_version == 'latest'
 
 - name: Install package specific version
-  apt: name={{ authoringui_app_name }}={{ authoringui_version }} state=installed update_cache=yes
+  apt: name={{ authoringui_app_name }}={{ authoringui_version }} state=present update_cache=yes force=yes
   when: authoringui_version != 'installed' and authoringui_version != 'latest'
 
 - name: Creates conf directory
