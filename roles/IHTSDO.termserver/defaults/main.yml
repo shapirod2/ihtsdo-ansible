@@ -47,4 +47,3 @@ mrcm_version: master
 
 batch_import_snowowl_url: http://change_per_environment/
 batch_import_authoring_services_url: http://change_per_environment/
-
