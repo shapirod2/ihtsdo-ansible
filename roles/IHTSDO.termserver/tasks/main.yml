@@ -1,11 +1,6 @@
 ---
-- name: Apt cache update
-  apt: update_cache=yes cache_valid_time=300
-  tags:
-    - ihtsdo-asset
-
 - name: Install Dependancies
-  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=3600
+  apt: pkg={{ item }} state=latest update_cache=yes cache_valid_time=300
   with_items:
    - rsync
    - unzip
@@ -17,15 +12,15 @@
   tags: updatekey
 
 - name: Install package
-  apt: name={{ts_app_name}} state=installed
+  apt: name={{ts_app_name}} state=present update_cache=yes force=yes
   when: ts_version == 'installed'
 
 - name: Install latest package
-  apt: name={{ ts_app_name }} state=latest
+  apt: name={{ ts_app_name }} state=latest update_cache=yes force=yes
   when: ts_version == 'latest'
 
 - name: Install package specific version
-  apt: name={{ ts_app_name }}={{ ts_version }} state=installed
+  apt: name={{ ts_app_name }}={{ ts_version }} state=present update_cache=yes force=yes
   when: ts_version != 'installed' and ts_version != 'latest'
 
 - name: Copy snowowl_config.yml

@@ -4,19 +4,15 @@
   failed_when: false
 
 - name: Install package
-  apt: name={{ spellcheck_name }} state=installed force=yes update_cache=yes
-  when: spellcheck_version == 'present'
-
-- name: Install package
-  apt: name={{ spellcheck_name }} state=installed force=yes update_cache=yes
-  when: spellcheck_version == 'absent'
+  apt: name={{ spellcheck_name }} state=present force=yes update_cache=yes
+  when: spellcheck_version == 'installed'
 
 - name: Install latest package
   apt: name={{ spellcheck_name }} state=latest force=yes update_cache=yes
   when: spellcheck_version == 'latest'
 
 - name: Install package specific version
-  apt: name={{ spellcheck_name }}={{ spellcheck_version }} state=installed force=yes
+  apt: name={{ spellcheck_name }}={{ spellcheck_version }} update_cache=yes state=present force=yes
   when: spellcheck_version != 'installed' and spellcheck_version != 'latest' and spellcheck_version != 'absent'
 
 - name: Copy application.properties
