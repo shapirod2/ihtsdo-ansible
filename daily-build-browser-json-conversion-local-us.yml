@@ -8,7 +8,7 @@
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: usConfig.xml.j2
      ihtsdo_repository: release  
-     int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
+     #int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
      effectiveTime: 20170901
      expirationTime: 20180901
      # One date after the previous release
