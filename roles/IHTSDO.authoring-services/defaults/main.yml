@@ -24,3 +24,8 @@ authoring_services_orchestration_url: "http://localhost:9007/"
 authoring_services_jms_url: "change_me"
 authoring_services_jms_username: "change_me"
 authoring_services_jms_password: "change_me"
+
+authoring_services_aws_key: "change_me"
+authoring_services_aws_secret: "change_me"
+authoring_services_spellcheck_s3bucket: "validation-resources.ihtsdo"
+authoring_services_spellcheck_path: "dev/international/spelling-dictionary.txt"
