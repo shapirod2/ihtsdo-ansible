@@ -6,5 +6,5 @@
     file: path=/opt/maint state=directory
 
   - name: Copy Maint Script
-    template: src=getMaintHtml.sh.j2 dest={{ nginx_maint_location }}/getMaintHtml.sh
+    template: src=getMaintHtml.sh.j2 dest=/opt/maint/getMaintHtml.sh
               owner=root group=root mode=0770
