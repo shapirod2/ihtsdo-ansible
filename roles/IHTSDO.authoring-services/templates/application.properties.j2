@@ -23,3 +23,8 @@ spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
 spring.activemq.broker-url = {{ authoring_services_jms_url }}
 spring.activemq.user = {{ authoring_services_jms_username }}
 spring.activemq.password = {{ authoring_services_jms_password }}
+
+aws.key = {{ authoring_services_aws_key }}
+aws.secretKey = {{ authoring_services_aws_secret }}
+aws.s3.spell-check.bucket = {{ authoring_services_spellcheck_s3bucket }}
+aws.s3.spell-check.path = {{ authoring_services_spellcheck_path }}
