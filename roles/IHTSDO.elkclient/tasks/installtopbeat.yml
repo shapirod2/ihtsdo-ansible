@@ -1,0 +1,21 @@
+
+
+- name: Install package
+  apt: name=topbeat state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_topbeat_version == 'installed'
+
+- name: Install latest package
+  apt: name=topbeat state=latest update_cache=yes cache_valid_time=3600
+  when: elkclient_topbeat_version == 'latest'
+
+- name: Install package specific version
+  apt: name=topbeat={{ elkclient_topbeat_version }} state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_topbeat_version != 'installed' and elkclient_topbeat_version != 'latest'
+  
+- name: templated conf file
+  template:  src={{ inventory_dir }}/../files/elkclientconf/topbeat/{{ elkclient_topbeat_template }} dest=/etc/topbeat/topbeat.yml
+  
+  
+- name: start the topbeat service
+  service: name=topbeat state=restarted  
+  

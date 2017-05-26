@@ -1,0 +1,11 @@
+---
+
+#Install ssl certificates - do this first as will be used on start up by the clients
+- include: ssl.yml
+  when: elkclient_ssl_install == True
+
+#Install Elk Client Applications
+- include: install.yml
+
+
+

@@ -1,0 +1,6 @@
+---
+  - hosts: elkclient
+    sudo: true
+    roles:
+      - IHTSDO.elkclient
+
