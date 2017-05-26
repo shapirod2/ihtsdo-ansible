@@ -1,0 +1,25 @@
+---
+elkclient_version: latest
+elkclient_user: root
+
+elkclient_topbeat_version: latest
+elkclient_filebeat_version: latest
+
+elkclient_logserver: va-log.ihtsdotools.org
+
+elkclient_ssl_install: True
+elkclient_ssl_location: "/etc/pki/tls/certs/"
+elkclient_ssl_certfn: "logstash-forwarder.crt"
+elkclient_ssl_certfn_path: "{{ elkclient_ssl_location }}{{ elkclient_ssl_certfn}}"
+
+elkclient_sslcert_file: "{{ inventory_dir }}/../files/ssl/logstash/logstash-forwarder.crt"
+elkclient_sslkey_file: "{{ inventory_dir }}/../files/ssl/logstash/logstash-forwarder.key"
+
+elkclient_install_filebeat: True
+elkclient_install_topbeat: True
+
+elkclient_filebeat_template: "default"
+elkclient_topbeat_template: "default"
+
+logstash_listen_port_beats: "5044"
+

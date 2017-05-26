@@ -1,0 +1,8 @@
+---
+
+- name: Create directory
+  file: path={{ elkclient_ssl_location }} state=directory
+
+- name: Install chained SSL cert
+  copy: src={{ elkclient_sslcert_file }} dest={{ elkclient_ssl_certfn_path }}
+        owner=root group=root mode=0644
