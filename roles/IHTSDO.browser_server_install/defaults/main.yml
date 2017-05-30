@@ -2,6 +2,7 @@
 
 install_js: True
 node_dir: "/usr/bin/node"
+browser_node_version: "setup_7.x"
 
 #front_end_dir: "/var/nginx/www/html"
 front_end_dir: "/opt/sct_front_end"
@@ -22,10 +23,10 @@ browser_http_only: true
 #nginx_ssl_cert_file: "{{ inventory_dir }}/../files/ssl/ihtsdotools.org.chained.crt"
 #nginx_ssl_cert_file_dest: "/etc/ssl/certs/{{sct_rest_app_name}}.crt"
 #nginx_ssl_key_file_dest: "/etc/ssl/private/{{sct_rest_app_name}}.key"
-nginx_ufw_allow_https: true
+#nginx_ufw_allow_https: true
 #nginx_ufw_allow_https: false
-nginx_conf: "{{sct_rest_app_name}}"
-nginx_fqdn: "_"
-nginx_default_site: true
+#nginx_conf: "{{sct_rest_app_name}}"
+#nginx_fqdn: "_"
+#nginx_default_site: true
 #nginx_root: /opt/identity-service
-nginx_proxy_url: http://localhost:3000/
+#nginx_proxy_url: http://localhost:3000/
