@@ -2,6 +2,7 @@
 
 install_js: True
 node_dir: "/usr/bin/node"
+browser_node_version: "setup_7.x"
 
 #front_end_dir: "/var/nginx/www/html"
 front_end_dir: "/opt/sct_front_end"
