@@ -17,6 +17,8 @@ import_rf2_json_enabled: True
 
 daily_build_import_dir: "/home/dailybuild"
 
+diff_report_dir: "diff_reports_{{edition_name}}_v{{release_version}}"
+
 rf2_json_s3_copy_script: copyRf2JsonFromS3.sh
 
 rf2_json_mongo_import_script: rf2JsonMongoImport.sh
@@ -25,7 +27,7 @@ rf2_json_s3_copy_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_s3_copy_script }
 
 rf2_json_mongo_install_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_mongo_import_script }} {{ edition_name }} {{ release_version }}"
 
-rf2_diff_reports_json_dir: "{{ daily_build_import_dir }}/diff_reports"
+rf2_diff_reports_json_dir: "{{ daily_build_import_dir }}/{{diff_report_dir}}"
 
 rf2_diff_report_s3_copy_cmd: "{{ rf2_diff_reports_json_dir}}/copyRf2DiffReportFromS3.sh"
 rf2_json_s3_copy_log: "{{ daily_build_import_dir }}/copy_{{ ansible_date_time.iso8601 }}.log"
