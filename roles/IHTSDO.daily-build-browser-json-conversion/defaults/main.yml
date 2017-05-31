@@ -19,6 +19,7 @@ int_release_snapshotFolder: "{{ int_release_dir }}/{{ int_unpacked_release_file_
 
 effectiveTime: 20170731
 expirationTime: 20180131
+editionName: "International"
 jsonOutputFolder: "{{ daily_build_dir }}/json"
 dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
 fullFileFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Full"

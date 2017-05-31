@@ -7,6 +7,7 @@
      unpacked_release_file_name: SnomedCT_ManagedServiceDK_Production_DK1000005_20170930
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: dkConfig.xml.j2
+     editionName: "Danish"
      ihtsdo_repository: release 
      int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
      effectiveTime: 20170930
