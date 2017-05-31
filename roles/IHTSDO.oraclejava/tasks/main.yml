@@ -7,6 +7,12 @@
   - name: Add WebUpd8 repository
     apt_repository: repo='ppa:webupd8team/java'
 
+  - name: Install IHTSDO package signing key
+    apt_key: url="https://maven.ihtsdotools.org/service/local/repositories/releases/content/apt-key.gpg.key" state=present validate_certs=no
+
+  - name: Setup IHTSDO thirdparty repository
+    apt_repository: repo='deb https://maven.ihtsdotools.org/content/repositories/thirdparty/ ./' state=present
+
   - name: Accept licenses
     shell: echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections
 
@@ -24,14 +30,14 @@
     command: update-java-alternatives --set java-{{ item }}-oracle
     with_items: "{{oraclejava_versions}}"
     when: oraclejava_default == true
-    
-    
+
+
 #  - name: Set the /dev/urandom to   /dev/./urandom in java.security
 #    lineinfile:
 #      dest="{{ oraclejava_secure_path }}"
 #      regexp="^securerandom.source=file:/dev/urandom"
 #      line="securerandom.source=file:/dev/./urandom"
-  
+
   - name: find "{{ security_file }}"
     shell: "{{ find_command }}"
     register: find_output
@@ -39,10 +45,10 @@
 #- debug: var=find_output
   - debug: msg="file = {{ item }}"
     with_items: "{{ find_output.stdout_lines }}"
-  
+
   - name: Set the /dev/urandom to   /dev/./urandom in java.security
     lineinfile:
         dest="{{ item }}"
         regexp="^securerandom.source=file:/dev/urandom"
         line="securerandom.source=file:/dev/./urandom"
-    with_items: "{{ find_output.stdout_lines }}"    
+    with_items: "{{ find_output.stdout_lines }}"
