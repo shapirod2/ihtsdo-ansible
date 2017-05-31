@@ -2,6 +2,7 @@
 s3_bukcet_name="{{ rf2json_s3_bucket_name }}"
 filename="{{ daily_build_diff_report_file_name }}"
 import_dir="{{ rf2_diff_reports_json_dir }}"
+target_dir="/opt/sct_front_end/{{diff_report_dir}}"
 
 s3_backup_region_base="{{rf2json_s3_region | default('')}}"
 
@@ -24,8 +25,10 @@ echo "start untar diff report file"
 tar -xf $filename
 echo "end of untar diff report file"
 
-mkdir -p /opt/sct_front_end/diff_reports/
+rm -rf $target_dir
 
-echo "copy report json to /opt/sct_front_end/diff_reports"
-cp -rf *.json /opt/sct_front_end/diff_reports/
+mkdir -p $target_dir
+
+echo "copy report json to "$target_dir
+cp -rf *.json $target_dir
 echo "rf2 diff report json imported"
