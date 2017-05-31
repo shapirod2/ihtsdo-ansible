@@ -14,16 +14,20 @@
  
 - name: Install latest rf2-diff-generator package
   apt: name=rf2-diff-generator state=latest
+  when: "rf2_diff_report_enabled == True"  
                 
 - include: downloadLatestDailyRelease.yml
-  when: "get_release == True"  
+  when: "daily_build_get_release == True"  
+  
+- include: downloadRelease.yml
+  when: "daily_build_get_release == False" 
  
 - name: include download Int release when int_unpacked_release_file_name is defined and not empty
   include: downloadINTRelease.yml
   when: not (int_unpacked_release_file_name is undefined or int_unpacked_release_file_name is none or int_unpacked_release_file_name | trim == '') 
  
-- include: rf2JsonConversion.yml
-  when: "rf2_json_conversion_enabled == True"  
+#- include: rf2JsonConversion.yml
+#  when: "rf2_json_conversion_enabled == True"  
   
 - include: rf2DiffReport.yml
   when: "rf2_diff_report_enabled == True"  
