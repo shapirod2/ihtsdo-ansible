@@ -26,8 +26,8 @@
   include: downloadINTRelease.yml
   when: not (int_unpacked_release_file_name is undefined or int_unpacked_release_file_name is none or int_unpacked_release_file_name | trim == '') 
  
-#- include: rf2JsonConversion.yml
-#  when: "rf2_json_conversion_enabled == True"  
+- include: rf2JsonConversion.yml
+  when: "rf2_json_conversion_enabled == True"  
   
 - include: rf2DiffReport.yml
   when: "rf2_diff_report_enabled == True"  
