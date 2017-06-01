@@ -1,5 +1,5 @@
 ---
-daily_build_get_release: True
+daily_build_get_daily_release: True
 daily_build_dir: /opt/dailybuild
 
 force_zip_download: True

@@ -1,0 +1,11 @@
+---
+- include: importRf2Json.yml
+  when: "import_rf2_json == True"  
+  
+- include: fixindex.yml
+  when: "fixindex == True"   
+  
+- name: remove import dir after use
+  file: path="{{ daily_build_import_dir }}" state=absent
+  when: "deleteAfterImport == True"
+  
