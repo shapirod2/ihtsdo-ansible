@@ -1,0 +1,40 @@
+#!/usr/bin/env bash
+# Index fix Snomed-CT json data
+#
+# Requires two arguments:
+# $ ./index-fix.sh <host> <database> <collection>
+# e.g. ./import.sh localhost en-edition 20160131
+#
+
+json_dir="{{ daily_build_import_dir }}"
+echo "Getting rf2 json from AWS S3";
+echo $json_dir
+cd $json_dir
+
+if [[ $# -ne 3 ]]; then
+    echo 'Import script requires three arguments'
+    echo ' $ ./index-fix.sh <host> <database> <collection>'
+    exit 1
+fi
+
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'conceptId' : 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'relationships.target.conceptId' : 1,'relationships.type.conceptId' : 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'statedRelationships.target.conceptId' : 1,'statedRelationships.type.conceptId' : 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'additionalRelationships.target.conceptId' : 1,'additionalRelationships.type.conceptId' : 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'memberships.refset.conceptId' :1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({inferredAncestors:1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({statedAncestors:1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'statedRelationships.typeInferredAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'statedRelationships.typeStatedAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'relationships.typeInferredAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'relationships.typeStatedAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'statedRelationships.targetInferredAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'statedRelationships.targetStatedAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'relationships.targetInferredAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3.ensureIndex({'relationships.targetStatedAncestors':1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3tx.ensureIndex({'descriptionId' : 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3tx.ensureIndex({term: 'text'});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3tx.ensureIndex({term: 1});"
+mongo  --port 27017 --eval "db = db.getSiblingDB('$2');db.v$3tx.ensureIndex({words: 1});"
+
+echo "Import Completed"

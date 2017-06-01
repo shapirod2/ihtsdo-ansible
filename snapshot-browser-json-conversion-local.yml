@@ -1,7 +1,7 @@
   - hosts: local
     sudo: true
     vars:
-     daily_build_get_release: False
+     daily_build_get_daily_release: False
      rf2_diff_report_enabled: False
      rf2json_s3_bucket_name: "s3://ms-authoring-clean/rf2json/{{unpacked_release_file_name}}"
      unpacked_release_file_name: SnomedCT_SE_Production_20170531T120000

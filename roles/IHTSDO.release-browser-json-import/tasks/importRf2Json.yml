@@ -1,0 +1,22 @@
+---
+
+- name: Ensure import dir exists
+  file: path="{{ daily_build_import_dir }}" state=directory
+        owner=root group=root mode=0644 
+        recurse=yes  
+
+- name: set s3 copy script
+  template: src=copyRf2JsonFromS3.sh.j2 dest={{ daily_build_import_dir }}/copyRf2JsonFromS3.sh
+            owner=root group=root mode=0755    
+            
+- name: set  rf2 json mongo db import script
+  template: src=rf2JsonMongoImport.sh.j2 dest={{ daily_build_import_dir }}/rf2JsonMongoImport.sh
+            owner=root group=root mode=0755         
+            
+- debug: msg="full_rf2_json_s3_copy_cmd = {{ full_rf2_json_s3_copy_cmd }}"
+
+- debug: msg="full_rf2_json_mongo_install_cmd = {{ full_rf2_json_mongo_install_cmd }}"
+
+- shell: "{{ full_rf2_json_s3_copy_cmd }}"
+
+- shell: "{{ full_rf2_json_mongo_install_cmd }}"

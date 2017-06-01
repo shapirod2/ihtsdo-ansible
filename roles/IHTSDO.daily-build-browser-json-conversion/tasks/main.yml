@@ -17,10 +17,10 @@
   when: "rf2_diff_report_enabled == True"  
                 
 - include: downloadLatestDailyRelease.yml
-  when: "daily_build_get_release == True"  
+  when: "daily_build_get_daily_release == True"  
   
 - include: downloadRelease.yml
-  when: "daily_build_get_release == False" 
+  when: "daily_build_get_daily_release == False" 
  
 - name: include download Int release when int_unpacked_release_file_name is defined and not empty
   include: downloadINTRelease.yml

@@ -1,0 +1,8 @@
+---
+           
+- name: set mongo db fix index script
+  template: src={{fixindex_script}}.j2 dest={{ daily_build_import_dir }}/{{fixindex_script}}
+            owner=root group=root mode=0755         
+            
+- debug: msg="full_fixindex__cmd = {{ full_fixindex_cmd }}"
+- shell: "{{ full_fixindex_cmd }}"
