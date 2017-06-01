@@ -18,9 +18,6 @@
 - name: Install latest nodejs package
   apt: name=nodejs state=latest
 
-- name: Get latest npm
-  shell: sudo npm install npm -g
-
 #- name: npm install bower grunt grunt-cli
 #  shell: sudo npm install -g bower grunt grunt-cli
 
