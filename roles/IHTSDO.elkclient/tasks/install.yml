@@ -13,3 +13,6 @@
   
 - include: installfilebeat.yml
   when: elkclient_install_filebeat == True  
+
+- include: installpacketbeat.yml
+  when: elkclient_install_packetbeat == True 

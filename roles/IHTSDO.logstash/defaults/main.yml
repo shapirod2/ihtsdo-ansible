@@ -10,12 +10,14 @@ logstash_monitor_local_syslog: false
 
 logstash_ssl: true
 logstash_ssl_dir: /etc/pki/logstash
-logstash_ssl_certificate_fn: "logstash-forwarder.crt"
-logstash_ssl_key_fn: "logstash-forwarder.key"
+logstash_ssl_certificate_fn: "ihtsdo-multi.crt"
+logstash_ssl_key_fn: "ihtsdo-multi8.key"
 
-logstash_ssl_certificate_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_certificate_fn}}"
-logstash_ssl_key_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_key_fn}}"
+#logstash_ssl_certificate_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_certificate_fn}}"
+#logstash_ssl_key_file: "{{ inventory_dir }}/../files/ssl/logstash/{{logstash_ssl_key_fn}}"
 
+logstash_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi8.key.pem"
+logstash_ssl_certificate_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi.chained.pem"
 
 logstash_enabled_on_boot: yes
 
