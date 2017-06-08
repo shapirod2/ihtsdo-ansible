@@ -1,0 +1,37 @@
+---
+
+dropexisting: False
+fixindex: False
+import_rf2_json: True
+deleteAfterImport: True
+
+edition_name: en-edition
+release_version: 20170731
+
+rf2json_s3_bucket_name_base: "s3://ms-authoring-clean/rf2json/"
+rf2json_s3_region: eu-west-1
+
+unpacked_release_file_name: SnomedCT_SE_Production_20170531T120000
+rf2json_s3_bucket_name: "{{rf2json_s3_bucket_name_base}}{{unpacked_release_file_name}}"
+
+daily_build_rf2json_file_name: rf2Json.tgz
+releasedb_host: "localhost"
+
+daily_build_import_dir: "/opt/imports/{{edition_name}}_{{release_version}}"
+
+rf2_json_s3_copy_script: copyRf2JsonFromS3.sh
+rf2_json_mongo_import_script: rf2JsonMongoImport.sh
+
+rf2_json_s3_copy_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_s3_copy_script }}"
+rf2_json_s3_copy_log: "{{ daily_build_import_dir }}/copy_{{ ansible_date_time.iso8601 }}.log"
+full_rf2_json_s3_copy_cmd: "{{ rf2_json_s3_copy_cmd }} >> {{ rf2_json_s3_copy_log }}"
+
+rf2_json_mongo_install_cmd: "{{ daily_build_import_dir }}/{{ rf2_json_mongo_import_script }} {{releasedb_host}} {{ edition_name }} {{ release_version }}"
+rf2_json_mongo_install_log: "{{ daily_build_import_dir }}/mongoImport_{{ ansible_date_time.iso8601 }}.log"
+full_rf2_json_mongo_install_cmd: "{{ rf2_json_mongo_install_cmd }} >> {{ rf2_json_mongo_install_log }}"
+
+
+fixindex_script: "fixIndex.sh"
+fixindex_cmd: "{{ daily_build_import_dir }}/{{fixindex_script}} {{releasedb_host}} {{ edition_name }} {{ release_version }}"
+fixindex_log: "{{ daily_build_import_dir }}/fixindex_{{ ansible_date_time.iso8601 }}.log"
+full_fixindex_cmd: "{{ fixindex_cmd }} >> {{ fixindex_log }}"

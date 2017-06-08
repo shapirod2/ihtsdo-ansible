@@ -1,8 +1,7 @@
 #!/bin/bash
 s3_bukcet_name="{{ rf2json_s3_bucket_name }}"
-filename="{{ daily_build_diff_report_file_name }}"
-import_dir="{{ rf2_diff_reports_json_dir }}"
-target_dir="/opt/sct_front_end/{{diff_report_dir}}"
+filename="{{ daily_build_rf2json_file_name }}"
+import_dir="{{ daily_build_import_dir }}"
 
 s3_backup_region_base="{{rf2json_s3_region | default('')}}"
 
@@ -12,23 +11,15 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
-echo "Getting rf2 diff reports from AWS S3";
+echo "Getting rf2 json from AWS S3";
 echo $import_dir
 cd $import_dir
 echo "start s3 copying..."
 aws s3 $s3_backup_region cp $s3_bukcet_name/$filename $filename
 
-echo "Retrieved $filename to $import_dir"
+echo "Retreived $filename to $import_dir"
 echo "s3 copy process is completed"
 
-echo "start untar diff report file"
+echo "start untar json file"
 tar -xf $filename
-echo "end of untar diff report file"
-
-rm -rf $target_dir
-
-mkdir -p $target_dir
-
-echo "copy report json to "$target_dir
-cp -rf *.json $target_dir
-echo "rf2 diff report json imported"
+echo "end of untar json file"

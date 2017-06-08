@@ -7,6 +7,7 @@
      unpacked_release_file_name: SnomedCT_USEditionRF2_Production_20170901T120000
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: usConfig.xml.j2
+     editionName: "US"
      ihtsdo_repository: release  
      #int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
      effectiveTime: 20170901

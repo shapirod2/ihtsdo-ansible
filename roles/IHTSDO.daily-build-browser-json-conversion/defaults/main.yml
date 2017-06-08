@@ -1,12 +1,21 @@
 ---
-get_release: True
+
+effectiveTime: 20170731
+expirationTime: 20180131
+unpacked_release_file_name: SnomedCT_RF2Release_INT_20170731
+# One date after the previous release
+rf2_diff_start_date: 20170801
+
+
+daily_build_get_daily_release: True
 daily_build_dir: /opt/dailybuild
 
 force_zip_download: True
 rf2_json_conversion_enabled: True
 rf2_diff_report_enabled: True
-release_file_name: SnomedCT_RF2Release_INT_20170731.zip
-unpacked_release_file_name: SnomedCT_RF2Release_INT_20170731
+
+release_file_name: "{{unpacked_release_file_name}}.zip"
+
 
 int_release_s3_backup_region: "eu-west-1"
 int_release_dir: "/opt/IntRelease"
@@ -16,9 +25,13 @@ int_release_file_name: "{{int_unpacked_release_file_name}}.zip"
 int_release_s3_download: "{{int_release_s3_bucket_name}}{{int_release_file_name}}"
 int_release_snapshotFolder: "{{ int_release_dir }}/{{ int_unpacked_release_file_name }}/Snapshot"
 
+snapshot_get_release: False
+snapshot_release_s3_backup_region: "eu-west-1"
+snapshot_release_s3_bucket_name: "s3://ire.published.release.ihtsdo/se/"
+snapshot_release_s3_download: "{{snapshot_release_s3_bucket_name}}{{release_file_name}}"
 
-effectiveTime: 20170731
-expirationTime: 20180131
+
+editionName: "International"
 jsonOutputFolder: "{{ daily_build_dir }}/json"
 dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/
 fullFileFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Full"
@@ -29,12 +42,11 @@ rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
 daily_build_rf2json_file_name: rf2Json.tgz
 rf2_json_s3_upload_script: uploadRf2JsonToS3.sh
 rf2_json_s3_upload_cmd: "{{ jsonOutputFolder }}/{{ rf2_json_s3_upload_script }}"
-rf2_diff_jar_version: rf2-diff-generator-1.3-jar-with-dependencies.jar
+rf2_diff_jar_version: rf2-diff-generator-1.5-jar-with-dependencies.jar
 rf2_diff_json_file_name: diffReports.tgz
 rf2_diff_json_report_folder: "{{ daily_build_dir }}/diff_reports"
 rf2_diff_root_dir: /opt/rf2-diff-generator
-# One date after the previous release
-rf2_diff_start_date: 20170201
+
 rf2_diff_json_s3_upload_script: uploadRf2DiffJsonToS3.sh
 rf2_diff_report_s3_upload_cmd:  "{{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}"
 config_xml: "enConfig.xml.j2"

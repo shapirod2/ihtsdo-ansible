@@ -1,0 +1,12 @@
+---
+  - hosts: browser-extension
+    sudo: true
+    vars:
+     unpacked_release_file_name: SnomedCT_SE_Production_20170531T120000
+     edition_name: se-edition
+     release_version: 20170531
+     deleteAfterImport: False
+     dropexisting: False
+    roles:
+      - IHTSDO.aws
+      - IHTSDO.release-browser-json-import

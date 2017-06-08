@@ -1,0 +1,21 @@
+---
+- name: Remove daily_build so as to spark complete rebuild
+  file: path={{daily_build_dir}} state=absent
+  when: "force_zip_download == True"
+
+- name: make sure daily_build_dir exists
+  file: path={{daily_build_dir}}  state=directory
+  
+- debug: msg="daily_build_dir= {{daily_build_dir}}"   
+
+
+- name: download  release zip file
+  shell: "aws s3 cp   {{snapshot_release_s3_download}} {{daily_build_dir}}/{{release_file_name}} --region {{snapshot_release_s3_backup_region}}"
+
+- name: make sure release zip file exists
+  stat: path={{daily_build_dir}}/{{release_file_name}}
+  register: releaseZipfile
+   
+- name: Unarchive release zip file on the remote machine
+  unarchive: src={{daily_build_dir}}/{{release_file_name}}  dest={{daily_build_dir}} copy=no
+  when: releaseZipfile.stat.exists == True

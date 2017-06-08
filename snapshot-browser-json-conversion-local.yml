@@ -1,18 +1,20 @@
   - hosts: local
     sudo: true
     vars:
-     rf2json_s3_bucket_name: s3://ms-authoring-clean/se/dailybuild
-     dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/se/products/snomed_ct_se_daily_build/builds/
-     unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20171130
+     daily_build_get_daily_release: False
+     rf2_diff_report_enabled: False
+     rf2json_s3_bucket_name: "s3://ms-authoring-clean/rf2json/{{unpacked_release_file_name}}"
+     unpacked_release_file_name: SnomedCT_SE_Production_20170531T120000
      release_file_name: "{{unpacked_release_file_name}}.zip"
+     snapshot_release_s3_bucket_name: "s3://ire.published.release.ihtsdo/se/"
+
      config_xml: seConfig.xml.j2
      editionName: "Swedish"
      ihtsdo_repository: release  
      int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
-     effectiveTime: 20171130
+     effectiveTime: 20170531
      expirationTime: 20180531
-     # One date after the previous release
-     rf2_diff_start_date: 20170601
+
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
