@@ -8,7 +8,7 @@
 
 # copy /etc/php5/mods-available/opcache.ini 
 - name: set opcache.ini
-  template: src=opcache.ini.j2 dest=/etc/php/{{moodle_php_version}}/mods-available/opcache.ini
+  template: src=opcache.ini.j2 dest=/etc/php/{{moodle_php_version_num}}/mods-available/opcache.ini
             owner=root group=root mode=0644
             
 #- name: set apache2 ports.conf

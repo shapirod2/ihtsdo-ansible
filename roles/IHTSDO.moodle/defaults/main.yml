@@ -21,8 +21,13 @@ moodle_innodb_buffer_pool_size: "100M"
 moodle_data_dir: "/var/moodledata"
 
 moodle_git_repo: "git://git.moodle.org/moodle.git"
-moodle_git_version: "MOODLE_28_STABLE"
-moodle_php_version: "php5"
+#moodle_git_version: "MOODLE_28_STABLE"
+#moodle_php_version: "php5"
+
+moodle_git_version: "MOODLE_32_STABLE"
+moodle_php_version_num: "5.6"
+moodle_php_version: "php{{moodle_php_version_num}}"
+
 
 moodle_URL: "https://{{ inventory_hostname }}"
 moodle_port: 80
