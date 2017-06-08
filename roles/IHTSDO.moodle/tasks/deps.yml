@@ -73,6 +73,7 @@
             
 - name: rem php5  module
   command: /usr/sbin/a2dismod php5
+  ignore_errors: yes 
   
 - name: add {{moodle_php_version}} module
   command: /usr/sbin/a2enmod {{moodle_php_version}}  

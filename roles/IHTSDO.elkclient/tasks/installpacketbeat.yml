@@ -1,0 +1,21 @@
+
+
+- name: Install package
+  apt: name=packetbeat state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_packetbeat_version == 'installed'
+
+- name: Install latest package
+  apt: name=packetbeat state=latest update_cache=yes cache_valid_time=3600
+  when: elkclient_packetbeat_version == 'latest'
+
+- name: Install package specific version
+  apt: name=packetbeat={{ elkclient_packetbeat_version }} state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_packetbeat_version != 'installed' and elkclient_packetbeat_version != 'latest'
+  
+- name: templated conf file
+  template:  src={{ inventory_dir }}/../files/elkclientconf/packetbeat/{{ elkclient_packetbeat_template }} dest=/etc/packetbeat/packetbeat.yml
+  
+  
+- name: start the packetbeat service
+  service: name=packetbeat state=restarted  
+  
