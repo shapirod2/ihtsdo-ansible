@@ -1,0 +1,7 @@
+- hosts: logstash
+#  remote_user: user
+  become: yes
+  become_user: root
+  roles:
+   - { role: IHTSDO.logstash }
+   

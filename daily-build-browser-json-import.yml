@@ -1,6 +1,8 @@
 ---
   - hosts: browser
     sudo: true
+    vars:
+     release_version: 20180131
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-import

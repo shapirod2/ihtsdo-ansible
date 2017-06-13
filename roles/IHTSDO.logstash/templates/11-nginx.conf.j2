@@ -1,7 +1,12 @@
 filter {
-  if [type] == "http" {
+#  if [type] == "http" {
+  if [type] == "nginx-access" {
+    grok {
+      patterns_dir => "{{logstash_patterns_dir}}"
+      match => { "message" => "%{NGINXACCESS}" }
+    }
     geoip {
-        source => "client_ip"
+        source => "clientip"
         target => "geoip"
         database => "{{logstash_geoip_local}}"
         add_field => [ "[geoip][coordinates]", "%{[geoip][longitude]}" ]

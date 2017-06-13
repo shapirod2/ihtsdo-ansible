@@ -1,24 +1,37 @@
 
+
+- name: Add geoipupdate repository.
+  apt_repository:
+    repo: 'ppa:maxmind/ppa'
+    state: present
+
+- name: Check if geoipupdate is already installed.
+  stat: path="{{logstash_geoip_exec}}"
+  register: geoipupdate_installed
+
+- name: Update apt cache if repository just added.
+  apt: update_cache=yes
+  when: geoipupdate_installed.stat.exists == false
+
+- name: Install geoipupdate.
+  apt: pkg=geoipupdate state=present
+
 - name: make sure logstash_geoip_dl_dir exists
   file: path="{{logstash_geoip_dl_dir}}"  state=directory
+  
+- name: Create GeoIpUpdate configuration file .
+  template:
+    src: GeoIP.conf.j2
+    dest: /etc/GeoIP.conf
+    owner: root
+    group: root
+    mode: 0644
 
 
-- name: dl from logstash_geoip_dl_url
-  get_url:
-   url: "{{logstash_geoip_dl_url}}"
-   dest: "{{logstash_geoip_dl_dir_fn}}"
 
-#- name: unarchive
-#  unarchive:
-#    src: "{{logstash_geoip_dl_dir_fn}}"
-#    dest: "{{logstash_geoip_dl_dir}}"
-#    remote_src: yes
+- name: run cmd the 1st time to fetch db'es
+  shell: "{{logstash_geoip_exec}}"
+  
+- name: Add to cron
+  cron: name="Update GeoIP db" minute="17" hour="22" weekday="2" job="{{logstash_geoip_exec}}"              
 
-#- name: download from logstash_geoip_dl_url and unarchive
-#  unarchive:
-#    src: "{{logstash_geoip_dl_url}}"
-#    dest: "{{logstash_geoip_dl_dir}}"
-#    remote_src: True
-
-- name: unarchive using shell as remote unarchive requires ansible 2.2
-  shell: "tar -zxvf {{logstash_geoip_dl_dir_fn}} -C {{logstash_geoip_dl_dir}} --strip=1"
