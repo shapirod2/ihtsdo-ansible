@@ -51,3 +51,34 @@
     state: absent
   when: not logstash_monitor_local_syslog
   notify: restart logstash
+
+  
+
+  
+- name: Ensure logstash_patterns_dir directory exists.
+  file:
+    path: "{{ logstash_patterns_dir }}"
+    state: directory
+    owner: "{{logstash_user}}"
+    group: "{{logstash_user}}"
+  notify: restart logstash  
+    
+- name: Create Logstash patterns.
+  copy:
+    src: "patterns/"
+    dest: "{{ logstash_patterns_dir }}"
+    owner: "{{logstash_user}}"
+    group: "{{logstash_user}}" 
+  notify: restart logstash
+  
+  
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
