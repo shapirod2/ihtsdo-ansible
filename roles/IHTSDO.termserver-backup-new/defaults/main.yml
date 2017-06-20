@@ -7,6 +7,9 @@ ts_dbname: snomedstore
 ts_review_dbname: ts_review
 traceability_database: traceability
 
+termserv_db_host: "localhost"
+termserv_db_port: "3306"
+
 # Backup
 # Dir to put scripts into
 s3_backup_dir: "none"
