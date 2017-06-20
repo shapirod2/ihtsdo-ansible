@@ -20,7 +20,7 @@
   file: path={{rsync_dir}}  state=directory
 
 #- name: rsync indexes
-#  command: /usr/bin/rsync  -av --delete --no-compress {{ts_dir}} {{ rsync_dir }}
+#  command: /usr/bin/rsync  -av --delete --no-compress {{ts_indexes_dir}} {{ rsync_dir }}
 
 - name: run backup command
   shell: "{{ full_backup_cmd }}"

@@ -16,7 +16,7 @@ base_url: http://localhost:8080/snowowl
 backup_dir: "/opt/backup/termserver"
 dump_filename: "snomedStore.sql"
 ts_res_dir: "/opt/termserver/resources"
-ts_dir: "/opt/termserver_indexes"
+ts_indexes_dir: "/opt/termserver_indexes"
 rsync_dir: "/opt/backup/rsync/termserver"
 
 #dataset
