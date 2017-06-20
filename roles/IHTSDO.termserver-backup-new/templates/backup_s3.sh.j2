@@ -8,6 +8,10 @@
 s3_backup_dir="{{termserv_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
+#db host
+ts_db_host="{{termserv_db_host | default('')}}"
+ts_db_port="{{termserv_db_port | default('3306')}}"
+
 s3_backup_region_base="{{termserv_s3_backup_region | default('')}}"
 s3_numbackups=5
 s3_bk_list=s3list.txt
@@ -70,6 +74,7 @@ echo_date() {
 # Prints an error message to stderr and exits the script with a non-zero status.
 error_exit() {
 	echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+	unlock_all_repositories
 	exit 1
 }
 
@@ -158,7 +163,17 @@ main() {
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} -h {{ termserv_db_host }} -P {{ termserv_db_port }} --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+EXITCODE=$?
+if [ $EXITCODE -ne 0 ] ; then 
+      echo "DB backup failed with exit code $EXITCODE "
+      error_exit "DB backup failed with exit code $EXITCODE. Exiting with error."
+ else
+      echo "DB Backup finished ok"
+ fi              
+    done 
+	echo_date "Done backing up DB."
+
 }
 
 rsyncindexes(){
