@@ -54,7 +54,7 @@
   when: sqlimportfile.stat.exists == True
 
 - name: create db
-  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  mysql_db: name={{ts_dbname}} state=present login_user={{ ts_snowowl_db_user }}  login_password={{ ts_snowowl_db_password }}
   when: sqlimportfile.stat.exists == True
 
 - name: if present dump existing db
@@ -62,15 +62,15 @@
   when: sqlimportfile.stat.exists == True
 
 - name: create db
-  mysql_db: name={{ts_review_dbname}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  mysql_db: name={{ ts_review_dbname }} state=present login_user={{ ts_snowowl_db_user }}  login_password={{ ts_snowowl_db_password }}
   when: sqlimportfile.stat.exists == True
 
 - name: if present dump existing db
   mysql_db: name={{traceability_database}} state=absent login_user=root login_password={{mysql_root_pass}}
   when: sqlimportfile.stat.exists == True
-  
+
 - name: create db
-  mysql_db: name={{traceability_database}} state=present login_user={{ ts_user }}  login_password={{ts_pw}}
+  mysql_db: name={{traceability_database}} state=present login_user={{ traceability_database_username }}  login_password={{ traceability_database_password }}
   when: sqlimportfile.stat.exists == True
 #- name: Run the SQL file -OLD
 #  command: mysql -u {{ ts_user }} -p{{ ts_pw }} < {{ import_term_serv_sql }}
