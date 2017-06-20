@@ -1,9 +1,19 @@
 output {
- elasticsearch {
-   hosts => ["localhost:9200"]
-   sniffing => true
-   manage_template => false
-   index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
-   document_type => "%{[@metadata][type]}"
- }
+   if [type] == "nginx-access" {
+        elasticsearch {  
+           hosts => ["localhost:9200"]
+           sniffing => false
+           manage_template => false
+           index => "%{[type]}-%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+           document_type => "%{[@metadata][type]}"    
+        }
+    } else {
+       elasticsearch {
+           hosts => ["localhost:9200"]
+           sniffing => false
+           manage_template => false
+           index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"
+           document_type => "%{[@metadata][type]}"   
+        }
+    }    
 }

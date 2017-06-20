@@ -2,19 +2,15 @@ filter {
 #  if [type] == "http" {
   if [type] == "nginx-access" {
     grok {
-      patterns_dir => "{{logstash_patterns_dir}}"
+      patterns_dir => "/opt/logstash/patterns"
       match => { "message" => "%{NGINXACCESS}" }
     }
     geoip {
         source => "clientip"
         target => "geoip"
-        database => "{{logstash_geoip_local}}"
-        add_field => [ "[geoip][coordinates]", "%{[geoip][longitude]}" ]
-        add_field => [ "[geoip][coordinates]", "%{[geoip][latitude]}"  ]
-    }
-    mutate {
-        convert => [ "[geoip][coordinates]", "float"]
+        database => "/usr/local/share/GeoIP/GeoLite2-City.mmdb"
     }
   }
 }
+
 
