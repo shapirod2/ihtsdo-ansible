@@ -24,6 +24,7 @@
 
 - name: run backup command
   shell: "{{ full_backup_cmd }}"
+
 - name: start TS if not running
   supervisorctl: name=termserver state=started
   when: ts_backup_mode == 'cold'
