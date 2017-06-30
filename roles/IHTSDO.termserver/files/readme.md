@@ -1,3 +1,16 @@
+if in the same dir as the scripts: 
+
+supervisorctl stop termserver
+
+./snowowl_migration_4.6_to_4.7_phase_1_table_creation.sh admin snomed
+./snowowl_migration_4.6_to_4.7_phase_2_table_population.sh admin snomed SNOMEDCT sct
+./snowowl_migration_4.6_to_4.7_phase_3_old_table_deletion.sh admin snomed
+
+supervisorctl start termserver
+
+
+change admin to relevant admin/root password
+
 https://github.com/b2ihealthcare/snow-owl/blob/5.x/documentation/src/main/asciidoc/migration_guide.adoc#470
 
 4.7.0
