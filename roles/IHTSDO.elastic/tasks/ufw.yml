@@ -1,0 +1,15 @@
+
+- name: resolve  logstash server to ip
+  shell: "dig +short {{ logstash_server }} | grep -v '\\.$' | head -n 1"
+  register: resolved_hostname
+  when: not (logstash_server is undefined or logstash_server is none or logstash_server | trim == '')
+
+- debug: msg="logstash server ip =  {{resolved_hostname.stdout}}"
+  when: resolved_hostname is defined
+
+- name: open up firewall but just for logstash server
+  ufw: rule=allow port=10050 proto=tcp from_ip={{ resolved_hostname.stdout }}
+  when: resolved_hostname is defined
+
+- debug: msg="Check ufw is opened for logstash server(s) using sudo ufw allow from TRUSTED_IP to any port 9200"
+

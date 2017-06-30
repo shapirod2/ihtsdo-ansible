@@ -1,4 +1,9 @@
 ---
+
+- name: Ensure service is stopped
+  service: name=logstash state=stopped enabled=yes
+  ignore_errors: yes 
+
 - include: setup-RedHat.yml
   when: ansible_os_family == 'RedHat'
 
@@ -16,4 +21,4 @@
   ufw: rule=allow port={{ logstash_listen_port_beats }} proto=any
 
 - name: Ensure Logstash is started and enabled on boot.
-  service: "name=logstash state=started enabled={{ logstash_enabled_on_boot }}"
+  service: name=logstash state=started enabled="{{ logstash_enabled_on_boot }}"
