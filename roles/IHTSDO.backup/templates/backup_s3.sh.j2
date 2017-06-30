@@ -65,6 +65,8 @@ if [ "x$s3_backup_region_base" != "x" ]; then
       echo "setting backup region to $s3_backup_region"
 fi
 
+# dbdump status filename
+tmp_dbdump_file="dbdumpstatus.txt"
 # The starting directory
 #backup_dir={{ backup_dir }}
 
@@ -76,6 +78,8 @@ ARCHIVE_PREFIX="{{backup_archive_prefix}}"
 
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="{{backup_archive_dir}}"
+# The path to the db dump status file (records the db dump status)
+ABSOLUTE_DBDUMP_STATUS=$ABSOLUTE_ARCHIVE_PREFIX/$tmp_dbdump_file
 # Archive
 ARCHIVE_FILE="{{backup_archive_file}}"
 
@@ -153,6 +157,7 @@ main() {
 	backup_db &
 	db_cmd
 	wait
+	testdbdumpchild
 	fi
 	pre_copycmd
 	copyfiles
@@ -230,8 +235,11 @@ for dir in ${dirs_to_backup[*]};
 
 mkbkdir(){
 # first delete if there
-echo "should be deleting and recreating $tmp_backup_dir"
+echo_date "Deleting $tmp_backup_dir and $ABSOLUTE_ARCHIVE_PREFIX"
 rm -rf $tmp_backup_dir
+rm -rf $ABSOLUTE_ARCHIVE_PREFIX
+echo_date "Create tmp backup destination directory '$tmp_backup_dir'."
+mkdir -pv $tmp_backup_dir
 echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
 mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error.";
 if [ "x$backup_dir_owner" != "x" ]; then
@@ -303,16 +311,32 @@ echo "dbtype = mysql : " $db_type
      /usr/bin/mysqldump  --opt --single-transaction --routines --triggers --flush-privileges  --user=$db_user -p$db_password  $DB_STR > "$ABSOLUTE_ARCHIVE_PREFIX/$DATABASE_DUMP_FILE"
     EXITCODE=$?
  fi 
+
+echo "$EXITCODE" >> "$ABSOLUTE_DBDUMP_STATUS" 
 if [ $EXITCODE -ne 0 ] ; then 
       echo "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type"
-      error_exit "DB backup failed with exit code $EXITCODE for DB : $db  DB type : $db_type. Exiting with error."
  else
       echo "DB Backup finished ok for DB : $db"
  fi              
     done 
-	echo_date "Done backing up DB."
-	
+	echo_date "Done backing up DB."	
 }
+
+testdbdumpchild(){
+#First see file exists    
+if [ -f $ABSOLUTE_DBDUMP_STATUS ]; then
+   echo "File $ABSOLUTE_DBDUMP_STATUS exists."
+   read dbdump_status < $ABSOLUTE_DBDUMP_STATUS
+   echo "The exit status of the dbdump process was $dbdump_status"
+    if [ $dbdump_status -ne 0 ] ; then
+    echo "Exiting as dbdump_status is not 0 but was instead $dbdump_status"
+    error_exit "Exiting as dbdump_status is not 0 but was instead $dbdump_status"
+    fi
+else
+   error_exit "File $ABSOLUTE_DBDUMP_STATUS does not exist. Error so exiting"
+fi
+}
+
 
 movetoaws(){
 echo "s3_backup_dir_prefix = "$s3_backup_dir_prefix;

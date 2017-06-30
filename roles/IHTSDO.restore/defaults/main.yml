@@ -12,7 +12,7 @@ restore_db_type: "{{backup_db_type}}"
 # names of db'es to back up. if not set will back up all
 restore_db_names: "{{backup_db_names}}"
 
-  
+# can have a different srv or tgt db via sourcedb:targetdb  
 #backup_db_names: 
 #  - "all"
 

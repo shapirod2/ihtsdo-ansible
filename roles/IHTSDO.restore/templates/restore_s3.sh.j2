@@ -193,54 +193,79 @@ cd $(ls -d */|head -n 1)
 echo "currently in " $PWD
 pre_db_cmd
 # then for each db in db_include
-  for db in ${db_include[*]};
+  for db_string in ${db_include[*]};
    do  
-    echo "db = "${db}
-    DATABASE_DUMP_FILE="${db}.sql"
+   echo "db_string = "${db_string}
+   # see if db string contains a full colon and if so split sourcedb:targetdb
+   IFS=':'; dbArr=($db_string); unset IFS;
+   {% raw %}
+   numArr=${#dbArr[@]}
+   {% endraw %}
+   echo "num arr = $numArr"
+   if [ "$numArr" -eq "0" ]; then
+   error_exit "the numArr must be greater than 0";
+   fi
+   if [ "$numArr" -eq "1" ]; then
+   srcdb=${db_string}
+   tgtdb=${db_string}
+   fi
+   if [ "$numArr" -eq "2" ]; then
+   srcdb=${dbArr[0]}
+   tgtdb=${dbArr[1]}
+   fi
+   if [ "$numArr" -gt "2" ]; then
+   error_exit "the numArr must be less than 3";
+   fi
+      
+    echo "srcdb = "$srcdb
+    echo "tgtdb = "$tgtdb
+
+    
+    DATABASE_DUMP_FILE="${srcdb}.sql"
     echo "DATABASE_DUMP_FILE = ${DATABASE_DUMP_FILE}"
      if [ "$db_type" = "pgsql" ];
       then
         echo "dbtype = postgres : " $db_type
           if [ "$db_user" = "postgres" ]; #we assume the db is locally hosted
             then
-             if [ "$db" = "all" ];
+             if [ "$tgtdb" = "all" ];
               then 
               echo "using postgres user to restore all"
                su - postgres -c "/usr/bin/psql -f '$PWD/$DATABASE_DUMP_FILE'"
               else
-              echo "using postgres user to restore ${db} using $PWD/$DATABASE_DUMP_FILE"
-               su - postgres -c "/usr/bin/psql -c 'DROP DATABASE IF EXISTS ${db}'"
-               su - postgres -c "/usr/bin/psql -c 'CREATE DATABASE ${db}'"
-               su - postgres -c "/usr/bin/psql -d ${db}  -f '$PWD/$DATABASE_DUMP_FILE'"
+              echo "using postgres user to restore ${tgtdb} using $PWD/$DATABASE_DUMP_FILE"
+               su - postgres -c "/usr/bin/psql -c 'DROP DATABASE IF EXISTS ${tgtdb}'"
+               su - postgres -c "/usr/bin/psql -c 'CREATE DATABASE ${tgtdb}'"
+               su - postgres -c "/usr/bin/psql -d ${tgtdb}  -f '$PWD/$DATABASE_DUMP_FILE'"
             fi                       
           else 
-            if [ "$db" = "all" ];
+            if [ "$tgtdb" = "all" ];
               then
                /usr/bin/psql -h${db_host} -p${db_port} -f "$PWD/$DATABASE_DUMP_FILE"
               else   
-               /usr/bin/psql -h${db_host} -p${db_port} -c 'DROP DATABASE IF EXISTS ${db}'
-               /usr/bin/psql -h${db_host} -p${db_port} -c 'CREATE DATABASE ${db}'
-               /usr/bin/psql -h${db_host} -p${db_port} ${db} -f '$PWD/$DATABASE_DUMP_FILE'
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'DROP DATABASE IF EXISTS ${tgtdb}'
+               /usr/bin/psql -h${db_host} -p${db_port} -c 'CREATE DATABASE ${tgtdb}'
+               /usr/bin/psql -h${db_host} -p${db_port} ${tgtdb} -f '$PWD/$DATABASE_DUMP_FILE'
               fi                                  
           fi
     fi      
      if [ "$db_type" = "mysql" ];
       then 
-       if [ "$db" = "all" ];
+       if [ "$tgtdb" = "all" ];
         then 
          echo "MySql restoring all";
          /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} --host=${db_host} --port=${db_port}  < ./$DATABASE_DUMP_FILE
         else
-         echo "MySql restoring : ${db}";
-         echo "dropping ${db};"
-         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "DROP DATABASE IF EXISTS \`${db}\`;"
-         echo "recreating ${db};"
-         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "CREATE DATABASE \`${db}\`;"
+         echo "MySql restoring : ${tgtdb}";
+         echo "dropping ${tgtdb};"
+         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "DROP DATABASE IF EXISTS \`${tgtdb}\`;"
+         echo "recreating ${tgtdb};"
+         /usr/bin/mysql -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} -e "CREATE DATABASE \`${tgtdb}\`;"
          echo "removing any hard coded definers";
          /bin/sed -i 's/DEFINER=[^ |\*]*//g' ./$DATABASE_DUMP_FILE
          
-         echo "restoring ${db} using ./$DATABASE_DUMP_FILE;"
-         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} ${db} < ./$DATABASE_DUMP_FILE
+         echo "restoring ${tgtdb} using ./$DATABASE_DUMP_FILE;"
+         /usr/bin/mysql --max_allowed_packet=256M -u${db_user} -p${db_password} --host=${db_host} --port=${db_port} ${tgtdb} < ./$DATABASE_DUMP_FILE
       fi  
  fi               
     done 
