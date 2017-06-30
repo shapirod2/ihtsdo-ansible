@@ -17,13 +17,13 @@
 #  when: logstash_ssl_key_file
 
 - name: Install  SSL cert
-  copy: src={{ logstash_ssl_certificate_file }} dest={{ logstash_ssl_dir }}/{{logstash_ssl_certificate_fn}}
-          owner=root group=root mode=0644
+  copy: src={{ logstash_ssl_certificate_file }} dest={{ logstash_ssl_cert_fn_full }}
+          owner={{logstash_user}} group={{logstash_user}} mode=0644
   notify: restart logstash
   when: logstash_ssl
 
 - name: Install SSL key
-  copy: src={{ logstash_ssl_key_file }} dest={{ logstash_ssl_dir }}/{{logstash_ssl_key_fn}}
-          owner=root group=root mode=0600
+  copy: src={{ logstash_ssl_key_file }} dest={{ logstash_ssl_key_fn_full }}
+          owner={{logstash_user}} group={{logstash_user}} mode=0600
   notify: restart logstash
   when: logstash_ssl

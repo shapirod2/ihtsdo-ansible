@@ -4,6 +4,10 @@ logstash_listen_port_beats: 5044
 logstash_elasticsearch_hosts:
   - http://localhost:9200
 
+logstash_index_types:
+  - nginx-access
+  - authoring
+
 logstash_local_syslog_path: /var/log/syslog
 #logstash_monitor_local_syslog: true
 logstash_monitor_local_syslog: false
@@ -18,6 +22,9 @@ logstash_ssl_key_fn: "ihtsdo-multi8.key"
 
 logstash_ssl_key_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi8.key.pem"
 logstash_ssl_certificate_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-multi.chained.pem"
+
+logstash_ssl_key_fn_full: "{{ logstash_ssl_dir }}/{{logstash_ssl_key_fn}}"
+logstash_ssl_cert_fn_full: "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_fn}}"
 
 logstash_enabled_on_boot: yes
 
@@ -40,6 +47,17 @@ logstash_geoip_exec: "/usr/bin/geoipupdate"
 logstash_geoip_dl_dir: "/usr/local/share/GeoIP/"  
 logstash_geoip_db: "GeoLite2-City.mmdb"
 logstash_geoip_local: "{{logstash_geoip_dl_dir}}{{logstash_geoip_db}}"
+
+
+logstash_path_data: "/var/lib/logstash"
+
+
+# queue options: see the logstash.yml.j2 for details
+# memory or persisted . default to persisted for safety
+logstash_queue_type: "persisted"
+logstash_queue_path: "{{logstash_path_data}}/queue"
+logstash_queue_max_bytes: "4gb"
+logstash_queue_checkpoint_writes: "1024"
 
   
   

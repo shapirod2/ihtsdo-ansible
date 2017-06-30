@@ -3,8 +3,8 @@ input {
     port => {{ logstash_listen_port_beats }}
 {% if logstash_ssl_certificate_file and logstash_ssl_key_file %}
     ssl => true
-    ssl_certificate => "{{ logstash_ssl_dir }}/{{ logstash_ssl_certificate_file | basename }}"
-    ssl_key => "{{ logstash_ssl_dir }}/{{ logstash_ssl_key_file | basename }}"
+    ssl_certificate => "{{ logstash_ssl_cert_fn_full }}"
+    ssl_key => "{{ logstash_ssl_key_fn_full }}"
 {% endif %}
   }
 }
