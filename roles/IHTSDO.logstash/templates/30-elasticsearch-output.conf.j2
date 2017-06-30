@@ -1,15 +1,17 @@
 output {
-   if [type] == "nginx-access" {
+#   if [type] == "nginx-access" {
+   if [type] in {{ logstash_index_types | to_json }} {
         elasticsearch {  
-           hosts => ["localhost:9200"]
+           hosts => {{ logstash_elasticsearch_hosts | to_json }}
            sniffing => false
            manage_template => false
-           index => "%{[type][beat]}-%{+YYYY.MM.dd}"
+           index => "%{[type]}-%{[beat]}-%{+YYYY.MM.dd}"
            document_type => "%{[@metadata][type]}"    
         }
     } else {
        elasticsearch {
-           hosts => ["localhost:9200"]
+           # hosts => ["localhost:9200"]
+           hosts => {{ logstash_elasticsearch_hosts | to_json }}
            sniffing => false
            manage_template => false
            index => "%{[@metadata][beat]}-%{+YYYY.MM.dd}"

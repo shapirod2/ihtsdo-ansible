@@ -28,7 +28,8 @@ ts_indexes_dir={{ts_indexes_dir}}
 ts_resources_dir={{ts_res_dir}}
 ts_template_store={{ts_template_store}}
 
-
+# dbdump status filename
+tmp_dbdump_file="dbdumpstatus.txt"
 # The starting directory
 backup_dir={{ backup_dir }}
 
@@ -40,6 +41,8 @@ ARCHIVE_PREFIX="snowowl_$(hostname -s)_$CURRENT_DATE"
 
 # The absolute path to the above
 ABSOLUTE_ARCHIVE_PREFIX="$tmp_backup_dir/$ARCHIVE_PREFIX/dataset"
+# The path to the db dump status file (records the db dump status)
+ABSOLUTE_DBDUMP_STATUS=$ABSOLUTE_ARCHIVE_PREFIX/$tmp_dbdump_file
 
 # The connection timeout for HTTP requests in seconds.
 CONNECTION_TIMEOUT_SECONDS=5
@@ -48,10 +51,10 @@ CONNECTION_TIMEOUT_SECONDS=5
 REPO_WAIT_SECONDS=5
 
 # The username used for creating hot backups (should be a valid Snow Owl user)
-SNOWOWL_USERNAME="{{ ts_user }}"
+SNOWOWL_USERNAME="{{ backup_rest_user }}"
 
 # The password for the user given above
-SNOWOWL_PASSWORD="{{ ts_pw }}"
+SNOWOWL_PASSWORD="{{ backup_rest_password }}"
 
 # The base URL of the REST services to use
 BASE_URL="{{ base_url }}"
@@ -125,11 +128,13 @@ main() {
 	echo_date "----------------------------"
 	#check_arguments
 	mkbkdir
+	
+	rm -f $ABSOLUTE_DBDUMP_STATUS
 
 	lock_all_repositories
 
 	echo_date "Create backup destination directory '$ABSOLUTE_ARCHIVE_PREFIX'."
-	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || error_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
+	mkdir -pv "$ABSOLUTE_ARCHIVE_PREFIX" || unlock_all_repositories_and_exit "Couldn't create directory '$ABSOLUTE_ARCHIVE_PREFIX'. Exiting with error."
 	echo_date "Starting backup; sending message to connected users."
 	#echo_date "Rsync'ing indexes..."
 	rsyncindexes
@@ -138,27 +143,63 @@ main() {
     sleep $REPO_WAIT_SECONDS
     unlock_all_repositories
     wait
-
+    testdbdumpchild
     echo_date "copying from rsync folder..."
     copyfromrsyncdir
-	echo_date "Creating archive..."
-	echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
-	echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
-	cd "$tmp_backup_dir"
-	zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || error_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+    zip_backup
+    export2net
 
 	echo_date "Finished successfully."
-        if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
-         then
-	      movetoaws
-	      delete_old_from_aws
-         fi
+	
+
 	exit 0
+}
+
+testdbdumpchild(){
+#First see file exists    
+if [ -f $ABSOLUTE_DBDUMP_STATUS ]; then
+   echo "File $ABSOLUTE_DBDUMP_STATUS exists."
+   read dbdump_status < $ABSOLUTE_DBDUMP_STATUS
+   echo "The exit status of the dbdump process was $dbdump_status"
+    if [ $dbdump_status -ne 0 ] ; then
+    echo "Exiting as dbdump_status is not 0 but was instead $dbdump_status"
+    unlock_all_repositories_and_exit "Exiting as dbdump_status is not 0 but was instead $dbdump_status"
+    fi
+else
+   unlock_all_repositories_and_exit "File $ABSOLUTE_DBDUMP_STATUS does not exist. Error so exiting"
+fi
+
+}
+
+export2net(){
+ if [ -f ~/.aws/config ] && [ "$s3_backup_dir" != "" ];
+    then
+      movetoaws
+      delete_old_from_aws
+ fi
+}
+
+zip_backup(){
+  echo_date "Creating archive..."
+  echo_date "ARCHIVE_PREFIX.zip = $ARCHIVE_PREFIX.zip"
+  echo_date "ARCHIVE_PREFIX = $ARCHIVE_PREFIX"
+  cd "$tmp_backup_dir"
+  zip --recurse-paths --move --test "$ARCHIVE_PREFIX.zip" "$ARCHIVE_PREFIX" || unlock_all_repositories_and_exit "Archive creation failed; the backup is incomplete. Exiting with error."
+
 }
 
 mysql_dump(){
 echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}"
-/usr/bin/mysqldump -uroot -p{{ mysql_root_pass }} --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+/usr/bin/mysqldump -u{{backup_db_user}} -p{{ backup_db_password }} -h {{ backup_db_host }} -P {{ backup_db_port }} --max_allowed_packet=512M --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ dump_filename }}
+EXITCODE=$?
+echo "$EXITCODE" >> "$ABSOLUTE_DBDUMP_STATUS"
+if [ $EXITCODE -ne 0 ] ; then 
+      echo "DB backup failed with exit code $EXITCODE "
+ else
+      echo "DB Backup finished ok"
+ fi              
+	echo_date "Done backing up DB."
+
 }
 
 rsyncindexes(){
@@ -251,7 +292,7 @@ fi
 LOCKFILE="{{script_dir}}/instance.lock"
 
 (
-        flock -n 200 || error_exit "Another backup script is already running. Exiting with error."
+        flock -n 200 || unlock_all_repositories_and_exit "Another backup script is already running. Exiting with error."
         trap "rm $LOCKFILE" EXIT
         main
 ) 200> $LOCKFILE

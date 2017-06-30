@@ -1,0 +1,23 @@
+{
+	"template": "ngin*",
+	"settings": {
+		"index.mapping.total_fields.limit": 10000,
+		"index.refresh_interval": "5s"
+	},
+	"mappings": {
+		"coord": {
+			"dynamic_templates": [
+				{
+					"longs_as_strings": {
+						"match_mapping_type": "string",
+						"match": "coordinate*",
+						"mapping": {
+							"type": "geo_point"
+						}
+					}
+				}
+			]
+		}
+	}
+}
+}
