@@ -8,12 +8,6 @@
 s3_backup_dir="{{termserv_s3_backup_dir | default('')}}"
 s3_backup_dir_full="s3://$s3_backup_dir"
 
-
-
-#db host
-ts_db_host="{{termserv_db_host | default('')}}"
-ts_db_port="{{termserv_db_port | default('3306')}}"
-
 s3_backup_region_base="{{termserv_s3_backup_region | default('')}}"
 s3_numbackups=5
 s3_bk_list=s3list.txt
@@ -148,7 +142,7 @@ main() {
     mysql_dump &
     sleep $REPO_WAIT_SECONDS
     unlock_all_repositories
-
+    wait
     testdbdumpchild
     echo_date "copying from rsync folder..."
     copyfromrsyncdir
