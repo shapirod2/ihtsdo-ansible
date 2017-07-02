@@ -323,9 +323,6 @@ db_out=$dbname.sql
 db_status=$ABSOLUTE_DBDUMP_STATUS_DIR/$dbname.txt
 echo_date "dumping mysql db $dbname to $db_out with status written to $db_status "  
 
-  
-#echo_date "dumping mysql...to $ABSOLUTE_ARCHIVE_PREFIX/{{ ts_dump_filename }}"
-#/usr/bin/mysqldump -u{{backup_db_user}} -p{{ backup_db_password }} -h {{ backup_db_host }} -P {{ backup_db_port }} --max_allowed_packet=512M --databases {{ ts_dbname }} {{ ts_review_dbname }} {{ traceability_database }} --quick --single-transaction > $ABSOLUTE_ARCHIVE_PREFIX/{{ ts_dump_filename }}
 /usr/bin/mysqldump -u{{backup_db_user}} -p{{ backup_db_password }} -h {{ backup_db_host }} -P {{ backup_db_port }} --max_allowed_packet=512M  --quick --single-transaction $dbname > $ABSOLUTE_ARCHIVE_PREFIX/$db_out
 EXITCODE=$?
 echo "$EXITCODE" >> "$db_status"
