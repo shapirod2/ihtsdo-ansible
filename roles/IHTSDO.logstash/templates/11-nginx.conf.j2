@@ -2,7 +2,7 @@ filter {
 #  if [type] == "http" {
   if [type] == "nginx-access" {
     grok {
-      patterns_dir => "/opt/logstash/patterns"
+      patterns_dir => "{{logstash_patterns_dir}}"
       match => { "message" => "%{NGINXACCESS}" }
     }
     geoip {

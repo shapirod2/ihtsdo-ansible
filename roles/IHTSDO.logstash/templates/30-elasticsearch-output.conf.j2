@@ -5,7 +5,7 @@ output {
            hosts => {{ logstash_elasticsearch_hosts | to_json }}
            sniffing => false
            manage_template => false
-           index => "%{[type]}-%{[beat]}-%{+YYYY.MM.dd}"
+           index => "%{[type]}-%{[@metadata][beat]}-%{+YYYY.MM.dd}"
            document_type => "%{[@metadata][type]}"    
         }
     } else {
