@@ -12,6 +12,11 @@ spring.datasource.databaseName: {{mlds_dbname}}
 spring.datasource.serverName: {{mlds_datasource_serverName}}
 spring.datasource.username: {{mlds_user}}
 spring.datasource.password: {{mlds_password}}
+#Hibernate
+hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+hibernate.show_sql: false
+hibernate.hbm2ddl.auto: validate
+hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
 
 #Hibernate
 hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
