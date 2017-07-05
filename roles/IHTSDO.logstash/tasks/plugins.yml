@@ -1,6 +1,6 @@
 ---
 
-- name: Get list of installed plugins.
+- name: Get list of installed plugins from {{logstash_base_dir}}bin.
   command: >
     ./bin/logstash-plugin list
     chdir={{logstash_base_dir}}

@@ -3,5 +3,6 @@
   become: yes
   become_user: root
   roles:
+   - {role: IHTSDO.oraclejava, oraclejava_versions: [8]}
    - { role: IHTSDO.logstash }
    

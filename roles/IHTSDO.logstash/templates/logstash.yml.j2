@@ -61,7 +61,7 @@ path.data: {{logstash_path_data}}
 #
 # Where to fetch the pipeline configuration for the main pipeline
 #
-path.config: /etc/logstash/conf.d
+path.config: {{logstash_path_conf}}
 #
 # Pipeline configuration string for the main pipeline
 #
@@ -153,7 +153,7 @@ queue.checkpoint.writes: {{logstash_queue_checkpoint_writes}}
 #   * trace
 #
 # log.level: info
-path.logs: /var/log/logstash
+path.logs: {{logstash_path_logs}}
 #
 # ------------ Other Settings --------------
 #
