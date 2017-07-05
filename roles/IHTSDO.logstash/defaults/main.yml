@@ -1,12 +1,29 @@
 ---
+
+es_major_version: "5.x"
+es_version: "5.2.2"
+es_version_lock: false
+es_use_repository: true
+es_apt_key: "https://artifacts.elastic.co/GPG-KEY-elasticsearch"
+es_apt_url: "deb https://artifacts.elastic.co/packages/{{ es_major_version }}/apt stable main"
+
+
 logstash_listen_port_beats: 5044
 
 logstash_elasticsearch_hosts:
   - http://localhost:9200
 
+#has to be more than one as contains in a list does not work with a list of 1.
+# if need be simply repeat the 1.
 logstash_index_types:
   - nginx-access
   - authoring
+#  - orchestration
+#  - termserver
+#  - authoring-services
+#  - error
+#  - crs
+#  - mapping
 
 logstash_local_syslog_path: /var/log/syslog
 #logstash_monitor_local_syslog: true
@@ -30,6 +47,7 @@ logstash_enabled_on_boot: yes
 
 logstash_install_plugins:
   - logstash-input-beats
+  - logstash-filter-geoip
 
 
 #logstash_geoip_base_url: "http://geolite.maxmind.com/download/geoip/database/"
@@ -37,8 +55,12 @@ logstash_install_plugins:
 #logstash_geoip_dl_url: "{{logstash_geoip_base_url}}{{logstash_geoip_dl_fn}}"
 #logstash_geoip_dl_dir_fn: "{{logstash_geoip_dl_dir}}{{logstash_geoip_dl_fn}}"
 
-logstash_base_dir: "/opt/logstash/"
-logstash_patterns_dir: "{{logstash_base_dir}}patterns/"
+#logstash_base_dir: "/opt/logstash/"
+logstash_base_dir: "/usr/share/logstash/"
+logstash_patterns_dir: "{{logstash_base_dir}}patterns"
+logstash_path_data: "/var/lib/logstash"
+logstash_path_conf: "/etc/logstash/conf.d"
+logstash_path_logs: "/var/log/logstash"
 
 logstash_user: "logstash"
 
@@ -49,7 +71,6 @@ logstash_geoip_db: "GeoLite2-City.mmdb"
 logstash_geoip_local: "{{logstash_geoip_dl_dir}}{{logstash_geoip_db}}"
 
 
-logstash_path_data: "/var/lib/logstash"
 
 
 # queue options: see the logstash.yml.j2 for details
