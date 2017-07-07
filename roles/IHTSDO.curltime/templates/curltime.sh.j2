@@ -1,0 +1,92 @@
+#!/bin/bash
+#
+# curl wrapper returning timing information.
+#
+# curl format adapted from
+#  http://josephscott.org/archives/2011/10/timing-details-with-curl/
+#
+# Example usage:
+#   $ ./curltime.sh https://prod-workflow.ihtsdotools.org
+# As Cron only runs to the minute for more frequent calls add a number whihc is the sleep time in seconds
+# e.g.
+# ./curltime.sh https://prod-workflow.ihtsdotools.org 5
+# 
+# outputs as json as that makes it easier for the elk stack to process
+# mkdir /opt/curltime
+# copy this script in there & chmod 0770 curltime.sh
+# need to add to cron as :
+# ./curltime.sh https://prod-workflow.ihtsdotools.org >> /var/log/curltime.log
+# then best to set up a logrotate config (see example in this folder)
+# copy the logrotate_curltime to /etc/logrotate.d/
+# and check to make sure logrotate is in cron (should be) 
+
+url=$1
+seconds=$2
+
+main() {
+check_arguments
+# echo "seconds set and = $seconds"	
+run
+
+}
+
+run(){
+	if (( $seconds > 0 )); then
+		#echo "should loop here"
+		while true; do gettime; sleep $seconds; done
+	else
+		#echo "should just call once"
+		gettime
+	fi			
+}
+
+check_arguments() {
+if [ "x$url" = "x" ]; then
+    error_exit "At least 1 arg is required. Exiting."
+  fi
+  if [ "x$seconds" = "x" ]; then
+    seconds=0
+else
+	re='^[0-9]+$'
+ if ! [[ $seconds =~ $re ]] ; then
+ error_exit "seconds arg must be an integer. Exiting"
+ fi	  
+fi  
+}
+
+gettime(){
+CURRENT_DATE=`date --iso-8601=seconds`
+set -e
+curl_format='
+ "url_effective": "%{url_effective}", 
+ "http_code": %{http_code},
+ "speed_download": %{speed_download},
+ "time_namelookup": %{time_namelookup},
+ "time_connect": %{time_connect},
+ "time_appconnect": %{time_appconnect},
+ "time_pretransfer": %{time_pretransfer},
+ "time_redirect": %{time_redirect},
+ "time_starttransfer": %{time_starttransfer},
+ "time_total": %{time_total}
+'
+
+curlout=$(exec curl -w "$curl_format" -o /dev/null -s "$url")
+echo "{ \"DateTime\": \"$CURRENT_DATE\", $curlout }"
+}
+	
+	
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+  echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+  exit 1
+}	
+	
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{curltime_lockfile}}"
+
+(
+        flock -n 200 || "Another curltime script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE		
+	

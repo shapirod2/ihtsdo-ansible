@@ -1,0 +1,19 @@
+---
+
+
+- name: make sure curltime_script_dir exists
+  file: path={{ curltime_script_dir }}  state=directory
+
+# Copy templates
+#shell script
+- name: Configure script
+  template: src={{ curltime_script }}.j2 dest={{ curltime_script_cmd }}
+            owner=root group=root mode=0740
+#logrotate conf
+- name: Configure logrotate conf
+  template: src={{ curltime_logrotate_file }}.j2 dest={{ curltime_logrotate_path }}
+            owner=root group=root mode=0644
+            
+#add to cron            
+- cron: name="curltime" minute="curltime_cron_mins" hour="curltime_cron_hours" job="{{curltime_script_full_cmd}}"
+
