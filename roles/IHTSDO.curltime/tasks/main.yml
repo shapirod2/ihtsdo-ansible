@@ -13,7 +13,8 @@
 - name: Configure logrotate conf
   template: src={{ curltime_logrotate_file }}.j2 dest={{ curltime_logrotate_path }}
             owner=root group=root mode=0644
-            
+    
+- debug: msg="curltime_script_full_cmd = {{curltime_script_full_cmd}}"            
 #add to cron            
-- cron: name="curltime" minute="curltime_cron_mins" hour="curltime_cron_hours" job="{{curltime_script_full_cmd}}"
+- cron: name="curltime" minute="{{curltime_cron_mins}}" hour="{{curltime_cron_hours}}" job="{{curltime_script_full_cmd}}"
 
