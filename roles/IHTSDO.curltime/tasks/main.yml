@@ -1,8 +1,13 @@
 ---
 
+- name: Install curl
+  apt: name=curl state=present update_cache=yes cache_valid_time=300
 
 - name: make sure curltime_script_dir exists
   file: path={{ curltime_script_dir }}  state=directory
+  
+- name: kill any existing curltime
+  shell: "{{ curltime_kill_cmd }}"
 
 # Copy templates
 #shell script
@@ -17,4 +22,4 @@
 - debug: msg="curltime_script_full_cmd = {{curltime_script_full_cmd}}"            
 #add to cron            
 - cron: name="curltime" minute="{{curltime_cron_mins}}" hour="{{curltime_cron_hours}}" job="{{curltime_script_full_cmd}}"
-
+  when: "{{curltime_add_to_cron}}"

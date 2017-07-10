@@ -7,7 +7,7 @@
 #
 # Example usage:
 #   $ ./curltime.sh https://prod-workflow.ihtsdotools.org
-# As Cron only runs to the minute for more frequent calls add a number whihc is the sleep time in seconds
+# As Cron only runs to the minute for more frequent calls add a number which is the sleep time in seconds
 # e.g.
 # ./curltime.sh https://prod-workflow.ihtsdotools.org 5
 # 
@@ -20,41 +20,90 @@
 # copy the logrotate_curltime to /etc/logrotate.d/
 # and check to make sure logrotate is in cron (should be) 
 
-url=$1
-seconds=$2
+#url=$1
+seconds={{ curltime_seconds | default('0') }}
 
-main() {
-check_arguments
-# echo "seconds set and = $seconds"	
-run
+#urls to call:
+urls_to_call1=({% for curltime_url in curltime_urls %}"{{curltime_url}}" {% endfor %})
+
+intreg='^[0-9]+$'
+
+#allow using args for urls to call
+#if [ "x$urls_to_call" == "x" ] && [ "x$1" != "x" ]; then
+#    urls_to_call=($1)
+#    echo "urls_to_call to $urls_to_call"
+#fi
+#allow using args for seconds
+#if [ "x$2"  != "x" ]; then
+#    seconds=$2
+#    echo "seconds to $seconds"
+#fi
+
+args=()
+urls_to_call=()
+
+for clivar in "$@"
+do
+    echo "clivar = $clivar"
+    #checkcliarg "$clivar"
+args+=($clivar)
+done
+
+checkcliargs(){
+echo "checkcliargs "
+for arg in ${args[*]};
+ do
+ echo "arg = $arg"
+if [[ $arg =~ $intreg ]] ; then
+ echo "arg is int setting seconds $arg"
+ seconds=$arg
+else
+	echo "must be a string adding to url $arg"
+	urls_to_call+=($arg) 	
+fi	  
+done
 
 }
 
+
+main() {
+checkcliargs
+check_arguments
+echo "seconds set and = $seconds"
+echo "urls_to_call = $urls_to_call"	
+run
+}
+
+
 run(){
 	if (( $seconds > 0 )); then
-		#echo "should loop here"
+		echo "should loop here"
 		while true; do gettime; sleep $seconds; done
 	else
-		#echo "should just call once"
+		echo "should just call once"
 		gettime
 	fi			
 }
 
 check_arguments() {
-if [ "x$url" = "x" ]; then
-    error_exit "At least 1 arg is required. Exiting."
+if [ "x$urls_to_call" = "x" ]; then
+echo "urls to call not set using utc1"
+IFS=$(echo -en "\n\b")
+for url1 in ${urls_to_call1[*]};
+ do
+	echo "url1 = $url1"
+	urls_to_call+=($url1) 
+done
+fi	
+if [ "x$urls_to_call" = "x" ]; then
+    error_exit "At least 1 url is required. Exiting."
   fi
   if [ "x$seconds" = "x" ]; then
-    seconds=0
-else
-	re='^[0-9]+$'
- if ! [[ $seconds =~ $re ]] ; then
- error_exit "seconds arg must be an integer. Exiting"
- fi	  
+    seconds=0  
 fi  
 }
 
-gettime(){
+gettime(){	
 CURRENT_DATE=`date --iso-8601=seconds`
 set -e
 curl_format='
@@ -70,8 +119,15 @@ curl_format='
  "time_total": %{time_total}
 '
 
-curlout=$(exec curl -w "$curl_format" -o /dev/null -s "$url")
-echo "{ \"DateTime\": \"$CURRENT_DATE\", $curlout }"
+IFS=$(echo -en "\n\b")
+for url in ${urls_to_call[*]};
+ do
+ curlout=$(exec curl -w "$curl_format" -o /dev/null -s "$url")
+ echo "{ \"DateTime\": \"$CURRENT_DATE\", $curlout }"
+done
+
+
+
 }
 	
 	
