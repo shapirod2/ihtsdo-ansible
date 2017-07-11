@@ -1,0 +1,14 @@
+---
+  - hosts: wordpress
+    sudo: true
+    roles: 
+      - IHTSDO.aws
+      - IHTSDO.LetsEncrypt
+      - IHTSDO.nginx-standard  
+      - IHTSDO.wordpress
+      - IHTSDO.wordpress-snomedinaction
+      #- IHTSDO.wordpress-backup
+      #- IHTSDO.wordpress-restore
+      
+      
+      
