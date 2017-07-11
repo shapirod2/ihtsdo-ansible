@@ -9,9 +9,9 @@ curltime_logrotate_path: "{{curltime_logrotate_dir}}/{{curltime_logrotate_file}}
 
 curltime_urls:
   - "https://prod-workflow.ihtsdotools.org/"
-  - "https://jenkins.ihtsdotools.org/"
+#  - "https://jenkins.ihtsdotools.org/"
   
-curltime_seconds: "15"  
+curltime_seconds: "0"  
 
 #curltime_url: "https://prod-workflow.ihtsdotools.org/"
 
@@ -28,7 +28,7 @@ curltime_script_full_cmd: "{{curltime_script_cmd}} >> {{curltime_logfile}}"
 #uses std cron grammer e.g. every 5 (mins or hours) = */5 , all = *
 curltime_cron_mins: "*/1"
 curltime_cron_hours: "*"
-curltime_add_to_cron: false
+curltime_add_to_cron: true
 #As cron only works down to the minute the script accepts a sleep time and will then just run every x seconds
 # 0 means just run once i.e. purely when cron say to run 
 curltime_script_seconds: "0"

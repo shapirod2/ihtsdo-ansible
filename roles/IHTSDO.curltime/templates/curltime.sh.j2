@@ -44,21 +44,21 @@ urls_to_call=()
 
 for clivar in "$@"
 do
-    echo "clivar = $clivar"
+  #  echo "clivar = $clivar"
     #checkcliarg "$clivar"
 args+=($clivar)
 done
 
 checkcliargs(){
-echo "checkcliargs "
+#echo "checkcliargs "
 for arg in ${args[*]};
  do
- echo "arg = $arg"
+ #echo "arg = $arg"
 if [[ $arg =~ $intreg ]] ; then
- echo "arg is int setting seconds $arg"
+# echo "arg is int setting seconds $arg"
  seconds=$arg
 else
-	echo "must be a string adding to url $arg"
+#	echo "must be a string adding to url $arg"
 	urls_to_call+=($arg) 	
 fi	  
 done
@@ -69,29 +69,29 @@ done
 main() {
 checkcliargs
 check_arguments
-echo "seconds set and = $seconds"
-echo "urls_to_call = $urls_to_call"	
+#echo "seconds set and = $seconds"
+#echo "urls_to_call = $urls_to_call"	
 run
 }
 
 
 run(){
 	if (( $seconds > 0 )); then
-		echo "should loop here"
+		#echo "should loop here"
 		while true; do gettime; sleep $seconds; done
 	else
-		echo "should just call once"
+		#echo "should just call once"
 		gettime
 	fi			
 }
 
 check_arguments() {
 if [ "x$urls_to_call" = "x" ]; then
-echo "urls to call not set using utc1"
+#echo "urls to call not set using utc1"
 IFS=$(echo -en "\n\b")
 for url1 in ${urls_to_call1[*]};
  do
-	echo "url1 = $url1"
+	#echo "url1 = $url1"
 	urls_to_call+=($url1) 
 done
 fi	
