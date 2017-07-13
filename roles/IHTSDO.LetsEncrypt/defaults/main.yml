@@ -4,10 +4,14 @@ letsencrypt_bin: /usr/local/sbin
 letsencrypt:
     posthook: service nginx reload
     domains:
-       - { domain: 'uat-sia.ihtsdotools.org', email: afl@snomed.org  }
+       - { domain: 'chat.snomedtools.org', email: rda@snomed.org  }
+#       - { domain: 'uat-sia.ihtsdotools.org', email: afl@snomed.org  }
      #  - { domain: 'prod-sia.ihtsdotools.org', email: afl@snomed.org  }
      #  - { domain: 'www.snomedinaction.org', email: afl@snomed.org  }
      #  - { domain: 'snomedinaction.org', email: afl@snomed.org  }
      #  - { domain: 'va-sia.ihtsdotools.org', email: afl@snomed.org  }
+
+letsencrypt_domain: "chat.snomedtools.org"
+letsencrypt_email: "rda@snomed.org"
 
 letsencrypt_webserver: nginx     

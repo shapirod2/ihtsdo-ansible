@@ -1,0 +1,10 @@
+{{curltime_logfile}}
+{
+	rotate {{curltime_logrotate_numretained}}
+    {{curltime_logrotate_period}}
+	missingok
+	notifempty
+	compress
+	delaycompress
+	endscript
+}

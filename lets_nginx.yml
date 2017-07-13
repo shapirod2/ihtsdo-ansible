@@ -1,0 +1,12 @@
+---
+  - hosts: all
+    sudo: true
+    roles: 
+      #- IHTSDO.aws
+      #- IHTSDO.nginx-standard 
+      - IHTSDO.LetsEncrypt
+ 
+
+      
+      
+      
