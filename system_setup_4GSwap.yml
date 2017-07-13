@@ -1,7 +1,7 @@
 ---
 - hosts: all
   sudo: true
- # remote_user: ubuntu
+  remote_user: ubuntu
   vars:
     user_accounts_skip_sshd: true
     swapfile_size: 4GB
@@ -10,7 +10,7 @@
   roles:
     - IHTSDO.hostname
     - knopki.timezone
-    - ansible-swapfile-master
+   # - ansible-swapfile-master
     - IHTSDO.apt-upgrade
     - IHTSDO.sshd
     - IHTSDO.basicpackages
