@@ -1,0 +1,148 @@
+#!/bin/bash
+#
+# curl wrapper returning timing information.
+#
+# curl format adapted from
+#  http://josephscott.org/archives/2011/10/timing-details-with-curl/
+#
+# Example usage:
+#   $ ./curltime.sh https://prod-workflow.ihtsdotools.org
+# As Cron only runs to the minute for more frequent calls add a number which is the sleep time in seconds
+# e.g.
+# ./curltime.sh https://prod-workflow.ihtsdotools.org 5
+# 
+# outputs as json as that makes it easier for the elk stack to process
+# mkdir /opt/curltime
+# copy this script in there & chmod 0770 curltime.sh
+# need to add to cron as :
+# ./curltime.sh https://prod-workflow.ihtsdotools.org >> /var/log/curltime.log
+# then best to set up a logrotate config (see example in this folder)
+# copy the logrotate_curltime to /etc/logrotate.d/
+# and check to make sure logrotate is in cron (should be) 
+
+#url=$1
+seconds={{ curltime_seconds | default('0') }}
+
+#urls to call:
+urls_to_call1=({% for curltime_url in curltime_urls %}"{{curltime_url}}" {% endfor %})
+
+intreg='^[0-9]+$'
+
+#allow using args for urls to call
+#if [ "x$urls_to_call" == "x" ] && [ "x$1" != "x" ]; then
+#    urls_to_call=($1)
+#    echo "urls_to_call to $urls_to_call"
+#fi
+#allow using args for seconds
+#if [ "x$2"  != "x" ]; then
+#    seconds=$2
+#    echo "seconds to $seconds"
+#fi
+
+args=()
+urls_to_call=()
+
+for clivar in "$@"
+do
+  #  echo "clivar = $clivar"
+    #checkcliarg "$clivar"
+args+=($clivar)
+done
+
+checkcliargs(){
+#echo "checkcliargs "
+for arg in ${args[*]};
+ do
+ #echo "arg = $arg"
+if [[ $arg =~ $intreg ]] ; then
+# echo "arg is int setting seconds $arg"
+ seconds=$arg
+else
+#	echo "must be a string adding to url $arg"
+	urls_to_call+=($arg) 	
+fi	  
+done
+
+}
+
+
+main() {
+checkcliargs
+check_arguments
+#echo "seconds set and = $seconds"
+#echo "urls_to_call = $urls_to_call"	
+run
+}
+
+
+run(){
+	if (( $seconds > 0 )); then
+		#echo "should loop here"
+		while true; do gettime; sleep $seconds; done
+	else
+		#echo "should just call once"
+		gettime
+	fi			
+}
+
+check_arguments() {
+if [ "x$urls_to_call" = "x" ]; then
+#echo "urls to call not set using utc1"
+IFS=$(echo -en "\n\b")
+for url1 in ${urls_to_call1[*]};
+ do
+	#echo "url1 = $url1"
+	urls_to_call+=($url1) 
+done
+fi	
+if [ "x$urls_to_call" = "x" ]; then
+    error_exit "At least 1 url is required. Exiting."
+  fi
+  if [ "x$seconds" = "x" ]; then
+    seconds=0  
+fi  
+}
+
+gettime(){	
+CURRENT_DATE=`date --iso-8601=seconds`
+set -e
+curl_format='
+ "url_effective": "%{url_effective}", 
+ "http_code": %{http_code},
+ "speed_download": %{speed_download},
+ "time_namelookup": %{time_namelookup},
+ "time_connect": %{time_connect},
+ "time_appconnect": %{time_appconnect},
+ "time_pretransfer": %{time_pretransfer},
+ "time_redirect": %{time_redirect},
+ "time_starttransfer": %{time_starttransfer},
+ "time_total": %{time_total}
+'
+
+IFS=$(echo -en "\n\b")
+for url in ${urls_to_call[*]};
+ do
+ curlout=$(exec curl -w "$curl_format" -o /dev/null -s "$url")
+ echo "{ \"DateTime\": \"$CURRENT_DATE\", $curlout }"
+done
+
+
+
+}
+	
+	
+# Prints an error message to stderr and exits the script with a non-zero status.
+error_exit() {
+  echo -e "[`date +\"%Y-%m-%d %H:%M:%S\"`] $@" >&2
+  exit 1
+}	
+	
+# Ensures that only a single instance is running at any time
+LOCKFILE="{{curltime_lockfile}}"
+
+(
+        flock -n 200 || "Another curltime script is already running. Exiting with error."
+        trap "rm $LOCKFILE" EXIT
+        main
+) 200> $LOCKFILE		
+	

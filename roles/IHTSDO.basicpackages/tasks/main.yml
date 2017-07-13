@@ -14,3 +14,8 @@
 - name: Install ntp
   apt: name=ntp state=present update_cache=yes cache_valid_time=300  
 
+- name: Install htop
+  apt: name=htop state=present update_cache=yes cache_valid_time=300  
+  
+- name: Install tmux
+  apt: name=tmux state=present update_cache=yes cache_valid_time=300   

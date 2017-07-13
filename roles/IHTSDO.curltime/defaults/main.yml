@@ -1,0 +1,36 @@
+---
+
+curltime_logfile: "/var/log/curltime.log"
+curltime_logrotate_period: "weekly"
+curltime_logrotate_numretained: "4"
+curltime_logrotate_dir: "/etc/logrotate.d"
+curltime_logrotate_file: "logrotate_curltime"
+curltime_logrotate_path: "{{curltime_logrotate_dir}}/{{curltime_logrotate_file}}"
+
+curltime_urls:
+  - "https://prod-workflow.ihtsdotools.org/"
+#  - "https://jenkins.ihtsdotools.org/"
+  
+curltime_seconds: "0"  
+
+#curltime_url: "https://prod-workflow.ihtsdotools.org/"
+
+curltime_script_dir: "/opt/curltime"
+curltime_script: "curltime.sh"
+curltime_script_cmd: "{{curltime_script_dir}}/{{curltime_script}}"
+
+curltime_kill_cmd: "/usr/bin/pkill -IO curltime || true"
+
+#curltime_script_full_cmd: "{{curltime_script_cmd}} {{curltime_url}} {{curltime_script_seconds}} >> {{curltime_logfile}}"
+
+curltime_script_full_cmd: "{{curltime_script_cmd}} >> {{curltime_logfile}}"
+
+#uses std cron grammer e.g. every 5 (mins or hours) = */5 , all = *
+curltime_cron_mins: "*/1"
+curltime_cron_hours: "*"
+curltime_add_to_cron: true
+#As cron only works down to the minute the script accepts a sleep time and will then just run every x seconds
+# 0 means just run once i.e. purely when cron say to run 
+curltime_script_seconds: "0"
+# need to add a stop mechanism/clearup so that the instance can be re-started.
+curltime_lockfile: "/var/log/curltime.lock"

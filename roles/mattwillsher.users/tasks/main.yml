@@ -31,7 +31,7 @@
 - name: SSH keys
   authorized_key: user={{ item.0.username }} key="{{ item.1 }}"
   with_subelements:
-    - users
+    - "{{users}}"
     - ssh_keys
 
 - debug: msg="Deleting users  {{ item }} "
