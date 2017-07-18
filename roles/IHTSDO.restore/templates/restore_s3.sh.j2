@@ -308,8 +308,9 @@ tgtdir=${dirArr[1]}
     echo "tgtdir = "$tgtdir	
         	
         echo "Copying dir = .${srcdir} to ${tgtdir}"
-        rm -rf ${dir}
-        cp --recursive .${srcdir} ${tgtdir} 
+        rm -rf ${tgtdir}
+        mkdir -p ${tgtdir}
+        cp --recursive .${srcdir}/. ${tgtdir} 
         if [ "x$restore_dir_owner" != "x" ]; then
         /bin/chown -R $restore_dir_owner:$restore_dir_owner ${tgtdir}
         fi
