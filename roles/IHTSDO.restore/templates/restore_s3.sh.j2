@@ -283,11 +283,35 @@ echo "currently in " $PWD
 echo "restore_dir_owner = $restore_dir_owner"
 for dir in ${dirs_to_restore[*]};
         do  
-        echo "Copying dir = .${dir} to ${dir}"
+        echo "dir string = ${dir}"	
+        IFS=':'; dirArr=($dir); unset IFS;
+   {% raw %}
+   numDirArr=${#dirArr[@]}
+   {% endraw %}
+echo "num dir arr = $numDirArr"
+   if [ "$numDirArr" -eq "0" ]; then
+   error_exit "the numDirArr must be greater than 0";
+   fi
+   if [ "$numDirArr" -eq "1" ]; then
+srcdir=${dir}
+tgtdir=${dir}
+   fi
+   if [ "$numDirArr" -eq "2" ]; then
+srcdir=${dirArr[0]}
+tgtdir=${dirArr[1]}
+   fi
+   if [ "$numDirArr" -gt "2" ]; then
+   error_exit "the numDirArr must be less than 3";
+   fi
+      
+    echo "srcdir = "$srcdir
+    echo "tgtdir = "$tgtdir	
+        	
+        echo "Copying dir = .${srcdir} to ${tgtdir}"
         rm -rf ${dir}
-        cp --recursive .${dir} ${dir} 
+        cp --recursive .${srcdir} ${tgtdir} 
         if [ "x$restore_dir_owner" != "x" ]; then
-        /bin/chown -R $restore_dir_owner:$restore_dir_owner ${dir}
+        /bin/chown -R $restore_dir_owner:$restore_dir_owner ${tgtdir}
         fi
         done 
 	echo_date "Done Copying files."
