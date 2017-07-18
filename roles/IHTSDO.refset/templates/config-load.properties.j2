@@ -6,7 +6,7 @@ hibernate.connection.useUnicode=true
 hibernate.connection.characterEncoding=UTF-8
 hibernate.connection.charSet=UTF-8
 javax.persistence.jdbc.driver=com.mysql.jdbc.Driver
-javax.persistence.jdbc.url=jdbc:mysql://{{ refset_jdbc_host }}:3306/{{ refset_jdbc_database }}?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useLocalSessionState=true
+javax.persistence.jdbc.url=jdbc:mysql://{{refset_db_host}}:3306/{{ refset_jdbc_database }}?useUnicode=true&characterEncoding=UTF-8&rewriteBatchedStatements=true&useLocalSessionState=true
 javax.persistence.jdbc.user={{ refset_jdbc_user }}
 javax.persistence.jdbc.password={{ refset_jdbc_password }}
 
@@ -163,7 +163,7 @@ site.tracking.code=<script> \
 #
 security.timeout=7200000
 security.guest.disabled=false
-security.handler=IMS
+security.handler=DEFAULT
 security.handler.DEFAULT.class=org.ihtsdo.otf.refset.jpa.services.handlers.DefaultSecurityServiceHandler
 security.handler.DEFAULT.users.admin=admin
 security.handler.DEFAULT.users.viewer=guest,guest1,author1,reviewer1,guest2,author2,reviewer2,guest3,author3,reviewer3,admin1,admin2,admin3

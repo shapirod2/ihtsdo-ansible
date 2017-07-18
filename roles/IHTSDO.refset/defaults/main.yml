@@ -1,12 +1,15 @@
 ---
 refset_name: refset-rest
 refset_version: latest
-refset_indexes: /opt/refset-indexes/refset
+refset_indexes_base: /opt/refset-indexes
+refset_indexes: "{{refset_indexes_base}}/refset"
 refset_location: /opt/refset-rest
 refset_base_url: hmmm
 
-refset_admin_user: change_me
-refset_admin_password: change_me
+refset_user: "{{refset_name}}"
+refset_admin_dir: /opt/refset-admin
+refset_admin_user: admin
+refset_admin_password: admin
 
 refset_jdbc_host: localhost
 refset_jdbc_user: change_me

@@ -2,6 +2,22 @@
 - name: Stop any running instances
   supervisorctl: name={{ refset_name }}  state=stopped
   failed_when: false
+  
+- name: Install maven, git and csh
+  apt: pkg={{ item }} state=installed update_cache=yes cache_valid_time=300
+  with_items:
+    - csh
+    - maven
+    - git
+    - screen
+  tags:
+    - ihtsdo_asset
+
+#- name: Create refset-admin directory
+#  file: name=/opt/refset-admin owner={{refset_name}}
+#        mode=0755 state=directory
+#  tags:
+#    - ihtsdo_asset  
 
 - name: Install package
   apt: name={{ refset_name }} state=installed force=yes update_cache=yes
@@ -21,9 +37,46 @@
 
 - name: Copy config.properties
   template: src=config.properties.j2 dest={{ refset_location }}/config.properties owner={{ refset_name }} group={{ refset_name }} mode=0644
+  
+- name: Copy config-load.properties
+  template: src=config-load.properties.j2 dest={{ refset_location }}/config-load.properties owner={{ refset_name }} group={{ refset_name }} mode=0644  
+
+- name: Ensure the refset-indexes base dir exists
+  file: path="{{ refset_indexes_base }}" state=directory owner={{ refset_name }} group={{ refset_name }} recurse=true
 
 - name: Ensure the refset-indexes exists
-  file: path="{{ refset_indexes }}" state=directory owner={{ refset_name }}
+  file: path="{{ refset_indexes }}" state=directory owner={{ refset_name }} group={{ refset_name }} recurse=true
+  
+
+- name: set perms on root m2
+  file: path="/root/.m2" state=directory
+        owner=root group=root mode=755   
+
+- name: add settings.xml to root
+  template: src=settings.xml dest=/root/.m2/settings.xml
+            owner=root group=root mode=0640   
+
+# admin  
+
+- name: Ensure group exists
+  group: name={{ refset_user }} state=present system=yes
+
+- name: Ensure user exists
+  user: name={{ refset_user }} group={{ refset_user }} shell=/bin/bash state=present system=yes
+  
+- name: Ensure the refset-admin exists
+  file: path="{{ refset_admin_dir }}" state=directory owner={{ refset_user }} group={{ refset_user }} recurse=true  
+  
+- name: Copy reindex.sh
+  template: src=reindex.sh.j2 dest={{ refset_admin_dir }}/reindex.sh owner={{ refset_user }} group={{ refset_user }} mode=0750  
+  
+- name: set perms on refset user home_dir m2
+  file: path="/home/{{refset_user}}/.m2" state=directory
+        owner={{ refset_user }} group={{ refset_user }} mode=755   
+            
+- name: add settings.xml to refset service user home
+  template: src=settings.xml dest=/home/{{refset_user}}/.m2/settings.xml
+            owner={{ refset_user }} group={{ refset_user }} mode=0640         
 
 - name: (re)start refset-service
   supervisorctl: name={{ refset_name }}  state=restarted

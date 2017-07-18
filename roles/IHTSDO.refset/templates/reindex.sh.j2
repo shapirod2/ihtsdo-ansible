@@ -1,0 +1,11 @@
+
+#!/bin/bash
+
+LUCENE_ADMIN={{refset_admin_dir}}
+CONF_FILE={{ refset_location }}/config-load.properties
+
+export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
+
+cd $LUCENE_ADMIN
+
+mvn install -PReindex -Drefset.config=$CONF_FILE > reindex.log

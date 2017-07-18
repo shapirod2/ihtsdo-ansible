@@ -88,4 +88,4 @@ restore_postcmds: ""
 #  - "/bin/echo \"postcmd1!\""
 #  - "/bin/echo \"postcmd2!\""
 
-restore_async_time: 1800
+restore_async_time: 7200
