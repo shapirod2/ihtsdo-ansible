@@ -37,7 +37,6 @@
     - termserver
     - orchestration-service
     - snomed-template-service
-    - spellcheck-service
 
 - name: Configure versions.json
   template: src=versions.json.j2 dest="{{ authoringui_conf_dir }}/versions.json"
