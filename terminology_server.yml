@@ -11,7 +11,6 @@
       - IHTSDO.traceability-service
       - IHTSDO.template-service
       - IHTSDO.template-service-templates
-      - IHTSDO.spellcheck-service
       - IHTSDO.termserver-browser
       - IHTSDO.authoring-ui
       - IHTSDO.nginx-standard
