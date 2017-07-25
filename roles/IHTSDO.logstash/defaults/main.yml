@@ -18,12 +18,13 @@ logstash_elasticsearch_hosts:
 logstash_index_types:
   - nginx-access
   - authoring
-#  - orchestration
-#  - termserver
-#  - authoring-services
-#  - error
-#  - crs
-#  - mapping
+  - crs
+  - curltime
+  #- orchestration
+  #- termserver
+  #- authoring-services
+  #- error
+  #- mapping
 
 logstash_local_syslog_path: /var/log/syslog
 #logstash_monitor_local_syslog: true

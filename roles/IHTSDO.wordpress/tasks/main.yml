@@ -20,7 +20,7 @@
 - include: getwp.yml 
   
 - include: apache-ssl.yml 
-  when:  wp_web_server == "apache"  
+  when:  wp_web_server == "apache2"  
   
 - name: restart webserver
   service: name={{wp_web_server}} state=restarted
