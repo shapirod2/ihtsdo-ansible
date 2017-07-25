@@ -3,10 +3,10 @@
     sudo: true
     roles: 
       - IHTSDO.aws
-      - IHTSDO.LetsEncrypt
-      - IHTSDO.nginx-standard  
+      #- IHTSDO.nginx-standard  
       - IHTSDO.wordpress
       - IHTSDO.wordpress-snomedinaction
+      - IHTSDO.LetsEncrypt
       #- IHTSDO.wordpress-backup
       #- IHTSDO.wordpress-restore
       
