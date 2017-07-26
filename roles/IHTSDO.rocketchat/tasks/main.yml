@@ -1,0 +1,49 @@
+---
+- name: Add mongo root ppa apt_key
+  apt_key: keyserver=keyserver.ubuntu.com id=7F0CEB10 state=present
+
+- name: Add mongo mainline ppa
+  apt_repository: repo='deb http://repo.mongodb.org/apt/ubuntu trusty/mongodb-org/3.0 multiverse' state=present
+
+- name: Install dependencies
+  apt: name={{ item }} state=present update_cache=yes
+  with_items:
+    - npm
+    - mongodb-org
+    - curl
+    - graphicsmagick
+
+- name: Congigure npm
+  command: "npm install -g n"
+
+- name: Install node version
+  command: "n {{ rocketchat_node_version }}"
+
+- name: Fetch Rocket Chat
+  command: 'curl -L {{ rocketchat_download_location }} -o /tmp/rocket.chat.tgz'
+
+- name: Ensure rocketchat group exists
+  group: name={{ rocketchat_user }} state=present system=yes
+
+- name: Ensure rocketchat user exists
+  user: name={{ rocketchat_user }} group={{ rocketchat_user }} state=present system=yes
+
+- name: Decompress Rocket.chat
+  shell: "cd /tmp && tar xvzf /tmp/rocket.chat.tgz"
+
+- name: mv to /opt
+  shell: "mv /tmp/bundle {{ rocketchat_directory }}"
+
+- name: npm fetch dependancies
+  command: "npm install"
+  args:
+    chdir: "{{ rocketchat_directory }}/programs/server"
+
+- name: Set ownership
+  file: dest={{ rocketchat_directory }} owner={{ rocketchat_user }}  group={{ rocketchat_user }} recurse=yes
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="/etc/supervisor/conf.d/rocketchat.conf" owner=root group=root mode=0640
+
+- name: (re)load and update supervisor
+  shell: "supervisorctl reread && supervisorctl update"

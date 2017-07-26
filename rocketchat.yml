@@ -1,0 +1,6 @@
+  - name: Apply the IHTSDO.rocketchat role
+    hosts: chat_servers
+    become: yes
+    roles:
+      - IHTSDO.rocketchat
+      - IHTSDO.nginx-standard
