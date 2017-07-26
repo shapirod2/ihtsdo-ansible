@@ -1,0 +1,7 @@
+---
+rocketchat_node_version: 4.6.1
+rocketchat_version: 0.57.2
+rocketchat_download_location: "https://rocket.chat/releases/{{ rocketchat_version }}/download"
+rocketchat_user: rocketchat
+rocketchat_directory: /opt/rocketchat
+rocketchat_url: https://chat.snomedtools.org/
