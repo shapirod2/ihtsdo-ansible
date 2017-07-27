@@ -42,6 +42,9 @@
 - name: Set ownership
   file: dest={{ rocketchat_directory }} owner={{ rocketchat_user }}  group={{ rocketchat_user }} recurse=yes
 
+- name: Create rocketchat_files directory
+  file: path={{ rocketchat_files_directory }} state=directory owner={{ rocketchat_user }}  group={{ rocketchat_user }}
+
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="/etc/supervisor/conf.d/rocketchat.conf" owner=root group=root mode=0640
 
