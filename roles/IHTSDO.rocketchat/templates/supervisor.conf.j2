@@ -1,6 +1,6 @@
 [program:rocketchat]
 user = {{ rocketchat_user }}
-environment=PORT=3000,MONGO_URL=mongodb://localhost:27017/rocketchat,ROOT_URL={{ rocketchat_url }}
+environment=BABEL_DISABLE_CACHE=1,PORT=3000,MONGO_URL=mongodb://localhost:27017/rocketchat,ROOT_URL={{ rocketchat_url }}
 directory = {{ rocketchat_directory }}
 command = node main.js
 autostart = true
