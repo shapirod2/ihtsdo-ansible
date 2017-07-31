@@ -1,0 +1,6 @@
+---
+  - hosts: zabbixserver
+    sudo: true
+    roles:
+      - IHTSDO.zabbix_server_rocketchat   
+
