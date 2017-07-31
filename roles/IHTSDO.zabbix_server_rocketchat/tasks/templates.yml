@@ -1,0 +1,16 @@
+
+- name: Creates app directory in case missing
+  file: path={{ relman_app_dir }} state=directory owner={{relman_user_name}} group={{relman_user_name}} 
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ relman_supervisor_dir }}/{{ relman_app_name }}.conf"
+              owner=root group=root mode=0640
+
+
+- name: Configure application.yml
+  template: src=application.yml.j2 dest="{{ relman_app_dir  }}/application.yml"
+              owner={{relman_user_name}} group={{relman_user_name}} mode=0640
+
+- name: Configure application.properties
+  template: src=application.properties.j2 dest="{{ relman_app_dir  }}/application.properties"
+              owner={{relman_user_name}} group={{relman_user_name}} mode=0640

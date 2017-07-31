@@ -1,0 +1,5 @@
+- name: Ensure group exists
+  group: name={{ relman_user_name }}  state=present system=yes
+
+- name: Ensure user exists
+  user: name={{ relman_user_name }} group={{ relman_user_name }} state=present system=yes

@@ -1,0 +1,50 @@
+#SSL
+server:
+  port: {{relman_app_port}}
+#server.ssl.key-store=classpath:keystore.jks
+#server.ssl.key-store-password=1234567890
+#server.ssl.key-password=1234567890
+application:
+    name: Snomed Automate
+    
+spring:
+  profiles: dev
+
+default:
+  root:
+    concept: 138875005
+    branch: MAIN
+  value:
+    historicalAssociations: 900000000000522004,900000000000523009,900000000000524003,900000000000525002,900000000000526001,900000000000527005,900000000000528000,900000000000529008,900000000000530003,900000000000531004,
+  auto-extension:
+    hasMidSuffix: true
+    branchNameSuffix: -DK
+    mergeCommitComment: '%s Extension Upgrade to %s'
+gateways:
+  endpoints:
+    codesystems:
+      root: '{{relman_auth_codesystems_url}}'
+      addVersion: /{shortName}/versions
+      updateCodeSystem: /{shortNameOrOid}
+      getCodeSystem: /{shortNameOrOid}
+    snomed-ct:  
+      root: '{{relman_auth_snomed_url}}'
+      addBranch: /branches
+      exportBranch: /exports
+      importBranch: /imports
+      mergeBranch: /merges
+      getBranch: /branches/{path}
+      getRelationship: /{path}/concepts/{conceptId}/inbound-relationships
+      updateRelationship: /{path}/relationships/{relationshipId}/updates
+      createRelationship: /{path}/relationships
+      deleteRelationship: /{path}/relationships/{relationshipId}
+      getChildrenConcept: /browser/{path}/concepts/{conceptId}/children
+      getReferenceMember: /{path}/members
+    jira:
+      root: {{relman_jira_api_url}}
+      createTicket:
+
+s3:
+  offline.directory: /tmp/rvf_offline_s3_storage
+  executionBucketName: {{relman_s3_executionBucketName}}
+  publishBucketName: {{relman_s3_publishBucketName}}

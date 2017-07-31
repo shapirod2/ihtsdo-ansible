@@ -1,0 +1,27 @@
+---
+relman_app_name: "releasemanagement"
+relman_app_version: "latest"
+relman_user_name: "{{relman_app_name}}"
+
+relman_app_dir: "/opt/{{relman_app_name}}"
+
+relman_app_port: "8080"
+#yml or properties used as the file ending in the supervisor config.
+relman_conf_type: "yml"
+
+relman_auth_instance: "dev-ms-authoring.ihtsdotools.org"
+relman_auth_base_url: "https://{{relman_auth_instance}}/snowowl"
+relman_auth_codesystems_url: "{{relman_auth_base_url}}/admin/codesystems"
+relman_auth_snomed_url: "{{relman_auth_base_url}}/snomed-ct/v2"
+
+relman_jira_instance: "dev-workflow.ihtsdotools.org"
+relman_jira_base_url: "https://{{relman_jira_instance}}"
+relman_jira_api_url: "{{relman_jira_base_url}}/rest/api"
+
+relman_s3_executionBucketName: local.build.bucket
+relman_s3_publishBucketName: local.publish.bucket
+
+relman_xms: "256m"
+relman_xmx: "500m"
+
+relman_supervisor_dir: "/etc/supervisor/conf.d"
