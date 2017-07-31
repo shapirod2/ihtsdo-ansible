@@ -1,0 +1,9 @@
+---
+
+zab_rocket_user: "zabbix"
+zab_rocket_log: "/var/log/zabbix/zabbix-rocketchat.log"
+zab_rocket_baseurl: "https://test.test.org"
+zab_rocket_url_post_alert: "{{zab_rocket_baseurl}}/hooks/testalert"
+zab_rocket_url_post_other: "{{zab_rocket_baseurl}}/hooks/testother"
+
+zabbix_alert_scripts_path: "/usr/lib/zabbix/alertscripts"
