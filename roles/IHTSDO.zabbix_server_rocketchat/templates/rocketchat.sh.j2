@@ -2,12 +2,12 @@
 
 # Rocket.Chat incoming web-hook URL and user name
 
-username='zabbix'
+username='{{ zab_rocket_user }}'
 icon_emoji=':grinning:'
-LOGFILE="./zabbix-rocketchat.log"
-baseUrl="https://chat.snomedtools.org"
-url_post_alert="$baseUrl/hooks/4u4PaJz3t3SLeoeMu/93LkMmj5cRmM8tapTCKTZEm68ssFNnRQi3zTjDM9RYzXCm7n"
-url_post_other="$baseUrl/hooks/6YnjPivPQXJs53GSz/xeMtW6mu9Abr9ZtJt7QERnDktcrtJnJHoQaKa4BwudtzBTMX"
+LOGFILE="{{ zab_rocket_log }}"
+baseUrl="{{ zab_rocket_baseurl }}"
+url_post_alert="{{ zab_rocket_url_post_alert }}"
+url_post_other="{{ zab_rocket_url_post_other }}"
 url_login="$baseUrl/api/v1/login"
 
 
