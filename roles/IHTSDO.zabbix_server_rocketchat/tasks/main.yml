@@ -1,20 +1,8 @@
 ---
 
-- name: stop app
-  supervisorctl: name={{ relman_app_name }} state=stopped
-  ignore_errors: yes
+- name: Creates zabbix_alert_scripts directory in case missing
+  file: path={{ zabbix_alert_scripts_path }} state=directory owner={{zabbix_user}} group={{zabbix_user}} 
 
-
-# install debian packages inc deps
-- include: deb_install.yml
-
-# add any users
-- include: users.yml
-
-# install templated files
-- include: templates.yml
-
-
-- name: start app
-  supervisorctl: name={{ relman_app_name }} state=started
-
+- name: Configure script
+  template: src="{{zab_rocket_script}}.j2" dest="{{ zabbix_alert_scripts_path }}/{{ zab_rocket_script }}"
+            owner={{zabbix_user}} group={{zabbix_user}}  mode=0770
