@@ -6,3 +6,8 @@
 - name: Install chained SSL cert
   copy: src={{ elkclient_sslcert_file }} dest={{ elkclient_ssl_certfn_path }}
         owner=root group=root mode=0644
+
+#- name: Install chained SSL key
+#  copy: src={{ elkclient_sslkey_file }} dest={{ elkclient_ssl_keyfn_path }}
+#        owner=root group=root mode=0644 
+        

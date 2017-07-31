@@ -2,8 +2,8 @@
 - name: stop apache2
   service: name=apache2 state=stopped
  
-- name: stop nginx
-  service: name=nginx state=stopped 
+#- name: stop nginx
+#  service: name=nginx state=stopped 
 
 - name: Install deps
   apt: name={{item}} state=latest

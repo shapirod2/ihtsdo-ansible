@@ -24,6 +24,12 @@ hibernate.show_sql: false
 hibernate.hbm2ddl.auto: validate
 hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
 
+#Hibernate
+hibernate.dialect: org.hibernate.dialect.PostgreSQLDialect
+hibernate.show_sql: false
+hibernate.hbm2ddl.auto: validate
+hibernate.cache.region.factory_class: org.hibernate.cache.ehcache.EhCacheRegionFactory
+
 #These values common to all environments so see groupvars/mlds
 spring.mail.from: {{ mlds_mail_from }}
 spring.mail.host: {{ mlds_mail_host }}

@@ -1,0 +1,20 @@
+---
+
+- name: stop app
+  supervisorctl: name={{ relman_app_name }} state=stopped
+  ignore_errors: yes
+
+
+# install debian packages inc deps
+- include: deb_install.yml
+
+# add any users
+- include: users.yml
+
+# install templated files
+- include: templates.yml
+
+
+- name: start app
+  supervisorctl: name={{ relman_app_name }} state=started
+

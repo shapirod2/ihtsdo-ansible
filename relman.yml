@@ -1,0 +1,8 @@
+---
+  - hosts: relman
+    sudo: true
+    roles:
+      #- IHTSDO.nginx-std  
+      - IHTSDO.release_management
+
+      

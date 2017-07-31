@@ -106,18 +106,7 @@ fi
 gettime(){	
 CURRENT_DATE=`date --iso-8601=seconds`
 set -e
-curl_format='
- "url_effective": "%{url_effective}", 
- "http_code": %{http_code},
- "speed_download": %{speed_download},
- "time_namelookup": %{time_namelookup},
- "time_connect": %{time_connect},
- "time_appconnect": %{time_appconnect},
- "time_pretransfer": %{time_pretransfer},
- "time_redirect": %{time_redirect},
- "time_starttransfer": %{time_starttransfer},
- "time_total": %{time_total}
-'
+curl_format=' "url_effective": "%{url_effective}", "http_code": %{http_code}, "speed_download": %{speed_download}, "time_namelookup": %{time_namelookup}, "time_connect": %{time_connect}, "time_appconnect": %{time_appconnect}, "time_pretransfer": %{time_pretransfer}, "time_redirect": %{time_redirect}, "time_starttransfer": %{time_starttransfer}, "time_total": %{time_total}'
 
 IFS=$(echo -en "\n\b")
 for url in ${urls_to_call[*]};

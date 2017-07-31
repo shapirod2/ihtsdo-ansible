@@ -1,7 +1,12 @@
 ---
-  - hosts: rvf
+  - hosts: release_validation_framework_api
     sudo: true
     roles:
-     # - IHTSDO.user-accounts
+     # - IHTSDO.mysql
       - IHTSDO.release-validation-framework-api
+     # - IHTSDO.nginx-standard
+
+  - hosts: release_validation_framework_web
+    sudo: true
+    roles:
       - IHTSDO.release-validation-framework-web

@@ -1,4 +1,6 @@
 output {
+# need to see if just 1 item  in list then ==	else add twice....
+#https://stackoverflow.com/questions/31380450/logstash-config-conditional-with-list-not-working-if-field-in-list-item-1
 #   if [type] == "nginx-access" {
    if [type] in {{ logstash_index_types | to_json }} {
         elasticsearch {  
