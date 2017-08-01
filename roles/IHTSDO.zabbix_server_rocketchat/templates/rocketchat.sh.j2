@@ -3,34 +3,36 @@
 # Rocket.Chat incoming web-hook URL and user name
 
 username='{{ zab_rocket_user }}'
-icon_emoji=':grinning:'
+icon_emoji=':expressionless:'
 LOGFILE="{{ zab_rocket_log }}"
 baseUrl="{{ zab_rocket_baseurl }}"
-url_post_alert="{{ zab_rocket_url_post_alert }}"
+#url_post_alert="zab_rocket_url_post_alert "
 url_post_other="{{ zab_rocket_url_post_other }}"
-url_login="$baseUrl/api/v1/login"
+#url_login="$baseUrl/api/v1/login"
 
 
 ## Values received by this script:
-# message type = $1 At the moment alert or other 
+# To = $1 (Slack channel or user to send the message to, specified in the Zabbix web interface; "@username" or "#channel")
 # Subject = $2 (usually either OK or PROBLEM)
 # Message = $3 (whatever message the Zabbix action sends, preferably something like "Zabbix server is unreachable for 5 minutes - Zabbix server (127.0.0.1)")
 
 # Get the Mattermost channel or user ($1) and Zabbix subject ($2 - hopefully either PROBLEM or RECOVERY)
-messageType="$1"
+to="$1"
 subject="$2"
 
 url_post=$url_post_other
 
-if [[ "$messageType" == *"alert"* ]]; then
-url_post=$url_post_alert
-fi
+#if [[ "$messageType" == *"alert"* ]]; then
+#url_post=$url_post_alert
+#fi
 
 # Change color emoji depending on the subject - Green (RECOVERY), Red (PROBLEM)
 if [[ "$subject" == *"OK"* ]]; then
         color="#00ff33"
 elif [[ "$subject" == *"PROBLEM"* ]]; then
         color="#ff2a00"
+elif [[ "$subject" == *"Config"* ]]; then
+        color="#9370db"
 fi
 
 
@@ -45,7 +47,7 @@ fi
 message="${subject}: $3"
 
 # Build our JSON payload and send it as a POST request to the Mattermost incoming web-hook URL
-payload='{"username":"'$username'","emoji":"'$icon_emoji'","attachments":[{"color":"'${color}'","title":"'${subject}'","text":"'${message}'"}]}'
+payload='{"channel":"'$to'","username":"'$username'","emoji":"'$icon_emoji'","attachments":[{"color":"'${color}'","title":"'${subject}'","text":"'${message}'"}]}'
 
 # Send Payload to the Rocket.Chat Server
 curl -X POST -H 'Content-Type: application/json' --data "${payload}" $url_post
