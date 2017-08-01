@@ -6,3 +6,7 @@
 - name: Configure script
   template: src="{{zab_rocket_script}}.j2" dest="{{ zabbix_alert_scripts_path }}/{{ zab_rocket_script }}"
             owner={{zabbix_user}} group={{zabbix_user}}  mode=0770
+
+- name: Configure script2
+  template: src="slack.sh.j2" dest="{{ zabbix_alert_scripts_path }}/slack.sh"
+            owner={{zabbix_user}} group={{zabbix_user}}  mode=0770            
