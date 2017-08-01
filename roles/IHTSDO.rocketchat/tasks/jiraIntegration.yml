@@ -1,0 +1,27 @@
+---
+- name: Clone project
+  git:
+    repo: "{{ rocketchat_jira_trigger_repo }}"
+    dest: "/tmp/jira-trigger"
+    version: "{{ rocket_jira_trigger_version }}"
+
+- name: build rocketchat-jira-trigger
+  shell: "cd /tmp/jira-trigger && ./gradlew installDist"
+
+- name: Install rocketchat-jira-trigger
+  shell: "cp -rfp /tmp/jira-trigger/build/install/rocketchat-jira-trigger /opt"
+
+- name: template jira configs
+  template:
+        src: integration-config.j2
+        dest: "{{ rocketchat_jira_trigger_directory }}/config-{{ item }}.toml"
+  with_items: "{{ rocketchat_jira_trigger_instances | list }}"
+
+- name: Set ownership
+  file: dest={{ rocketchat_jira_trigger_directory }} owner={{ rocketchat_user }}  group={{ rocketchat_user }} recurse=yes
+
+- name: template supervisor configs
+  template:
+        src: integrations.conf.j2
+        dest: "{{ rocketchat_supervisor_location }}/{{ item }}-integration.conf"
+  with_items: "{{ rocketchat_jira_trigger_instances | list }}"

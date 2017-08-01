@@ -4,4 +4,23 @@ rocketchat_version: 0.57.2
 rocketchat_download_location: "https://rocket.chat/releases/{{ rocketchat_version }}/download"
 rocketchat_user: rocketchat
 rocketchat_directory: /opt/rocketchat
+rocketchat_files_directory: /opt/rocketchat_files
 rocketchat_url: https://chat.snomedtools.org/
+rocketchat_supervisor_location: /etc/supervisor/conf.d/
+
+rocketchat_jira_integration: true
+rocketchat_jira_trigger_repo: "https://github.com/gustavkarlsson/rocketchat-jira-trigger.git"
+rocket_jira_trigger_version: 1.2.0
+rocketchat_jira_trigger_directory: /opt/rocketchat-jira-trigger
+
+rocketchat_jira_trigger_instances:
+      workflow:
+         username: "change_me"
+         password: "change_me"
+         uri: "change_me"
+         port: ""
+      jira:
+         username: "change_me"
+         password: "change_me"
+         uri: "change_me"
+         port: ""

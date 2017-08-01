@@ -1,0 +1,10 @@
+[program:{{item}}-integration]
+user = {{ rocketchat_user }}
+directory = {{ rocketchat_jira_trigger_directory }}
+command = {{ rocketchat_jira_trigger_directory }}/bin/rocketchat-jira-trigger config-{{item}}.toml
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760
