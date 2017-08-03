@@ -8,4 +8,5 @@
    - { role: IHTSDO.kibana }
 #   - { role: IHTSDO.logstash }
    - { role: IHTSDO.nginx-standard  }
+   - { role: IHTSDO.elastic_curator }
    

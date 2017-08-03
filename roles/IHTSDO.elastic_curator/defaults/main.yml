@@ -1,0 +1,5 @@
+---
+ec_app_name: "elasticsearch-curator"
+ec_apt_key: "https://packages.elastic.co/GPG-KEY-elasticsearch"
+ec_apt_repo: "[arch=amd64] http://packages.elastic.co/curator/5/debian stable main"
+

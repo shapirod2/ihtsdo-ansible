@@ -1,0 +1,15 @@
+- name: Add root ppa apt_key
+  apt_key: url="{{ec_apt_key}}"
+
+- name: Add ppa
+  apt_repository: repo="deb {{ec_apt_repo}}" state=present
+
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=300
+  sudo: yes
+  
+- name: Debian - Install apt-transport-https to support https APT downloads
+  apt: name=apt-transport-https state=present  
+
+- name: Install latest package
+  apt: name={{ec_app_name}} state=latest
