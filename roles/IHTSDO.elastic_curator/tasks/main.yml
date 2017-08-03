@@ -1,0 +1,5 @@
+---
+# install debian packages inc deps
+- include: deb_install.yml
+
+
