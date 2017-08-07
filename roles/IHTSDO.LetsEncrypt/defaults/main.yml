@@ -15,3 +15,5 @@ letsencrypt_domain: "chat.snomedtools.org"
 letsencrypt_email: "rda@snomed.org"
 
 letsencrypt_webserver: nginx     
+
+# if nginx then nginx else apache else blank
