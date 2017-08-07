@@ -8,7 +8,7 @@
   when: resolved_hostname is defined
 
 - name: open up firewall but just for logstash server
-  ufw: rule=allow port=10050 proto=tcp from_ip={{ resolved_hostname.stdout }}
+  ufw: rule=allow port={{es_api_port}} proto=tcp from_ip={{ resolved_hostname.stdout }}
   when: resolved_hostname is defined
 
 - debug: msg="Check ufw is opened for logstash server(s) using sudo ufw allow from TRUSTED_IP to any port 9200"
