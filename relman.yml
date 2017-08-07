@@ -2,7 +2,7 @@
   - hosts: relman
     sudo: true
     roles:
-      #- IHTSDO.nginx-std  
       - IHTSDO.release_management
+      - IHTSDO.nginx-standard
 
       
