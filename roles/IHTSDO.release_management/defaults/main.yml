@@ -7,7 +7,8 @@ relman_app_dir: "/opt/{{relman_app_name}}"
 
 relman_app_port: "8080"
 #yml or properties used as the file ending in the supervisor config.
-relman_conf_type: "yml"
+#relman_conf_type: "yml"
+relman_conf_type: "properties"
 
 relman_auth_instance: "dev-ms-authoring.ihtsdotools.org"
 relman_auth_base_url: "https://{{relman_auth_instance}}/snowowl"

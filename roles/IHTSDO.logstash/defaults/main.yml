@@ -14,17 +14,18 @@ logstash_elasticsearch_hosts:
   - http://localhost:9200
 
 #has to be more than one as contains in a list does not work with a list of 1.
-# if need be simply repeat the 1.
+# if need be simply repeat the 1. see the mapping config wrt multiple mapping types.
 logstash_index_types:
   - nginx-access
   - authoring
   - crs
   - curltime
-  #- orchestration
-  #- termserver
-  #- authoring-services
-  #- error
-  #- mapping
+  - orchestration
+  - termserver
+  - authoring-services
+  - activemq
+  - error
+  - mapping
 
 logstash_local_syslog_path: /var/log/syslog
 #logstash_monitor_local_syslog: true
