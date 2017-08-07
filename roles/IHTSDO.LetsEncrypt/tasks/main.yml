@@ -15,7 +15,7 @@
 
 - name: Install Python cryptography module
   pip: name=cryptography
-
+  
 - name: Download certbot
   get_url: >
     url=https://dl.eff.org/certbot-auto
@@ -24,27 +24,45 @@
 - name: Make executable
   file: path={{ letsencrypt_bin }}/certbot-auto mode=755
   
-  
 - name: Ensure {{letsencrypt_webserver}}  service is stopped
   service: name={{letsencrypt_webserver}} state=stopped enabled=yes
   ignore_errors: yes   
+  when: not  (letsencrypt_webserver is undefined or letsencrypt_webserver is none or letsencrypt_webserver | trim == '') 
 
-#- name: Generate cert
-#  shell: "certbot-auto certonly --standalone --email {{ item.email|default(letsencrypt.email)|quote }} -d {{ item.domain|quote }}{% if item.auto_www|default(false) %} -d www.{{ item.domain|quote }}{% endif %}{% for altname in item.altnames|default([]) %} -d {{ altname|quote }}{% if item.auto_www|default(false) %} -d www.{{ altname|quote }}{% endif %}{% endfor %} --non-interactive --agree-tos"
-#  register: output
-#  with_items: letsencrypt.domains
-  
 - name: Generate cert
-  shell: "certbot-auto certonly --standalone --email {{ letsencrypt_email|quote }} -d {{ letsencrypt_domain|quote }} --non-interactive --agree-tos"
+  shell: "certbot-auto certonly --standalone --email {{ item.email|default(letsencrypt.email)|quote }} -d {{ item.domain|quote }}{% if item.auto_www|default(false) %} -d www.{{ item.domain|quote }}{% endif %}{% for altname in item.altnames|default([]) %} -d {{ altname|quote }}{% if item.auto_www|default(false) %} -d www.{{ altname|quote }}{% endif %}{% endfor %} --non-interactive --agree-tos"
   register: output
+  with_items: "{{letsencrypt.domains}}"
+  
+#- name: Generate cert
+#  shell: "certbot-auto certonly --standalone --email {{ letsencrypt_email|quote }} -d {{ letsencrypt_domain|quote }} --non-interactive --agree-tos"
+#  register: output
 #  with_items: letsencrypt.domains  
 
+- name: Set certbot-auto renew command when not webserver is defined
+  set_fact:
+       certbot_auto_renew_cmd: "certbot-auto renew"
+  when:  (letsencrypt_webserver is undefined or letsencrypt_webserver is none or letsencrypt_webserver | trim == '') 
+
+- name: Set certbot-auto renew command if apache2  
+  set_fact:
+       certbot_auto_renew_cmd: "certbot-auto renew --apache"
+  when: letsencrypt_webserver == 'apache2'
+
+- name: Set certbot-auto renew command id nginx  
+  set_fact:
+       certbot_auto_renew_cmd: "certbot-auto renew --nginx"
+  when: letsencrypt_webserver == 'nginx'
+  
+
+- debug: msg="certbot_auto_renew_cmd = {{certbot_auto_renew_cmd}}"
 
 
 - name: Automate cert renewal
-  cron: name="Renew cert" minute="46" hour="*/12" job="certbot-auto renew --post-hook {{ letsencrypt.posthook }}"
+  cron: name="Renew cert" minute="46" hour="*/12" job="{{certbot_auto_renew_cmd}} --post-hook {{ letsencrypt.posthook }}"
 
 
 - name: Ensure {{letsencrypt_webserver}}  service is started
   service: name={{letsencrypt_webserver}} state=started enabled=yes
+  when: not  (letsencrypt_webserver is undefined or letsencrypt_webserver is none or letsencrypt_webserver | trim == '')
  
