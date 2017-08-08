@@ -99,6 +99,8 @@ mapping_mapnotes_input_data: "{{ mapping_data_dir }}/der2_sRefset_MapNotesSnapsh
 mapping_import_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
 mapping_export_input_data: "{{ mapping_data_dir }}/ihtsdo-project-data/"
 mapping_base_url: ''
+mapping_deploy_title: "Mapping Tool"
+mapping_metadata_service_handler: "SNOMEDCT,SNOMEDCT_US,ICD10,ICD10CM,ICD9CM,ICPC,GMDN,ICDO"
 
 
 # true false.
