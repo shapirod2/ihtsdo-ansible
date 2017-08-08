@@ -52,6 +52,7 @@ map.principle.source.document.dir={{mapping_data_dir}}/doc
 
 # icd11 notes
 icd11.notes={{mapping_data_dir}}/ICD11/notes/icd11MapNotes.txt
+
 #
 # ICD10 Unmapped Review Project data location and user
 #
@@ -105,7 +106,7 @@ deploy.logo={{ mapping_data_dir }}/images/logo.png
 #
 # Metadata service configuration
 #
-metadata.service.handler=SNOMEDCT,SNOMEDCT_US,ICD10,ICD10CM,ICD9CM,ICPC,GMDN,ICDO
+metadata.service.handler={{mapping_metadata_service_handler}}
 metadata.service.handler.SNOMEDCT.class=org.ihtsdo.otf.mapping.jpa.services.SnomedMetadataServiceJpaHelper
 metadata.service.handler.SNOMEDCT_US.class=org.ihtsdo.otf.mapping.jpa.services.SnomedMetadataServiceJpaHelper
 metadata.service.handler.ICD10.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
@@ -114,6 +115,7 @@ metadata.service.handler.ICD9CM.class=org.ihtsdo.otf.mapping.jpa.services.ClamlM
 metadata.service.handler.ICPC.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
 metadata.service.handler.GMDN.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
 metadata.service.handler.ICDO.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
+metadata.service.handler.ICD11.class=org.ihtsdo.otf.mapping.jpa.services.ClamlMetadataServiceJpaHelper
 
 #
 # Workflow handlers
