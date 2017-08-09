@@ -18,6 +18,7 @@ logstash_elasticsearch_hosts:
 logstash_index_types:
   - nginx-access
   - authoring
+  - traceability
   - crs
   - curltime
   - orchestration

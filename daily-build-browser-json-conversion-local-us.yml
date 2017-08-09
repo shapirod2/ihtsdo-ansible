@@ -2,7 +2,7 @@
   - hosts: local
     sudo: true
     vars:
-     rf2json_s3_bucket_name: s3://ms-authoring-clean/us/dailybuild
+     rf2json_s3_bucket_name: s3://dailybuild.ihtsdo/us
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/us/products/snomed_ct_us_daily_build/builds/
      unpacked_release_file_name: SnomedCT_USEditionRF2_Production_20170901T120000
      release_file_name: "{{unpacked_release_file_name}}.zip"
