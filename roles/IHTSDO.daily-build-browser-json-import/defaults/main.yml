@@ -3,7 +3,7 @@ edition_name: en-edition
 
 release_version: 20170731
 
-rf2json_s3_bucket_name: s3://daily-build-rf2-json.ihtsdo
+rf2json_s3_bucket_name: s3://s3://dailybuild-ihtsdo/int
 
 rf2json_s3_region: eu-west-1
 
