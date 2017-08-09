@@ -1,7 +1,7 @@
   - hosts: local
     sudo: true
     vars:
-     rf2json_s3_bucket_name: s3://dailybuild.ihtsdo/se
+     rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/se
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/se/products/snomed_ct_se_daily_build/builds/
      unpacked_release_file_name: SnomedCT_ManagedServiceSE1000052_20171130
      release_file_name: "{{unpacked_release_file_name}}.zip"
