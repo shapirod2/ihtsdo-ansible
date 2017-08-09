@@ -2,7 +2,7 @@
   - hosts: browser
     sudo: true
     vars:
-     rf2json_s3_bucket_name: s3://dailybuild.ihtsdo/us
+     rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/us
      edition_name: us-edition
      release_version: 20170901
      daily_build_import_dir: "/home/dailybuild-us"
