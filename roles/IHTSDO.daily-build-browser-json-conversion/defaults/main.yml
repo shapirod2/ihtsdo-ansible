@@ -37,7 +37,7 @@ dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/international/pro
 fullFileFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Full"
 snapshotFolder: "{{ daily_build_dir }}/{{ unpacked_release_file_name }}/Snapshot"
 rf2_conversion_root_dir: /opt/rf2-to-json-conversion
-rf2_to_json_jar_version: rf2-to-json-conversion-1.2-jar-with-dependencies.jar
+rf2_to_json_jar_version: rf2-to-json-conversion-1.3-jar-with-dependencies.jar
 rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/int
 daily_build_rf2json_file_name: rf2Json.tgz
 rf2_json_s3_upload_script: uploadRf2JsonToS3.sh
