@@ -1,7 +1,7 @@
 ---
 get_release: True
 
-release_stats_json_s3_bucket_name: s3://s3://dailybuild-ihtsdo/int
+release_stats_json_s3_bucket_name: s3://dailybuild-ihtsdo/int
 release_stats_archive_file_name: rf2ReleaseStats.tgz
 release_stats_dir: /opt/sct-stats-generator
 release_full_file_dir: "{{release_file_base_name}}/Full"
