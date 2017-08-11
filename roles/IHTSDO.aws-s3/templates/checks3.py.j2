@@ -1,0 +1,29 @@
+#!/usr/bin/env python
+# add exclusion list
+
+from boto.s3.connection import S3Connection
+import sys
+
+conn = S3Connection('AKIAJUE4TXU6UTBSLBEQ', 'pcqVTpcAoIGRhC3gsXoSNF1faMV/rX9MifxijS6F')
+
+rs = conn.get_all_buckets()
+print "num buckets =", len(rs)
+
+for b in rs:
+  print b.name
+
+
+#print "[+] Connecting to bucket %s " %sys.argv[1]
+
+for b in rs:
+  print b.name
+  bucket = conn.get_bucket(b.name)
+  print "[+] Checking permissions on all keys "
+  print "-------------- List of Public Keys ----------------------\n\n"
+  for key in bucket.list() :
+     for grant in key.get_acl().acl.grants :
+                if grant.permission == 'READ' :
+                        print "PUBLIC: " +str(key)
+
+  print "\n\n--------------------------------------------------------"
+  print "[+] Completed "
