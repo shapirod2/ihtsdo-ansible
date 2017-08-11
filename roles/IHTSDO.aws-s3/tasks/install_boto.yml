@@ -1,0 +1,16 @@
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=3600
+  sudo: yes
+
+- name: Install Python PIP
+  apt: pkg=python-pip state=latest
+
+- name: Install boto via PIP
+  pip: name=boto3 state=latest
+   
+- name: Install Python netaddr
+  apt: pkg=python-netaddr state=latest 
+  
+  
+  
+
