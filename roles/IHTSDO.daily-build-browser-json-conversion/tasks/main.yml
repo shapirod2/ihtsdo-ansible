@@ -3,17 +3,28 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
-- name: Install latest rf2-to-json-conversion content package
-  apt: name=rf2-to-json-conversion state=latest
-
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300  
 
 - name: Install unzip
   apt: name=unzip state=present update_cache=yes cache_valid_time=300
- 
-- name: Install latest rf2-diff-generator package
-  apt: name=rf2-diff-generator state=latest
+  
+#- name: Install latest rf2-to-json-conversion content package
+#  apt: name=rf2-to-json-conversion state=latest  
+  
+- name: Install rf2-to-json-conversion package
+  apt: name=rf2-to-json-conversion state=installed
+  when: version_rf2_json == 'installed'
+
+- name: Install latest rf2-to-json-conversion package
+  apt: name=rf2-to-json-conversion state=latest
+  when: version_rf2_json == 'latest'
+
+- name: Install package specific version of rf2-to-json-conversion
+  apt: name=rf2-to-json-conversion={{ version_rf2_json }} state=installed
+  when: version_rf2_json != 'installed' and version_rf2_json != 'latest'
+
+- include: install-rf2-diff-generator.yml
   when: "rf2_diff_report_enabled == True"  
                 
 - include: downloadLatestDailyRelease.yml

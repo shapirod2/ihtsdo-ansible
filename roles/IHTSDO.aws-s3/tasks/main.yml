@@ -1,0 +1,9 @@
+
+- name: Check if python-pip is installed
+  command: dpkg -s python-pip
+  register: package_check_deb
+  ignore_errors: yes
+
+- name: include install_boto yml when package is not installed
+  include: install_boto.yml
+  when: package_check_deb.rc == 1  
