@@ -1,0 +1,11 @@
+- name: Install rf2-diff-generator package
+  apt: name=rf2-diff-generator state=installed
+  when: version_rf2_diff == 'installed'
+
+- name: Install latest rf2-diff-generator package
+  apt: name=rf2-diff-generator state=latest
+  when: version_rf2_diff == 'latest'
+
+- name: Install package specific version of rf2-diff-generator
+  apt: name=rf2-diff-generator={{ version_rf2_diff }} state=installed
+  when: version_rf2_diff != 'installed' and version_rf2_diff != 'latest'
