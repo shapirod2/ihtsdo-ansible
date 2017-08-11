@@ -4,7 +4,7 @@
 from boto.s3.connection import S3Connection
 import sys
 
-conn = S3Connection('', '')
+conn = S3Connection('{{check_aws_s3accessKey}}', '{{check_aws_s3secret}}')
 
 rs = conn.get_all_buckets()
 print "num buckets =", len(rs)
