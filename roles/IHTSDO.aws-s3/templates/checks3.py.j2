@@ -4,7 +4,7 @@
 from boto.s3.connection import S3Connection
 import sys
 
-conn = S3Connection('AKIAJUE4TXU6UTBSLBEQ', 'pcqVTpcAoIGRhC3gsXoSNF1faMV/rX9MifxijS6F')
+conn = S3Connection('', '')
 
 rs = conn.get_all_buckets()
 print "num buckets =", len(rs)
