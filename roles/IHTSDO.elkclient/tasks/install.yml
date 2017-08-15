@@ -23,11 +23,26 @@
 #- name: Add ppa
 #  apt_repository: repo='deb https://packages.elastic.co/beats/apt stable main' state=present
 
-- include: installtopbeat.yml
-  when: elkclient_install_topbeat == True
+#- include: installtopbeat.yml
+#  when: elkclient_install_topbeat == True
   
 - include: installfilebeat.yml
   when: elkclient_install_filebeat == True  
 
 - include: installpacketbeat.yml
   when: elkclient_install_packetbeat == True 
+
+- include: installmetricbeat.yml
+  when: elkclient_install_metricbeat == True
+  
+#CLashes with HA-Heartbeat in ubuntu would need manual intervention  
+#Edit: /etc/apt/preferences (or /etc/apt/preferences.d/heartbeat) add the following:
+
+#Package: heartbeat
+#Pin: origin artifacts.elastic.co
+#Pin-Priority: 700  
+  
+#Or set the version  set to 
+  
+- include: installheartbeat.yml
+  when: elkclient_install_heartbeat == True  

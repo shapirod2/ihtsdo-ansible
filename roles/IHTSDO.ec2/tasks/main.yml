@@ -132,7 +132,7 @@
     private_zone: true
     overwrite: true
     value: "{{ item.private_ip }}" 
-  with_items: ec2_new.instances
+  with_items: "{{ec2_new.instances}}"
   when: aws_dns_local_zone is defined  
 
 
