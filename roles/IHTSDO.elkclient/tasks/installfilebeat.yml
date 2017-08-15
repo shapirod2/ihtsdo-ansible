@@ -1,6 +1,6 @@
 
 
-- name: Install package
+- name: Install package filebeat
   apt: name=filebeat state=installed update_cache=yes cache_valid_time=3600
   when: elkclient_filebeat_version == 'installed'
 
@@ -13,7 +13,7 @@
   when: elkclient_filebeat_version != 'installed' and elkclient_filebeat_version != 'latest'
 
 - name: templated conf file
-  template:  src={{ inventory_dir }}/../files/elkclientconf/filebeat/{{ elkclient_filebeat_template }} dest=/etc/filebeat/filebeat.yml 
+  template:  src={{ inventory_dir }}/../files/elkclientconf/filebeat/{{ elkclient_filebeat_template }}.yml dest=/etc/filebeat/filebeat.yml 
   
 - name: start the filebeat service
   service: name=filebeat state=restarted  

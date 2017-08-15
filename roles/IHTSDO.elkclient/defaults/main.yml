@@ -13,6 +13,9 @@ elkclient_user: root
 elkclient_topbeat_version: latest
 elkclient_filebeat_version: latest
 elkclient_packetbeat_version: latest
+#Heartbeat must use a version ATM as clashes with HA-Heartbeat
+elkclient_heartbeat_version: 5.5.1 
+elkclient_metricbeat_version: latest
 
 elkclient_logserver: va-logstash.ihtsdotools.org
 
@@ -32,12 +35,17 @@ elkclient_sslcert_file: "{{ inventory_dir }}/../files/ssl/ihtsdo-multi/ihtsdo-mu
 
 
 elkclient_install_filebeat: True
-elkclient_install_topbeat: True
+elkclient_install_topbeat: False
 elkclient_install_packetbeat: False
+elkclient_install_metricbeat: False
+elkclient_install_heartbeat: False
 
 elkclient_filebeat_template: "default"
 elkclient_topbeat_template: "default"
 elkclient_packetbeat_template: "default"
+elkclient_metricbeat_template: "default"
+elkclient_heartbeat_template: "default"
+
 
 logstash_listen_port_beats: "5044"
 logstash_server: "{{elkclient_logserver}}"
