@@ -1,0 +1,21 @@
+
+
+- name: Install package heartbeat
+  apt: name=heartbeat state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_heartbeat_version == 'installed'
+
+- name: Install latest package
+  apt: name=heartbeat state=latest update_cache=yes cache_valid_time=3600
+  when: elkclient_heartbeat_version == 'latest'
+
+- name: Install package specific version
+  apt: name=heartbeat={{ elkclient_heartbeat_version }} state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_heartbeat_version != 'installed' and elkclient_heartbeat_version != 'latest'
+  
+- name: templated conf file
+  template:  src={{ inventory_dir }}/../files/elkclientconf/heartbeat/{{ elkclient_heartbeat_template }}.yml dest=/etc/heartbeat/heartbeat.yml
+  
+  
+- name: start the heartbeat service
+  service: name=heartbeat state=restarted  
+  
