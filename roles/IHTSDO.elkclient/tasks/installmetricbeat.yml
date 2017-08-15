@@ -1,0 +1,21 @@
+
+
+- name: Install package metricbeat
+  apt: name=metricbeat state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_metricbeat_version == 'installed'
+
+- name: Install latest package
+  apt: name=metricbeat state=latest update_cache=yes cache_valid_time=3600
+  when: elkclient_metricbeat_version == 'latest'
+
+- name: Install package specific version
+  apt: name=metricbeat={{ elkclient_metricbeat_version }} state=installed update_cache=yes cache_valid_time=3600
+  when: elkclient_metricbeat_version != 'installed' and elkclient_metricbeat_version != 'latest'
+  
+- name: templated conf file
+  template:  src={{ inventory_dir }}/../files/elkclientconf/metricbeat/{{ elkclient_metricbeat_template }}.yml dest=/etc/metricbeat/metricbeat.yml
+  
+  
+- name: start the metricbeat service
+  service: name=metricbeat state=restarted  
+  
