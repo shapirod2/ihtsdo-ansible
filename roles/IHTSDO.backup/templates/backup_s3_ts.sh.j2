@@ -64,6 +64,10 @@ indexes=indexes
 ts_indexes_dir={{ts_indexes_dir}}
 ts_resources_dir={{ts_res_dir}}
 ts_template_store={{ts_template_store}}
+ts_ui_dir="{{ts_ui_dir | default('/opt/authoring-services/resources') }}"
+ts_trace_dir="{{trac_ts_log_dir | default('/opt/termserver/serviceability/logs') }}"
+ts_trace_pattern="{{ trac_pattern | default('snomed-traceability*') }}"
+ts_trace_tmp_dir="{{ trac_backup_dir | default('/opt/backup/termserver-traceability') }}"
 
 # The starting directory
 #backup_dir=ts_backup_dir
@@ -263,6 +267,7 @@ main() {
    
     echo_date "copying from rsync folder..."
     copyfromrsyncdir
+    copyextrafiles
     zip_backup
     export2net
 
@@ -340,11 +345,29 @@ mkdir -pv {{ rsync_dir_new }}
 /usr/bin/rsync  -avR --delete --no-compress $ts_indexes_dir {{ rsync_dir_new }}
 /usr/bin/rsync  -avR --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir_new }}
 /usr/bin/rsync  -avR --delete --no-compress --no-links $ts_template_store {{ rsync_dir_new }}
+/usr/bin/rsync  -avR --delete --no-compress --no-links $ts_ui_dir {{ rsync_dir_new }}
 }
 
 copyfromrsyncdir(){
 cp -R {{ rsync_dir_new }}/* $ABSOLUTE_ARCHIVE_PREFIX
 }
+
+copyextrafiles(){
+copytraceability			
+}
+
+copytraceability(){
+	echo "ts_trace_tmp_dir = $ts_trace_tmp_dir "
+	echo "ts_trace_dir = $ts_trace_dir "
+	echo "ts_trace_pattern = $ts_trace_pattern "
+	
+	rm -rf $ts_trace_tmp_dir
+    mkdir -pv $ts_trace_tmp_dir
+    find  $ts_trace_dir/$ts_trace_pattern -type f -exec cp -a {} $ts_trace_tmp_dir \;
+    cp -R $ts_trace_tmp_dir $ABSOLUTE_ARCHIVE_PREFIX
+}
+
+
 
 
 mkbkdir(){
