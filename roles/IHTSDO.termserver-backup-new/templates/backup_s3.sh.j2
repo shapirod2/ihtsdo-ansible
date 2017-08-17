@@ -27,6 +27,7 @@ indexes=indexes
 ts_indexes_dir={{ts_indexes_dir}}
 ts_resources_dir={{ts_res_dir}}
 ts_template_store={{ts_template_store}}
+ts_ui_dir="{{ts_ui_dir | default('/opt/authoring-services/resources') }}"
 
 # dbdump status filename
 tmp_dbdump_file="dbdumpstatus.txt"
@@ -207,6 +208,7 @@ mkdir -pv {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress $ts_indexes_dir {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress --no-links $ts_resources_dir {{ rsync_dir }}
  /usr/bin/rsync  -av --delete --no-compress --no-links $ts_template_store {{ rsync_dir }}
+ /usr/bin/rsync  -av --delete --no-compress --no-links $ts_ui_dir {{ rsync_dir }}
  
  
 }
