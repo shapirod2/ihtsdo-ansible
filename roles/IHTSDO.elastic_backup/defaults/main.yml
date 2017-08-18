@@ -1,0 +1,13 @@
+
+#es_backup_safedate: "{{ ansible_date_time.iso8601 | replace(':', '_')}}"
+es_backup_safedate: "{{ ansible_date_time.date}}_{{ ansible_date_time.time | replace(':', '_')}}"
+es_backup_base_cmd: "/usr/bin/curl -XPUT"
+
+es_backup_host: "localhost"
+es_backup_port: "9200"
+es_backup_repo_name: "snomed_s3"
+es_backup_name: "snapshot_{{es_backup_safedate}}"
+es_backup_async_time: 1800
+
+
+es_backup_full_cmd: "{{es_backup_base_cmd}} '{{es_backup_host}}:{{es_backup_port}}/_snapshot/{{es_backup_repo_name}}/{{es_backup_name}}?wait_for_completion=true&pretty'"
