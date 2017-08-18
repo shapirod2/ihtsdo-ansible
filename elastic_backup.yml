@@ -1,0 +1,6 @@
+---
+  - hosts: elk
+    sudo: true
+    roles: 
+      - IHTSDO.elastic_backup
+

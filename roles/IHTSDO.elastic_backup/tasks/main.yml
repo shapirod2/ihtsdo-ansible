@@ -1,0 +1,10 @@
+
+#- name: Install curl
+#  apt: name=curl update_cache=yes cache_valid_time=300
+
+- debug: msg="es_backup_full_cmd = {{ es_backup_full_cmd }}"
+
+- name: run sync command
+  shell: "{{ es_backup_full_cmd }}"
+  async: "{{es_backup_async_time}}"
+  poll:  10
