@@ -1,0 +1,8 @@
+
+s3_sync_base_cmd: "/usr/bin/aws s3 sync"
+s3_sync_source: "ire.published.release.ihtsdo"
+s3_sync_dest: "release-ihtsdo-prod-published"
+# extra args e.g. --profile and/or --delete and/or --dryrun and /or --region eu-west-1
+s3_sync_extra_args: ""
+
+s3_sync_full_cmd: "{{s3_sync_base_cmd}} s3://{{s3_sync_source}} s3://{{s3_sync_dest}} {{s3_sync_extra_args}}"

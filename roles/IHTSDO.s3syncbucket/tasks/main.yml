@@ -1,0 +1,5 @@
+
+- debug: msg="s3_sync_full_cmd = {{ s3_sync_full_cmd }}"
+
+- name: run sync command
+  shell: "{{ s3_sync_full_cmd }}"
