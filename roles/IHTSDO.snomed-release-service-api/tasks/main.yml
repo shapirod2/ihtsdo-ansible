@@ -40,6 +40,14 @@
   tags:
     - ihtsdo-asset
 
+- name: Configure api properties
+  template: src=api.properties.j2 dest=/etc/opt/snomed-release-service-api/api.properties
+            owner=root group=snomed-release-service-api mode=0640
+  notify:
+    - restart snomed-release-service-api
+  tags:
+    - ihtsdo-asset
+
 #- name: Specify Environment
 #  replace:
 #      dest=/etc/supervisor/conf.d/snomed-release-service-api.conf
