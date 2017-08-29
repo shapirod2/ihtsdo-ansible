@@ -33,14 +33,22 @@
   tags:
     - ihtsdo-asset
 
+- name: Configure api.properties
+  template: src=api.properties.j2 dest=/etc/opt/rvf-api/api.properties
+            owner=root group=rvf-api mode=0640
+  notify:
+    - restart rvf-api
+  tags:
+    - ihtsdo-asset
+
 - name: Configure data-service
   template: src=data-service.properties.j2 dest=/etc/opt/rvf-api/data-service.properties
             owner=root group=rvf-api mode=0640
   notify:
     - restart rvf-api
   tags:
-    - ihtsdo-asset
-    
+    - ihtsdo-asset    
+
 - name: Configure execution-service
   template: src=execution-service.properties.j2 dest=/etc/opt/rvf-api/execution-service.properties
             owner=root group=rvf-api mode=0640
