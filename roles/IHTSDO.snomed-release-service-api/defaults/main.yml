@@ -29,5 +29,8 @@ srs_api_xms: "1024m"
 srs_api_xmx: "6g"
 srs_basicauth_username: "changeme"
 srs_basicauth_password: "changeme" 
+srs_snowowl_url: "changeme"
+srs_snowowl_flatexport: true
+srs_snowowl_reasoner: "org.semanticweb.elk.elk.reasoner.factory"
 
 
