@@ -27,6 +27,7 @@ old_db: true
 
 srs_api_xms: "1024m"
 srs_api_xmx: "6g"
-
+srs_basicauth_username: "changeme"
+srs_basicauth_password: "changeme" 
 
 
