@@ -1,0 +1,7 @@
+---
+  - hosts: termserver
+    sudo: true
+    roles: 
+      - IHTSDO.classification-service
+
+

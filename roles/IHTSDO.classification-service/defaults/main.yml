@@ -1,0 +1,7 @@
+---
+classification_service_name: "classification-service"
+classification_service_port: 8089
+classification_service_version: latest
+classification_service_directory: /opt/classification-service
+classification_service_store: /opt/classification-service/store
+classification_service_results: /opt/classification-service/classification-results

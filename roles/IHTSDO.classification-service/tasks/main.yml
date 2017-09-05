@@ -1,0 +1,28 @@
+---
+- name: Stop any running instances
+  supervisorctl: name={{ classification_service_name }}  state=stopped
+  failed_when: false
+
+- name: Install package
+  apt: name={{ classification_service_name }} state=present force=yes update_cache=yes
+  when: classification_service_version == 'installed'
+
+- name: Install latest package
+  apt: name={{ classification_service_name }} state=latest force=yes update_cache=yes
+  when: classification_service_version == 'latest'
+
+- name: Install package specific version
+  apt: name={{ classification_service_name }}={{ classification_service_version }} update_cache=yes state=present force=yes
+  when: classification_service_version != 'installed' and classification_service_version != 'latest' and classification_service_version != 'absent'
+
+- name: Copy application.properties
+  template: src=application.properties.j2 dest={{ classification_service_directory }}/application.properties owner={{ classification_service_name }} group=root mode=0644
+
+- name: Ensure the classification store exists
+  file: path="{{ classification_service_store }}" state=directory owner={{ classification_service_name }}
+
+- name: Ensure the results directory exists
+  file: path="{{ classification_service_results }}" state=directory owner={{ classification_service_name }}
+
+- name: (re)start classification-service
+  supervisorctl: name="{{ classification_service_name }}"  state=restarted
