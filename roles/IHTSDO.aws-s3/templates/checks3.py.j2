@@ -4,26 +4,109 @@
 from boto.s3.connection import S3Connection
 import sys
 
-conn = S3Connection('{{check_aws_s3accessKey}}', '{{check_aws_s3secret}}')
+conn = S3Connection('{{aws_s3accessKey}}', '{{aws_s3secret}}')
+#bucketlist = ['ire.published.release.ihtsdo']
+#excludelist = ['execution.release','term.reports','mlds.nl-uploads','dev','prod','collabnet','uat','jenkins','mlds','old-','backup']
+#excludelist = ['execution.release','term.reports']
+
+bucketlist = {{bucket_list}}
+excludelist = {{exclude_list}}
+
+#bucketname = "backup"
+eval = False
+exclude = False
+
+def checkperm( bname ):
+ print "checkperm:",b.name
+ bucket = conn.get_bucket(b.name)
+ print "[+] Checking permissions on all keys "
+ print "-------------- List of Public Keys ----------------------\n\n"
+ for key in bucket.list() :
+    for grant in key.get_acl().acl.grants :
+               if grant.permission == 'READ' :
+                       print "PUBLIC: " +str(key)
+
+ print "\n\n--------------------------------------------------------"
+ print "[+] Completed ", bname
+ return;
+
+def evaluate_b( bname ):
+ if eval:
+   #if any(bucketname in bname for bucketname in bucketlist):
+   inc = False
+   for bucketname in bucketlist:
+    if bucketname in bname:
+     #print "eval true and", bucketname, "in", bname
+     inc = True
+   if inc:
+    #print "eval true and should include",bname   
+    exclude_b(b.name)
+ else:
+  exclude_b(b.name)
+ return;
+
+
+def exclude_b( bname ):
+ if exclude:
+    ex = False
+   #if any(exbucketname not in bname for exbucketname in excludelist):
+    for exbucketname in excludelist:
+     if exbucketname in bname:
+      #print "exclude true and",exbucketname,"in", bname
+      ex = True;
+    if ex:
+      #print "exclude true and should exclude ",bname
+      return;
+    else: 
+      #print "exclude true but should NOT exclude ",bname         
+      checkperm(b.name)
+ else:
+  checkperm(b.name)
+ return;
+
+
+
+#if bucketname and bucketname.strip():
+#    print("it's not an empty or blank string")
+#    print("bucketname = ", bucketname)
+#    eval = True
+#else:
+#    print("it's an empty or blank string")
+
+if len(bucketlist) > 0:
+ print "items in bucketlist"
+ eval = True
+
+if len(excludelist) > 0:
+ print "items in excludelist"
+ exclude = True
 
 rs = conn.get_all_buckets()
 print "num buckets =", len(rs)
+print "eval =", eval
 
 for b in rs:
-  print b.name
+#  print b.name
+  print "Evaluating", b.name
+  evaluate_b(b.name)
 
 
 #print "[+] Connecting to bucket %s " %sys.argv[1]
 
-for b in rs:
-  print b.name
-  bucket = conn.get_bucket(b.name)
-  print "[+] Checking permissions on all keys "
-  print "-------------- List of Public Keys ----------------------\n\n"
-  for key in bucket.list() :
-     for grant in key.get_acl().acl.grants :
-                if grant.permission == 'READ' :
-                        print "PUBLIC: " +str(key)
+#for b in rs:
+#  print "Evaluating", b.name
+#  evaluate_b(b.name)
 
-  print "\n\n--------------------------------------------------------"
-  print "[+] Completed "
+#  for bucketname in bucketlist:
+#   evaluate_b(bucketname,)
+  # if eval:
+  #   if negate and bucketname not in b.name:
+  #     print "eval true and", bucketname, "NOT in", b.name
+  #     checkperm(b.name)
+  #   if not negate and bucketname in b.name:
+  #     print "eval true and", bucketname, "in", b.name
+  #     checkperm(b.name)    
+  # else:
+  #  checkperm(b.name)
+
+print "[+] Completed All"

@@ -2,4 +2,15 @@
 # install debian packages inc deps
 - include: deb_install.yml
 
+- name: make sure actions dir exists
+  file: path={{ actions dir }}  state=directory
 
+#install all actions to actions dir
+- name: install all actions to actions dir
+  copy: src={{ item }} dest="{{ec_actions_dir}}"
+  with_fileglob:
+    - /files/actions/*
+    
+- name: Configure config
+  template: src=config.yml.j2 dest="{{ec_actions_dir}}/config.yml"
+            owner=root group=root mode=0640   
