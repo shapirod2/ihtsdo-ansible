@@ -7,3 +7,25 @@
 - name: include install_boto yml when package is not installed
   include: install_boto.yml
   when: package_check_deb.rc == 1  
+  
+- name: make sure install_dir exists
+  file: path={{ install_dir }}  state=directory
+
+- name: Configure scriptname script
+  template: src={{ scriptname }}.j2 dest={{ install_dir }}/{{ scriptname }}
+            owner=root group=root mode=0740
+
+- debug: msg="s3_report_full_cmd = {{ s3_report_full_cmd }}"
+
+#- name: run s3_report_full_backup_cmd command
+#  shell: "{{ s3_report_full_backup_cmd }}"
+#  async: "{{s3_report_async_time}}"
+#  poll:  10
+
+- name: run s3_report command
+  shell: "{{ s3_report_cmd }}"
+  register: ps
+  async: "{{s3_report_async_time}}"
+  poll:  10
+
+- debug: var=ps.stdout_lines  
