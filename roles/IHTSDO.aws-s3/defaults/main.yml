@@ -1,2 +1,13 @@
-s3check_dir: "/opt/s3check"
+s3_app_name: s3check
+install_dir: "/opt/{{ s3_app_name }}"
+scriptname: "checks3.py"
 
+s3_report_cmd: "{{install_dir}}/{{scriptname}} "
+s3_report_safedate: "{{ ansible_date_time.iso8601 | replace(':', '')}}"
+s3_report_log: "{{ install_dir }}/s3report_{{ s3_report_safedate }}.log"
+s3_report_full_cmd: "{{ s3_report_cmd }} >> {{ s3_report_log }}"
+s3_report_async_time: 7200
+
+bucket_list: "['uat-ire.published.release.ihtsdo']"
+#exclude_list: "['execution.release','term.reports','mlds.nl-uploads','dev','prod','collabnet','uat','jenkins','mlds','old-','backup']"
+exclude_list: "['execution.release','term.reports']"
