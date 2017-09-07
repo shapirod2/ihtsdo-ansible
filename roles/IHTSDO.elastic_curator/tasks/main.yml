@@ -26,5 +26,8 @@
   register: ps
   async: "{{ec_curator_script_async_time}}"
 
-- debug: var=ps.stdout_lines 
-  poll:  10
+#- debug: var=ps.stdout_lines 
+#  poll:  10
+  
+- debug: var=ps
+  poll:  10  
