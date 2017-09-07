@@ -2,15 +2,29 @@
 # install debian packages inc deps
 - include: deb_install.yml
 
-- name: make sure actions dir exists
-  file: path={{ actions dir }}  state=directory
+- name: make sure ec_actions_dir exists
+  file: path={{ ec_actions_dir }}  state=directory
 
-#install all actions to actions dir
-- name: install all actions to actions dir
+#install all actions to ec_actions_dir
+- name: install all actions to ec_actions_dir
   copy: src={{ item }} dest="{{ec_actions_dir}}"
   with_fileglob:
-    - /files/actions/*
+    - actions/*
     
 - name: Configure config
   template: src=config.yml.j2 dest="{{ec_actions_dir}}/config.yml"
             owner=root group=root mode=0640   
+            
+- name: Configure backup script
+  template: src="{{ ec_curator_script }}.j2" dest="{{ec_curator_script_path}}"
+            owner=root group=root mode=0740
+
+- debug: msg="ec_curator_script_path = {{ ec_curator_script_path }}"
+
+- name: run backup command
+  shell: "{{ ec_curator_script_path }}"
+  register: ps
+  async: "{{ec_curator_script_async_time}}"
+
+- debug: var=ps.stdout_lines 
+  poll:  10

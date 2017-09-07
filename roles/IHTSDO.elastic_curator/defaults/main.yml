@@ -3,4 +3,16 @@ ec_app_name: "elasticsearch-curator"
 ec_apt_key: "https://packages.elastic.co/GPG-KEY-elasticsearch"
 ec_apt_repo: "[arch=amd64] http://packages.elastic.co/curator/5/debian stable main"
 
+ec_app: "/usr/bin/curator"
 ec_actions_dir: "/opt/ec_actions"
+ec_actions_script_prefix: "{{ec_app}} --config {{ec_actions_dir}}/config.yml {{ec_actions_args}} {{ec_actions_dir}}/"
+ec_curator_script: "runcurator.sh"
+ec_curator_script_path: "{{ec_actions_dir}}/{{ ec_curator_script }}"
+ec_curator_script_async_time: 1800
+
+ec_actions_scripts:
+   - delete_metricbeat_indexes.yml
+#   - test.yml
+
+ec_actions_args: "--dry-run"
+#ec_actions_args: ""
