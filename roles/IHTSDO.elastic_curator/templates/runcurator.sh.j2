@@ -1,0 +1,5 @@
+#!/bin/bash
+
+{% for ec_actions_script in ec_actions_scripts %}
+{{ec_actions_script_prefix}}{{ec_actions_script}}
+{% endfor %}

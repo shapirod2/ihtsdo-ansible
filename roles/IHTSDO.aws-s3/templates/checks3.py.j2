@@ -74,11 +74,11 @@ def exclude_b( bname ):
 #    print("it's an empty or blank string")
 
 if len(bucketlist) > 0:
- print "items in bucketlist"
+ print "items in bucketlist: bucketlist = {{bucket_list}}"
  eval = True
 
 if len(excludelist) > 0:
- print "items in excludelist"
+ print "items in excludelist = {{exclude_list}}"
  exclude = True
 
 rs = conn.get_all_buckets()

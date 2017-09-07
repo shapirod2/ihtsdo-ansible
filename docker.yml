@@ -2,4 +2,5 @@
   - hosts: test
     sudo: true
     roles:
-      - docker.ubuntu-master      
+#      - docker.ubuntu-master      
+      - IHTSDO.docker-master
