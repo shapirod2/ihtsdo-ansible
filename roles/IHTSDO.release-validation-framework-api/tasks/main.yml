@@ -41,6 +41,14 @@
   tags:
     - ihtsdo-asset
 
+- name: Configure jira-service.properties
+  template: src=jira-service.properties.j2 dest=/etc/opt/rvf-api/jira-service.properties
+            owner=root group=rvf-api mode=0640
+  notify:
+    - restart rvf-api
+  tags:
+    - ihtsdo-asset
+
 - name: Configure data-service
   template: src=data-service.properties.j2 dest=/etc/opt/rvf-api/data-service.properties
             owner=root group=rvf-api mode=0640
