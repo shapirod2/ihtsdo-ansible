@@ -12,3 +12,21 @@ rvf_xmx: "1536m"
 rvf_basicauth_username: "changeme"
 rvf_basicauth_password: "changeme"
 old_db: true
+
+rvf_jira_endpoint: https://dev-workflow.ihtsdotools.org
+rvf_jira_basicAuth_username: changeme
+rvf_jira_basicAuth_password: changeme
+
+rvf_jira_field_productName: "SNOMED CT Product"
+rvf_jira_field_id_productName: "customfield_13001"
+
+rvf_jira_field_releaseDate: "Product Release date"
+rvf_jira_field_id_releaseDate: customfield_13003
+
+rvf_jira_field_reportingStage: Reporting Stage
+rvf_jira_field_id_reportingStage: customfield_13002
+
+rvf_jira_value_projectKey: "RVF"
+rvf_jira_value_resolvedStatus: closed
+
+rvf_jira_defaultAssignee: changeme
