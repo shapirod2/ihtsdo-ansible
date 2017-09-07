@@ -1,6 +1,7 @@
 ---
 # install debian packages inc deps
 - include: deb_install.yml
+  when: ec_install
 
 - name: make sure ec_actions_dir exists
   file: path={{ ec_actions_dir }}  state=directory
@@ -24,7 +25,7 @@
 - name: run backup command
   shell: "{{ ec_curator_script_path }}"
   register: ps
-  async: "{{ec_curator_script_async_time}}"
+#  async: "{{ec_curator_script_async_time}}"
 
 #- debug: var=ps.stdout_lines 
 #  poll:  10
