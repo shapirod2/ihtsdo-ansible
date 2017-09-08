@@ -12,8 +12,14 @@ ec_curator_script_path: "{{ec_actions_dir}}/{{ ec_curator_script }}"
 ec_curator_script_async_time: 1800
 
 ec_actions_scripts:
+   - delete_activemq_filebeat_indexes.yml
+   - delete_authserv_filebeat_indexes.yml
+   - delete_crs_filebeat_indexes.yml
+   - delete_error_filebeat_indexes.yml
    - delete_metricbeat_indexes.yml
-#   - test.yml
+   - delete_nginxaccess_filebeat_indexes.yml
+   - delete_orchestration_filebeat_indexes.yml
+   - delete_termserver_filebeat_indexes.yml
 
 ec_actions_args: "--dry-run"
 #ec_actions_args: ""
