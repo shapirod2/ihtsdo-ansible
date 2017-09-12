@@ -73,7 +73,7 @@ backup_script: backup_s3.sh
 backup_cmd: "{{ backup_script_dir }}/{{ backup_script }}"
 backup_log: "{{ backup_script_dir }}/backup_{{ backup_safedate }}.log"
 backup_full_backup_cmd: "{{ backup_cmd }} >> {{ backup_log }}"
-backup_async_time: 1800
+backup_async_time: 7200
 
 # The connection timeout for HTTP requests in seconds. if using the Rest Call
 backup_rest_conn_timeout_seconds: "5"
