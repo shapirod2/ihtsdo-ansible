@@ -99,10 +99,6 @@ ABSOLUTE_DBDUMP_STATUS_DIR=$ABSOLUTE_ARCHIVE_PREFIX/dumpstatus
 # Archive
 ARCHIVE_FILE="{{backup_archive_file}}"
 
-
-
-
-
 # The connection timeout for HTTP requests in seconds.
 CONNECTION_TIMEOUT_SECONDS=5
 
@@ -123,6 +119,18 @@ ADMIN_BASE_URL="$BASE_URL/admin"
 
 # The number of milliseconds to wait before giving up trying to lock the complete repository.
 LOCK_TIMEOUT_MILLIS=30000
+
+#Dir for the codesystems json
+CS_JSON_DIR=$ABSOLUTE_ARCHIVE_PREFIX/codesystems
+# codesystems url
+CS_URL="$ADMIN_BASE_URL/codesystems"
+
+# The base URL for branches
+BRANCH_BASE_URL="$BASE_URL/snomed-ct/v2/branches/"
+
+branches=""
+branchList=()
+
 
 # Prints a message to stdout with the current date and time.
 echo_date() {
@@ -353,7 +361,9 @@ cp -R {{ rsync_dir_new }}/* $ABSOLUTE_ARCHIVE_PREFIX
 }
 
 copyextrafiles(){
-copytraceability			
+copytraceability
+getcodesystemjson
+			
 }
 
 copytraceability(){
@@ -367,7 +377,24 @@ copytraceability(){
     cp -R $ts_trace_tmp_dir $ABSOLUTE_ARCHIVE_PREFIX
 }
 
-
+getcodesystemjson(){
+echo_date "getting codesystems information as JSON ..."
+mkdir -pv $CS_JSON_DIR
+echo "cs_url = "$CS_URL
+branches=`curl --user "$SNOWOWL_USERNAME:$SNOWOWL_PASSWORD" -X GET "$CS_URL"`
+branchList=( $(echo $branches | grep -oP '"branchPath":\K".*?"' | tr -d '"' ) )
+echo "branches: " ${branchList[@]}
+for branch in ${branchList[@]}; do
+#echo "branch = "$branch
+#echo "branch2 = "$BRANCH_BASE_URL$branch
+branchjson=`curl --user "snowowl:snowowl" -X GET "$BRANCH_BASE_URL$branch"`
+#echo "branchjson="$branchjson
+fn=${branch//\//-}
+#echo "fn = "$fn
+writepath=$CS_JSON_DIR/$fn.json
+echo $branchjson >> $writepath
+done
+}
 
 
 mkbkdir(){

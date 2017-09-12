@@ -3,3 +3,10 @@ aws_secret_access_key = {{aws_s3secret}}
 aws_access_key_id = {{aws_s3accessKey}}
 region = {{s3region}}
 
+{% if s3_inc_new %}
+[profile newaws]
+aws_secret_access_key = {{new_aws_s3secret}}
+aws_access_key_id = {{new_aws_s3accessKey}}
+region = {{new_aws_s3region}}
+{% endif %}
+
