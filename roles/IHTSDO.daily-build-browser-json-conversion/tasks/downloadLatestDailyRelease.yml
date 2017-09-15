@@ -8,6 +8,8 @@
   
 - debug: msg="daily_build_dir= {{daily_build_dir}}"   
 
+- debug: msg="dailybuild_url= {{dailybuild_url}}"   
+
 #- name: Get build list and save to buildList.txt
 #  get_url: url={{ dailybuild_url }} dest={{daily_build_dir}}/buildList.txt validate_certs=no timeout=30
   
