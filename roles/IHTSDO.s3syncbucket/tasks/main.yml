@@ -3,3 +3,7 @@
 
 - name: run sync command
   shell: "{{ s3_sync_full_cmd }}"
+  register: ps
+  
+#- debug: var=ps.stdout_lines    
+- debug: var=ps 
