@@ -38,7 +38,7 @@
 #  when: buildStatus.stdout == "BUILT"
 
 #switching to curl as get_url seems to be creating a corrupt zip.
-- name: download release zip file if daily build is successful
+- name: download release zip file uing curl if daily build is successful
   shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_name}} > {{daily_build_dir}}/{{release_file_name}}"
   when: buildStatus.stdout == "BUILT"  
 
