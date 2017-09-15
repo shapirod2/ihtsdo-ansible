@@ -47,9 +47,9 @@
   template: src=applicationContext-CrowdClient.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/applicationContext-CrowdClient.xml"
               owner=root group=root mode=0640
 
-- name: Configure crowd.properties
-  template: src=crowd.properties.j2 dest="{{ crs_crowdPropertiesFileLocation   }}/crowd.properties"
-              owner=root group=root mode=0640
+#- name: Configure crowd.properties
+#  template: src=crowd.properties.j2 dest="{{ crs_crowdPropertiesFileLocation   }}/crowd.properties"
+#              owner=root group=root mode=0640
 
 - name: Configure crs-application.properties
   template: src=crs-application.properties.j2 dest="{{ crs_crsPropertiesFolderLocation   }}/crs-application.properties"
