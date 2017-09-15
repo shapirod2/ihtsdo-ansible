@@ -34,9 +34,10 @@
 - debug: msg="buildOutputUrl= {{ buildOutputUrl.stdout }}"
   
 #- name: download release zip file if daily build is successful
-#  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{daily_build_dir}}/{{release_file_name}} validate_certs=no mode=0440 timeout=30
+#  get_url: force=no url={{buildOutputUrl.stdout}}/{{release_file_name}} dest={{daily_build_dir}}/{{release_file_name}} validate_certs=no mode=0440 timeout=120
 #  when: buildStatus.stdout == "BUILT"
 
+#switching to curl as get_url seems to be creating a corrupt zip.
 - name: download release zip file if daily build is successful
   shell: "/usr/bin/curl -s {{buildOutputUrl.stdout}}/{{release_file_name}} > {{daily_build_dir}}/{{release_file_name}}"
   when: buildStatus.stdout == "BUILT"  
