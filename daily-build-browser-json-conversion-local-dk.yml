@@ -4,7 +4,7 @@
     vars:
      rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/dk
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/dk/products/snomed_ct_dk_daily_build/builds/
-     unpacked_release_file_name: SnomedCT_ManagedServiceDK_PRODUCTION_DK1000005_20170930T120000Z
+     unpacked_release_file_name: SnomedCT_ManagedServiceDK_Production_DK1000005_20170930
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: dkConfig.xml.j2
      editionName: "Danish"
