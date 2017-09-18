@@ -6,4 +6,4 @@ template_contextPath: "/template-service"
 template_username: change_me
 template_password: change_me
 template_terminology_endpoint: http://localhost:8080/snowowl/snomed-ct/v2/
-template_maxBatch: 1000
+template_maxBatch: 300
