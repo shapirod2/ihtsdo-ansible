@@ -20,7 +20,7 @@
   stat: path={{rf2_diff_json_report_folder}}/diff_index.json
   register: diffReportCreated
   
-- debug: msg="jsonFileCreated.stat.exists= {{ jsonFileCreated.stat.exists }}"
+- debug: msg="diffReportCreated.stat.exists = {{ diffReportCreated.stat.exists }}"
  
 - name: set the rf2 diff report json s3 upload script
   template: src=uploadRf2DiffJsonToS3.sh.j2 dest={{ rf2_diff_json_report_folder }}/{{ rf2_diff_json_s3_upload_script }}

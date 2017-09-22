@@ -4,7 +4,7 @@
     vars:
      rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/us
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/us/products/snomed_ct_us_daily_build/builds/
-     unpacked_release_file_name: SnomedCT_USEditionRF2_Production_20180301T120000
+     unpacked_release_file_name: SnomedCT_USEditionRF2_PRODUCTION_20180301T120000Z
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: usConfig.xml.j2
      editionName: "US"
