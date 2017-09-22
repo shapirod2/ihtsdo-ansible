@@ -5,7 +5,14 @@
 #- include: files/systemchoice.yml  
 
 - debug: msg="Role Test running. "
-- debug: msg="nginx_ssl_key_filename = {{nginx_ssl_key_filename}} "
+#- debug: msg="nginx_ssl_key_filename = {{nginx_ssl_key_filename}} "
+
+- debug: msg="inventory_dir = {{inventory_dir}} "
+#- debug: msg="host = {{host}}"
+#- debug: msg="host inventory_dir = {{hostvars[{{host}}][inventory_dir]}}"
+
+#- name: Dump all vars
+#  template: src=dumpvars.j2 dest=/tmp/ansibleVars.txt
 
 
 #- name: set zabbix repo to https
