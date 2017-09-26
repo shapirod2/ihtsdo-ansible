@@ -7,11 +7,11 @@ if [[ $( whoami ) != '{{mapping_user}}' ]]; then
     exec sudo -u {{mapping_user}} -H $0
 fi
 
-ADMIN_DIR={{mapping_admin_app_admin_dir}}/lucene
+ADMIN_DIR={{mapping_admin_app_admin_dir}}/updatedb
 CONF_FILE={{mapping_conf_dir}}/config.properties
 
 export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
 
 cd $ADMIN_DIR
 
-mvn install -PReindex -Drun.config=$CONF_FILE
+mvn install -PUpdatedb -Drun.config=$CONF_FILE -Dhibernate.hbm2ddl.auto=create
