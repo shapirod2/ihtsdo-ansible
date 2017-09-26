@@ -1,0 +1,14 @@
+---
+
+hprs_install_test: True
+hprs_test_js: "hello.js.j2"
+hprs_node_dir: "/usr/bin/node"
+hprs_node_version: "setup_0.12"
+
+hprs_rest_dir: "/opt/hprs"
+hprs_rest_app: "{{ hprs_rest_dir }}/app.js"
+
+hprs_rest_app_name: "hprs"
+supervisor_dir: "/etc/supervisor/conf.d/"
+
+#nginx_proxy_url: http://localhost:3000/
