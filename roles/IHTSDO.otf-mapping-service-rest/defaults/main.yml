@@ -64,6 +64,10 @@ mapping_default_batch_fetch_size: 500
 #mapping_mysql_port: 3306
 #mapping_mysql_service: mysql
 
+mapping_script_load: "load_data.sh"
+mapping_script_lucene: "rebuild_lucene.sh"
+mapping_script_createdb: "createdb.sh"
+mapping_script_updatedb: "updatedb.sh"
 
 #mail
 mail_enabled: "true"

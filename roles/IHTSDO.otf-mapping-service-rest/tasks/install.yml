@@ -81,7 +81,22 @@
 - name: Configure config.properties
   template: src=config.properties.j2 dest={{mapping_app_dir}}/conf/config.properties
             owner={{mapping_user}} group={{mapping_user}} mode=0640  
-      
+ 
+- name: Configure mapping_script_load
+  template: src={{mapping_script_load}}.j2 dest={{mapping_admin_app_dir}}/{{mapping_script_load}}
+            owner={{mapping_user}} group={{mapping_user}} mode=0770  
+            
+- name: Configure mapping_script_lucene
+  template: src={{mapping_script_lucene}}.j2 dest={{mapping_admin_app_dir}}/{{mapping_script_lucene}}
+            owner={{mapping_user}} group={{mapping_user}} mode=0770  
+
+- name: Configure mapping_script_createdb
+  template: src={{mapping_script_createdb}}.j2 dest={{mapping_admin_app_dir}}/{{mapping_script_createdb}}
+            owner={{mapping_user}} group={{mapping_user}} mode=0770  
+            
+- name: Configure mapping_script_updatedb
+  template: src={{mapping_script_updatedb}}.j2 dest={{mapping_admin_app_dir}}/{{mapping_script_updatedb}}
+            owner={{mapping_user}} group={{mapping_user}} mode=0770                          
 
 #- set_fact: security_handler="{{security_handler_default}}"
 #- debug: msg="security_handler = {{security_handler}}"

@@ -1,0 +1,17 @@
+#!/bin/bash
+
+set -x
+set -e
+
+if [[ $( whoami ) != '{{mapping_user}}' ]]; then
+    exec sudo -u {{mapping_user}} -H $0
+fi
+
+export OTF_MAPPING_HOME={{mapping_admin_app_dir}}
+export OTF_MAPPING_CONFIG={{mapping_conf_dir}}/config.properties
+
+export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
+
+csh /opt/otf-mapping-service-admin/admin/loader/src/main/scripts/load.csh
+
+
