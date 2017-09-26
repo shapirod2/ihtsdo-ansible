@@ -43,6 +43,13 @@ snomed:
   classification:
     maxReasonerCount: 1
     maxReasonerRuns: 100000
+    externalService:
+      url: "https://localhost/"
+      userName: "not used"
+      password: "not used"
+      timeBetweenPollTries: 5000
+      numberOfPollTries: 120
+
 reviewManager:
   # Minutes to keep reviews in CURRENT state persisted in the index (default 15 minutes)
   keepCurrentMins: 120
