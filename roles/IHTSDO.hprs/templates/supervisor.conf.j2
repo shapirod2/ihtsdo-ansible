@@ -1,0 +1,10 @@
+[program:{{ hprs_rest_app_name }}]
+user = root
+directory = {{ hprs_rest_dir }}
+command = {{ hprs_node_dir }} {{ hprs_rest_app }}
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760

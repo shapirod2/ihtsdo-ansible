@@ -1,0 +1,40 @@
+---
+#
+#
+
+- name: Install latest git package
+  apt: name=git state=latest  
+  
+- name: Install latest libfontconfig1 package
+  apt: name=libfontconfig1 state=latest  
+  
+- name: Install javascript frameworks for angular etc  
+  include: js.yml
+
+- name: bcrypt needs c++ compiler..
+  apt: name=build-essential state=latest
+  
+- name: stop app
+  supervisorctl: name={{ hprs_rest_app_name }} state=stopped
+  ignore_errors: yes
+
+- name: rem hprs_rest_dir dir
+  file: path={{ hprs_rest_dir }} state=absent 
+  
+#- name: Install rest server based on package.json.
+#  npm: path={{ hprs_rest_dir }}
+
+- name: make sure hprs_rest_dir exists
+  file: path="{{hprs_rest_dir}}" state=directory
+  
+- name: If testing install use hello.js as app
+  template: src=hello.js.j2 dest="{{hprs_rest_app}}" owner=root group=root mode=0640  
+  when: "hprs_install_test == True"            
+
+- name: Configure supervisor
+  template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ hprs_rest_app_name }}.conf"
+            owner=root group=root mode=0640  
+                                     
+- name: (re)start hprs app
+  supervisorctl: name={{ hprs_rest_app_name }} state=restarted              
+

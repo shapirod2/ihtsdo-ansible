@@ -1,0 +1,23 @@
+---
+
+- name: Install latest curl package
+  apt: name=curl state=latest  
+
+- name: Make sure node install repo is set 
+  shell: "curl -sL https://deb.nodesource.com/{{hprs_node_version}} | sudo bash -"
+  
+- name: Install latest ruby-full package
+  apt: name=ruby-full state=latest   
+  
+- name: Install latest nodejs package
+  apt: name=nodejs state=latest 
+ 
+#- name: Get latest npm
+#  shell: sudo npm install npm -g
+  
+#- name: npm install bower grunt grunt-cli
+#  shell: sudo npm install -g bower grunt grunt-cli  
+ 
+#- name: gem install compass
+#  shell: sudo gem install compass
+ 

@@ -1,0 +1,6 @@
+---
+- hosts: hprs
+  sudo: true
+  roles:
+    - IHTSDO.hprs
+    - IHTSDO.nginx-standard
