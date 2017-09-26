@@ -44,7 +44,7 @@ snomed:
     maxReasonerCount: 1
     maxReasonerRuns: 100000
     externalService:
-      url: "https://localhost/"
+      url: "https://{{ ansible_nodename }}/"
       userName: "not used"
       password: "not used"
       timeBetweenPollTries: 5000
