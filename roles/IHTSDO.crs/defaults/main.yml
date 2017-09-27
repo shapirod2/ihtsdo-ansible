@@ -5,6 +5,9 @@
 ihtsdo_repository: snapshot
 
 crs_web_app_name: crs-web-ui
+crs_web_app_title: "SNOMED International CRS (Content Request Service)"
+crs_web_app_header: "Content Request Service"
+
 version_crs_web_ui: "latest"
 crs_web_install_dir: "/opt/{{ crs_web_app_name }}"
 crs_web_lib_dir: "{{ crs_web_install_dir }}/lib"
@@ -22,3 +25,5 @@ crs_web_conf_snowowl_url: "/snowowl/"
 crs_web_conf_ims_url: "https://{{ crs_web_ims_host }}/"
 crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
 crs_web_conf_ims_api_url: "{{ crs_web_conf_ims_url }}/api/"
+crs_web_conf_authoring_api_url: "{{crs_web_conf_snowowl_url}}ihtsdo-sca/"
+
