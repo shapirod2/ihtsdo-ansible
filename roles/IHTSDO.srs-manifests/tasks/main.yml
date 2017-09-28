@@ -1,0 +1,16 @@
+---
+
+- name: make tempdir to put template into
+  file: path="{{srs_manifest_temp_dir}}" state=directory
+
+- name: Configure
+  template: src={{srs_manifest_src_file}} dest={{srs_manifest_temp_dir}}/manifest.xml
+            mode=0640
+            
+- debug: msg="full s3 cmd = {{srs_manifest_s3_cmd_full}}"
+
+- name: copy to s3
+  shell: "{{srs_manifest_s3_cmd_full}}"
+
+#- name: remove tempdir afterwards?
+#  file: path="{{spellcheck_dict_dir}}" state=directory owner={{ spellcheck_name }}

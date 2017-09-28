@@ -4,16 +4,16 @@
     vars:
      rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/dk
      dailybuild_url: https://release.ihtsdotools.org/api/v1/centers/dk/products/snomed_ct_dk_daily_build/builds/
-     unpacked_release_file_name: SnomedCT_ManagedServiceDK_Production_DK1000005_20170930
+     unpacked_release_file_name: SnomedCT_ManagedServiceDK_PRODUCTION_DK1000005_20180331T120000Z
      release_file_name: "{{unpacked_release_file_name}}.zip"
      config_xml: dkConfig.xml.j2
      editionName: "Danish"
      ihtsdo_repository: release 
      int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
-     effectiveTime: 20170930
-     expirationTime: 20180331
+     effectiveTime: 20180331
+     expirationTime: 20180930
      # One date after the previous release
-     rf2_diff_start_date: 20170401
+     rf2_diff_start_date: 20171001
     roles:
       - IHTSDO.aws
       - IHTSDO.daily-build-browser-json-conversion
