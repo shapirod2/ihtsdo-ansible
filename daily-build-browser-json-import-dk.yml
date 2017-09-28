@@ -4,7 +4,7 @@
     vars:
      rf2json_s3_bucket_name: s3://dailybuild-ihtsdo/dk
      edition_name: dk-edition
-     release_version: 20170930
+     release_version: 20180331
      daily_build_import_dir: "/home/dailybuild-dk"
     roles:
       - IHTSDO.aws

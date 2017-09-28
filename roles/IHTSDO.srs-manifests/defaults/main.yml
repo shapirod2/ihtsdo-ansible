@@ -1,0 +1,16 @@
+---
+srs_manifest_s3_path: "release-ihtsdo-prod-execution/dk/snomed_ct_dk_daily_build/product-files/manifest/"
+#srs_manifest_s3_path:  "release-ihtsdo-prod-execution/us/snomed_ct_us_daily_build/product-files/manifest/"
+srs_manifest_s3_path_full: "s3://{{srs_manifest_s3_path}}{{srs_manifest_file_name}}"
+
+srs_manifest_s3_region: "us-east-1"
+srs_manifest_s3_profile: "default"
+srs_manifest_file_name: "manifest.xml"
+
+srs_manifest_s3_cmd_prefix: "/usr/bin/aws s3 cp"
+
+srs_manifest_src_file: "dailybuild/dk.xml.j2"
+srs_manifest_date: "20180331"
+
+srs_manifest_temp_dir: "/opt/srs_manifest"
+srs_manifest_s3_cmd_full: "{{srs_manifest_s3_cmd_prefix}} {{srs_manifest_temp_dir}}/{{srs_manifest_file_name}} {{srs_manifest_s3_path_full}} --profile {{srs_manifest_s3_profile}} --region {{srs_manifest_s3_region}}" 

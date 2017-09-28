@@ -1,0 +1,12 @@
+---
+  - hosts: all
+    sudo: true
+    vars:
+     srs_manifest_s3_path: "release-ihtsdo-prod-execution/dk/snomed_ct_dk_daily_build/product-files/manifest/"
+     srs_manifest_src_file: "dailybuild/dk.xml.j2"
+     srs_manifest_date: "20180331"
+     srs_manifest_s3_profile: "newaws"
+     s3_inc_new: True
+    roles:
+      #- IHTSDO.aws
+      - IHTSDO.srs-manifests
