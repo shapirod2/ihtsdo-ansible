@@ -1,0 +1,285 @@
+<listing xmlns="http://release.ihtsdo.org/manifest/1.0.0">
+	<folder Name="SnomedCT_ManagedServiceDK_PRODUCTION_DK1000005_{{srs_manifest_date}}T120000Z">
+		<file Name="Readme_en_{{srs_manifest_date}}.txt"/>
+		
+		<folder Name="Delta">
+			<folder Name="Terminology">
+				<file Name="sct2_Concept_Delta_DK1000005_{{srs_manifest_date}}.txt">	
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+				</file>
+				<file Name="sct2_Description_Delta-da_DK1000005_{{srs_manifest_date}}.txt">		
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+					<contains-language-codes>
+						<code>da</code>
+					</contains-language-codes>
+				</file>
+				<file Name="sct2_Description_Delta-en_DK1000005_{{srs_manifest_date}}.txt">		
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+					<contains-language-codes>
+						<code>en</code>
+					</contains-language-codes>
+				</file>
+				<file Name="sct2_StatedRelationship_Delta_DK1000005_{{srs_manifest_date}}.txt">
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+				</file>	
+				<file Name="sct2_Relationship_Delta_DK1000005_{{srs_manifest_date}}.txt">	
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+				</file>
+				<file Name="sct2_Identifier_Delta_DK1000005_{{srs_manifest_date}}.txt">
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+				</file>
+				<file Name="sct2_TextDefinition_Delta-en_DK1000005_{{srs_manifest_date}}.txt">	
+					<sources>
+						<source>terminology-server</source>
+					</sources>
+					<contains-language-codes>
+						<code>en</code>
+					</contains-language-codes>	
+				</file>
+				<file Name="sct2_TextDefinition_Delta-da_DK1000005_{{srs_manifest_date}}.txt">	
+					<sources>
+						<source>terminology-server</source>
+					</sources>	
+					<contains-language-codes>
+						<code>da</code>
+					</contains-language-codes>														
+				</file>
+			</folder>							
+			<folder Name="Refset">
+				<folder Name="Content">
+					<file Name="der2_cRefset_AssociationReferenceDelta_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="900000000000523009" label="POSSIBLY EQUIVALENT TO">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000524003" label="MOVED TO">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000525002" label="MOVED FROM">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000526001" label="REPLACED BY">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000527005" label="SAME AS">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000528000" label="WAS A">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000530003" label="ALTERNATIVE">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000531004" label="REFERS TO">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="targetComponentId"/>
+						</contains-additional-fields>
+					</file>
+					<file Name="der2_cRefset_AttributeValueDelta_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="900000000000489007" label="Concept inactivation indicator">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000490003" label="Description inactivation indicator">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="valueId"/>
+						</contains-additional-fields>
+					</file>
+					<file Name="der2_Refset_DanishTranslatedConceptsSimpleDelta_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="554831000005107" label="Danish translated concepts">
+								<sources>
+									<source>externally-maintained</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+					</file>
+					<file Name="der2_ciRefset_QuantityRefsetDelta_DK1000005_{{srs_manifest_date}}.txt"> 						 						
+						<contains-reference-sets>
+							<refset id="553821000005123" label="Quantity Refset">
+								<sources>
+									<source>externally-maintained</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="conceptId"/>
+							<field name ="number"/>
+						</contains-additional-fields>
+
+					</file>
+				</folder>
+				<folder Name="Language">
+					<file Name="der2_cRefset_LanguageDelta-en_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="900000000000508004" label="GB English">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+							<refset id="900000000000509007" label="US English">	
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="acceptabilityId"/>
+						</contains-additional-fields>	
+					</file>						
+					<file Name="der2_cRefset_LanguageDelta-da_DK1000005_{{srs_manifest_date}}.txt">		
+						<contains-reference-sets>
+							<refset id="554461000005103" label="DA Danish">
+								<sources>
+									<source>terminology-server</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="acceptabilityId"/>
+						</contains-additional-fields>						
+					</file>
+				</folder>
+				<folder Name="Metadata">
+					<file Name="der2_cciRefset_RefsetDescriptorDelta_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="900000000000456007" label="Refset descriptor">
+								<sources>
+									<source>externally-maintained</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="attributeDescription"/>
+							<field name ="attributeType"/>
+							<field name ="attributeOrder"/>
+						</contains-additional-fields>
+					</file>						
+					<file Name="der2_ssRefset_ModuleDependencyDelta_DK1000005_{{srs_manifest_date}}.txt">
+						<contains-reference-sets>
+							<refset id="900000000000534007" label="Module dependency refset">
+								<sources>
+									<source>externally-maintained</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="sourceEffectiveTime"/>
+							<field name ="targetEffectiveTime"/>
+						</contains-additional-fields>					
+					</file>						
+					<file Name="der2_ciRefset_DescriptionTypeDelta_DK1000005_{{srs_manifest_date}}.txt">					
+						<contains-reference-sets>
+							<refset id="900000000000538005" label="Description Type">
+								<sources>
+									<source>externally-maintained</source>
+								</sources>
+							</refset>
+						</contains-reference-sets>
+						<contains-additional-fields>
+							<field name ="descriptionFormat"/>
+							<field name ="descriptionLength"/>
+						</contains-additional-fields>
+					</file>						
+				</folder>					
+			</folder>
+		</folder>
+		
+		<folder Name="Full">
+			<folder Name="Terminology">
+				<file Name="sct2_Concept_Full_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Description_Full-da_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Description_Full-en_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_StatedRelationship_Full_DK1000005_{{srs_manifest_date}}.txt"/>									
+				<file Name="sct2_Relationship_Full_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Identifier_Full_DK1000005_{{srs_manifest_date}}.txt"/>
+				<file Name="sct2_TextDefinition_Full-en_DK1000005_{{srs_manifest_date}}.txt"/>								
+				<file Name="sct2_TextDefinition_Full-da_DK1000005_{{srs_manifest_date}}.txt"/>								
+			</folder>				
+			<folder Name="Refset">
+				<folder Name="Content">
+					<file Name="der2_cRefset_AssociationReferenceFull_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_cRefset_AttributeValueFull_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_Refset_DanishTranslatedConceptsSimpleFull_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ciRefset_QuantityRefsetFull_DK1000005_{{srs_manifest_date}}.txt"/> 						
+				</folder>
+				<folder Name="Language">
+					<file Name="der2_cRefset_LanguageFull-en_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_cRefset_LanguageFull-da_DK1000005_{{srs_manifest_date}}.txt"/>						
+				</folder>
+				<folder Name="Metadata">
+					<file Name="der2_cciRefset_RefsetDescriptorFull_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ssRefset_ModuleDependencyFull_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ciRefset_DescriptionTypeFull_DK1000005_{{srs_manifest_date}}.txt"/>					
+				</folder>					
+			</folder>
+		</folder>
+		<folder Name="Snapshot">
+			<folder Name="Terminology">
+				<file Name="sct2_Concept_Snapshot_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Description_Snapshot-da_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Description_Snapshot-en_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_StatedRelationship_Snapshot_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Relationship_Snapshot_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_Identifier_Snapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+				<file Name="sct2_TextDefinition_Snapshot-en_DK1000005_{{srs_manifest_date}}.txt"/>	
+				<file Name="sct2_TextDefinition_Snapshot-da_DK1000005_{{srs_manifest_date}}.txt"/>	
+			</folder>				
+			<folder Name="Refset">
+				<folder Name="Content">
+					<file Name="der2_cRefset_AssociationReferenceSnapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_cRefset_AttributeValueSnapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_Refset_DanishTranslatedConceptsSimpleSnapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ciRefset_QuantityRefsetSnapshot_DK1000005_{{srs_manifest_date}}.txt"/> 						 						 						
+				</folder>
+				<folder Name="Language">
+					<file Name="der2_cRefset_LanguageSnapshot-en_DK1000005_{{srs_manifest_date}}.txt"/>	
+					<file Name="der2_cRefset_LanguageSnapshot-da_DK1000005_{{srs_manifest_date}}.txt"/>							
+				</folder>
+				<folder Name="Metadata">
+					<file Name="der2_cciRefset_RefsetDescriptorSnapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ssRefset_ModuleDependencySnapshot_DK1000005_{{srs_manifest_date}}.txt"/>
+					<file Name="der2_ciRefset_DescriptionTypeSnapshot_DK1000005_{{srs_manifest_date}}.txt"/>					
+				</folder>
+			</folder>
+		</folder>
+	</folder>
+</listing>
