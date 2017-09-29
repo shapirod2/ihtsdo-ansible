@@ -9,7 +9,7 @@
      config_xml: dkConfig.xml.j2
      editionName: "Danish"
      ihtsdo_repository: release 
-     int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170131T120000"  
+     int_unpacked_release_file_name: "SnomedCT_InternationalRF2_Production_20170731T120000"  
      effectiveTime: 20180331
      expirationTime: 20180930
      # One date after the previous release
