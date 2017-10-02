@@ -38,7 +38,7 @@
 - debug: var=script_results.stdout_lines
   when: zipFileDownloaded.stat.exists == True  
   
-- name: Check release stats report json files generated
+- name: Check release stats report json files generated at {{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   stat: path={{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   register: statsCreated
   
