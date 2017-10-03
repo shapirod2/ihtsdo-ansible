@@ -28,5 +28,9 @@
    #Get maint 
 - include: maintenance.yml   
 
+- name: Disable apache directory listings
+  shell: "/usr/sbin/a2dismod"
+  ignore_errors: yes 
+
 - name: restart apache2
   service: name=apache2 state=restarted
