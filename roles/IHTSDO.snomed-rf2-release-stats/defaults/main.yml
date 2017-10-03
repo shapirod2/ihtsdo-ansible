@@ -1,9 +1,23 @@
 ---
 get_release: True
-
+maven_repo: "https://maven.ihtsdotools.org/content/repositories/releases"
 release_stats_json_s3_bucket_name: s3://dailybuild-ihtsdo/int
 release_stats_archive_file_name: rf2ReleaseStats.tgz
 release_stats_dir: /opt/sct-stats-generator
 release_full_file_dir: "{{release_file_base_name}}/Full"
 isExtensionRelease: False
 force_zip_download: False
+
+
+log_safedate: "{{ ansible_date_time.iso8601 | replace(':', '')}}"
+stats_script: "runStats.sh"
+stats_cmd: "{{ release_stats_root_dir }}/{{ stats_script }}"
+stats_log: "{{ release_stats_root_dir }}/stats_{{ log_safedate }}.log"
+stats_full_cmd: "{{ stats_cmd }} >> {{ stats_log }}"
+
+stats_upload_script: "uploadReleaseStatsJsonToS3.sh"
+stats_upload_cmd: "{{ release_stats_root_dir }}/{{ stats_upload_script }}"
+stats_upload_log: "{{ release_stats_root_dir }}/stats_upload_{{ log_safedate }}.log"
+stats_upload_full_cmd: "{{ stats_upload_cmd }} >> {{ stats_upload_log }}"
+
+

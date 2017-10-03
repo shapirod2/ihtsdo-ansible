@@ -21,7 +21,7 @@
   when: isExtensionRelease == False      
             
 - name: set the runStats.sh
-  template: src=runStats.sh.j2 dest={{ release_stats_root_dir }}/runStats.sh
+  template: src={{stats_script}}.j2 dest={{ stats_cmd }}
             owner=root group={{ root_group }} mode=0755    
  
 - name:  Check whether the release zip file is downloaded successfully
@@ -29,26 +29,29 @@
   register: zipFileDownloaded
   
 - debug: msg="zipFileDownloaded= {{ zipFileDownloaded.stat }}"
+- debug: msg="stats_full_cmd = {{ stats_full_cmd }}"
                       
 - name: run the rf2 release stats report command
-  shell: "{{  release_stats_root_dir }}/runStats.sh"
+  shell: "{{  stats_full_cmd }}"
   register: script_results
   when: zipFileDownloaded.stat.exists == True
   
 - debug: var=script_results.stdout_lines
   when: zipFileDownloaded.stat.exists == True  
   
-- name: Check release stats report json files generated
+- name: Check release stats report json files generated at {{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   stat: path={{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   register: statsCreated
   
 - name: set the rf2 diff report json s3 upload script
-  template: src=uploadReleaseStatsJsonToS3.sh.j2 dest={{ release_stats_root_dir }}/uploadReleaseStatsJsonToS3.sh
+  template: src={{stats_upload_script}}.j2 dest={{ stats_upload_cmd}}
             owner=root group={{ root_group }} mode=0755    
   when: statsCreated.stat.exists == True
+
+- debug: msg="stats_upload_full_cmd = {{ stats_upload_full_cmd }}"
   
 - name: Run rf2 release report s3 upload script
-  shell: "{{  release_stats_root_dir }}/uploadReleaseStatsJsonToS3.sh"
+  shell: "{{  stats_upload_full_cmd }}"
   register: upload_results
   when: statsCreated.stat.exists == True
   
