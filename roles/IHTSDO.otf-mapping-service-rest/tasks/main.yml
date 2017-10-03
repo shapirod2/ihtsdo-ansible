@@ -21,9 +21,9 @@
 #- name: install db
 #  include: db.yml 
 
-- name: add local db settings
-  include: createdb.yml
-  when: mapping_db_host == "localhost"  
+#- name: add local db settings
+#  include: createdb.yml
+#  when: mapping_db_host == "localhost"  
   
 - name: install app
   include: install.yml  
