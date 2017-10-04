@@ -1,0 +1,7 @@
+---
+  - hosts: health-analytics
+    sudo: true
+    roles:
+      - IHTSDO.health-analytics
+
+      

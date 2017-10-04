@@ -1,0 +1,10 @@
+[program:{{ ha_app_name }}]
+user = root
+directory = {{ ha_install_dir }}
+command = 
+autostart = true
+autorestart = true
+stdout_logfile_backups=5
+stderr_logfile_backups=5
+stdout_logfile_maxbytes=10485760
+stderr_logfile_maxbytes=10485760

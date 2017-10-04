@@ -1,0 +1,15 @@
+
+- debug: msg="ha_version = {{ha_version}}"
+
+- name: Install package
+  apt: name={{ha_app_name}} state=installed
+  when: ha_version == 'installed'
+
+- name: Install latest package
+  apt: name={{ha_app_name}} state=latest
+  when: ha_version == 'latest'
+
+- name: Install package specific version
+  apt: name={{ha_app_name}}={{ ha_version }} state=installed
+  when: ha_version != 'installed' and ha_version != 'latest'
+  
