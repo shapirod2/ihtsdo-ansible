@@ -1,0 +1,17 @@
+---
+- name: Update apt cache
+  apt: update_cache=yes cache_valid_time=300
+  sudo: yes
+
+#- name: stop app
+#  supervisorctl: name={{ ha_app_name }} state=stopped
+#  ignore_errors: yes
+
+
+#- name: install app
+#  include: install.yml  
+
+
+
+#- name: (re)start app
+#  supervisorctl: name={{ ha_app_name }} state=restarted
