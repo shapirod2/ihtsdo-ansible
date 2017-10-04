@@ -29,8 +29,12 @@
 - include: maintenance.yml   
 
 - name: Disable apache directory listings
-  shell: "/usr/sbin/a2dismod"
-  ignore_errors: yes 
+  shell: "/usr/sbin/a2dismod autoindex"
+  ignore_errors: yes
+ 
+- name: Enable apache headers module
+  shell: "/usr/sbin/a2enmod headers"
+  ignore_errors: yes
 
 - name: restart apache2
   service: name=apache2 state=restarted
