@@ -1,0 +1,14 @@
+---
+
+# Should be the same as the artifactId in the pom
+ha_app_name: health-analytics
+ha_version: "latest"
+ha_install_dir: "/opt/{{ ha_app_name }}"
+ha_lib_dir: "{{ ha_install_dir }}/lib"
+ha_conf_dir: "{{ ha_install_dir }}/conf"
+
+supervisor_dir: "/etc/supervisor/conf.d/"
+
+#ha_crowd_url: "https://dev-crowd.ihtsdotools.org/crowd/"
+#ha_crowd_app_name: "health-analytics"
+#ha_crowd_pw: "change_me"
