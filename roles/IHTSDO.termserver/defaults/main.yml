@@ -1,7 +1,7 @@
 ---
 ts_app_name: termserver
 ts_version: latest
-ts_Xmx: 10g
+ts_Xmx: 12g
 ts_Xms: 5g
 ts_workers: 40
 ts_java_opts: "-DcrowdPropertiesFileLocation=configuration -Xloggc:/opt/termserver/serviceability/logs/`date +%F_%H%M-%S`-gc.log -XX:+PrintGCDetails -XX:+PrintGCDateStamps -XX:+PrintGCApplicationStoppedTime -XX:+PrintGCApplicationConcurrentTime -XX:+PrintTenuringDistribution -XX:+PrintGCCause -XX:+UseGCLogFileRotation -XX:NumberOfGCLogFiles=5 -XX:GCLogFileSize=2M"
