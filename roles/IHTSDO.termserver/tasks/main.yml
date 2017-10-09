@@ -56,14 +56,14 @@
   lineinfile:
     dest: "{{ ts_dir }}/bin/dmk.sh"
     state: present
-    regexp: '-Xms5g'
-    line: '-Xms{{ts_Xmx}} \'
+    regexp: '-Xms6g'
+    line: '-Xms{{ts_Xms}} \'
 
 - name: Set xmx in dmk.sh
   lineinfile:
     dest: "{{ ts_dir }}/bin/dmk.sh"
     state: present
-    regexp: '-Xmx10g'
+    regexp: '-Xmx12g'
     line: '-Xmx{{ts_Xmx}} \'
 
 - name: Make sure all .sh files in bin are executable
