@@ -80,3 +80,13 @@ crs_mail_smtp_user: "bob@gmail.com"
 crs_mail_smtp_password: "bobbob"
 crs_mail_transport_protocol: "smtp"
 crs_mail_smtp_userName: "IHTSDO Notification"
+
+
+crs_forward_allowed: "false"
+crs_forward_destination_server_url: "https://{{inventory_hostname}}/crs"
+crs_forward_destination_browser_url: "https://{{inventory_hostname}}/#/requests/preview"
+crs_forward_source_server_url: "https://{{inventory_hostname}}/crs"
+crs_forward_source_browser_url: "https://{{inventory_hostname}}/#/requests/edit"
+crs_id: "int-crs"
+
+
