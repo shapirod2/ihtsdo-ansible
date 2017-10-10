@@ -2,9 +2,9 @@
 ihtsdo.im.service.base.url={{crs_ims_base_url}}
 
 #Database connection
-datasource.url=jdbc:mysql://{{crs_mysql_host}}:{{crs_mysql_port}}/{{crs_dbname}}
-datasource.username={{crs_user}}
-datasource.password={{crs_pw}}
+datasource.url=jdbc:mysql://{{crs_mysql_host}}:{{crs_mysql_port}}/{{crs_mysql_dbname}}
+datasource.username={{crs_mysql_user}}
+datasource.password={{crs_mysql_pass}}
 datasource.driver-class-name=com.mysql.jdbc.Driver
 
 #Authentication
@@ -109,6 +109,3 @@ crs.forward.destination.browser.url={{crs_forward_destination_browser_url}}
 crs.forward.source.server.url={{crs_forward_source_server_url}}
 crs.forward.source.browser.url={{crs_forward_source_browser_url}}
 crs.id={{crs_id}}
-
-
-
