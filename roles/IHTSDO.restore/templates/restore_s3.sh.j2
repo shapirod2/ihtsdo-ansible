@@ -154,19 +154,21 @@ if [ "x$precmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${precmds[*]};
         do
-        echo_date "Pre cmd About to do cmd : $cmd"
+        #echo_date "Pre cmd About to do cmd : $cmd"
+        echo_date "Pre cmd About to do cmd "
         eval $cmd
         done
 fi
 }
 
 pre_db_cmd(){
-echo "predb_cmd predbcmds = $predbcmds"
+#echo "predb_cmd predbcmds = $predbcmds"
 if [ "x$predbcmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${predbcmds[*]};
         do
-        echo_date "pre db cmd About to do cmd : $cmd"
+        #echo_date "pre db cmd About to do cmd : $cmd"
+        echo_date "pre db cmd About to do cmd "
         eval $cmd
         done
 fi
@@ -174,12 +176,13 @@ fi
 }
 
 post_cmd(){
-echo "post_cmd postcmds = $postcmds"
+#echo "post_cmd postcmds = $postcmds"
 if [ "x$postcmds" != "x" ]; then
 IFS=$(echo -en "\n\b")
 for cmd in ${postcmds[*]};
         do
-        echo_date "Post cmd About to do cmd : $cmd"
+        #echo_date "Post cmd About to do cmd : $cmd"
+        echo_date "Post cmd About to do cmd "
         eval $cmd
         done
 fi
