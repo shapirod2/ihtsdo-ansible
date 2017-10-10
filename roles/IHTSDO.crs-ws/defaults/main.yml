@@ -45,7 +45,6 @@ crs_jira_privKey: "{{crs_crsPropertiesFolderLocation}}/{{crs_jira_privateKeyName
 
 crs_snomect_host: "dev-term.ihtsdotools.org"
 crs_snomect_url: "https://{{ crs_snomect_host }}/snowowl/snomed-ct/v2"
-crs_snomect_authorization: "Basic changeme"
 crs_snomect_method_browser: "browser"
 crs_snomect_method_mrcm: "mrcm"
 crs_snomect_branch: "MAIN"
