@@ -5,7 +5,6 @@ crs_ws_app_name: crs-web
 version_crs_web: "latest"
 crs_ws_install_dir: "/opt/{{ crs_ws_app_name }}"
 crs_crsPropertiesFolderLocation: "{{crs_ws_install_dir}}/crs-resources"
-crs_ws_lib_dir: "{{ crs_ws_install_dir }}/lib"
 crs_log_dir: "{{ crs_ws_install_dir }}/log"
 
 #Basic WebAuth
