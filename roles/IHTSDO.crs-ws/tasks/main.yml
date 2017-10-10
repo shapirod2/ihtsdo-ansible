@@ -4,9 +4,6 @@
   apt: update_cache=yes cache_valid_time=300
   sudo: yes
 
- #Setup the database
-#- include: db.yml
-
 - name: Install package
   apt: name={{crs_ws_app_name}} state=installed
   when: version_crs_web == 'installed'
@@ -18,7 +15,6 @@
 - name: Install package specific version
   apt: name={{crs_ws_app_name}}={{ version_crs_web }} state=installed
   when: version_crs_web != 'installed' and version_crs_web != 'latest'
-
 
 - name: Creates crsPropertiesFolderLocation directory
   file: path={{ crs_crsPropertiesFolderLocation }} state=directory
@@ -37,7 +33,6 @@
 - name: Configure supervisor
   template: src=supervisor.conf.j2 dest="{{ supervisor_dir }}/{{ crs_ws_app_name }}.conf"
               owner=root group=root mode=0640
-
 
 - name: Configure application-im-common-security-config.xml
   template: src=application-im-common-security-config.xml.j2 dest="{{ crs_crowdConfigFolderLocation  }}/application-im-common-security-config.xml"
