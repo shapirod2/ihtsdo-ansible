@@ -5,6 +5,10 @@
 - name: Install latest release stats generation jar
   maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url={{ maven_repo }} dest={{release_stats_dir}}/stats-gen.jar
 
+- name: Install latest mrcm stats generation jar
+  maven_artifact: group_id=org.ihtsdo artifact_id=mrcm-validator repository_url={{ maven_repo }} dest={{release_stats_dir}}/stats-gen.jar
+
+
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300
   when: ansible_os_family == "Debian"

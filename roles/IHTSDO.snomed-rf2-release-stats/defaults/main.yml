@@ -3,7 +3,8 @@ get_release: True
 maven_repo: "https://maven.ihtsdotools.org/content/repositories/releases"
 release_stats_json_s3_bucket_name: s3://dailybuild-ihtsdo/int
 release_stats_archive_file_name: rf2ReleaseStats.tgz
-release_stats_dir: /opt/sct-stats-generator
+release_stats_dir: "/opt/sct-stats-generator"
+release_stats_root_dir: "{{release_stats_dir}}"
 release_full_file_dir: "{{release_file_base_name}}/Full"
 isExtensionRelease: False
 force_zip_download: False
@@ -21,3 +22,9 @@ stats_upload_log: "{{ release_stats_root_dir }}/stats_upload_{{ log_safedate }}.
 stats_upload_full_cmd: "{{ stats_upload_cmd }} >> {{ stats_upload_log }}"
 
 
+mrcm_stats_useStatedViewOnly: "false"
+mrcm_release_stats_dir: "{{release_stats_root_dir}}/mrcm"
+mrcm_stats_script: "runMrcmStats.sh"
+mrcm_stats_cmd: "{{ release_stats_root_dir }}/{{ mrcm_stats_script }}"
+mrcm_stats_log: "{{ release_stats_root_dir }}/mrcm_{{ log_safedate }}.log"
+mrcm_stats_full_cmd: "{{ mrcm_stats_cmd }} >> {{ mrcm_stats_log }}"

@@ -42,6 +42,18 @@
 - name: Check release stats report json files generated at {{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   stat: path={{ release_stats_root_dir }}/patterns_output/crossover_role_to_group.json
   register: statsCreated
+    
+- name: set the runMrcmStats.sh
+  template: src={{mrcm_stats_script}}.j2 dest={{ mrcm_stats_cmd }}
+            owner=root group={{ root_group }} mode=0755 
+  when: statsCreated.stat.exists == True            
+
+- debug: msg="mrcm_stats_full_cmd = {{ mrcm_stats_full_cmd }}"
+
+- name: run the rf2 mrcm stats report command
+  shell: "{{  mrcm_stats_full_cmd }}"
+  register: script_results
+  when: statsCreated.stat.exists == True  
   
 - name: set the rf2 diff report json s3 upload script
   template: src={{stats_upload_script}}.j2 dest={{ stats_upload_cmd}}
