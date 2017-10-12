@@ -3,4 +3,4 @@ runScriptDir="{{ release_stats_root_dir }}"
 echo "root dir $runScriptDir"
 cd $runScriptDir
 
-java -Xms3G -Xmx7G -jar stats-gen.jar config.xml -clean
+java -Xms3G -Xmx7G -jar {{release_stats_jar}} config.xml -clean
