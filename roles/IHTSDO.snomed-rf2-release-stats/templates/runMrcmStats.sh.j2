@@ -3,4 +3,4 @@ runScriptDir="{{ release_stats_root_dir }}"
 echo "root dir $runScriptDir"
 cd $runScriptDir
 
-java -Xms1024m -Xmx7G -jar  mrcm-validator.jar {{release_full_file_dir}} {{mrcm_stats_useStatedViewOnly}} {{current_release_date}} {{mrcm_release_stats_dir}}
+java -Xms1024m -Xmx7G -jar  {{mrcm_jar}} {{release_file_base_name}} {{mrcm_stats_useStatedViewOnly}} {{current_release_date}} {{mrcm_release_stats_dir}}

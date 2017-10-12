@@ -7,4 +7,8 @@
   pip: name=lxml
   when: ansible_os_family == "Debian"
   
+- name: Install latest maven package
+  apt: name=maven state=latest   
+  when: ansible_os_family == "Debian" 
+  
   

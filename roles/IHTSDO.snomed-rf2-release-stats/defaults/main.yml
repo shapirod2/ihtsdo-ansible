@@ -1,6 +1,14 @@
 ---
+
+release_stats_version: "1.1.1"
+mrcm_version: "1.1.3"
+
+release_stats_jar: "stats-gen.jar"
+mrcm_jar: "mrcm-validator.jar"
+
 get_release: True
 maven_repo: "https://maven.ihtsdotools.org/content/repositories/releases"
+maven_repo_snap: "https://maven.ihtsdotools.org/content/repositories/snapshots"
 release_stats_json_s3_bucket_name: s3://dailybuild-ihtsdo/int
 release_stats_archive_file_name: rf2ReleaseStats.tgz
 release_stats_dir: "/opt/sct-stats-generator"
@@ -28,3 +36,8 @@ mrcm_stats_script: "runMrcmStats.sh"
 mrcm_stats_cmd: "{{ release_stats_root_dir }}/{{ mrcm_stats_script }}"
 mrcm_stats_log: "{{ release_stats_root_dir }}/mrcm_{{ log_safedate }}.log"
 mrcm_stats_full_cmd: "{{ mrcm_stats_cmd }} >> {{ mrcm_stats_log }}"
+
+mvn_base: "/usr/bin/mvn org.apache.maven.plugins:maven-dependency-plugin:2.4:get"
+
+mrcm_mvn_args: "-DremoteRepositories={{maven_repo}} -Dartifact=org.snomed.quality:mrcm-validator:{{mrcm_version}}:jar:jar-with-dependencies -Ddest={{release_stats_dir}}/{{mrcm_jar}}"
+release_stats_mvn_args: "-DremoteRepositories={{maven_repo}} -Dartifact=org.ihtsdo:sct-stats-generator:{{release_stats_version}}:jar -Ddest={{release_stats_dir}}/{{release_stats_jar}}"

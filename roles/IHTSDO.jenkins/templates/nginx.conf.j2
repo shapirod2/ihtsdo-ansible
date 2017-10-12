@@ -9,7 +9,6 @@ server {
 
 upstream jenkins {
   server localhost:{{ jenkins_listen_port }};
-
   keepalive 30;
 }
 
