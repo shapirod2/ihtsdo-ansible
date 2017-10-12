@@ -30,3 +30,6 @@ authoring_services_aws_secret: "change_me"
 authoring_services_spellcheck_s3bucket: "validation-resources.ihtsdo"
 authoring_services_spellcheck_path: "dev/international/spelling-dictionary.txt"
 authoring_services_us_gb_map_path: "dev/international/us-to-gb-terms-map.txt"
+
+authoring_services_useExternalClassification: false
+authoring_services_reasonerID: org.semanticweb.elk.elk.reasoner.factory
