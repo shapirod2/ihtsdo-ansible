@@ -2,8 +2,25 @@
 
 - include: installDependencies.yml
 
-- name: Install latest release stats generation jar
-  maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url={{ maven_repo }} dest={{release_stats_dir}}/stats-gen.jar
+- name: Assures {{release_stats_dir}} dir exists
+  file: path={{release_stats_dir}} state=directory
+
+#- name: Install latest release stats generation jar
+#  maven_artifact: group_id=org.ihtsdo artifact_id=sct-stats-generator repository_url={{ maven_repo }} dest={{release_stats_dir}}/stats-gen.jar
+
+- debug: msg=" {{  mvn_base }} {{release_stats_mvn_args}}"
+
+- name: Install release stats generation jar
+  shell: "{{  mvn_base }} {{release_stats_mvn_args}}"
+#  register: stat_dl_results
+
+- name: Install latest mrcm stats generation jar
+  shell: "{{  mvn_base }} {{mrcm_mvn_args}}"
+#  register: mrcm_dl_results
+
+
+#- debug: var=stat_dl_results.stdout_lines
+#- debug: var=mrcm_dl_results.stdout_lines
 
 - name: Install zip
   apt: name=zip state=present update_cache=yes cache_valid_time=300
