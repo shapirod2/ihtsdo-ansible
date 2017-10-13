@@ -6,7 +6,7 @@
 
 - name: Ensure import dir exists
   file: path="{{ daily_build_stats_import_dir }}" state=directory
-        owner=root group=root mode=0644 
+        owner=root group=root mode=0755 
         recurse=yes  
 
 - name: set s3 copy script

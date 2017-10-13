@@ -22,9 +22,9 @@
 #- name: Include move existing jenkins here scripts
 #  include: move_exist.yml     
 
-- name: make sure /var/lib/jenkins belongs to jenkins_user
+- name: make sure {{jenkins_data_dir}} belongs to jenkins_user
   file: 
-    dest: /var/lib/jenkin 
+    dest: "{{jenkins_data_dir}}" 
     state: directory
     owner: "{{jenkins_user}}"
     group: "{{jenkins_user}}"
