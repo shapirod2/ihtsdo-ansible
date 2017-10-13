@@ -7,6 +7,8 @@
 - name: Install rsync
   apt: pkg=rsync state=latest update_cache=yes cache_valid_time=3600  
 
+- name: Install xmlstarlet
+  apt: pkg=xmlstarlet state=latest update_cache=yes cache_valid_time=3600  
 
 - name: Check if wget is installed
   command: dpkg -s wget

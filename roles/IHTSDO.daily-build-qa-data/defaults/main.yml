@@ -19,8 +19,7 @@ rf2_json_s3_copy_cmd: "{{ daily_build_stats_import_dir }}/{{ rf2_json_s3_copy_sc
 rf2_json_s3_copy_log: "{{ daily_build_stats_import_dir }}/rf2stats_copy_{{ ansible_date_time.iso8601 }}.log"
 full_rf2_json_s3_copy_cmd: "{{ rf2_json_s3_copy_cmd }} >> {{ rf2_json_s3_copy_log }}"
 
-#rf2_stats_dir: "/opt/sct_stats/stats-viewer"
-rf2_stats_dir: "/extdata/Downloads/dailybuild/stats-viewer"
+rf2_stats_dir: "/opt/sct_stats/stats-viewer"
 
 rf2_stats_dir_data: "{{ rf2_stats_dir }}/data"
 rf2_stats_dir_views: "{{ rf2_stats_dir }}/views/compiled"
