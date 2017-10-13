@@ -1,11 +1,23 @@
 ---
+
+jenkins_admin_email: "test@test.org"
+jenkins_location_url: "https://{{inventory_hostname}}/"
+
+jenkins_github: "false"
+jenkins_npm: "false"
+jenkins_node: "false"
+jenkins_clientSecret: ""
+jenkins_clientID: ""
+
 # Either latest for the rolling release, or stable for the LTS version
 jenkins_release: stable
-
+jenkins_version: "latest"
 jenkins_listen_address: 0.0.0.0
 jenkins_listen_port: 8080
 jenkins_context: /jenkins
 jenkins_heap_size: 256
+
+jenkins_data_dir: "/var/lib/jenkins/"
 
 # Configuration for nginx
 #jenkins_nginx: off
@@ -18,19 +30,23 @@ jenkins_heap_size: 256
 
 serv_name: "jenkins"
 
-nginx_ufw_allow_https: true
-nginx_conf: "jenkins"
-nginx_fqdn: "~(?i){{serv_name}}"
-nginx_default_site: true
-nginx_proxy_url: http://localhost:8080/
+#nginx_ufw_allow_https: true
+#nginx_conf: "jenkins"
+#nginx_fqdn: "~(?i){{serv_name}}"
+#nginx_default_site: true
+#nginx_proxy_url: http://localhost:8080/
 
 #Move script settings
 move_scripts_dir: /opt/jenkinsmove
 jenkins_user: "jenkins"
 
 exist_jenkins: ""
-target_dir: "/var/lib/jenkins/"
-source_dir: "/var/lib/jenkins/"
+target_dir: "{{jenkins_data_dir}}"
+source_dir: "{{jenkins_data_dir}}"
 exclusion_file: "exist_jenkins_exclude.txt"
 
+jenkins_model_location: "jenkins.model.JenkinsLocationConfiguration.xml"
+
 exclusion_file_path: "./{{ exclusion_file }}"
+
+
