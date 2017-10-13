@@ -1,0 +1,7 @@
+---
+  - hosts: jenkins
+    sudo: true
+    roles:
+      - IHTSDO.oraclejava
+      - IHTSDO.jenkins 
+      - IHTSDO.nginx-standard

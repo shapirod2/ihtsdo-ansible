@@ -8,16 +8,16 @@ printf "Killing any existing tunnels \n"
 sudo pkill -f 'localhost:9007 ansible@'
 
 
-#sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8100:cu022.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
-#sudo autossh -i /var/lib/jenkins/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+#sudo autossh -i {{jenkins_data_dir}}/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8100:cu022.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
+#sudo autossh -i {{jenkins_data_dir}}/.ssh/id_rsa2 -Nfq -M 0 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L8101:cu023.servers.aceworkspace.net:22 otf_jenkins@mgr.servers.aceworkspace.net
 
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9017:localhost:9007 ansible@dev-term.ihtsdotools.org
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9027:localhost:9007 ansible@uat-term.ihtsdotools.org
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9037:localhost:9007 ansible@term.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9017:localhost:9007 ansible@dev-term.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9027:localhost:9007 ansible@uat-term.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9037:localhost:9007 ansible@term.ihtsdotools.org
 
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9057:localhost:9007 ansible@dev-ms-authoring.ihtsdotools.org
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9067:localhost:9007 ansible@uat-ms-authoring.ihtsdotools.org
-sudo autossh -M 0 -Nfq -i /var/lib/jenkins/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9077:localhost:9007 ansible@prod-ms-authoring.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9057:localhost:9007 ansible@dev-ms-authoring.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9067:localhost:9007 ansible@uat-ms-authoring.ihtsdotools.org
+sudo autossh -M 0 -Nfq -i {{jenkins_data_dir}}/.ssh/id_rsa2 -o "ServerAliveInterval 45" -o "ServerAliveCountMax 2" -L 9077:localhost:9007 ansible@prod-ms-authoring.ihtsdotools.org
 
 
 exit 0
