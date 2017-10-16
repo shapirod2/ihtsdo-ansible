@@ -1,0 +1,22 @@
+- name: Ensure compiler, make are installed
+  apt: pkg={{ item }} state=present
+  with_items:
+    - make
+    - g++
+    - libssl-dev
+
+- git: repo=https://github.com/AGWA/git-crypt dest=/usr/local/src/git-crypt
+
+- command: make chdir=/usr/local/src/git-crypt creates=/usr/local/src/git-crypt/git-crypt
+
+- file: src=/usr/local/src/git-crypt/git-crypt dest=/usr/local/bin/git-crypt
+        state=hard mode=0755
+
+- file: dest=/home/ansible/workspace owner={{jenkins_user}} group={{ansible_group_owner}} mode=0750
+        state=directory    
+     
+- copy: src={{gitcrypt_key_file_src}} dest={{gitcrypt_key_file_dest}}
+        owner={{gitcrypt_user}} group={{gitcrypt_user}} mode=600
+  when: gitcrypt_key_file_src is defined 
+  
+  

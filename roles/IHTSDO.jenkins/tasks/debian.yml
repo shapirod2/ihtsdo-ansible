@@ -32,6 +32,14 @@
 - name: Install npm (for js build using grunt, bower etc)
   apt: pkg=npm state=latest update_cache=yes cache_valid_time=3600 
   when: jenkins_npm == 'true'
+  
+- name: Install Ansible
+  include: ansible.yml
+  when: install_ansible == 'true'  
+  
+- name: Install git-crypt
+  include: git_crypt.yml
+  when: install_git_crypt == 'true'   
 
 - name: Install xmlstarlet
   apt: pkg=xmlstarlet state=latest update_cache=yes cache_valid_time=3600    
