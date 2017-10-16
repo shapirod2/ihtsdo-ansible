@@ -23,6 +23,10 @@ galaxy_info:
   categories:
   - development
   - web
+  
+dependencies:
+  - IHTSDO.repositories  
+  
 #dependencies:
 #  - { role: IHTSDO.openjdk, java_version: 7, java_default: 7 }
 #  - { role: IHTSDO.nginx, when: jenkins_nginx == True }
