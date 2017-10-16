@@ -28,4 +28,4 @@
     state: directory
     owner: "{{jenkins_user}}"
     group: "{{jenkins_user}}"
-    mode: 0640 
+    mode: 0755

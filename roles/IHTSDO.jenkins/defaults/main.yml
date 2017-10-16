@@ -2,10 +2,23 @@
 
 jenkins_admin_email: "test@test.org"
 jenkins_location_url: "https://{{inventory_hostname}}/"
+jenkins_user: "jenkins"
 
 jenkins_github: "false"
 jenkins_npm: "false"
 jenkins_node: "false"
+install_ansible: "false"
+ansible_install_version: "2.3.2.0-1ppa~trusty"
+ansible_group_owner: "ansible"
+install_git_crypt: "false"
+gitcrypt_user: "ansible"
+gitcrypt_key_file_src: ""
+gitcrypt_key_file_dest: "" 
+gitcrypt_user: "{{jenkins_user}}"
+
+gitcrypt_key_filename: "test.key"
+gitcrypt_key_file_dest: "/home/ansible/{{gitcrypt_key_filename}}"
+
 jenkins_clientSecret: ""
 jenkins_clientID: ""
 
@@ -38,7 +51,7 @@ serv_name: "jenkins"
 
 #Move script settings
 move_scripts_dir: /opt/jenkinsmove
-jenkins_user: "jenkins"
+
 
 exist_jenkins: ""
 target_dir: "{{jenkins_data_dir}}"
@@ -48,5 +61,7 @@ exclusion_file: "exist_jenkins_exclude.txt"
 jenkins_model_location: "jenkins.model.JenkinsLocationConfiguration.xml"
 
 exclusion_file_path: "./{{ exclusion_file }}"
+
+
 
 
