@@ -27,3 +27,17 @@ crs_web_conf_jira_url: https://{{ crs_web_jira_host }}/
 crs_web_conf_ims_api_url: "{{ crs_web_conf_ims_url }}/api/"
 crs_web_conf_authoring_api_url: "{{crs_web_conf_snowowl_url}}ihtsdo-sca/"
 
+crs_web_author_group: "ihtsdo-sca-author"
+crs_web_staff_group: "crs-staff"
+crs_web_requestor_group: "crs-requestor"
+
+crs_web_link_userGuide: "https://confluence.ihtsdotools.org/display/SCTCR/CRS+User+Guide"
+crs_web_link_batchTemplate: "https://confluence.ihtsdotools.org/download/attachments/27594472/SIRS_Batch_Template-2016.xls"
+crs_web_link_termOfService: "https://confluence.ihtsdotools.org/display/SCTCR/Content+Request+Service+Terms+of+Service"
+crs_web_link_privacyPolicy: "https://confluence.ihtsdotools.org/display/TOOLS/IHTSDO+Tools+Privacy+Policy"
+crs_web_link_contactUs: "http://www.ihtsdo.org/contact-us/"
+
+crs_snomect_branch: "MAIN"
+
+
+
