@@ -30,3 +30,7 @@ rvf_jira_value_projectKey: "RVF"
 rvf_jira_value_resolvedStatus: closed
 
 rvf_jira_defaultAssignee: changeme
+
+rvf_droolrule_module_name: "/opt/snomed-drools-rules"
+rvf_drools_rules_version: "1.9"
+rvf_validation_resources: "validation-resources.ihtsdo/dev/international/"
