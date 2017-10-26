@@ -1,16 +1,6 @@
 
 - debug: msg="restore_fromhostname = {{restore_fromhostname}}"
 
-#- set_fact: 
-#   example_var: "{{ hostvars[item]['backup_dirs_to_copy'] }}"
-#  with_items: "{{restore_fromhostname}}" 
-  
-#- set_fact: 
-#   example_var1: "{{ hostvars[item]['bob'] }}"
-#  with_items: "{{restore_fromhostname}}" 
-#  when: hostvars[item]['bob']  is defined
-
-
 - name:  set restore_app_name from val in {{restore_fromhostname}}
   set_fact: 
    restore_app_name: "{{ hostvars[item]['backup_app_name'] }}"
@@ -53,24 +43,14 @@
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_db_host']  is defined
 
-- name:  set restore_db_host from local_restore_db_host if set  
-  set_fact: 
-   restore_db_host: "{{ local_restore_db_host }}"
-  when: not (local_restore_db_host is undefined or local_restore_db_host is none or local_restore_db_host | trim == '')
-
-
 - debug: msg="restore_db_port = {{restore_db_port}}"
+
 - name:  set restore_db_port from val in {{restore_fromhostname}}  
   set_fact: 
    restore_db_port: "{{ hostvars[item]['backup_db_port'] }}"
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_db_port']  is defined    
   
-- name:  set restore_db_port from local_restore_db_port if set  
-  set_fact: 
-   restore_db_port: "{{ local_restore_db_port }}"
-  when: not (local_restore_db_port is undefined or local_restore_db_port is none or local_restore_db_port | trim == '')
-
 - debug: msg="restore_db_user = {{restore_db_user}}"
 - name:  set restore_db_user from val in {{restore_fromhostname}}    
   set_fact: 
@@ -78,21 +58,11 @@
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_db_user']  is defined    
 
-- name:  set restore_db_user from local_restore_db_user if set  
-  set_fact: 
-   restore_db_user: "{{ local_restore_db_user }}"
-  when: not (local_restore_db_user is undefined or local_restore_db_user is none or local_restore_db_user | trim == '')
-
 - name:  set restore_db_password from val in {{restore_fromhostname}}
   set_fact: 
    restore_db_password: "{{ hostvars[item]['backup_db_password'] }}"
   with_items: "{{restore_fromhostname}}" 
   when: hostvars[item]['backup_db_password']  is defined
-  
-- name:  set restore_db_password from local_restore_db_password if set  
-  set_fact: 
-   restore_db_password: "{{ local_restore_db_password }}"
-  when: not (local_restore_db_password is undefined or local_restore_db_password is none or local_restore_db_password | trim == '')  
   
 - debug: msg="restore_db_type = {{restore_db_type}}"
 - name:  set restore_db_type from val in {{restore_fromhostname}}

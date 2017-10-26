@@ -33,7 +33,10 @@
   
 - name: make sure mapping_data_dir exists
   file: path={{mapping_data_dir}}  state=directory    
-    
+
+- name: make sure mapping_data_doc_dir exists
+  file: path={{mapping_data_doc_dir}}  state=directory     
+      
 - name: make sure mapping_conf_dir exists
   file: path={{mapping_conf_dir}}  state=directory  
   
