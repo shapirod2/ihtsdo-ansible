@@ -1,30 +1,41 @@
-restore_dir_owner: ""
 #A list of directories to copy:
 # If set to no none are copied even if they are backed up.
 restore_dirs_to_copy: "{{backup_dirs_to_copy}}"
+# restore_dirs_to_copy:
+#  - "/home/ihtsdo/data"
+# Like the db can have a src and a target i.e. copy a dir called x to y e.g.
+#restore_dirs_to_copy:
+#  - "/x:/y"
+
+#The user to apply as the owner of the restore dirs.
+restore_dir_owner: ""
+#restore_dir_owner: "ihtsdo"
 # stops the copying of restore dirs if set to no
 #restore_dirs: no
-#Database info  
-#mysql, postgresql or none. Default to mysql on localhost as most are
-#backup_db_type: "none"
-restore_db_type: "{{backup_db_type}}"
-#backup_db_type: "pgsql"
-# names of db'es to back up. if not set will back up all
-restore_db_names: "{{backup_db_names}}"
 
-# can have a different srv or tgt db via sourcedb:targetdb  
+#Database info  
+
+# mysql, postgresql or none. Default to mysql on localhost as most are. 
+# Tries to set to then same as the backup vars if they are set.
+restore_db_type: "{{backup_db_type}}"
+#backup_db_type: "none"
+#backup_db_type: "pgsql"
+# names of db'es to restore up. If not set will try all. Will try to use backup var as 1st resort if set.
+restore_db_names: "{{backup_db_names}}"
+# Can have a different src or tgt db via sourcedb:targetdb  
+#restore_db_names: 
+#  - "snomedstore:dev_snomedstore"
+#  - "ts_review:dev_ts_review" 
+#  - "traceability:dev_traceability"
+
 #backup_db_names: 
 #  - "all"
-
+# Std host, user etc settings for connecting to the db. Will use backup vars if not set.
 restore_db_host: "{{backup_db_host}}"
 restore_db_port: "{{backup_db_port}}"
 restore_db_user: "{{backup_db_user}}"
 restore_db_password: "{{backup_db_password}}"
 
-#local_restore_db_host:
-#local_restore_db_port:
-#local_restore_db_user:
-#local_restore_db_password:
 
 #default values from the backup main.yml
 #the backup level : t1 t2 or t3
@@ -36,56 +47,65 @@ backup_s3_backup_dir_prefix: "backup-ihtsdo-"
 backup_s3_backup_dir: "{{backup_s3_backup_dir_prefix}}{{backup_level}}"
 backup_s3_backup_region: "us-east-1"
 
-
 # If this is set will get vars from hostname. MUST be in the same inventory.
-#restore_fromhostname: "va-mlds.ihtsdotools.org"
+#restore_fromhostname: "va-testrail.ihtsdotools.org"
 
-#set from backup if set
+# Set from backup vars if set. The apps and hostname are used to replicate the bucket structure used by backup
+# e.g. inventory_hostname/backup_app_name/ and app_name is used to create the script dir etc.
 restore_app_name: "{{backup_app_name}}"
-restore_dir: "/opt/backup/{{restore_app_name}}"
+restore_hostname: "{{inventory_hostname}}"
+#The directory the backup is copied to
+restore_dir: "/opt/restore/{{restore_app_name}}"
 
+# Should be set manually. if left blank then values are set inside script using matching backup vals.
 
-# Should be set manually. if left blank then values are set 
-# inside script using matching backup vals
+#If a s3 directory then the path (ending in / ). If set then this dir will be used no matter what 
+# (e.g. the appname, period etc will be disregarded)
 restore_s3_restore_dir: ""
+#restore_s3_restore_dir: "backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
 restore_s3_restore_region: ""
+#restore_s3_restore_region: "us-east-1"
 restore_level: ""
-# default to daily but can be set to monthly etc.
+# restore_level: "t3"
+# default to daily but can be set to weekly or monthly etc.
 restore_s3_restore_dir_period: "daily"
 #restore_s3_restore_dir_period: "weekly"
 
+# If you need an exact file. If not set then if aws restore dir will get the latest in that dir.
 restore_file: ""
 #restore_file: "dev-testrail.ihtsdotools.org_2016-11-29T032904Z.zip"
 
+#if blank assumes s3 restore dir. Can be a s3 url or http(s) (using wget) (ending in /)
+# used in conjunction with restore_file as the url can not be used to determine file age.
 restore_base_url: ""
 #restore_base_url: "s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
 #restore_base_url: "https://s3.amazonaws.com/backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/"
-#s3://backup-ihtsdo-t3/daily/dev-testrail.ihtsdotools.org/testrail/
 
-restore_hostname: "{{inventory_hostname}}"
+
+# Commands which will be run before anything else (straight after checking arguments)
+# E.g. to turn a service off.
+restore_precmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+#commands run inside the restore db part of the script before any db restore
+restore_dbcmds: ""
+#  - "/bin/echo \"precmd1!\""
+#  - "/bin/echo \"precmd2!\""
+
+# Commands run at the end of the script. 
+# E.g. to turn a service back on.
+restore_postcmds: ""
+#  - "/bin/echo \"postcmd1!\""
+#  - "/bin/echo \"postcmd2!\""
+
+
+#No need to set unless you have a very specific reason:
 
 restore_script_dir: "/opt/scripts/{{restore_app_name}}"
 restore_script: restore_s3.sh
 restore_cmd: "{{ restore_script_dir }}/{{ restore_script }}"
 restore_log: "{{ restore_script_dir }}/restore_{{ ansible_date_time.iso8601 }}.log"
 restore_full_restore_cmd: "{{ restore_cmd }} >> {{ restore_log }}"
-
-#example_var: ""
-
-restore_precmds: ""
-#  - "/bin/echo \"precmd1!\""
-#  - "/bin/echo \"precmd2!\""
-
-restore_dbcmds: ""
-#  - "/bin/echo \"precmd1!\""
-#  - "/bin/echo \"precmd2!\""
-
-#restore_precopycmds: ""
-#   - "/bin/echo \"precopycmd1!\""
-#   - "/bin/echo \"precopycmd2!\""
-
-restore_postcmds: ""
-#  - "/bin/echo \"postcmd1!\""
-#  - "/bin/echo \"postcmd2!\""
 
 restore_async_time: 7200
