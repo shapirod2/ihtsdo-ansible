@@ -49,7 +49,6 @@ restore_dir_owner={{restore_dir_owner | default('')}}
 
 s3_restore_dir="{{ restore_s3_restore_dir | default('') }}"
 s3_restore_region_base="{{ restore_s3_restore_region | default('') }}"
-s3_restore_filename="{{ restore_s3_restore_filename | default('') }}"
 
 if [ "x$s3_restore_dir" != "x" ]; then
 s3_restore_dir="s3://$s3_restore_dir"
