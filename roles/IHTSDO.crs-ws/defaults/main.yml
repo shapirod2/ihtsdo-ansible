@@ -73,7 +73,7 @@ crs_forward_dest_server: "{{inventory_hostname}}"
 
 crs_forward_destination_server_url: "https://{{crs_forward_dest_server}}/crs"
 crs_forward_destination_browser_url: "https://{{crs_forward_dest_server}}/#/requests/preview"
-crs_forward_source_server_url: "https://{{crs_forward_src_server}/crs"
+crs_forward_source_server_url: "https://{{crs_forward_src_server}}/crs"
 crs_forward_source_browser_url: "https://{{crs_forward_src_server}}/#/requests/edit"
 
 crs_id: "int-crs"
