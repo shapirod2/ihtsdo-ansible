@@ -39,6 +39,15 @@ crs_jira_ticket_customField_collaborationAgreement_id: "customfield_10904"
 crs_jira_ticket_customField_organization_id: "customfield_10903"
 crs_jira_ticket_customField_externalCrsId_id: "customfield_10906"
 
+#Crs roles
+crs_role_administrator: "ROLE_crs-administrator"
+crs_role_manager: "ROLE_crs-manager"
+crs_role_member: "ROLE_crs-member"
+crs_role_staff: "ROLE_crs-staff"
+crs_role_requestor: "ROLE_crs-requestor"
+crs_role_partner: "ROLE_crs-partner"
+crs_role_viewer: "ROLE_crs-viewer"
+
 
 #JMS Details
 crs_jms_url: "failover:tcp://dev-queues:61616"
