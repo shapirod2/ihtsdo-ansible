@@ -26,10 +26,19 @@ crs_url: "https://{{ crs_host }}"
 crs_jira_comment_internalGroup: "crs-administrator"
 crs_jira_url: "https://dev-jira.ihtsdotools.org"
 crs_jira_customField_extId: "customfield_10110"
-crs_jira_customField_reasonForChange: "customfield_10111"
+crs_jira_customField_reasonForChange: "customfield_10202"
 crs_jira_ticket_customField_semanticTag: "customfield_10201"
 crs_jira_ticket_customField_crs_id_id: "customfield_10203"
 crs_jira_ticket_customField_topic_id: "customfield_10303"
+
+crs_jira_ticket_customField_contentTrackerId_id: "customfield_10701"
+crs_jira_ticket_customField_contentTrackerUrl_id: "customfield_10700"
+crs_jira_ticket_customField_impactedNewConcept_id: "customfield_10702"
+crs_jira_ticket_customField_newFsn_id: "customfield_10703"
+crs_jira_ticket_customField_collaborationAgreement_id: "customfield_10904"
+crs_jira_ticket_customField_organization_id: "customfield_10903"
+crs_jira_ticket_customField_externalCrsId_id: "customfield_10906"
+
 
 #JMS Details
 crs_jms_url: "failover:tcp://dev-queues:61616"
