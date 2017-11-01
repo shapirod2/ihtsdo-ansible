@@ -21,7 +21,45 @@
   register: buildStatus
    
 - debug: msg="buildStatus={{buildStatus.stdout}}"
-  
+
+# Check build date instead of relying on "latest" which may be days old.
+
+- name: Get latest build date
+  shell: "cat {daily_build_dir}}/buildList.txt | grep 'creationTime' | head -1 | cut -d ':' -f2-4 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
+  register: builddate
+
+- set_fact: timenow="{{ ansible_date_time.iso8601 }}"
+- set_fact: builddate1="{{ builddate.stdout }}"
+- set_fact: timeindays="{{ (timenow[:19] | to_datetime(date_fmt) - builddate1[:19] | to_datetime(date_fmt)).days }}"    
+    
+- set_fact: timeinseconds="{{ (timenow[:19] | to_datetime(date_fmt) - (builddate1[:19] | to_datetime(date_fmt))).seconds }}"  
+- set_fact: timeinhours="{{timeinseconds|int / 3600}}"  
+                 
+- name: time now
+  debug:
+    msg: "hours = {{timenow}}"   
+        
+- name: build date
+  debug:
+    msg: "build date = {{builddate1}}"
+         
+- name: time in days
+  debug:
+    msg: "days = {{timeindays}}"    
+        
+- name: time in hours
+  debug:
+    msg: "hours = {{timeinhours}}"    
+
+- name: time in seconds
+  debug:
+    msg: "seconds = {{timeinseconds}}"                          
+        
+- fail:
+    msg: "The daily build build file is more than a day old. Age in days = {{timeindays}}"
+  when: timeindays|int > {{allowed_days}}    
+
+
 - name: Get latest build output url and save to latestOutputUrl.txt
   shell: "cat {{daily_build_dir}}/buildList.txt | grep 'outputfiles_url' | head -1 |  cut -d ',' -f1 > {{daily_build_dir}}/latestOutputUrl.txt"
   when: buildStatus.stdout == "BUILT"
