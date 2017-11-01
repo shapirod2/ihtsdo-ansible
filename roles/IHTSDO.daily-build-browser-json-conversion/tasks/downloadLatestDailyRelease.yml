@@ -25,7 +25,7 @@
 # Check build date instead of relying on "latest" which may be days old.
 
 - name: Get latest build date
-  shell: "cat {daily_build_dir}}/buildList.txt | grep 'creationTime' | head -1 | cut -d ':' -f2-4 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
+  shell: "cat {{daily_build_dir}}/buildList.txt | grep 'creationTime' | head -1 | cut -d ':' -f2-4 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
   register: builddate
   
 - name: debug build date
