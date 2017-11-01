@@ -9,7 +9,7 @@
 set MAPPING_CODE={{mapping_admin_app_dir}}
 set MAPPING_CONFIG={{mapping_admin_app_conf}}
 set MAPPING_DATA={{mapping_data_dir}}
-set MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
+setenv MAVEN_OPTS "{{mapping_admin_app_maven_opts}}"
 # no longer set this
 # set SNOMEDCT_VERSION=20160731
 
@@ -33,6 +33,7 @@ echo "------------------------------------------------"
 echo "MAPPING_CODE = $MAPPING_CODE"
 echo "MAPPING_DATA = $MAPPING_CODE"
 echo "MAPPING_CONFIG = $MAPPING_CODE"
+echo "MAVEN_OPTS = $MAVEN_OPTS"
 
 #make sure temp dirs exist
 mkdir -p $tempdir

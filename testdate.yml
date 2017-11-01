@@ -1,0 +1,43 @@
+---
+- hosts: localhost
+  gather_facts: yes
+  vars: 
+   fmt: "%Y-%m-%dT%H:%M:%S"
+   srcfile: "/extdata/AdamData/rel/se1.txt"
+   #srcfile: "/extdata/AdamData/rel/se2.txt"
+  tasks:
+    - name: Get latest build date
+      shell: "cat {{srcfile}} | grep 'creationTime' | head -1 | cut -d ':' -f2-4 | cut -d ',' -f1 | tr -d '\"'| tr -d ' '| uniq"
+      register: builddate
+
+    - set_fact: timenow="{{ ansible_date_time.iso8601 }}"
+    - set_fact: builddate1="{{ builddate.stdout }}"
+    
+    - set_fact: timeinseconds="{{ (timenow[:19] | to_datetime(fmt) - (builddate1[:19] | to_datetime(fmt))).seconds }}"  
+    - set_fact: timeindays="{{ (timenow[:19] | to_datetime(fmt) - builddate1[:19] | to_datetime(fmt)).days }}"  
+    - set_fact: timeinhours="{{timeinseconds|int / 3600}}"  
+         
+        
+    - name: time now
+      debug:
+        msg: "hours = {{timenow}}"   
+        
+    - name: build date
+      debug:
+        msg: "build date = {{builddate1}}"
+         
+    - name: time in days
+      debug:
+        msg: "days = {{timeindays}}"    
+        
+    - name: time in hours
+      debug:
+        msg: "hours = {{timeinhours}}"    
+
+    - name: time in seconds
+      debug:
+        msg: "seconds = {{timeinseconds}}"                          
+        
+    - fail:
+        msg: "The daily build build file is more than a day old. Age in days = {{timeindays}}"
+      when: timeindays|int > 1    

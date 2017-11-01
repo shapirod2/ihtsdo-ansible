@@ -11,6 +11,9 @@ unpacked_release_file_name: SnomedCT_RF2Release_INT_20170731
 # One date after the previous release
 rf2_diff_start_date: 20170801
 
+date_fmt: "%Y-%m-%dT%H:%M:%S"
+allowed_days: 1
+
 
 daily_build_get_daily_release: True
 daily_build_dir: /opt/dailybuild
