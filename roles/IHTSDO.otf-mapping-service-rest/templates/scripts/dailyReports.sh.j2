@@ -1,0 +1,38 @@
+#!/bin/bash
+
+set -x
+set -e
+
+if [[ $( whoami ) != '{{mapping_user}}' ]]; then
+    exec sudo -u {{mapping_user}} -H $0
+fi
+
+MAPPING_CODE={{mapping_admin_app_dir}}
+MAPPING_CONFIG={{mapping_admin_app_conf}}
+MAPPING_DATA={{mapping_data_dir}}
+today=`/bin/date +%Y%m%d`
+
+export MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
+
+echo "------------------------------------------------"
+echo "Starting Generating Daily Reports...`/bin/date`"
+echo "------------------------------------------------"
+echo "MAPPING_CODE = $MAPPING_CODE"
+echo "MAPPING_DATA = $MAPPING_DATA"
+echo "MAPPING_CONFIG = $MAPPING_CONFIG"
+echo "Today = $today"
+
+# this will send mail on a failure
+echo "    Generate daily reports ... '/bin/date'"
+# no end date, all refsets
+cd $MAPPING_CODE/admin/loader
+mvn install -PGenerateDailyReports -Drun.config=$MAPPING_CONFIG -Dstart.date=$today | sed 's/^/    /'
+
+if [ ! $? -eq 0 ]; then
+    echo "ERROR generating daily reports"
+    exit 1
+fi
+
+echo "------------------------------------------------"
+echo "Finished Generating Daily Reports...`/bin/date`"
+echo "------------------------------------------------"

@@ -1,0 +1,46 @@
+#!/bin/bash
+
+set -x
+set -e
+
+if [[ $( whoami ) != '{{mapping_user}}' ]]; then
+    exec sudo -u {{mapping_user}} -H $0
+fi
+
+MAPPING_CODE={{mapping_admin_app_dir}}
+MAPPING_CONFIG={{mapping_admin_app_conf}}
+MAPPING_DATA={{mapping_data_dir}}
+
+export MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
+
+echo "------------------------------------------------"
+echo "Starting QA Tasks...`/bin/date`"
+echo "------------------------------------------------"
+echo "MAPPING_CODE = $MAPPING_CODE"
+echo "MAPPING_DATA = $MAPPING_DATA"
+echo "MAPPING_CONFIG = $MAPPING_CONFIG"
+printenv
+
+
+# this will send mail on a failure
+echo "    Perform the database QA ... '/bin/date'"
+cd $MAPPING_CODE/admin/qa
+mvn install -PDatabase -Drun.config=$MAPPING_CONFIG | sed 's/^/    /'
+if [ ! $? -eq 0 ]; then
+    echo "ERROR running the database QA"
+    exit 1
+fi
+
+# this will send mail on a failure
+# refset.id parameter left out - all refsets
+echo "    Perform the workflow QA ... '/bin/date'"
+cd $MAPPING_CODE/admin/qa
+mvn install -PWorkflow -Drun.config=$MAPPING_CONFIG | sed 's/^/    /'
+if [ ! $? -eq 0 ]; then
+    echo "ERROR running the workflow QA"
+    exit 1
+fi
+
+echo "------------------------------------------------"
+echo "Finished QA Tasks...`/bin/date`"
+echo "------------------------------------------------"

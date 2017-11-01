@@ -8,9 +8,9 @@ if [[ $( whoami ) != '{{mapping_user}}' ]]; then
 fi
 
 export OTF_MAPPING_HOME={{mapping_admin_app_dir}}
-export OTF_MAPPING_CONFIG={{mapping_conf_dir}}/config.properties
+export OTF_MAPPING_CONFIG={{mapping_admin_app_conf}}
 
-export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
+export MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
 
 csh /opt/otf-mapping-service-admin/admin/loader/src/main/scripts/load.csh
 
