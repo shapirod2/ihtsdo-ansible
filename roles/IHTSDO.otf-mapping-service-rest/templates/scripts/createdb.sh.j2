@@ -8,10 +8,10 @@ if [[ $( whoami ) != '{{mapping_user}}' ]]; then
 fi
 
 ADMIN_DIR={{mapping_admin_app_admin_dir}}/updatedb
-CONF_FILE={{mapping_conf_dir}}/config.properties
+CONF_FILE={{mapping_admin_app_conf}}
 
-export MAVEN_OPTS='-XX:MaxPermSize=512m -Xmx2500M'
+export MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
 
 cd $ADMIN_DIR
 
-mvn install -PUpdatedb -Drun.config=$CONF_FILE -Dhibernate.hbm2ddl.auto=update
+mvn install -PUpdatedb -Drun.config=$CONF_FILE -Dhibernate.hbm2ddl.auto=create
