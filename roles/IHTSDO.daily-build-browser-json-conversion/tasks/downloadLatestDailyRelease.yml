@@ -57,7 +57,7 @@
         
 - fail:
     msg: "The daily build build file is more than a day old. Age in days = {{timeindays}}"
-  when: timeindays|int > {{allowed_days}}    
+  when: timeindays|int > allowed_days    
 
 
 - name: Get latest build output url and save to latestOutputUrl.txt
