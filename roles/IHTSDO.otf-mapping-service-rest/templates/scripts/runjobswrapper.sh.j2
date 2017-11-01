@@ -1,0 +1,43 @@
+#!/bin/bash
+
+set -x
+set -e
+
+#if [[ $( whoami ) != '{{mapping_user}}' ]]; then
+#    exec sudo -u {{mapping_user}} -H $0
+#fi
+
+SCRIPTS_DIR={{mapping_admin_app_scripts_dir}}
+SCRIPTS_LOG_DIR={{mapping_admin_app_scripts_log_dir}}
+CONF_FILE={{mapping_admin_app_conf}}
+today=`/bin/date +%Y%m%d-%H%M%S`
+
+export MAVEN_OPTS='{{mapping_admin_app_maven_opts}}'
+
+cd $SCRIPTS_DIR
+
+echo "------------------------------------------------"
+echo "Starting Run jobs Wrapper...`/bin/date`"
+echo "------------------------------------------------"
+echo "SCRIPTS_DIR = $SCRIPTS_DIR"
+echo "CONF_FILE = $CONF_FILE"
+echo "MAVEN_OPTS = $MAVEN_OPTS"
+echo "Today = $today"
+
+mkdir -p $SCRIPTS_LOG_DIR
+
+# enable maintenance page
+/opt/maint/getMaintHtml.sh start
+supervisorctl stop mapping-service
+
+sudo -u {{mapping_user}} {{mapping_admin_app_scripts_dir}}/qaCron.sh > {{mapping_admin_app_scripts_log_dir}}/qaCron-$today.log
+sudo -u {{mapping_user}} {{mapping_admin_app_scripts_dir}}/dailyReports.sh > {{mapping_admin_app_scripts_log_dir}}/dailyReports-$today.log
+sudo -u {{mapping_user}} /bin/csh {{mapping_admin_app_scripts_dir}}/loadDelta.csh > {{mapping_admin_app_scripts_log_dir}}/loadDelta-$today.log
+
+supervisorctl start mapping-service
+# disable maintenance page
+/opt/maint/getMaintHtml.sh stop
+
+echo "------------------------------------------------"
+echo "Finished Run jobs Wrapper...`/bin/date`"
+echo "------------------------------------------------"

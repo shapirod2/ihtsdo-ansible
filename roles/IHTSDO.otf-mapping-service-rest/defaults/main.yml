@@ -13,6 +13,12 @@ mapping_conf_dir: "{{mapping_app_dir}}/conf"
 mapping_admin_app_dir: "/opt/{{mapping_admin_app_name}}"
 mapping_admin_app_admin_dir: "{{mapping_admin_app_dir}}/admin"
 mapping_admin_app_conf_dir: "{{mapping_admin_app_dir}}/config"
+mapping_admin_app_scripts_dir: "{{mapping_admin_app_dir}}/scripts"
+mapping_admin_app_scripts_log_dir: "{{mapping_admin_app_scripts_dir}}/logs"
+mapping_admin_app_maven_opts: "-XX:MaxPermSize=512m -Xmx2500M"
+#mapping_admin_app_maven_opts: "-Xms1024m -Xmx3000M"
+mapping_admin_app_conf: "{{mapping_conf_dir}}/config.properties"
+mapping_admin_app_relUrl: "https://release.ihtsdotools.org/api/v1/centers/international/products/snomed_ct_ts_release/builds/"
 
 mapping_user_home_dir: "/var/opt/{{mapping_app_name_std}}"
 
